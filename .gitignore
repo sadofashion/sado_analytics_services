@@ -2,3 +2,4 @@
 target/
 dbt_packages/
 logs/
+sado_analytics_services
