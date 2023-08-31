@@ -1,7 +1,7 @@
 SELECT
-    id AS transactionId,
+    id AS transaction_id,
     code AS transactionCode,
-    purchaseDate AS transactionDate,
+    purchaseDate AS transaction_date,
     branchId,
     purchaseById AS employeeId,
     supplierId,

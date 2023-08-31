@@ -1,0 +1,48 @@
+models:
+  - name: stg_kiotviet__customers
+    description: ""
+    columns:
+      - name: customerid
+        description: ""
+
+      - name: customercode
+        description: ""
+
+      - name: customername
+        description: ""
+
+      - name: gender
+        description: ""
+
+      - name: birthmonth
+        description: ""
+
+      - name: birthdate
+        description: ""
+
+      - name: contactnumber
+        description: ""
+
+      - name: branchid
+        description: ""
+
+      - name: customertype
+        description: ""
+
+      - name: customergroups
+        description: ""
+
+      - name: debt
+        description: ""
+
+      - name: totalinvoiced
+        description: ""
+
+      - name: totalpoint
+        description: ""
+
+      - name: totalrevenue
+        description: ""
+
+      - name: rewardpoint
+        description: ""

@@ -1,0 +1,46 @@
+models:
+  - name: stg_kiotviet__purchaseorders
+    description: ""
+    columns:
+      - name: transaction_id
+        description: ""
+        tests:
+          - not_nulls
+          - unique
+
+      - name: transactioncode
+        description: ""
+
+      - name: transaction_date
+        description: ""
+
+      - name: branchid
+        description: ""
+
+      - name: employeeid
+        description: ""
+
+      - name: supplierid
+        description: ""
+
+      - name: partnertype
+        description: ""
+
+      - name: total
+        description: ""
+
+      - name: totalpayment
+        description: ""
+
+      - name: discount
+        description: ""
+
+      - name: discountratio
+        description: ""
+
+      - name: transactionstatus
+        description: ""
+
+      - name: createddate
+        description: ""
+

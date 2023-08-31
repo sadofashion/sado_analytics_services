@@ -1,0 +1,47 @@
+models:
+  - name: stg_kiotviet__returndetails
+    description: ""
+    columns:
+      - name: transaction_id
+        description: ""
+        tests:
+          - not_nulls
+
+      - name: transactioncode
+        description: ""
+
+      - name: referencetransaction_id
+        description: ""
+
+      - name: transaction_date
+        description: ""
+
+      - name: transactionstatus
+        description: ""
+
+      - name: branchid
+        description: ""
+
+      - name: employeeid
+        description: ""
+
+      - name: customerid
+        description: ""
+
+      - name: salechannelid
+        description: ""
+
+      - name: productid
+        description: ""
+
+      - name: productcode
+        description: ""
+
+      - name: quantity
+        description: ""
+
+      - name: price
+        description: ""
+
+      - name: subtotal
+        description: ""

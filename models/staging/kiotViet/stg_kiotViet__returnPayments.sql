@@ -1,8 +1,8 @@
 SELECT
-    returns.id AS transactionId,
+    returns.id AS transaction_id,
     returns.code AS transactionCode,
-    returns.invoiceId AS referenceTransactionId,
-    returns.returnDate AS transactionDate,
+    returns.invoiceId AS referencetransaction_id,
+    returns.returnDate AS transaction_date,
     returns.statusValue AS transactionStatus,
     payments.id AS paymentId,
     payments.code AS paymentCode,

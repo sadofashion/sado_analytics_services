@@ -1,0 +1,55 @@
+models:
+  - name: stg_kiotviet__products
+    description: ""
+    columns:
+      - name: productid
+        description: ""
+        tests:
+          - not_nulls
+          - unique
+
+      - name: categoryid
+        description: ""
+
+      - name: productname
+        description: ""
+
+      - name: classname
+        description: ""
+
+      - name: code
+        description: ""
+
+      - name: classcode
+        description: ""
+
+      - name: trademarkname
+        description: ""
+
+      - name: isactive
+        description: ""
+
+      - name: type
+        description: ""
+
+      - name: attributes
+        description: ""
+
+      - name: productid
+        description: ""
+
+      - name: attributename
+        description: ""
+
+      - name: attributevalue
+        description: ""
+
+      - name: subcategory
+        description: ""
+
+      - name: category
+        description: ""
+
+      - name: productline
+        description: ""
+

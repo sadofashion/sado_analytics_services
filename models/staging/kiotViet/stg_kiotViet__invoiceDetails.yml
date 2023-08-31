@@ -1,0 +1,50 @@
+models:
+  - name: stg_kiotviet__invoicedetails
+    description: ""
+    columns:
+      - name: transaction_id
+        description: "system generated id for invoice"
+        tests:
+          - not_nulls
+
+      - name: transactioncode
+        description: "invoice code"
+
+      - name: referencetransaction_id
+        description: "reference to order code if exist"
+
+      - name: transaction_date
+        description: "date of invoice"
+
+      - name: transactionstatus
+        description: "invoice status, include 'Hoàn thành' & 'Đã huỷ'"
+
+      - name: branchid
+        description: "branch issuing the invoice"
+
+      - name: employeeid
+        description: "user issuing the invoice"
+
+      - name: customerid
+        description: "id of customer related to the invoice"
+
+      - name: productid
+        description: "id of product related to the invoice"
+
+      - name: productcode
+        description: ""
+
+      - name: quantity
+        description: "number of item purchased"
+
+      - name: price
+        description: "base price of item"
+
+      - name: discountratio
+        description: "discount percentage on item"
+
+      - name: discount
+        description: "discount value on item"
+
+      - name: subtotal
+        description: "subtotal for item"

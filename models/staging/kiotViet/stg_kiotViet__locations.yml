@@ -1,0 +1,15 @@
+models:
+  - name: stg_kiotviet__locations
+    description: ""
+    columns:
+      - name: name
+        description: ""
+
+      - name: normalname
+        description: ""
+
+      - name: province
+        description: ""
+
+      - name: district
+        description: ""

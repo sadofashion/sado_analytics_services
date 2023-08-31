@@ -1,0 +1,15 @@
+models:
+  - name: stg_kiotviet__users
+    description: ""
+    columns:
+      - name: userid
+        description: ""
+
+      - name: username
+        description: ""
+
+      - name: givenname
+        description: ""
+
+      - name: birthdate
+        description: ""

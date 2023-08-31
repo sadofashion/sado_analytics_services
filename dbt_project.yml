@@ -6,6 +6,7 @@ name: 'sado_analytics_services'
 version: '1.0.0'
 config-version: 2
 
+require-dbt-version: ">=1.6.0"
 # This setting configures which "profile" dbt uses for this project.
 profile: 'sado_analytics_services'
 
@@ -38,11 +39,11 @@ models:
       +materialized: ephemeral
     marts:
       finance:
-        +schema: dbt_finance
+        +schema: finance
         +materialized: table
       sales:
-        +schema: dbt_sales
+        +schema: sales
         +materialized: table
       marketing:
-        +schema: dbt_marketing
+        +schema: marketing
         +materialized: table

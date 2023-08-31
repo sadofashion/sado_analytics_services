@@ -1,8 +1,8 @@
 SELECT
-    id AS transactionId,
+    id AS transaction_id,
     code AS transactionCode,
-    invoiceId AS referenceTransactionId,
-    returnDate AS transactionDate,
+    invoiceId AS referencetransaction_id,
+    returnDate AS transaction_date,
     branchId,
     receivedById AS employeeId,
     customerId,

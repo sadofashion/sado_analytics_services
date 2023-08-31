@@ -23,5 +23,5 @@ SELECT
 FROM
     {{ ref('base_kiotViet__products') }}
     p
-    INNER JOIN {{ ref('stg_kiotViet__categories') }} AS C
+    INNER JOIN {{ ref('stg_kiotviet__categories') }} AS C
     ON p.categoryId = C.categoryId

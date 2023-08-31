@@ -1,8 +1,8 @@
 SELECT
-    invoices.id AS transactionId,
+    invoices.id AS transaction_id,
     invoices.code AS transactionCode,
-    invoices.orderCode as referenceTransactionId,
-    invoices.purchaseDate AS transactionDate,
+    invoices.orderCode as referencetransaction_id,
+    invoices.purchaseDate AS transaction_date,
     invoices.statusValue AS transactionStatus,
     invoices.branchId,
     invoices.soldById AS employeeId,

@@ -1,0 +1,48 @@
+models:
+  - name: stg_kiotviet__invoices
+    description: ""
+    columns:
+      - name: transaction_id
+        description: ""
+        tests:
+          - not_nulls
+          - unique
+
+      - name: transactioncode
+        description: ""
+
+      - name: transaction_date
+        description: ""
+
+      - name: branchid
+        description: ""
+
+      - name: employeeid
+        description: ""
+
+      - name: customerid
+        description: ""
+
+      - name: referencetransaction_id
+        description: ""
+
+      - name: total
+        description: "total invoice value after discount"
+
+      - name: totalpayment
+        description: "received payment amount from customer"
+
+      - name: transactionstatus
+        description: ""
+
+      - name: createddate
+        description: ""
+
+      - name: modifieddate
+        description: ""
+
+      - name: discountratio
+        description: "discount percentage on invoice"
+
+      - name: discount
+        description: "discount value on invoice"

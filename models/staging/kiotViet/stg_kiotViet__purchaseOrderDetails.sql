@@ -1,7 +1,7 @@
 SELECT
-    purchaseOrders.id AS transactionId,
+    purchaseOrders.id AS transaction_id,
     purchaseOrders.code AS transactionCode,
-    purchaseOrders.purchaseDate AS transactionDate,
+    purchaseOrders.purchaseDate AS transaction_date,
     CASE
         WHEN purchaseOrders.status = 3 THEN "Đã nhập hàng"
         WHEN purchaseOrders.status = 1 THEN "Phiếu tạm"

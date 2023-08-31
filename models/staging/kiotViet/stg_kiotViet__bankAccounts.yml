@@ -1,0 +1,9 @@
+models:
+  - name: stg_kiotviet__bankaccounts
+    description: "list of bank accounts on kiotviet"
+    columns:
+      - name: bankaccountid
+        description: ""
+
+      - name: bankaccountname
+        description: ""
