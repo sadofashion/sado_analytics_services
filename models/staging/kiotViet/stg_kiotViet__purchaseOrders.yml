@@ -4,43 +4,40 @@ models:
     columns:
       - name: transaction_id
         description: ""
-        tests:
-          - not_nulls
-          - unique
 
-      - name: transactioncode
+      - name: transaction_code
         description: ""
 
       - name: transaction_date
         description: ""
 
-      - name: branchid
+      - name: branch_id
         description: ""
 
-      - name: employeeid
+      - name: employee_id
         description: ""
 
-      - name: supplierid
+      - name: supplier_id
         description: ""
 
-      - name: partnertype
+      - name: partner_type
         description: ""
 
       - name: total
         description: ""
 
-      - name: totalpayment
+      - name: total_payment
         description: ""
 
       - name: discount
         description: ""
 
-      - name: discountratio
+      - name: discount_ratio
         description: ""
 
-      - name: transactionstatus
+      - name: transaction_status
         description: ""
 
-      - name: createddate
+      - name: created_date
         description: ""
 

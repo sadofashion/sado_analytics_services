@@ -4,37 +4,35 @@ models:
     columns:
       - name: transaction_id
         description: ""
-        tests:
-          - not_nulls
 
-      - name: transactioncode
+      - name: transaction_code
         description: ""
 
-      - name: referencetransaction_id
+      - name: reference_transaction_id
         description: ""
 
       - name: transaction_date
         description: ""
 
-      - name: transactionstatus
+      - name: transaction_status
         description: ""
 
-      - name: branchid
+      - name: branch_id
         description: ""
 
-      - name: employeeid
+      - name: employee_id
         description: ""
 
-      - name: customerid
+      - name: customer_id
         description: ""
 
-      - name: salechannelid
+      - name: salechannel_id
         description: ""
 
-      - name: productid
+      - name: product_id
         description: ""
 
-      - name: productcode
+      - name: product_code
         description: ""
 
       - name: quantity

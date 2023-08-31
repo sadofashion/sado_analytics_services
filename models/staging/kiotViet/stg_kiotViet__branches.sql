@@ -1,11 +1,11 @@
 SELECT
-    id AS branchId,
-    branchName,
+    id as branch_id,
+    branchName as branch_name,
     address,
-    wardName,
-    regexp_replace(contactNumber,r'\.|\,|\s','') as contactNumber,
+    wardName ward_name,
+    regexp_replace(contactNumber,r'\.|\,|\s','') as contact_number,
     email,
-    createdDate,
-    modifiedDate,
+    createdDate as created_Date,
+    modifiedDate as modified_date,
 FROM
     {{ ref('base_kiotViet__branches') }}

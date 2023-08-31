@@ -1,5 +1,5 @@
 SELECT
-    id AS bankAccountId,
-    bankName as bankAccountName,
+    id AS bankAccount_id,
+    bankName as bankAccount_name,
 FROM
     {{ ref('base_kiotViet__bankAccounts') }}

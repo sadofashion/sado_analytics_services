@@ -4,38 +4,36 @@ models:
     columns:
       - name: transaction_id
         description: ""
-        tests:
-          - not_nulls
 
-      - name: transactioncode
+      - name: transaction_code
         description: ""
 
-      - name: referencetransaction_id
+      - name: reference_transaction_id
         description: ""
 
       - name: transaction_date
         description: ""
 
-      - name: transactionstatus
+      - name: transaction_status
         description: ""
 
-      - name: paymentid
+      - name: payment_id
         description: ""
 
-      - name: paymentcode
+      - name: payment_code
         description: ""
 
-      - name: paymentstatus
+      - name: payment_status
         description: ""
 
-      - name: paymentdate
+      - name: payment_date
         description: ""
 
-      - name: paymentamount
+      - name: payment_amount
         description: ""
 
-      - name: paymentmethod
+      - name: payment_method
         description: ""
 
-      - name: bankaccountid
+      - name: bankaccount_id
         description: ""

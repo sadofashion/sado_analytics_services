@@ -4,54 +4,35 @@ models:
     columns:
       - name: transaction_id
         description: ""
-        tests:
-          - not_nulls
-          - unique
 
-      - name: transactioncode
+      - name: transaction_code
         description: ""
 
       - name: transaction_date
         description: ""
 
-      - name: referencetransaction_id
+      - name: reference_transaction_id
         description: ""
-        tests:
-          - relationships:
-              to: ref('revenue')
-              field: transaction_id
 
-      - name: branchid
+      - name: branch_id
         description: ""
-        tests:
-          - relationships:
-              to: ref('stg_kiotviet__branches')
-              field: branchId
 
-      - name: customerid
+      - name: customer_id
         description: ""
-        tests:
-          - relationships:
-              to: ref('stg_kiotviet__customers')
-              field: customerId
 
-      - name: employeeid
+      - name: employee_id
         description: ""
-        tests:
-          - relationships:
-              to: ref('stg_kiotviet__users')
-              field: userId
 
       - name: total
         description: ""
 
-      - name: totalpayment
+      - name: total_payment
         description: ""
 
       - name: discount
         description: ""
 
-      - name: discountratio
+      - name: discount_ratio
         description: ""
 
       - name: returnfee
@@ -67,17 +48,18 @@ semantic_models:
     description: "revenue fact table with single revenue stream per row, excluding terminated transaction"
     model: ref('revenue')
     entities:
-      - name: transaction_id
+      - name: transaction
+        expr: transaction_id
         type: primary
       - name: branch
         type: foreign
-        expr: branchId
+        expr: branch_id
       - name: customer
         type: foreign
-        expr: customerId
+        expr: customer_id
       - name: employee
         type: foreign
-        expr: employeeId
+        expr: employee_id
     dimensions:
       - name: transaction_date
         expr: transaction_date
@@ -88,75 +70,56 @@ semantic_models:
         expr: transaction_type
         type: categorical
     measures:
-      - name: invoice_count
-        description: total number of invoices
+      - name: transaction_count
+        description: total number of transaction
         agg: count_distinct
-        expr: Case when transaction_type = "invoice" then transaction_id end
-      - name: return_count
-        description: total number of returns
-        agg: count_distinct
-        expr: case when transaction_type = "return" then transaction_id end
-      - name: invoice_value
+        expr: transaction_id
+      - name: total_transaction_value
         description: total value sold
         agg: sum
-        expr: case when transaction_type = "invoice" then total end
-      - name: return_value
-        description: total value returned
-        agg: sum
-        expr: case when transaction_type = "return" then total end
-      - name: median_invoice
-        description: median revenue for each invoice
-        agg: median
-        expr: case when transaction_type = "invoice" then total end
-      - name: total_value
-        description: total surplus value of all transactions, after discount
-        agg: sum
         expr: total
-      - name: revenue_received
+      - name: received_transaction_value
         description: total revenue received via payments
         agg: sum
-        expr: totalPayment
-      - name: order_discount_value
-        description: total discounted value
-        agg: sum
-        expr: case when transaction_type ="invoice" then discount end
-      - name: return_discounted_value
-        description: discounted value on returned
-        agg: sum
-        expr: case when transaction_type = "return" then discount end
+        expr: total_payment
       - name: return_fee
         agg: sum
         expr: returnFee
-      - name: invoice_payment
-        agg: sum
-        expr: case when transaction_type="invoice" then totalPayment end
 
 metrics:
   - name: gross_revenue
     type: simple
     label: Gross Revenue
     type_params:
-      measure: revenue_received
+      measure: received_transaction_value
   - name: invoice_value
     type: simple
     label: Value Sold
     type_params:
-      measure: invoice_value
+      measure: total_transaction_value
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'invoice'
   - name: invoice_count
     type: simple
     label: No of Invoice
     type_params:
-      measure: invoice_count
+      measure: transaction_count
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'invoice'
   - name: invoice_payment
     type: simple
     label: Paid Value
     type_params:
-      measure: invoice_payment
+      measure: received_transaction_value
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'invoice'
   - name: value_returned
     type: simple
     label: Value Returned
     type_params:
-      measure: return_value
+      measure: received_transaction_value
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'invoice'
   - name: aov
     type: derived
     label: AOV

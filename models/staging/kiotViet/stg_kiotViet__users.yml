@@ -2,14 +2,14 @@ models:
   - name: stg_kiotviet__users
     description: ""
     columns:
-      - name: userid
+      - name: user_id
         description: ""
 
-      - name: username
+      - name: user_name
         description: ""
 
-      - name: givenname
+      - name: given_name
         description: ""
 
-      - name: birthdate
+      - name: birth_date
         description: ""

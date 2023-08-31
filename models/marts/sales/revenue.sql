@@ -1,17 +1,17 @@
 SELECT
     invoices.transaction_id,
-    invoices.transactionCode,
+    invoices.transaction_code,
     invoices.transaction_date,
     CAST(
         NULL AS int64
-    ) AS referencetransaction_id,
-    invoices.branchId,
-    invoices.customerId,
-    invoices.employeeId,
+    ) AS reference_transaction_id,
+    invoices.branch_id,
+    invoices.customer_id,
+    invoices.employee_id,
     invoices.total,
-    invoices.totalPayment,
+    invoices.total_payment,
     invoices.discount,
-    invoices.discountRatio,
+    invoices.discount_ratio,
     CAST(
         NULL AS int64
     ) AS returnFee,
@@ -20,26 +20,26 @@ FROM
     {{ ref('stg_kiotviet__invoices') }}
     invoices
 WHERE
-    invoices.transactionStatus = 'Hoàn thành'
+    invoices.transaction_status = 'Hoàn thành'
 UNION ALL
 SELECT
     returns.transaction_id,
-    returns.transactionCode,
+    returns.transaction_code,
     returns.transaction_date,
-    returns.referencetransaction_id,
-    returns.branchId,
-    returns.customerId,
-    returns.employeeId,
+    returns.reference_transaction_id,
+    returns.branch_id,
+    returns.customer_id,
+    returns.employee_id,
     - returns.total as total,
-    returns.totalPayment,
-    returns.returnDiscount,
+    returns.total_payment,
+    returns.return_discount,
     CAST(
         NULL AS float64
-    ) discountRatio,
-    returns.returnFee,
+    ) discount_ratio,
+    returns.return_fee,
     "return" AS transaction_type
 FROM
     {{ ref('stg_kiotviet__returns') }}
     returns
 WHERE
-    returns.transactionStatus = 'Đã trả'
+    returns.transaction_status = 'Đã trả'

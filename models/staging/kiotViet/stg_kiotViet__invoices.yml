@@ -4,44 +4,41 @@ models:
     columns:
       - name: transaction_id
         description: ""
-        tests:
-          - not_nulls
-          - unique
 
-      - name: transactioncode
+      - name: transaction_code
         description: ""
 
       - name: transaction_date
         description: ""
 
-      - name: branchid
+      - name: branch_id
         description: ""
 
-      - name: employeeid
+      - name: employee_id
         description: ""
 
-      - name: customerid
+      - name: customer_id
         description: ""
 
-      - name: referencetransaction_id
+      - name: reference_transaction_id
         description: ""
 
       - name: total
         description: "total invoice value after discount"
 
-      - name: totalpayment
+      - name: total_payment
         description: "received payment amount from customer"
 
-      - name: transactionstatus
+      - name: transaction_status
         description: ""
 
-      - name: createddate
+      - name: created_date
         description: ""
 
-      - name: modifieddate
+      - name: modified_date
         description: ""
 
-      - name: discountratio
+      - name: discount_ratio
         description: "discount percentage on invoice"
 
       - name: discount

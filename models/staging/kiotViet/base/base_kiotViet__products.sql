@@ -14,7 +14,7 @@ WITH source AS (
         ) }}
 )
 SELECT
-    id AS productId,
+    id,
     categoryId,
     fullName,
     code,

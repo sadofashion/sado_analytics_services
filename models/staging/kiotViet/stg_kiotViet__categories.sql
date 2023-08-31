@@ -1,7 +1,7 @@
 SELECT
     r1.categoryName category,
-    r1.categoryId,
-    r2.categoryName AS subProductLine,
+    r1.categoryId as category_id,
+    r2.categoryName AS sub_productline,
     r3.categoryName AS productLine
 FROM
     {{ ref('base_kiotViet__categories') }}

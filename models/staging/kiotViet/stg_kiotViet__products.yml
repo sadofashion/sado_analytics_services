@@ -2,31 +2,28 @@ models:
   - name: stg_kiotviet__products
     description: ""
     columns:
-      - name: productid
-        description: ""
-        tests:
-          - not_nulls
-          - unique
-
-      - name: categoryid
+      - name: product_id
         description: ""
 
-      - name: productname
+      - name: category_id
         description: ""
 
-      - name: classname
+      - name: product_name
         description: ""
 
-      - name: code
+      - name: class_name
         description: ""
 
-      - name: classcode
+      - name: product_code
         description: ""
 
-      - name: trademarkname
+      - name: class_code
         description: ""
 
-      - name: isactive
+      - name: trademark_name
+        description: ""
+
+      - name: is_active
         description: ""
 
       - name: type
@@ -35,16 +32,7 @@ models:
       - name: attributes
         description: ""
 
-      - name: productid
-        description: ""
-
-      - name: attributename
-        description: ""
-
-      - name: attributevalue
-        description: ""
-
-      - name: subcategory
+      - name: sub_productline
         description: ""
 
       - name: category

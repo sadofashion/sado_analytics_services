@@ -2,47 +2,47 @@ models:
   - name: stg_kiotviet__customers
     description: ""
     columns:
-      - name: customerid
+      - name: customer_id
         description: ""
 
-      - name: customercode
+      - name: customer_code
         description: ""
 
-      - name: customername
+      - name: customer_name
         description: ""
 
       - name: gender
         description: ""
 
-      - name: birthmonth
+      - name: birth_month
         description: ""
 
-      - name: birthdate
+      - name: birth_date
         description: ""
 
-      - name: contactnumber
+      - name: contact_number
         description: ""
 
-      - name: branchid
+      - name: branch_id
         description: ""
 
-      - name: customertype
+      - name: customer_type
         description: ""
 
-      - name: customergroups
+      - name: customer_groups
         description: ""
 
       - name: debt
         description: ""
 
-      - name: totalinvoiced
+      - name: total_invoiced
         description: ""
 
-      - name: totalpoint
+      - name: total_point
         description: ""
 
-      - name: totalrevenue
+      - name: total_revenue
         description: ""
 
-      - name: rewardpoint
+      - name: reward_point
         description: ""

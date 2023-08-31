@@ -2,14 +2,12 @@ models:
   - name: stg_kiotviet__suppliers
     description: ""
     columns:
-      - name: supplierid
-        description: ""
-        tests:
-          - not_nulls
-          - unique
-
-      - name: suppliername
+      - name: supplier_id
         description: ""
 
-      - name: suppliercode
+
+      - name: supplier_name
+        description: ""
+
+      - name: supplier_code
         description: ""

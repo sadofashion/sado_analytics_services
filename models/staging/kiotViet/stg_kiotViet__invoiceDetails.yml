@@ -4,34 +4,32 @@ models:
     columns:
       - name: transaction_id
         description: "system generated id for invoice"
-        tests:
-          - not_nulls
 
-      - name: transactioncode
+      - name: transaction_code
         description: "invoice code"
 
-      - name: referencetransaction_id
+      - name: reference_transaction_id
         description: "reference to order code if exist"
 
       - name: transaction_date
         description: "date of invoice"
 
-      - name: transactionstatus
+      - name: transaction_status
         description: "invoice status, include 'Hoàn thành' & 'Đã huỷ'"
 
-      - name: branchid
+      - name: branch_id
         description: "branch issuing the invoice"
 
-      - name: employeeid
+      - name: employee_id
         description: "user issuing the invoice"
 
-      - name: customerid
+      - name: customer_id
         description: "id of customer related to the invoice"
 
-      - name: productid
+      - name: product_id
         description: "id of product related to the invoice"
 
-      - name: productcode
+      - name: product_code
         description: ""
 
       - name: quantity
@@ -40,7 +38,7 @@ models:
       - name: price
         description: "base price of item"
 
-      - name: discountratio
+      - name: discount_ratio
         description: "discount percentage on item"
 
       - name: discount

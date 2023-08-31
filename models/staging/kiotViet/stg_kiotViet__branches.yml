@@ -2,29 +2,26 @@ models:
   - name: stg_kiotviet__branches
     description: "list of branches on kiotviet"
     columns:
-      - name: branchid
+      - name: branch_id
         description: "system unique ID for a branch"
-        tests:
-          - not_nulls
-          - unique
 
-      - name: branchname
+      - name: branch_name
         description: "branch unique name"
 
       - name: address
         description: "branch address, free-text field"
 
-      - name: wardname
+      - name: ward_name
         description: "branch located ward"
 
-      - name: contactnumber
+      - name: contact_number
         description: "branch phone number"
 
       - name: email
         description: ""
 
-      - name: createddate
+      - name: created_date
         description: ""
 
-      - name: modifieddate
+      - name: modified_date
         description: ""

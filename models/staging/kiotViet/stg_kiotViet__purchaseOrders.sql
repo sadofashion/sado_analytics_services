@@ -1,20 +1,20 @@
 SELECT
     id AS transaction_id,
-    code AS transactionCode,
+    code AS transaction_code,
     purchaseDate AS transaction_date,
-    branchId,
-    purchaseById AS employeeId,
-    supplierId,
-    partnerType,
+    branchId as branch_id,
+    purchaseById AS employee_id,
+    supplierId as supplier_id,
+    partnerType as partner_type,
     total,
-    totalPayment,
+    totalPayment as total_payment,
     discount,
-    discountRatio,
+    discountRatio as discount_ratio ,
     CASE
         WHEN status = 3 THEN "Đã nhập hàng"
         WHEN status = 1 THEN "Phiếu tạm"
         WHEN status = 4 THEN "Đã huỷ"
-    END AS transactionStatus,
-    createdDate,
+    END AS transaction_status,
+    createdDate as created_date,
 FROM
     {{ ref('base_kiotViet__purchaseOrders') }}
