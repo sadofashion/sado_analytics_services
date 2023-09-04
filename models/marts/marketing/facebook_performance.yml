@@ -71,7 +71,7 @@ semantic_models:
     entities:
       - name: campaign_date
         type: primary
-        expr: concat(campaign_id,".",unix_date(date_start))
+        expr: concat(campaign_name,".",unix_date(date_start))
     dimensions:
       - name: date
         expr: date(date_start)
