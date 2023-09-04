@@ -106,16 +106,16 @@ metrics:
       measure: transaction_count
     filter: |
       {{Dimension('transaction__transaction_type')}} = 'invoice'
-  - name: invoice_payment
+  - name: invoice_paid_value
     type: simple
     label: Paid Value
     type_params:
       measure: received_transaction_value
     filter: |
       {{Dimension('transaction__transaction_type')}} = 'invoice'
-  - name: value_returned
+  - name: returned_value
     type: simple
-    label: Value Returned
+    label: Returned Value
     type_params:
       measure: received_transaction_value
     filter: |
@@ -132,7 +132,7 @@ metrics:
     type: derived
     label: Pending Income Value
     type_params:
-      expr: invoice_value - invoice_payment
+      expr: invoice_value - invoice_paid_value
       metrics:
         - name: invoice_value
-        - name: invoice_payment
+        - name: invoice_paid_value
