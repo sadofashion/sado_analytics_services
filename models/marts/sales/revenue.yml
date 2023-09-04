@@ -62,7 +62,7 @@ semantic_models:
         expr: employee_id
     dimensions:
       - name: transaction_date
-        expr: transaction_date
+        expr: date(transaction_date)
         type: time
         type_params:
           time_granularity: day
