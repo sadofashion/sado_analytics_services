@@ -1,0 +1,39 @@
+models:
+  - name: stg_facebookads__campaigns
+    description: ""
+    columns:
+      - name: account_id
+        description: ""
+
+      - name: account_name
+        description: ""
+
+      - name: campaign_name
+        description: ""
+
+      - name: campaign_start_date
+        description: ""
+
+      - name: campaign_stop_date
+        description: ""
+
+      - name: campaign_id
+        description: ""
+
+      - name: big_campaign
+        description: ""
+
+      - name: content_group
+        description: ""
+
+      - name: pic
+        description: ""
+
+      - name: promoted_productline
+        description: ""
+
+      - name: page
+        description: ""
+
+      - name: media_type
+        description: ""

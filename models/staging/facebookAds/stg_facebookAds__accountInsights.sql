@@ -1,7 +1,7 @@
 WITH source AS (
     SELECT
-        account_id as accountId,
-        date_start as dateStart,
+        account_id ,
+        date_start,
         clicks,
         impressions,
         reach,
@@ -13,7 +13,7 @@ WITH source AS (
                 unnest (actions) actions
             WHERE
                 actions.action_type = 'link_click'
-        ) AS linkClick,
+        ) AS link_click,
         (
             SELECT
                 actions.value
@@ -21,7 +21,7 @@ WITH source AS (
                 unnest (actions) actions
             WHERE
                 actions.action_type = 'post_engagement'
-        ) AS postEngagement,
+        ) AS post_engagement,
         (
             SELECT
                 actions.value
@@ -29,7 +29,7 @@ WITH source AS (
                 unnest (actions) actions
             WHERE
                 actions.action_type = 'onsite_conversion.messaging_conversation_started_7d'
-        ) AS messagingConversationStarted7d,
+        ) AS messaging_conversation_started_7d,
         (
             SELECT
                 actions.value
@@ -37,7 +37,7 @@ WITH source AS (
                 unnest (actions) actions
             WHERE
                 actions.action_type = 'offline_conversion.purchase'
-        ) AS offlineConversionPurchase,
+        ) AS offline_conversion_purchase,
         (
             SELECT
                 action_values.value
@@ -45,7 +45,7 @@ WITH source AS (
                 unnest (action_values) action_values
             WHERE
                 action_values.action_type = 'offline_conversion.purchase'
-        ) AS offlineConversionPurchaseValue,
+        ) AS offline_conversion_purchase_value,
         (
             SELECT
                 actions.value
@@ -53,7 +53,7 @@ WITH source AS (
                 unnest (actions) actions
             WHERE
                 actions.action_type = 'offsite_conversion.fb_pixel_purchase'
-        ) AS pixelPurchase,
+        ) AS pixel_purchase,
         (
             SELECT
                 action_values.value
@@ -61,7 +61,7 @@ WITH source AS (
                 unnest (action_values) action_values
             WHERE
                 action_values.action_type = 'offsite_conversion.fb_pixel_purchase'
-        ) AS pixelPurchaseValue,
+        ) AS pixel_purchase_value,
     FROM
         {{ ref('base_facebookAds__accountInsights') }}
 )

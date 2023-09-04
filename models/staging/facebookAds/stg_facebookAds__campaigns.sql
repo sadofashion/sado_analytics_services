@@ -29,11 +29,11 @@ SELECT
     regexp_extract (
         campaign_name,
         r"^(?:.*?_){3}(.*?)_(?:.*?)$"
-    ) AS bigCampaign,
+    ) AS big_campaign,
     regexp_extract (
         campaign_name,
         r"^(?:.*?_){3}(.*?_.*?)_(?:.*?)$"
-    ) AS contentGroup,
+    ) AS content_group,
     regexp_extract (
         campaign_name,
         r"^(?:.*?_){1}(.*?)_(?:.*?)$"
@@ -41,7 +41,7 @@ SELECT
     regexp_extract (
         campaign_name,
         r"^(?:.*?_){5}(.*?)_(?:.*?)$"
-    ) AS promotedProductline,
+    ) AS promoted_productline,
     regexp_extract (
         campaign_name,
         r"^(.*?)_"
@@ -49,6 +49,6 @@ SELECT
     regexp_extract (
         campaign_name,
         r"(?:.*?_){6}(.*?)_(?:.*?)"
-    ) AS mediaType
+    ) AS media_type
 FROM
     source
