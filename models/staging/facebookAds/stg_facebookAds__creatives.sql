@@ -9,6 +9,6 @@ SELECT
         r"^(.*)\n"
     ) title,
     body,
-    call_to_action_type as callToActionType,
+    call_to_action_type,
 FROM
     {{ ref('base_facebookAds__creatives') }}
