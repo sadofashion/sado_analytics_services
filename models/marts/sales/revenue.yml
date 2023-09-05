@@ -35,7 +35,7 @@ models:
       - name: discount_ratio
         description: ""
 
-      - name: returnfee
+      - name: return_fee
         description: ""
 
       - name: transaction_type
@@ -84,7 +84,7 @@ semantic_models:
         expr: total_payment
       - name: return_fee
         agg: sum
-        expr: returnFee
+        expr: return_fee
 
 metrics:
   - name: gross_revenue
