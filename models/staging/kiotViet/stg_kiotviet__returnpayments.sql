@@ -14,6 +14,7 @@ SELECT
     payments.amount AS payment_amount,
     payments.method AS payment_method,
     payments.accountId AS bankaccount_id,
+    returns.transaction_type,
 FROM
     {{ ref('base_kiotViet__returns') }}
     returns,

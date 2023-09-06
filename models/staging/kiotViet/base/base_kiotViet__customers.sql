@@ -27,7 +27,9 @@ SELECT
     totalInvoiced,
     totalPoint,
     totalRevenue,
-    rewardPoint
+    rewardPoint,
+    createdDate,
+    modifiedDate,
 FROM
     source
 WHERE

@@ -16,7 +16,7 @@ SELECT
     invoices.payment_amount,
     invoices.payment_method,
     invoices.bankaccount_id,
-    "invoice" AS transaction_type,
+    invoices.transaction_type,
 FROM
     {{ ref('stg_kiotviet__invoicepayments') }}
     invoices
@@ -39,7 +39,7 @@ SELECT
     returns.payment_amount,
     returns.payment_method,
     returns.bankaccount_id,
-    "return" AS transaction_type
+    returns.transaction_type
 FROM
     {{ ref('stg_kiotviet__returnpayments') }}
     returns

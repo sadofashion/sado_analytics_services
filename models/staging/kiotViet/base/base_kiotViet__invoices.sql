@@ -44,7 +44,8 @@ SELECT
     discountRatio,
     discount,
     payments,
-    invoiceDetails
+    invoiceDetails,
+    "invoice" as transaction_type,
 FROM
     raw_
 WHERE

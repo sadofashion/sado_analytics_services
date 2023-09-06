@@ -13,5 +13,6 @@ SELECT
     modifiedDate as modified_date,
     discountRatio as discount_ratio,
     discount,
+    transaction_type
 FROM
     {{ ref('base_kiotViet__invoices') }}

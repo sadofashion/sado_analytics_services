@@ -1,10 +1,7 @@
 models:
-  - name: stg_kiotviet__customers
+  - name: customers
     description: "customers fact table"
     columns:
-      - name: branch_id
-        description: ""
-
       - name: customer_id
         description: ""
 

@@ -16,7 +16,7 @@ SELECT
     invoices.discount_ratio,
     invoices.discount,
     invoices.subTotal,
-    "invoice" AS transaction_type,
+    invoices.transaction_type,
 FROM
     {{ ref('stg_kiotviet__invoicedetails') }}
     invoices
@@ -40,10 +40,9 @@ SELECT
     cast(null as float64) as discount_ratio,
     cast(null as float64) as discount,
     returns.subTotal,
-    "return" AS transaction_type
+    returns.transaction_type
 FROM
     {{ ref('stg_kiotviet__returndetails') }}
     returns
 WHERE
     returns.transaction_status = 'Đã trả'
-    and returns.subTotal <> 0

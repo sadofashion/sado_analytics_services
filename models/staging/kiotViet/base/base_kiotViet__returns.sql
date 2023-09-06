@@ -32,6 +32,7 @@ SELECT
     modifiedDate,
     payments,
     returnDetails,
+    "return" as transaction_type
 FROM
     source
 WHERE

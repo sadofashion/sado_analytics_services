@@ -12,7 +12,8 @@ SELECT
     returnDetails.productCode as product_code,
     returnDetails.quantity,
     returnDetails.price,
-    returnDetails.subTotal
+    returnDetails.subTotal,
+    returns.transaction_type
 FROM
     {{ ref('base_kiotViet__returns') }}
     returns,

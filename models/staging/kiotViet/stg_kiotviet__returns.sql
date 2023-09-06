@@ -15,5 +15,6 @@ SELECT
     saleChannelId as salechannel_id,
     createdDate as created_date ,
     modifiedDate as modified_date,
+    transaction_type
 FROM
     {{ ref('base_kiotViet__returns') }}

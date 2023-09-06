@@ -15,7 +15,7 @@ SELECT
     CAST(
         NULL AS int64
     ) AS return_fee,
-    "invoice" AS transaction_type,
+    invoices.transaction_type,
 FROM
     {{ ref('stg_kiotviet__invoices') }}
     invoices
@@ -37,7 +37,7 @@ SELECT
         NULL AS float64
     ) discount_ratio,
     returns.return_fee,
-    "return" AS transaction_type
+    returns.transaction_type
 FROM
     {{ ref('stg_kiotviet__returns') }}
     returns

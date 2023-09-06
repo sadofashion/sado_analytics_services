@@ -13,7 +13,8 @@ SELECT
     invoiceDetails.price,
     invoiceDetails.discountRatio as discount_ratio,
     invoiceDetails.discount,
-    invoiceDetails.subTotal
+    invoiceDetails.subTotal,
+    invoices.transaction_type
 FROM
     {{ ref('base_kiotViet__invoices') }}
     invoices,
