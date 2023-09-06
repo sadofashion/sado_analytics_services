@@ -19,7 +19,7 @@ SELECT
     p.attributes,
     C.sub_productline,
     C.category,
-    C.productLine
+    C.productline
 FROM
     {{ ref('base_kiotViet__products') }}
     p
