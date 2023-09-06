@@ -85,6 +85,10 @@ semantic_models:
       - name: return_fee
         agg: sum
         expr: return_fee
+      - name: order_discount
+        description: total order discount value
+        agg: sum
+        expr: discount
 
 metrics:
   - name: gross_revenue
@@ -106,6 +110,13 @@ metrics:
       measure: transaction_count
     filter: |
       {{Dimension('transaction__transaction_type')}} = 'invoice'
+  - name: return_count
+    type: simple
+    label: No of Return
+    type_params:
+      measure: transaction_count
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'return'
   - name: invoice_paid_value
     type: simple
     label: Paid Value
@@ -118,6 +129,13 @@ metrics:
     label: Returned Value
     type_params:
       measure: received_transaction_value
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'return'
+  - name: order_discounted_value
+    type: simple
+    label: Order Discounted Value
+    type_params:
+      measure: order_discount
     filter: |
       {{Dimension('transaction__transaction_type')}} = 'invoice'
   - name: aov
@@ -136,3 +154,9 @@ metrics:
       metrics:
         - name: invoice_value
         - name: invoice_paid_value
+  - name: pct_returned
+    type: ratio
+    label: Returned Percentage
+    type_params:
+      - numerator: return_count
+      - denumerator: invoice_count
