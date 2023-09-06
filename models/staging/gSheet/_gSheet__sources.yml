@@ -1,0 +1,8 @@
+version: 1
+sources:
+  - name: gSheet
+    schema: GSheet
+    description: "data pulled from google sheets, spreadsheets"
+    database: agile-scheme-394814
+    tables:
+      - name: "_ext_asm_list"
