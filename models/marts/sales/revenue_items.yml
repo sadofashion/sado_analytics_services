@@ -86,7 +86,14 @@ semantic_models:
         description: total number of item_sold
         agg: sum
         expr: quantity
-
+      - name: discounted_value
+        description: value discounted for item
+        agg: sum
+        expr: discount
+      - name: item_value
+        description: value of item on transaction
+        agg: sum
+        expr: subtotal
 metrics:
   - name: qty_sold
     type: simple
@@ -102,3 +109,31 @@ metrics:
       measure: num_items
     filter: |
       {{Dimension('transaction_item__transaction_type')}} = 'return'
+  - name: item_discounted_value
+    type: simple
+    label: Item Discounted Value
+    type_params:
+      measure: discounted_value
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+  - name: item_sold_value
+    type: simple
+    label: Item Sold Value
+    type_params:
+      measure: item_value
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+  - name: avg_discount_ratio
+    label: Average Discount Ratio
+    type: ratio
+    type_params:
+      numerator: item_discounted_value
+      denominator: item_sold_value
+  - name: items_per_transaction
+    type: derived
+    label: Items per Transaction
+    type_params:
+      expr: qty_sold/invoice_count
+      metrics:
+        - name: qty_sold
+        - name: invoice_count

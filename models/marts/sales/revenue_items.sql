@@ -22,6 +22,7 @@ FROM
     invoices
 WHERE
     invoices.transaction_status = 'Hoàn thành'
+    and invoices.subTotal <> 0
 UNION ALL
 SELECT
     returns.transaction_id,
@@ -45,3 +46,4 @@ FROM
     returns
 WHERE
     returns.transaction_status = 'Đã trả'
+    and returns.subTotal <> 0

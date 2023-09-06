@@ -45,7 +45,7 @@ semantic_models:
   - name: revenue_payments
     defaults:
       agg_time_dimension: transaction_date
-    description: "revenue fact table with single revenue stream per row, excluding terminated transaction"
+    description: "payments for revenue with each payment_id associate with a transaction"
     model: ref('revenue_payments')
     entities:
       - name: transaction_payment
@@ -60,9 +60,6 @@ semantic_models:
       - name: employee
         type: foreign
         expr: employee_id
-      - name: product
-        type: foreign
-        expr: product_id
     dimensions:
       - name: transaction_date
         expr: date(transaction_date)
@@ -85,40 +82,39 @@ semantic_models:
         type: categorical
     measures:
       - name: num_payments
-        description: no. payments
+        description: no payments
         agg: count_distinct
         expr: concat(transaction_id,'.',payment_id)
-      - measure: payments
+      - name: payment_value
         description: total payments
         agg: sum
         expr: payment_amount
-
 metrics:
   - name: income_payment
     type: simple
     label: Total payment for invoice
     type_params:
-      measure: payments
+      measure: payment_value
     filter: |
-      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+      {{Dimension('transaction_payment__transaction_type')}} = 'invoice'
   - name: return_payment
     type: simple
     label: Total payment for return
     type_params:
-      measure: payments
+      measure: payment_value
     filter: |
-      {{Dimension('transaction_item__transaction_type')}} = 'return'
+      {{Dimension('transaction_payment__transaction_type')}} = 'return'
   - name: num_income_payment
     type: simple
     label: Number payments for invoice
     type_params:
       measure: num_payments
     filter: |
-      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+      {{Dimension('transaction_payment__transaction_type')}} = 'invoice'
   - name: num_return_payment
     type: simple
     label: Number payments for return
     type_params:
       measure: num_payments
     filter: |
-      {{Dimension('transaction_item__transaction_type')}} = 'return'
+      {{Dimension('transaction_payment__transaction_type')}} = 'return'

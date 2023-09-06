@@ -17,6 +17,15 @@ models:
       - name: transaction_status
         description: ""
 
+      - name: branch_id
+        description: "branch issuing the invoice"
+
+      - name: employee_id
+        description: "user issuing the invoice"
+
+      - name: customer_id
+        description: "id of customer related to the invoice"
+
       - name: payment_id
         description: ""
 

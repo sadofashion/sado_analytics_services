@@ -155,8 +155,10 @@ metrics:
         - name: invoice_value
         - name: invoice_paid_value
   - name: pct_returned
-    type: ratio
     label: Returned Percentage
+    type: derived
     type_params:
-      - numerator: return_count
-      - denumerator: invoice_count
+      expr: return_count/invoice_count
+      metrics:
+        - name: return_count
+        - name: invoice_count

@@ -17,6 +17,15 @@ models:
       - name: transaction_status
         description: ""
 
+      - name: branch_id
+        description: ""
+
+      - name: employee_id
+        description: ""
+
+      - name: customer_id
+        description: ""
+
       - name: payment_id
         description: ""
 
