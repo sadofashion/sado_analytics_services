@@ -37,7 +37,7 @@ select
 from calendar
 cross join source
 where 1=1
-  and calendar.start_of_month < current_date()
+  and calendar.start_of_month <= current_date()
 group by 1,2
 ),
 
@@ -45,16 +45,21 @@ aggregated_cumulative as (
   select 
     start_of_month,
     customer_id,
+    min(transaction_date) over w3 as first_purchase,
+    max(transaction_date) over w2 as last_purchase,
     sum(total) over w1 as monetary,
     sum(num_transactions) over w1 as frequency,
-    date_diff(last_day(start_of_month,month), coalesce(max(transaction_date) over w1,max(transaction_date) over w2),day) as recency
+    date_diff(coalesce(min(transaction_date) over w3,last_day(start_of_month,month)), max(transaction_date) over w2,day) as recency
   from aggregated_and_cross_join
   window w1 as (
     PARTITION by customer_id order by unix_date(start_of_month) desc
     range between 93 preceding and current row
   ),
   w2 as (
-    PARTITION by customer_id
+    PARTITION by customer_id order by unix_date(start_of_month) asc range between unbounded preceding and 1 preceding
+  ),
+  w3 as (
+    PARTITION by customer_id,start_of_month
   )
 ),
 
@@ -62,6 +67,8 @@ scoring as (
   SELECT
   customer_id,
   start_of_month,
+  first_purchase,
+  last_purchase,
   recency,
   monetary,
   frequency,
@@ -70,6 +77,8 @@ scoring as (
   NTILE(5) OVER (PARTITION by start_of_month ORDER BY monetary asc ) AS monetary_score
 FROM
   aggregated_cumulative
+  where
+  start_of_month >= date_trunc(first_purchase,month)
   )
 
   select *,
