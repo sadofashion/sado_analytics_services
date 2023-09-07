@@ -158,7 +158,13 @@ metrics:
     label: Returned Percentage
     type: derived
     type_params:
-      expr: return_count/invoice_count
+      expr: return/invoice
       metrics:
         - name: return_count
+          filter: |
+            {{Dimension('transaction__transaction_type')}} = 'return'
+          alias: return
         - name: invoice_count
+          filter: |
+            {{Dimension('transaction__transaction_type')}} = 'invoice'
+          alias: invoice

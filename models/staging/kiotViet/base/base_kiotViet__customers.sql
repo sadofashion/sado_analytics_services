@@ -1,5 +1,22 @@
 WITH source AS (
     SELECT
+        *
+    FROM
+        {{ source(
+            'kiotViet',
+            'p_customers_list_*'
+        ) }}
+    UNION ALL
+    SELECT
+        *
+    FROM
+        {{ source(
+            'kiotViet',
+            'p_webhook_customer_update'
+        ) }}
+),
+raw_ AS (
+    SELECT
         *,
         ROW_NUMBER() over (
             PARTITION BY id
@@ -8,21 +25,18 @@ WITH source AS (
                 modifiedDate DESC
         ) AS rn_
     FROM
-        {{ source(
-            'kiotViet',
-            'p_customers_list_*'
-        ) }}
+        source
 )
 SELECT
     id,
     code,
-    name,
+    NAME,
     gender,
     birthDate,
     contactNumber,
     branchId,
-    type,
-    source.groups,
+    TYPE,
+    raw_.groups,
     debt,
     totalInvoiced,
     totalPoint,
@@ -31,6 +45,6 @@ SELECT
     createdDate,
     modifiedDate,
 FROM
-    source
+    raw_
 WHERE
     rn_ = 1

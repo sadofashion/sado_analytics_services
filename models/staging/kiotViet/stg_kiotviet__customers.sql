@@ -1,27 +1,31 @@
-with staging as (
+WITH staging AS (
     SELECT
-    id as customer_id,
-    code as customer_code,
-    name as customer_name,
-    gender,
-    extract(month from birthDate) as birth_month,
-    birthDate as birth_date,
-    contactNumber as contact_number,
-    branchId as branch_id,
-    type as customer_type,
-    c.groups as customer_groups,
-    debt,
-    totalInvoiced as total_invoiced,
-    totalPoint as total_point,
-    totalRevenue as total_revenue,
-    rewardPoint as rewardpoint,
-    createdDate as created_date
-FROM
-    {{ ref('base_kiotViet__customers') }} c
+        id AS customer_id,
+        code AS customer_code,
+        NAME AS customer_name,
+        gender,
+        EXTRACT(
+            MONTH
+            FROM
+                birthDate
+        ) AS birth_month,
+        birthDate AS birth_date,
+        contactNumber AS contact_number,
+        branchId AS branch_id,
+        TYPE AS customer_type,
+        C.groups AS customer_groups,
+        debt,
+        totalInvoiced AS total_invoiced,
+        totalPoint AS total_point,
+        totalRevenue AS total_revenue,
+        rewardPoint AS rewardpoint,
+        createdDate AS created_date
+    FROM
+        {{ ref('base_kiotViet__customers') }} C
 ),
 customers AS (
     SELECT
-        staging.customer_id,
+        DISTINCT staging.customer_id,
         staging.customer_name,
         staging.gender,
         staging.birth_month,
@@ -32,37 +36,47 @@ customers AS (
         staging.debt,
         staging.total_invoiced,
         staging.total_point,
-        staging.total_revenue AS monetary,
+        staging.total_revenue,
         staging.rewardpoint,
         staging.created_date,
         CASE
             WHEN DATE_TRUNC(DATE(staging.created_date), MONTH) < DATE_TRUNC(CURRENT_DATE(), MONTH) THEN 'old'
             ELSE 'new'END AS customer_recency_group,
-            LAST_VALUE(
+            FIRST_VALUE(
                 invoices.transaction_date
-            ) over w1 AS first_purchase,
+            ) over w3 AS first_purchase,
             FIRST_VALUE(
                 invoices.transaction_date
             ) over w1 AS last_purchase,
             FIRST_VALUE(
                 invoices.transaction_id
             ) over w1 AS last_transaction_id,
-            COUNT(DISTINCT DATE(invoices.transaction_date)) over w2 AS frequency,
+
+            count(invoices.transaction_id) over w2 as frequency,
+            sum(invoices.total) over w2 as monetary
+
             FROM
                 staging
                 LEFT JOIN {{ ref('stg_kiotviet__invoices') }}
                 invoices
-                ON staging.customer_id = invoices.customer_id window w1 AS (
+                ON staging.customer_id = invoices.customer_id 
+                Window w1 AS (
                     PARTITION BY staging.customer_id
                     ORDER BY
                         invoices.transaction_date DESC
                 ),
-                w2 AS (
+                w3 AS (
                     PARTITION BY staging.customer_id
+                    ORDER BY
+                        invoices.transaction_date ASC
+                ),
+                w2 AS (
+                    PARTITION BY staging.customer_id order by
+                    unix_date(date_trunc(date(invoices.transaction_date),month)) desc range between 90 preceding and current row 
                 )
         )
     SELECT
-        *,
-        date_diff(current_timestamp(),DATE(last_purchase), DAY) AS recency,
+        DISTINCT *,
+        date_diff(CURRENT_TIMESTAMP(), last_purchase, DAY) AS recency,
     FROM
         customers

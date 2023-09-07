@@ -10,22 +10,22 @@ WITH date_spine AS (
         format_date(
             '%A',
             date_day
-        ) AS dayName,
-        DATE_TRUNC(DATE(date_day), MONTH) AS startOfMonth,
+        ) AS day_name,
+        DATE_TRUNC(DATE(date_day), MONTH) AS start_of_month,
         LAST_DAY(
             date_day,
             MONTH
-        ) AS endOfMonth,
-        DATE_TRUNC(DATE(date_day), isoweek) AS startOfWeek,
-        LAST_DAY(DATE(date_day), isoweek) AS endOfWeek,
+        ) AS end_of_month,
+        DATE_TRUNC(DATE(date_day), isoweek) AS start_of_week,
+        LAST_DAY(DATE(date_day), isoweek) AS end_of_week,
         format_date(
             '%B',
             date_day
-        ) AS monthName,
+        ) AS month_name,
         format_date(
             '%Y.%m',
             date_day
-        ) AS yearMonth,
+        ) AS year_month,
         EXTRACT(
             YEAR
             FROM
