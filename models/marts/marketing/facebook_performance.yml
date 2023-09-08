@@ -9,7 +9,7 @@ models:
         description: ""
 
       - name: campaign_name
-        description: ""
+        description: "campaign name based on convention"
 
       - name: big_campaign
         description: ""
@@ -42,22 +42,28 @@ models:
         description: ""
 
       - name: link_click
-        description: ""
+        description: "number of clicks to any urls in ads"
 
       - name: post_engagement
-        description: ""
+        description: number of engagement with ad post
 
       - name: offline_conversion_purchase
-        description: ""
+        description: number of offline purchases attributed to ads
 
       - name: offline_conversion_purchase_value
-        description: ""
+        description: offline purchase value attributed to ads 
 
       - name: pixel_purchase
-        description: ""
+        description: website purchase attributed to ads
 
       - name: pixel_purchase_value
-        description: ""
+        description: website purchase value attributed to ads
+
+      - name: meta_purchase
+        description: number of purchase generated directly on facebook
+
+      - name: meta_purchase_value
+        description: purchase value generated directly on facebook
 
       - name: messaging_conversation_started_7d
         description: ""
@@ -142,6 +148,14 @@ semantic_models:
         description: total online transactions value attributed for ads, captured via pixel
         agg: sum
         expr: pixel_purchase_value
+      - name: meta_conversion
+        description: total transactions attributed for ads, captured directly on facebook
+        agg: sum
+        expr: meta_purchase
+      - name: meta_conversion_value
+        description: total transactions value attributed for ads, captured directly on facebook
+        agg: sum
+        expr: meta_purchase_value
       - name: messages
         description: number of messages generated from ads
         agg: sum
@@ -197,6 +211,16 @@ metrics:
     label: FB Ads Online Conversion Value
     type_params:
       measure: online_conversion_value
+  - name: fb_meta_conversion
+    type: simple
+    label: FB Ads Onsite Conversion
+    type_params:
+      measure: meta_conversion
+  - name: fb_meta_conversion_value
+    type: simple
+    label: FB Ads Onsite Conversion Value
+    type_params:
+      measure: meta_conversion_value
   - name: fb_messages
     type: simple
     label: FB Ads Messages
@@ -206,10 +230,20 @@ metrics:
     type: derived
     label: FB ROAS
     type_params:
-      expr: (fb_offline_conversion_value + fb_online_conversion_value)/fb_spend
+      expr: (fb_offline_conversion_value + fb_online_conversion_value + fb_meta_conversion_value)/fb_spend
       metrics:
         - name: fb_offline_conversion_value
         - name: fb_online_conversion_value
+        - name: fb_meta_conversion_value
+        - name: fb_spend
+  - name: online_roas
+    type: derived
+    label: FB Online ROAS
+    type_params:
+      expr: (fb_online_conversion_value + fb_meta_conversion_value)/fb_spend
+      metrics:
+        - name: fb_online_conversion_value
+        - name: fb_meta_conversion_value
         - name: fb_spend
   - name: spend_7d
     type: cumulative
@@ -229,11 +263,26 @@ metrics:
     type_params:
       measure: online_conversion_value
       window: 7 days
+  - name: meta_cv_7d
+    type: cumulative
+    label: Meta CV 7d
+    type_params:
+      measure: meta_conversion_value
+      window: 7 days
   - name: roas_7d
     type: derived
     label: FB ROAS 7d
     type_params:
-      expr: (offline_cv_7d + online_cv_7d)/spend_7d
+      expr: (offline_cv_7d + online_cv_7d+meta_cv_7d)/spend_7d
+      metrics:
+        - name: offline_cv_7d
+        - name: online_cv_7d
+        - name: spend_7d
+  - name: online_roas_7d
+    type: derived
+    label: FB ROAS 7d
+    type_params:
+      expr: (online_cv_7d+meta_cv_7d)/spend_7d
       metrics:
         - name: offline_cv_7d
         - name: online_cv_7d

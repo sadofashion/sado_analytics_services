@@ -18,6 +18,8 @@ SELECT
     sum(adsinsights.offline_conversion_purchase_value) offline_conversion_purchase_value,
     sum(adsinsights.pixel_purchase) pixel_purchase,
     sum(adsinsights.pixel_purchase_value) pixel_purchase_value,
+    sum(adsinsights.meta_purchase) meta_purchase,
+    sum(adsinsights.meta_purchase_value) meta_purchase_value,
     sum(adsinsights.messaging_conversation_started_7d) messaging_conversation_started_7d
 FROM
     {{ ref('stg_facebookads__adsinsights') }} adsinsights

@@ -65,6 +65,22 @@ WITH source AS (
             WHERE
                 action_values.action_type = 'offsite_conversion.fb_pixel_purchase'
         ) AS pixel_purchase_value,
+        (
+            SELECT
+                actions.value
+            FROM
+                unnest (actions) actions
+            WHERE
+                actions.action_type = 'onsite_conversion.purchase'
+        ) AS meta_purchase,
+        (
+            SELECT
+                action_values.value
+            FROM
+                unnest (action_values) action_values
+            WHERE
+                action_values.action_type = 'onsite_conversion.purchase'
+        ) AS meta_purchase_value
     FROM
         {{ ref('base_facebookAds__adsInsights') }}
 )
