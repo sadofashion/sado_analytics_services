@@ -1,0 +1,24 @@
+models:
+  - name: offline_conversion
+    description: "table to upload offline conversion to facebook"
+    columns:
+      - name: transaction_code
+        description: ""
+
+      - name: created_date
+        description: ""
+
+      - name: transaction_date
+        description: ""
+
+      - name: total
+        description: ""
+
+      - name: contact_number
+        description: ""
+
+      - name: gender
+        description: ""
+
+      - name: branch_name
+        description: ""
