@@ -1,0 +1,78 @@
+version: 2
+
+sources:
+  - name: caresoft
+    description: "Data pulled from caresoft contact center"
+    database: agile-scheme-394814
+    schema: Caresoft
+    tables:
+      - name: tickets
+        identifier: p_tickets_*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after:
+            count: 24
+            period: hour
+          error_after:
+            count: 36
+            period: hour
+      - name: ticket_details
+        identifier: p_ticketDetails_*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after:
+            count: 24
+            period: hour
+          error_after:
+            count: 36
+            period: hour
+      - name: contacts
+        identifier: p_contacts_*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after:
+            count: 24
+            period: hour
+          error_after:
+            count: 36
+            period: hour
+      - name: contact_details
+        identifier: p_contactDetails_*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after:
+            count: 24
+            period: hour
+          error_after:
+            count: 36
+            period: hour
+      - name: calls
+        identifier: p_calls_*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after:
+            count: 24
+            period: hour
+          error_after:
+            count: 36
+            period: hour
+      - name: chats
+        identifier: p_chats_*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after:
+            count: 24
+            period: hour
+          error_after:
+            count: 36
+            period: hour
+      - name: agents
+        identifier: p_agents_*
+        loaded_at_field: _batched_at
+      - name: groups
+        identifier: p_groups_*
+        loaded_at_field: _batched_at
+
+      - name: ticket_custom_fields
+        identifier: p_ticketCustomFields_*
+        loaded_at_field: _batched_at

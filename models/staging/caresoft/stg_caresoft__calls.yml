@@ -1,0 +1,128 @@
+version: 2
+models:
+  - name: stg_caresoft__calls
+    description: Danh sách cuộc gọi chủ động & bị động qua caresoft
+    columns:
+      - name: id
+        description: ""
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: number
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: call_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: caller
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: called
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: agent_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: group_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: call_type
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: start_time
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: call_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: end_time
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: wait_time
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: hold_time
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: talk_time
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: end_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: last_agent_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: dtmf
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: last_user_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: call_survey
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: call_survey_result
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: service_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: missed_reason
+        description: ""
+        meta:
+          dimension:
+            type: string

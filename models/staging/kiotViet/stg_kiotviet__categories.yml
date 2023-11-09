@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: stg_kiotviet__categories
+    description: ""
+    columns:
+      - name: sub_productline
+        description: "{{ doc('column__kiotviet__sub_productline') }}"
+        meta:
+          dimension:
+            type: string
+      - name: category_id
+        description: "{{ doc('column__kiotviet__category_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: category
+        description: "{{ doc('column__kiotviet__category') }}"
+        meta:
+          dimension:
+            type: string
+      - name: productline
+        description: "{{ doc('column__kiotviet__productline') }}"
+        meta:
+          dimension:
+            type: string

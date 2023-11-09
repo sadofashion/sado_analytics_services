@@ -1,0 +1,52 @@
+version: 2
+models:
+  - name: fsn_analysis
+    description: ""
+    columns:
+      - name: class_code
+        description: ""
+
+      - name: date
+        description: ""
+
+      - name: daily_beginning_remain
+        description: ""
+
+      - name: daily_ending_remain
+        description: ""
+
+      - name: quantity_in
+        description: ""
+
+      - name: quantity_out
+        description: ""
+
+      - name: adjustment
+        description: ""
+
+      - name: openning_balance
+        description: ""
+
+      - name: inventory_holding_days
+        description: ""
+
+      - name: receive_qty
+        description: ""
+
+      - name: issue_qty
+        description: ""
+
+      - name: avg_stay
+        description: ""
+
+      - name: consumption_rate
+        description: ""
+
+      - name: inventory_stay_classification
+        description: ""
+
+      - name: consumption_classification
+        description: ""
+
+      - name: fsn_classification
+        description: ""

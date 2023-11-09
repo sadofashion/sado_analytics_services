@@ -1,0 +1,65 @@
+version: 2
+models:
+  - name: stg_nhanhvn__categories
+    description: ""
+    columns:
+      - name: category_code_level1
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category_id_level1
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: category_name_level1
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category_code_level2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category_id_level2
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: category_name_level2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category_code_level3
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category_id_level3
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: category_name_level3
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category_code_level4
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category_id_level4
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: category_name_level4
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: stg_kiotviet__locations
+    description: ""
+    columns:
+      - name: name
+        description: "{{ doc('column__kiotviet__name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: normalname
+        description: "{{ doc('column__kiotviet__normalname') }}"
+        meta:
+          dimension:
+            type: string
+      - name: province
+        description: "{{ doc('column__kiotviet__province') }}"
+        meta:
+          dimension:
+            type: string
+      - name: district
+        description: "{{ doc('column__kiotviet__district') }}"
+        meta:
+          dimension:
+            type: string

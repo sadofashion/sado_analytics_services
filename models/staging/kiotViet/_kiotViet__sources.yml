@@ -1,0 +1,104 @@
+version: 1
+sources:
+  - name: kiotViet
+    schema: KiotViet
+    description: "data pulled from kiotviet via API & Webhook"
+    database: agile-scheme-394814
+    tables:
+      - name: "p_products_list_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_branches_list_*"
+      - name: "p_orders_list_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_pricebooks_branches_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_surcharges_list_*"
+      - name: "p_pricebooks_users_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_users_list_*"
+      - name: "p_categories_list_*"
+      - name: "p_purchaseorders_list_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_purchaseorders_list2_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_customersGroups_list_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_pricebooks_customer_groups_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_invoices_list_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_invoices_list2_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_returns_list_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_returns_list2_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_bankAccounts_list_*"
+      - name: "p_saleschannels_list_*"
+      - name: "p_customers_list_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_locations_list_*"
+      - name: "p_products_inventory_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_pricebooks_list_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_webhook_invoice_update"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_webhook_inventory_update"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_webhook_customer_update"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }

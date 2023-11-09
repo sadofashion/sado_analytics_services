@@ -1,0 +1,142 @@
+version: 2
+models:
+  - name: stg_googleads__keyword_stats
+    description: ""
+    meta:
+      joins:
+        - join: stg_googleads__ad_groups
+          sql_on: >-
+            ${stg_googleads__keyword_stats.ad_group_id} = 
+            ${stg_googleads__ad_groups.ad_group_id}
+          fields:
+            - ad_group_id
+            - ad_group_name
+            - ad_group_type
+        - join: stg_googleads__campaigns
+          sql_on: >-
+            ${stg_googleads__keyword_stats.campaign_id} = 
+            ${stg_googleads__campaigns.campaign_id}
+          fields:
+            - campaign_id
+            - campaign_name
+            - campaign_name
+            - advertising_channel
+            - bidding_stategy
+    columns:
+      - name: date
+        description: "{{ doc('column__googleads__date') }}"
+        meta:
+          dimension:
+            type: date
+      - name: ad_group_id
+        description: "{{ doc('column__googleads__ad_group_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: device
+        description: "{{ doc('column__googleads__device') }}"
+        meta:
+          dimension:
+            type: string
+      - name: slot
+        description: "{{ doc('column__googleads__slot') }}"
+        meta:
+          dimension:
+            type: string
+      - name: network_type
+        description: "{{ doc('column__googleads__network_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: match_type
+        description: "{{ doc('column__googleads__match_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: keyword
+        description: "{{ doc('column__googleads__keyword') }}"
+        meta:
+          dimension:
+            type: string
+      - name: clicks
+        description: "{{ doc('column__googleads__clicks') }}"
+        meta:
+          metrics:
+            m_clicks:
+              type: sum
+              label: Clicks
+              group_label: GG Ads Metrics
+              compact: thousands
+          dimension:
+            type: number
+      - name: conversions
+        description: "{{ doc('column__googleads__conversions') }}"
+        meta:
+          metrics:
+            m_conversions:
+              type: sum
+              label: Conversions
+              group_label: GG Ads Metrics
+              round: 1
+          dimension:
+            type: number
+      - name: conversions_value
+        description: "{{ doc('column__googleads__conversions_value') }}"
+        meta:
+          metrics:
+            m_conversions_value:
+              type: sum
+              label: Conversions Value
+              group_label: GG Ads Metrics
+              compact: millions
+          dimension:
+            type: number
+      - name: cost
+        description: "{{ doc('column__googleads__cost') }}"
+        meta:
+          metrics:
+            m_cost:
+              type: sum
+              label: Cost
+              group_label: GG Ads Metrics
+              compact: millions
+          dimension:
+            type: number
+      - name: impressions
+        description: "{{ doc('column__googleads__impressions') }}"
+        meta:
+          metrics:
+            m_impressions:
+              type: sum
+              label: Impressions
+              group_label: GG Ads Metrics
+              compact: thousands
+          dimension:
+            type: number
+      - name: interactions
+        description: "{{ doc('column__googleads__interactions') }}"
+        meta:
+          metrics:
+            m_interactions:
+              type: sum
+              label: Interactions
+              group_label: GG Ads Metrics
+              compact: thousands
+          dimension:
+            type: number
+      - name: view_through_conversions
+        description: "{{ doc('column__googleads__view_through_conversions') }}"
+        meta:
+          metrics:
+            m_view_through_conversions:
+              type: sum
+              label: View Through Conversions
+              group_label: GG Ads Metrics
+              compact: thousands
+          dimension:
+            type: number

@@ -1,0 +1,33 @@
+{{
+    config(
+        tags=['caresoft','fact','view']
+    )
+}}
+
+SELECT
+    id,
+    customer_id,
+    call_id,
+    caller,
+    called,
+    user_id,
+    agent_id,
+    group_id,
+    call_type,
+    start_time,
+    call_status,
+    end_time,
+    wait_time,
+    hold_time,
+    talk_time,
+    end_status,
+    ticket_id,
+    last_agent_id,
+    dtmf,
+    last_user_id,
+    call_survey,
+    call_survey_result,
+    service_id,
+    missed_reason,
+FROM
+    {{ ref('base_caresoft__calls') }}

@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: stg_kiotviet__users
+    description: ""
+    columns:
+      - name: user_id
+        description: "{{ doc('column__kiotviet__user_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: user_name
+        description: "{{ doc('column__kiotviet__user_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: given_name
+        description: "{{ doc('column__kiotviet__given_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: birth_date
+        description: "{{ doc('column__kiotviet__birth_date') }}"
+        meta:
+          dimension:
+            type: timestamp

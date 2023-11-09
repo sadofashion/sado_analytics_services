@@ -1,0 +1,193 @@
+version: 2
+models:
+  - name: stg_caresoft__tickets
+    description: ""
+    columns:
+      - name: assignee
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ccs
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: custom_fields
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: follows
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_overdue
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: requester
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: requester_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: service_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: tags
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_id
+        description: ""
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: number
+      - name: ticket_no
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ticket_priority
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_source_end_status
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ticket_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_subject
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: assignee_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: automessage_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: campaign_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: comments
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: current_agent
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: duedate
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: feedback_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: group_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: incident_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: qa_agent
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: qa_script_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: satisfaction
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: satisfaction_at
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: satisfaction_content
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: satisfaction_send
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sla
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sla_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ticket_source_detail_id
+        description: ""
+        meta:
+          dimension:
+            type: number

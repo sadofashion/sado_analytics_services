@@ -1,0 +1,34 @@
+version: 2
+models:
+  - name: current_inventory
+    description: ""
+    columns:
+      - name: product_id
+        description: ""
+
+      - name: depot_name
+        description: ""
+
+      - name: updated_at
+        description: ""
+
+      - name: available
+        description: ""
+
+      - name: remain
+        description: ""
+
+      - name: shipping
+        description: ""
+
+      - name: damaged
+        description: ""
+
+      - name: holding
+        description: ""
+
+      - name: warranty
+        description: ""
+
+      - name: warranty_holding
+        description: ""

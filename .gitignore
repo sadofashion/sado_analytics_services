@@ -1,0 +1,11 @@
+
+target/*
+dbt_packages/
+logs/
+*env*/
+dbt-env/
+.venv
+test*
+profiles.yml
+cred.json
+lightdash-dockerfile

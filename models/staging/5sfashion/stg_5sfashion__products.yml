@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_5sfashion__products
+    description: ""
+    columns:
+      - name: product_id
+        description: ""
+
+      - name: product_type
+        description: ""
+
+      - name: product_name
+        description: ""
+
+      - name: product_keyword
+        description: ""
+
+      - name: categories
+        description: ""
+
+      - name: updated_at
+        description: ""
+
+      - name: created_at
+        description: ""
+
+      - name: published_at
+        description: ""
+
+      - name: product_code
+        description: ""

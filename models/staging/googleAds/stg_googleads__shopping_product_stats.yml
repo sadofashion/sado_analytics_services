@@ -1,0 +1,144 @@
+version: 2
+models:
+  - name: stg_googleads__shopping_product_stats
+    description: ""
+    meta:
+      joins:
+        - join: stg_googleads__ad_groups
+          sql_on: >-
+            ${stg_googleads__shopping_product_stats.ad_group_id} = 
+            ${stg_googleads__ad_groups.ad_group_id}
+          fields:
+            - ad_group_id
+            - ad_group_name
+            - ad_group_type
+        - join: stg_googleads__campaigns
+          sql_on: >-
+            ${stg_googleads__shopping_product_stats.campaign_id} = 
+            ${stg_googleads__campaigns.campaign_id}
+          fields:
+            - campaign_id
+            - campaign_name
+            - campaign_name
+            - advertising_channel
+            - bidding_stategy
+        - join: stg_5sfashion__products
+          sql_on: >-
+            ${stg_googleads__shopping_product_stats.item_id} = 
+            ${stg_5sfashion__products.product_code}
+          fields:
+            - product_code
+            - product_name
+            - product_type
+    columns:
+      - name: date
+        description: "{{ doc('column__googleads__date') }}"
+        meta:
+          dimension:
+            type: date
+      - name: ad_group_id
+        description: "{{ doc('column__googleads__ad_group_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: item_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: clicks
+        description: "{{ doc('column__googleads__clicks') }}"
+        meta:
+          metrics:
+            m_clicks:
+              type: sum
+              label: Clicks
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: conversions
+        description: "{{ doc('column__googleads__conversions') }}"
+        meta:
+          metrics:
+            m_conversions:
+              type: sum
+              label: Conversions
+              group_label: GG Ads metrics
+              round: 1
+          dimension:
+            type: number
+      - name: conversions_from_interactions_rate
+        description: "{{ doc('column__googleads__conversions_from_interactions_rate') }}"
+        meta:
+          metrics:
+            m_conversions_from_interactions_rate:
+              type: sum
+              label: Conversions From Interactions Rate
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: conversions_value
+        description: "{{ doc('column__googleads__conversions_value') }}"
+        meta:
+          metrics:
+            m_conversions_value:
+              type: sum
+              label: Conversions Value
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: cost
+        description: "{{ doc('column__googleads__cost') }}"
+        meta:
+          metrics:
+            m_cost:
+              type: sum
+              label: Cost
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: cost_per_conversion
+        description: "{{ doc('column__googleads__cost_per_conversion') }}"
+        meta:
+          metrics:
+            m_cost_per_conversion:
+              type: average
+              label: Cost Per Conversion
+              group_label: GG Ads metrics
+          dimension:
+            type: number
+      - name: cross_device_conversions
+        description: "{{ doc('column__googleads__cross_device_conversions') }}"
+        meta:
+          metrics:
+            m_cross_device_conversions:
+              type: sum
+              label: Cross Device Conversions
+              group_label: GG Ads metrics
+              round: 1
+          dimension:
+            type: number
+      - name: impressions
+        description: "{{ doc('column__googleads__impressions') }}"
+        meta:
+          metrics:
+            m_impressions:
+              type: sum
+              label: Impressions
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number

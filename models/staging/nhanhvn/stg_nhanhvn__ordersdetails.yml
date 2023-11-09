@@ -1,0 +1,100 @@
+version: 2
+models:
+  - name: stg_nhanhvn__ordersdetails
+    description: ""
+    columns:
+      - name: order_id
+        description: "{{ doc('column__nhanhvn__order_id') }}"
+
+      - name: sale_channel
+        description: "{{ doc('column__nhanhvn__sale_channel') }}"
+
+      - name: depot_name
+        description: "{{ doc('column__nhanhvn__depot_name') }}"
+
+      - name: customer_id
+        description: "{{ doc('column__nhanhvn__customer_id') }}"
+
+      - name: created_by_id
+        description: "{{ doc('column__nhanhvn__created_by_id') }}"
+
+      - name: sale_id
+        description: "{{ doc('column__nhanhvn__sale_id') }}"
+
+      - name: created_date
+        description: "{{ doc('column__nhanhvn__created_date') }}"
+
+      - name: delivery_date
+        description: "{{ doc('column__nhanhvn__delivery_date') }}"
+
+      - name: send_carrier_date
+        description: "{{ doc('column__nhanhvn__send_carrier_date') }}"
+
+      - name: order_status
+        description: "{{ doc('column__nhanhvn__order_status') }}"
+
+      - name: order_type
+        description: "{{ doc('column__nhanhvn__order_type') }}"
+
+      - name: traffic_source_name
+        description: "{{ doc('column__nhanhvn__traffic_source_name') }}"
+
+      - name: carrier_id
+        description: "{{ doc('column__nhanhvn__carrier_id') }}"
+
+      - name: service_id
+        description: "{{ doc('column__nhanhvn__service_id') }}"
+
+      - name: money_discount
+        description: "{{ doc('column__nhanhvn__discount') }}, trên toàn bộ đơn"
+
+      - name: money_deposit
+        description: "{{ doc('column__nhanhvn__money_deposit') }}"
+
+      - name: money_transfer
+        description: "{{ doc('column__nhanhvn__money_transfer') }}"
+
+      - name: money_used_points
+        description: "{{ doc('column__nhanhvn__money_used_points') }}"
+
+      - name: ship_fee
+        description: "{{ doc('column__nhanhvn__ship_fee') }}"
+
+      - name: cod_fee
+        description: "{{ doc('column__nhanhvn__cod_fee') }}"
+
+      - name: customer_ship_fee
+        description: "{{ doc('column__nhanhvn__customer_ship_fee') }}"
+
+      - name: return_fee
+        description: "{{ doc('column__nhanhvn__return_fee') }}"
+
+      - name: overweight_fee
+        description: "{{ doc('column__nhanhvn__overweight_fee') }}"
+
+      - name: description
+        description: "{{ doc('column__nhanhvn__description') }}"
+
+      - name: ship_address
+        description: "{{ doc('column__nhanhvn__ship_address') }}"
+
+      - name: receivables
+        description: "{{ doc('column__nhanhvn__receivables') }}"
+
+      - name: coupon_code
+        description: "{{ doc('column__nhanhvn__coupon_code') }}"
+
+      - name: product_id
+        description: "{{ doc('column__nhanhvn__product_id') }}"
+
+      - name: product_code
+        description: "{{ doc('column__nhanhvn__product_code') }}"
+
+      - name: price
+        description: "{{ doc('column__nhanhvn__price') }}"
+
+      - name: quantity
+        description: "{{ doc('column__nhanhvn__quantity') }}"
+
+      - name: item_discount
+        description: "{{ doc('column__nhanhvn__discount') }}, trên từng items"

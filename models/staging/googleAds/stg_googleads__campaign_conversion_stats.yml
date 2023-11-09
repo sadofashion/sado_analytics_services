@@ -1,0 +1,78 @@
+version: 2
+models:
+  - name: stg_googleads__campaign_conversion_stats
+    description: ""
+    meta:
+      joins:
+        - join: stg_googleads__campaigns
+          sql_on: >-
+            ${stg_googleads__campaign_conversion_stats.campaign_id} =
+            ${stg_googleads__campaigns.campaign_id}
+          fields:
+            - campaign_id
+            - campaign_name
+            - advertising_channel
+            - bidding_stategy
+    columns:
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: date
+        description: "{{ doc('column__googleads__date') }}"
+        meta:
+          dimension:
+            type: date
+      - name: conversion_name
+        description: "{{ doc('column__googleads__conversion_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: conversion_attribution_type
+        description: "{{ doc('column__googleads__conversion_attribution_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: slot
+        description: "{{ doc('column__googleads__slot') }}"
+        meta:
+          dimension:
+            type: string
+      - name: conversions
+        description: "{{ doc('column__googleads__conversions') }}"
+        meta:
+          metrics:
+            ads_purchase:
+              type: sum
+              label: "#Web Purchases"
+              group_label: GG Ads metrics
+              filters:
+                - conversion_name: website\_purchase
+            ads_atc:
+              type: sum
+              label: "#Add to cart"
+              group_label: GG Ads metrics
+              filters:
+                - conversion_name: add\_to\_cart
+            ads_contacts:
+              type: sum
+              label: "#Contacts intent"
+              group_label: GG Ads metrics
+              sql: >-
+                IF(${conversion_name} in ('website_message','website_call'),
+                ${conversions}, NULL)
+          dimension:
+            type: number
+      - name: conversions_value
+        description: "{{ doc('column__googleads__conversions_value') }}"
+        meta:
+          metrics:
+            ads_purchase_value:
+              type: sum
+              label: Web Purchases Value
+              group_label: GG Ads metrics
+              filters:
+                - conversion_name: website\_purchase
+          dimension:
+            type: number

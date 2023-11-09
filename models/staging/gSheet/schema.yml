@@ -1,0 +1,61 @@
+version: 2
+models:
+  - name: stg_gsheet__nhanhvnsalechannels
+    description: Phân loại kênh bán hàng lấy theo Nhanhvn
+    columns:
+      - name: sale_channel_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sale_channel
+        description: ""
+        meta:
+          dimension:
+            type: string
+  - name: stg_gsheet__regions
+    description: Phân loại khu vực và nhóm CH
+    columns:
+      - name: region
+        description: Nhóm
+        meta:
+          dimension:
+            type: string
+      - name: branch_name
+        description: Tên chi nhánh trên Nhanhvn
+        meta:
+          dimension:
+            type: string
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+  - name: stg_gsheet__asms
+    description: ""
+    columns:
+      - name: asm_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: phone
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,45 @@
+version: 2
+models:
+  - name: stg_googleads__campaigns
+    description: ""
+    columns:
+      - name: account_name
+        description: "{{ doc('column__googleads__account_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: currency_code
+        description: "{{ doc('column__googleads__currency_code') }}"
+        meta:
+          dimension:
+            type: string
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: campaign_name
+        description: "{{ doc('column__googleads__campaign_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: advertising_channel
+        description: "{{ doc('column__googleads__advertising_channel') }}"
+        meta:
+          dimension:
+            type: string
+      - name: bidding_stategy
+        description: "{{ doc('column__googleads__bidding_stategy') }}"
+        meta:
+          dimension:
+            type: string
+      - name: budget
+        description: "{{ doc('column__googleads__budget') }}"
+        meta:
+          dimension:
+            type: number
+      - name: budget_period
+        description: "{{ doc('column__googleads__budget_period') }}"
+        meta:
+          dimension:
+            type: string

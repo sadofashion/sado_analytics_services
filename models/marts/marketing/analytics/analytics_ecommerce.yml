@@ -1,0 +1,67 @@
+version: 2
+
+models:
+
+  - name: analytics_ecommerce
+    description: >
+      Incrementally materialised table containing records of Google Analytics ecommerce events
+    columns:
+      - name: event_id
+        description: Unique identifier for a particular Google Analytics event
+        tests:
+          - not_null
+          - unique
+      - name: event_date
+        description: "Date on which the event took place"
+        tests:
+          - not_null
+      - name: event_timestamp
+        description: "Date and time at which the event took place"
+        tests:
+          - not_null
+      - name: client_id
+        description: "Cookie-based identifier for an individual"
+        tests:
+          - not_null
+      - name: session_id
+        description: >
+          Identifier for a particular analytics session associated with a particular Client ID
+        tests:
+          - not_null
+      - name: event_name
+        description: >
+          The type of event that took place (over ten possibilities - common values:
+          page_view, track_clicks
+        tests:
+          - not_null
+      - name: page_path
+        description: >
+          The URL of the target page with domain stripped, no parameters, fragments etc.)
+        tests:
+          - not_null
+      - name: item_id
+        description: "Item id on website"
+
+      - name: quantity
+        description: "number of items in cart or purchase"
+
+      - name: price
+        description: "The unit price of the item"
+
+      - name: item_variant
+        description: "The selected variants (color and size)"
+
+      - name: item_name
+        description: "Display name of the item"
+
+      - name: payment_type
+        description: "Method of payment selected"
+
+      - name: transaction_id
+        description: "Website transaction id"
+
+      - name: shipping
+        description: "Shipping fee"
+
+      - name: delivery_method
+        description: "Method of delivery"

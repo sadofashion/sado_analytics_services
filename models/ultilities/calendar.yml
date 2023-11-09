@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: calendar
+    description: ""
+    columns:
+      - name: date
+        description: ""
+        tests:
+          - not_null
+          - unique
+        meta:
+          metrics:
+            no_days:
+              type: count_distinct
+              label: "Days in Month"
+              group_label: General metrics
+      
+      - name: day_of_month
+        description: ""
+
+      - name: day_name
+        description: ""
+
+      - name: start_of_month
+        description: ""
+
+      - name: end_of_month
+        description: ""
+
+      - name: start_of_week
+        description: ""
+
+      - name: end_of_week
+        description: ""
+
+      - name: month_name
+        description: ""
+
+      - name: year_month
+        description: ""
+
+      - name: year
+        description: ""
+

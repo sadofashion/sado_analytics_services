@@ -1,0 +1,70 @@
+version: 2
+models:
+  - name: stg_googleads__ad_group_stats
+    description: ""
+    columns:
+      - name: ad_group_id
+        description: "{{ doc('column__googleads__ad_group_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: date
+        description: "{{ doc('column__googleads__date') }}"
+        meta:
+          dimension:
+            type: date
+      - name: device
+        description: "{{ doc('column__googleads__device') }}"
+        meta:
+          dimension:
+            type: string
+      - name: network_type
+        description: "{{ doc('column__googleads__network_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: slot
+        description: "{{ doc('column__googleads__slot') }}"
+        meta:
+          dimension:
+            type: string
+      - name: clicks
+        description: "{{ doc('column__googleads__clicks') }}"
+        meta:
+          dimension:
+            type: number
+      - name: conversions
+        description: "{{ doc('column__googleads__conversions') }}"
+        meta:
+          dimension:
+            type: number
+      - name: conversions_value
+        description: "{{ doc('column__googleads__conversions_value') }}"
+        meta:
+          dimension:
+            type: number
+      - name: cost
+        description: "{{ doc('column__googleads__cost') }}"
+        meta:
+          dimension:
+            type: number
+      - name: impressions
+        description: "{{ doc('column__googleads__impressions') }}"
+        meta:
+          dimension:
+            type: number
+      - name: interactions
+        description: "{{ doc('column__googleads__interactions') }}"
+        meta:
+          dimension:
+            type: number
+      - name: view_through_conversions
+        description: "{{ doc('column__googleads__view_through_conversions') }}"
+        meta:
+          dimension:
+            type: number

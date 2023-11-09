@@ -1,0 +1,30 @@
+version: 2
+models:
+  - name: stg_googleads__ad_groups
+    description: ""
+    columns:
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ad_group_id
+        description: "{{ doc('column__googleads__ad_group_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: ad_group_type
+        description: "{{ doc('column__googleads__ad_group_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: ad_group_name
+        description: "{{ doc('column__googleads__ad_group_name') }}"
+        meta:
+          dimension:
+            type: string

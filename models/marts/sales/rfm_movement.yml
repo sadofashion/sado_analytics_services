@@ -1,0 +1,164 @@
+version: 2
+models:
+  - name: rfm_movement
+    description: "rfm segmentation result"
+    meta:
+      joins:
+        - join: stg_kiotviet__customers
+          alias: customers
+          sql_on: ${rfm_movement.customer_id} = ${customers.customer_id} and ${rfm_movement.start_of_month} = date_trunc(current_date(),month)
+        - join: stg_kiotviet__branches
+          alias: last_branch
+          sql_on: ${rfm_movement.last_purchase_branch} = ${last_branch.branch_id}
+          fields: [branch_id, branch_name, province, region,]
+    columns:
+      - name: customer_id
+        description: ""
+        meta:
+          metrics:
+            m_num_customers:
+              type: count_distinct
+              label: Total customers
+              group_label: Customer Metrics
+              compact: thousands
+              round: 1 
+
+      - name: last_purchase_branch
+        description: "lastest store customer made purchase"
+
+      - name: start_of_month
+        description: "month of rfm calculation"
+
+      - name: first_purchase
+        description: ""
+
+      - name: last_purchase
+        description: ""
+
+      - name: recency
+        description: "no. days since last purchase"
+        meta:
+          metrics:
+            m_med_recency:
+              type: median
+              label: Med of Recency
+              group_label: Customer Metrics
+      - name: monetary
+        description: "total monetary value since created"
+        meta:
+          metrics:
+            m_monetary:
+              type: average
+              label: AVG of Monetary
+              group_label: Customer Metrics
+
+      - name: frequency
+        description: "times of purchasing"
+        meta:
+          metrics:
+            m_freq:
+              type: average
+              label: AVG of Freq
+              group_label: Customer Metrics
+
+      - name: recency_score
+        description: "calculate by dividing customer base into 5 groups by quantile range of recency"
+
+      - name: frequency_score
+        description: "calculate by dividing customer base into 5 groups by quantile range of frequency"
+
+      - name: monetary_score
+        description: "calculate by dividing customer base into 5 groups by quantile range of monetary value"
+
+      - name: score_concat
+        description: "rfm concatenated score"
+
+      - name: segment
+        description: "group segmentation base on rfm score"
+      - name: recency_type
+        description: "classified new and returning customers"
+semantic_models:
+  - name: rfm_movement
+    defaults:
+      agg_time_dimension: start_of_month
+    description: "rfm segmentation semantic model"
+    model: ref('rfm_movement')
+    entities:
+      - name: rfm_customer
+        expr: customer_id
+        type: primary
+    dimensions:
+      - name: segment
+        expr: segment
+        type: categorical
+      - name: start_of_month
+        expr: start_of_month
+        type: time
+        type_params:
+          time_granularity: day
+    measures:
+      - name: num_customers
+        agg: count_distinct
+        expr: customer_id
+      - name: avg_monetary_value
+        agg: average
+        expr: monetary
+      - name: median_monetary_value
+        agg: median
+        expr: monetary
+      - name: total_monetary_value
+        agg: sum
+        expr: monetary
+      - name: avg_recency
+        agg: average
+        expr: recency
+      - name: median_recency
+        agg: median
+        expr: recency
+      - name: avg_freq
+        agg: average
+        expr: frequency
+      - name: median_freq
+        agg: median
+        expr: frequency
+metrics:
+  - name: num_customers_rfm
+    type: simple
+    label: No. Customers Segmented
+    type_params:
+      measure: num_customers
+  - name: avg_monetary_value
+    type: simple
+    label: Avg Monetary Value
+    type_params:
+      measure: avg_monetary_value
+  - name: med_monetary_value
+    type: simple
+    label: Median Monetary Value
+    type_params:
+      measure: median_monetary_value
+  - name: total_monetary_value
+    type: simple
+    label: Total Monetary Value
+    type_params:
+      measure: total_monetary_value
+  - name: avg_recency
+    type: simple
+    label: Avg Recency
+    type_params:
+      measure: avg_recency
+  - name: median_recency
+    type: simple
+    label: Median Recency
+    type_params:
+      measure: median_recency
+  - name: avg_freq
+    type: simple
+    label: Avg Purchasing Frequency
+    type_params:
+      measure: avg_freq
+  - name: median_freq
+    type: simple
+    label: Median Purchasing Frequency
+    type_params:
+      measure: median_freq

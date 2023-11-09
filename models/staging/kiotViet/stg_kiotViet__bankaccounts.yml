@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: stg_kiotviet__bankaccounts
+    description: list of bank accounts on kiotviet
+    columns:
+      - name: bankaccount_id
+        description: "{{ doc('column__kiotviet__bankaccount_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: bankaccount_name
+        description: "{{ doc('column__kiotviet__bankaccount_name') }}"
+        meta:
+          dimension:
+            type: string

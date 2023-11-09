@@ -1,0 +1,290 @@
+version: 2
+models:
+  - name: facebook_performance
+    description: ""
+    columns:
+      - name: account_name
+        description: ""
+
+      - name: date_start
+        description: ""
+
+      - name: campaign_name
+        description: "campaign name based on convention"
+
+      - name: big_campaign
+        description: ""
+
+      - name: pic
+        description: ""
+
+      - name: content_group
+        description: ""
+
+      - name: page
+        description: ""
+
+      - name: promoted_productline
+        description: ""
+
+      - name: media_type
+        description: ""
+
+      - name: impressions
+        description: ""
+
+      - name: spend
+        description: ""
+
+      - name: clicks
+        description: ""
+
+      - name: reach
+        description: ""
+
+      - name: link_click
+        description: "number of clicks to any urls in ads"
+
+      - name: post_engagement
+        description: number of engagement with ad post
+
+      - name: offline_conversion_purchase
+        description: number of offline purchases attributed to ads
+
+      - name: offline_conversion_purchase_value
+        description: offline purchase value attributed to ads 
+
+      - name: pixel_purchase
+        description: website purchase attributed to ads
+
+      - name: pixel_purchase_value
+        description: website purchase value attributed to ads
+
+      - name: meta_purchase
+        description: number of purchase generated directly on facebook
+
+      - name: meta_purchase_value
+        description: purchase value generated directly on facebook
+
+      - name: _results_message
+        description: ""
+
+semantic_models:
+  - name: facebook_performance
+    defaults:
+      agg_time_dimension: date
+    description: "Facebook performance metrics"
+    model: ref('facebook_performance')
+    entities:
+      - name: campaign_date
+        type: primary
+        expr: concat(campaign_name,".",unix_date(date_start))
+    dimensions:
+      - name: date
+        expr: date(date_start)
+        type: time
+        type_params:
+          time_granularity: day
+      - name: account
+        expr: account_name
+        type: categorical
+      - name: campaign
+        expr: campaign_name
+        type: categorical
+      - name: event
+        expr: big_campaign
+        type: categorical
+      - name: pic
+        expr: pic
+        type: categorical
+      - name: content_group
+        expr: content_group
+        type: categorical
+      - name: page
+        expr: page
+        type: categorical
+      - name: promoted_productline
+        expr: promoted_productline
+        type: categorical
+      - name: media
+        expr: media_type
+        type: categorical
+    measures:
+      - name: spend
+        description: total spend on facebook ads
+        agg: sum
+        expr: spend
+      - name: impressions
+        description: total FB ads impressions
+        agg: sum
+        expr: impressions
+      - name: clicks
+        description: total FB ads clicks
+        agg: sum
+        expr: clicks
+      - name: reach
+        agg: sum
+        expr: reach
+      - name: link_click
+        description: total FB ads link clicks
+        agg: sum
+        expr: link_click
+      - name: post_engagement
+        description: total FB ads post engagements
+        agg: sum
+        expr: post_engagement
+      - name: offline_conversion
+        description: total offline transactions matched by FB
+        agg: sum
+        expr: offline_conversion_purchase
+      - name: offline_conversion_value
+        description: total offline transactions value matched by FB
+        agg: sum
+        expr: offline_conversion_purchase_value
+      - name: online_conversion
+        description: total online transactions attributed for ads, captured via pixel
+        agg: sum
+        expr: pixel_purchase
+      - name: online_conversion_value
+        description: total online transactions value attributed for ads, captured via pixel
+        agg: sum
+        expr: pixel_purchase_value
+      - name: meta_conversion
+        description: total transactions attributed for ads, captured directly on facebook
+        agg: sum
+        expr: meta_purchase
+      - name: meta_conversion_value
+        description: total transactions value attributed for ads, captured directly on facebook
+        agg: sum
+        expr: meta_purchase_value
+      - name: messages
+        description: number of messages generated from ads
+        agg: sum
+        expr: messaging_conversation_started_7d
+metrics:
+  - name: fb_spend
+    type: simple
+    label: FB Ads Spend
+    type_params:
+      measure: spend
+  - name: fb_impresions
+    type: simple
+    label: FB Ads Impressions
+    type_params:
+      measure: impressions
+  - name: fb_clicks
+    type: simple
+    label: FB Ads Clicks
+    type_params:
+      measure: clicks
+  - name: fb_reach
+    type: simple
+    label: FB Ads Reach
+    type_params:
+      measure: reach
+  - name: fb_link_clicks
+    type: simple
+    label: FB Ads Link Clicks
+    type_params:
+      measure: link_click
+  - name: fb_post_engagement
+    type: simple
+    label: FB Ads Post Engagment
+    type_params:
+      measure: post_engagement
+  - name: fb_offline_conversion
+    type: simple
+    label: FB Ads Offline Conversions
+    type_params:
+      measure: offline_conversion
+  - name: fb_offline_conversion_value
+    type: simple
+    label: FB Ads Offline Conversions Value
+    type_params:
+      measure: offline_conversion_value
+  - name: fb_online_conversion
+    type: simple
+    label: FB Ads Online Conversion
+    type_params:
+      measure: online_conversion
+  - name: fb_online_conversion_value
+    type: simple
+    label: FB Ads Online Conversion Value
+    type_params:
+      measure: online_conversion_value
+  - name: fb_meta_conversion
+    type: simple
+    label: FB Ads Onsite Conversion
+    type_params:
+      measure: meta_conversion
+  - name: fb_meta_conversion_value
+    type: simple
+    label: FB Ads Onsite Conversion Value
+    type_params:
+      measure: meta_conversion_value
+  - name: fb_messages
+    type: simple
+    label: FB Ads Messages
+    type_params:
+      measure: messages
+  - name: roas
+    type: derived
+    label: FB ROAS
+    type_params:
+      expr: (fb_offline_conversion_value + fb_online_conversion_value + fb_meta_conversion_value)/fb_spend
+      metrics:
+        - name: fb_offline_conversion_value
+        - name: fb_online_conversion_value
+        - name: fb_meta_conversion_value
+        - name: fb_spend
+  - name: online_roas
+    type: derived
+    label: FB Online ROAS
+    type_params:
+      expr: (fb_online_conversion_value + fb_meta_conversion_value)/fb_spend
+      metrics:
+        - name: fb_online_conversion_value
+        - name: fb_meta_conversion_value
+        - name: fb_spend
+  - name: spend_7d
+    type: cumulative
+    label: FB spend 7d
+    type_params:
+      measure: spend
+      window: 7 days
+  - name: offline_cv_7d
+    type: cumulative
+    label: Offline CV 7d
+    type_params:
+      measure: offline_conversion_value
+      window: 7 days
+  - name: online_cv_7d
+    type: cumulative
+    label: Online CV 7d
+    type_params:
+      measure: online_conversion_value
+      window: 7 days
+  - name: meta_cv_7d
+    type: cumulative
+    label: Meta CV 7d
+    type_params:
+      measure: meta_conversion_value
+      window: 7 days
+  - name: roas_7d
+    type: derived
+    label: FB ROAS 7d
+    type_params:
+      expr: (offline_cv_7d + online_cv_7d+meta_cv_7d)/spend_7d
+      metrics:
+        - name: offline_cv_7d
+        - name: online_cv_7d
+        - name: spend_7d
+  - name: online_roas_7d
+    type: derived
+    label: FB ROAS 7d
+    type_params:
+      expr: (online_cv_7d+meta_cv_7d)/spend_7d
+      metrics:
+        - name: offline_cv_7d
+        - name: online_cv_7d
+        - name: spend_7d

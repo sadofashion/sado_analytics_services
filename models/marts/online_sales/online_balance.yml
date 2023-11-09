@@ -1,0 +1,139 @@
+version: 2
+models:
+  - name: online_balance
+    description: ""
+    columns:
+      - name: bill_id
+        description: "{{ doc('column__nhanhvn__bill_id') }}"
+
+      - name: bill_date
+        description: "{{ doc('column__nhanhvn__bill_date') }}"
+
+      - name: created_date
+        description: "{{ doc('column__nhanhvn__created_date') }}"
+
+      - name: bill_type
+        description: "{{ doc('column__nhanhvn__bill_type') }}"
+
+      - name: bill_mode
+        description: "{{ doc('column__nhanhvn__bill_mode') }}"
+
+      - name: order_id
+        description: "{{ doc('column__nhanhvn__order_id') }}"
+
+      - name: depot_name
+        description: "{{ doc('column__nhanhvn__depot_name') }}"
+
+      - name: customer_id
+        description: "{{ doc('column__nhanhvn__customer_id') }}"
+
+      - name: created_by_id
+        description: "{{ doc('column__nhanhvn__created_by_id') }}"
+
+      - name: product_id
+        description: "{{ doc('column__nhanhvn__product_id') }}"
+
+      - name: discount
+        description: "{{ doc('column__nhanhvn__discount') }}"
+
+      - name: quantity
+        description: "{{ doc('column__nhanhvn__quantity') }}"
+
+      - name: price
+        description: "{{ doc('column__nhanhvn__price') }}"
+
+      - name: vat
+        description: "{{ doc('column__nhanhvn__vat') }}"
+
+      - name: item_net_amount
+        description: ""
+
+semantic_models:
+  - name: online_balance
+    defaults:
+      agg_time_dimension: bill_date
+    description: Online revenue calculated by invoices, include inventory In-Out
+    model: ref('online_balance')
+    entities:
+      - name: bills
+        expr: concat(bill_id,'.',product_id)
+        type: primary
+      - name: order
+        expr: order_id
+        type: foreign
+      - name: customer
+        expr: customer_id
+        type: foreign
+      - name: employee
+        expr: created_by_id
+        type: foreign
+      - name: product
+        expr: product_id
+        type: foreign
+    dimensions:
+      - name: created_date
+        expr: date(created_date)
+        type: time
+        type_params:
+          time_granularity: day
+      - name: bill_date
+        expr: date(created_date)
+        type: time
+        type_params:
+          time_granularity: day
+      - name: depot
+        expr: depot_name
+        type: categorical
+      - name: type
+        expr: bill_type
+        type: categorical
+      - name: mode
+        expr: bill_mode
+        type: categorical
+    measures:
+      - name: qty_in_out
+        agg: sum
+        expr: quantity
+      - name: value_in_out
+        agg: sum
+        expr: item_net_amount
+
+metrics:
+  - name: onl_balance_value
+    label: Online Balance Value
+    type: simple
+    type_params:
+      measure: value_in_out
+  - name: onl_value_in
+    label: Online Value In
+    type: simple
+    type_params:
+      measure: value_in_out
+    filter: |
+      {{Dimension('bills__type')}} = 'Nhập kho'
+  - name: onl_value_out
+    label: Online Value Out
+    type: simple
+    type_params:
+      measure: value_in_out
+    filter: |
+      {{Dimension('bills__type')}} = 'Xuất kho'
+  - name: onl_balance_qty
+    label: Online Balance Quantity
+    type: simple
+    type_params:
+      measure: qty_in_out
+  - name: onl_qty_in
+    label: Online Quantity In
+    type: simple
+    type_params:
+      measure: qty_in_out
+    filter: |
+      {{Dimension('bills__type')}} = 'Nhập kho'
+  - name: onl_qty_out
+    label: Online Quantity Out
+    type: simple
+    type_params:
+      measure: qty_in_out
+    filter: |
+      {{Dimension('bills__type')}} = 'Xuất kho'

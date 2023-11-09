@@ -1,0 +1,161 @@
+version: 2
+models:
+  - name: stg_kiotviet__customers
+    description: customers fact table
+    meta:
+      joins:
+        - join: stg_kiotviet__branches
+          sql_on: ${stg_kiotviet__branches.branch_id} = ${stg_kiotviet__customers.branch_id}
+          fields: [branch_id, province, ward, branch_name, region]
+    columns:
+      - name: branch_id
+        description: "{{ doc('column__kiotviet__branch_id') }}"
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: branch_name
+        description: "{{ doc('column__kiotviet__branch_name') }}"
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: customer_id
+        description: "{{ doc('column__kiotviet__customer_id') }}"
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_no_customers:
+              type: count_distinct
+              label: Number of customers
+              group_label: Customer Metrics
+              compact: thousands
+              round: 1
+      - name: customer_name
+        description: "{{ doc('column__kiotviet__customer_name') }}"
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: gender
+        description: "{{ doc('column__kiotviet__gender') }}"
+        meta:
+          dimension:
+            type: boolean
+      - name: birth_month
+        description: "{{ doc('column__kiotviet__birth_month') }}"
+        meta:
+          dimension:
+            type: number
+      - name: contact_number
+        description: "{{ doc('column__kiotviet__contact_number') }}"
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_num_phones:
+              type: count_distinct
+              label: No. Phones
+              group_label: Customer Metrics
+              compact: thousands
+              round: 1
+      - name: customer_type
+        description: "{{ doc('column__kiotviet__customer_type') }}"
+        meta:
+          dimension:
+            type: number
+      - name: customer_groups
+        description: "{{ doc('column__kiotviet__customer_groups') }}"
+        meta:
+          dimension:
+            type: string
+            sql: |
+              case 
+                when lower(customer_groups) like '%bạc%' then 'Hạng Bạc'
+                when lower(customer_groups) like '%vàng%' then 'Hạng Vàng'
+                when lower(customer_groups) like '%kim cương%' then 'Hạng Kim Cương'
+                when lower(customer_groups) like '%vip%' then 'Hạng VIP'
+                else 'Hạng thường' end
+      - name: debt
+        description: "{{ doc('column__kiotviet__debt') }}"
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_invoiced
+        description: "{{ doc('column__kiotviet__total_invoiced') }}"
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_invoiced:
+              type: average
+              label: Avg Invoiced Value
+              group_label: Customer Metrics
+              compact: millions
+              round: 1
+      - name: total_point
+        description: "{{ doc('column__kiotviet__total_point') }}"
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_points:
+              type: sum
+              label: Total Points
+              group_label: Customer Metrics
+              compact: thousands
+              round: 1
+      - name: rewardpoint
+        description: "{{ doc('column__kiotviet__rewardpoint') }}"
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_rewarded_points:
+              type: sum
+              label: Total Rewarded Points
+              group_label: Customer Metrics
+              compact: thousands
+              round: 1
+      - name: created_date
+        description: "{{ doc('column__kiotviet__created_date') }}"
+        meta:
+          dimension:
+            type: timestamp
+            hidden: true
+      - name: customer_recency_group
+        description: "{{ doc('column__kiotviet__customer_recency_group') }}"
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: birth_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+          metrics:
+            m_bday:
+              type: count
+              label: num_bday
+              group_label: Customer Metrics
+      - name: total_revenue
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_revenue:
+              type: average
+              label: Avg Revenue
+              group_label: Customer Metrics
+              compact: millions
+              round: 1

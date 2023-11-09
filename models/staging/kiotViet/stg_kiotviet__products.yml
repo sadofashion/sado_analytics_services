@@ -1,0 +1,70 @@
+version: 2
+models:
+  - name: stg_kiotviet__products
+    description: ""
+    columns:
+      - name: product_id
+        description: "{{ doc('column__kiotviet__product_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: category_id
+        description: "{{ doc('column__kiotviet__category_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: product_name
+        description: "{{ doc('column__kiotviet__product_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: class_name
+        description: "{{ doc('column__kiotviet__class_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: product_code
+        description: "{{ doc('column__kiotviet__product_code') }}"
+        meta:
+          dimension:
+            type: string
+      - name: class_code
+        description: "{{ doc('column__kiotviet__class_code') }}"
+        meta:
+          dimension:
+            type: string
+      - name: is_active
+        description: "{{ doc('column__kiotviet__is_active') }}"
+        meta:
+          dimension:
+            type: boolean
+      - name: type
+        description: "{{ doc('column__kiotviet__type') }}"
+        meta:
+          dimension:
+            type: number
+      - name: attributes
+        description: "{{ doc('column__kiotviet__attributes') }}"
+        meta:
+          dimension:
+            type: string
+      - name: sub_productline
+        description: "{{ doc('column__kiotviet__sub_productline') }}"
+        meta:
+          dimension:
+            type: string
+      - name: category
+        description: "{{ doc('column__kiotviet__category') }}"
+        meta:
+          dimension:
+            type: string
+      - name: productline
+        description: "{{ doc('column__kiotviet__productline') }}"
+        meta:
+          dimension:
+            type: string
+      - name: trademarkname
+        description: ""
+        meta:
+          dimension:
+            type: string

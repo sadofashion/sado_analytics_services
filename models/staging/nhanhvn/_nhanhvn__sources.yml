@@ -1,0 +1,51 @@
+version: 1
+sources:
+  - name: nhanhvn
+    schema: Nhanhvn
+    description: "data pulled from kiotviet via API & Webhook"
+    database: agile-scheme-394814
+    tables:
+      - name: "p_bills_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_carriers_*"
+      - name: "p_categories_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_customers_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_orders_*"
+      - name: "p_products_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_stores_*"
+      - name: "p_users_*"
+      - name: "p_webhook_inventoryChange"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_webhook_orderAdd"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_webhook_orderUpdate"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: "p_inventory_*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }

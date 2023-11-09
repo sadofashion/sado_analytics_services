@@ -1,0 +1,133 @@
+version: 2
+models:
+  - name: stg_googleads__ad_group_cross_device_stats
+    description: ""
+    columns:
+      - name: ad_group_id
+        description: "{{ doc('column__googleads__ad_group_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: date
+        description: "{{ doc('column__googleads__date') }}"
+        meta:
+          dimension:
+            type: date
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: network_type
+        description: "{{ doc('column__googleads__network_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: top_impression_percentage
+        description: "{{ doc('column__googleads__top_impression_percentage') }}"
+        meta:
+          dimension:
+            type: number
+      - name: search_top_impression_share
+        description: "{{ doc('column__googleads__search_top_impression_share') }}"
+        meta:
+          dimension:
+            type: number
+      - name: video_quartile_p100_rate
+        description: "{{ doc('column__googleads__video_quartile_p100_rate') }}"
+        meta:
+          dimension:
+            type: number
+      - name: video_quartile_p75_rate
+        description: "{{ doc('column__googleads__video_quartile_p75_rate') }}"
+        meta:
+          dimension:
+            type: number
+      - name: video_quartile_p50_rate
+        description: "{{ doc('column__googleads__video_quartile_p50_rate') }}"
+        meta:
+          dimension:
+            type: number
+      - name: video_quartile_p25_rate
+        description: "{{ doc('column__googleads__video_quartile_p25_rate') }}"
+        meta:
+          dimension:
+            type: number
+      - name: absolute_top_impression_percentage
+        description: "{{ doc('column__googleads__absolute_top_impression_percentage') }}"
+        meta:
+          dimension:
+            type: number
+      - name: content_impression_share
+        description: "{{ doc('column__googleads__content_impression_share') }}"
+        meta:
+          dimension:
+            type: number
+      - name: content_rank_lost_impression_share
+        description: "{{ doc('column__googleads__content_rank_lost_impression_share') }}"
+        meta:
+          dimension:
+            type: number
+      - name: cross_device_conversions
+        description: "{{ doc('column__googleads__cross_device_conversions') }}"
+        meta:
+          dimension:
+            type: number
+      - name: engagements
+        description: "{{ doc('column__googleads__engagements') }}"
+        meta:
+          dimension:
+            type: number
+      - name: relative_ctr
+        description: "{{ doc('column__googleads__relative_ctr') }}"
+        meta:
+          dimension:
+            type: number
+      - name: search_absolute_top_impression_share
+        description: "{{ doc('column__googleads__search_absolute_top_impression_share') }}"
+        meta:
+          dimension:
+            type: number
+      - name: search_budget_lost_absolute_top_impression_share
+        description: >-
+          {{
+          doc('column__googleads__search_budget_lost_absolute_top_impression_share')
+          }}
+        meta:
+          dimension:
+            type: number
+      - name: search_budget_lost_top_impression_share
+        description: >-
+          {{ doc('column__googleads__search_budget_lost_top_impression_share')
+          }}
+        meta:
+          dimension:
+            type: number
+      - name: search_impression_share
+        description: "{{ doc('column__googleads__search_impression_share') }}"
+        meta:
+          dimension:
+            type: number
+      - name: search_rank_lost_absolute_top_impression_share
+        description: >-
+          {{
+          doc('column__googleads__search_rank_lost_absolute_top_impression_share')
+          }}
+        meta:
+          dimension:
+            type: number
+      - name: search_rank_lost_impression_share
+        description: "{{ doc('column__googleads__search_rank_lost_impression_share') }}"
+        meta:
+          dimension:
+            type: number
+      - name: search_rank_lost_top_impression_share
+        description: "{{ doc('column__googleads__search_rank_lost_top_impression_share') }}"
+        meta:
+          dimension:
+            type: number
+      - name: video_views
+        description: "{{ doc('column__googleads__video_views') }}"
+        meta:
+          dimension:
+            type: number

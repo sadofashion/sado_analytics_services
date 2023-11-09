@@ -1,0 +1,119 @@
+version: 2
+models:
+  - name: stg_caresoft__contacts
+    columns:
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: contact_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: phone_no
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: username
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: campaign_handler_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: city_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: created_from
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: custom_fields
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: district_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: gender
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: organization
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: organization_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: phone_no2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: phone_no3
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: psid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: role_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: take_email_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: take_phone_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

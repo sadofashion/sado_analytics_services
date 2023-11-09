@@ -1,0 +1,30 @@
+version: 2
+models:
+  - name: stg_nhanhvn__users
+    description: ""
+    columns:
+      - name: user_id
+        description: "{{ doc('column__nhanhvn__user_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: user_name
+        description: "{{ doc('column__nhanhvn__user_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: "{{ doc('column__nhanhvn__email') }}"
+        meta:
+          dimension:
+            type: string
+      - name: contact_number
+        description: "{{ doc('column__nhanhvn__contact_number') }}"
+        meta:
+          dimension:
+            type: string
+      - name: role
+        description: "{{ doc('column__nhanhvn__role') }}"
+        meta:
+          dimension:
+            type: string

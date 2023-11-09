@@ -1,0 +1,46 @@
+version: 2
+models:
+  - name: stg_kiotviet__returndetails
+    description: ""
+    columns:
+      - name: transaction_id
+        description: "{{ doc('column__kiotviet__transaction_id') }}"
+
+      - name: transaction_code
+        description: "{{ doc('column__kiotviet__transaction_code') }}"
+
+      - name: reference_transaction_id
+        description: "{{ doc('column__kiotviet__reference_transaction_id') }}"
+
+      - name: transaction_date
+        description: "{{ doc('column__kiotviet__transaction_date') }}"
+
+      - name: transaction_status
+        description: "{{ doc('column__kiotviet__transaction_status') }}"
+
+      - name: branch_id
+        description: "{{ doc('column__kiotviet__branch_id') }}"
+
+      - name: employee_id
+        description: "{{ doc('column__kiotviet__employee_id') }}"
+
+      - name: customer_id
+        description: "{{ doc('column__kiotviet__customer_id') }}"
+
+      - name: salechannel_id
+        description: "{{ doc('column__kiotviet__salechannel_id') }}"
+
+      - name: product_id
+        description: "{{ doc('column__kiotviet__product_id') }}"
+
+      - name: product_code
+        description: "{{ doc('column__kiotviet__product_code') }}"
+
+      - name: quantity
+        description: "{{ doc('column__kiotviet__quantity') }}"
+
+      - name: price
+        description: "{{ doc('column__kiotviet__price') }}"
+
+      - name: subtotal
+        description: "{{ doc('column__kiotviet__subtotal') }}"

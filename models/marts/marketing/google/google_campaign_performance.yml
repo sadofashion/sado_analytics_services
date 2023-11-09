@@ -1,0 +1,100 @@
+version: 2
+models:
+  - name: google_campaign_performance
+    description: ""
+    meta:
+      joins:
+        - join: stg_googleads__campaigns
+          sql_on: ${stg_googleads__campaigns.campaign_id} = ${google_campaign_performance.campaign_id}
+    columns:
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+
+      - name: date
+        description: "{{ doc('column__googleads__date') }}"
+        meta:
+          dimension:
+            type: date
+
+      - name: slot
+        description: "{{ doc('column__googleads__slot') }}"
+
+      - name: ads_cost
+        description: "{{ doc('column__googleads__cost') }}"
+        meta:
+          metrics:
+            m_ads_cost:
+              type: sum
+              label: "Cost"
+              group_label: GG Ads metrics
+
+      - name: ads_impressions
+        description: "{{ doc('column__googleads__impressions') }}"
+        meta:
+          metrics:
+            m_ads_impressions:
+              type: sum
+              label: "#Impressions"
+              group_label: GG Ads metrics
+
+      - name: ads_clicks
+        description: "{{ doc('column__googleads__clicks') }}"
+        meta:
+          metrics:
+            m_ads_clicks:
+              type: sum
+              label: "#Clicks"
+              group_label: GG Ads metrics
+
+      - name: ads_conversions
+        description: "{{ doc('column__googleads__conversions') }}"
+        meta:
+          metrics:
+            m_ads_conversions:
+              type: sum
+              label: "#Conversions"
+              group_label: GG Ads metrics
+      - name: ads_interactions
+        description: "{{ doc('column__googleads__interactions') }}"
+        meta:
+          metrics:
+            m_ads_interactions:
+              type: sum
+              label: "#Interactions"
+              group_label: GG Ads metrics
+
+      - name: ads_purchase
+        description: ""
+        meta:
+          metrics:
+            m_ads_purchase:
+              type: sum
+              label: "#Web Purchases"
+              group_label: GG Ads metrics
+
+      - name: ads_purchase_value
+        description: ""
+        meta:
+          metrics:
+            m_ads_purchase_value:
+              type: sum
+              label: "Web Purchases Value"
+              group_label: GG Ads metrics
+
+      - name: ads_contacts
+        description: ""
+        meta:
+          metrics:
+            m_ads_contacts:
+              type: sum
+              label: "#Contacts intent"
+              group_label: GG Ads metrics
+
+      - name: ads_atc
+        description: ""
+        meta:
+          metrics:
+            m_ads_atc:
+              type: sum
+              label: "#Add to cart"
+              group_label: GG Ads metrics

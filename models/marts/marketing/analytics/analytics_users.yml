@@ -1,0 +1,74 @@
+version: 2
+models:
+  - name: analytics_users
+    description: ""
+    columns:
+      - name: client_id
+        description: ""
+        tests:
+          - unique
+        meta:
+          metrics:
+            num_users:
+              type: count_distinct
+              label: "#Users"
+              lable_group: Website metrics
+
+      - name: user_phone
+        description: ""
+        meta:
+          metrics:
+            num_phones_collected:
+              type: count_distinct
+              label: "# Phones collected"
+              label_group: "Website metrics"
+
+      - name: user_email
+        description: ""
+        meta:
+          metrics:
+            num_emails_collected:
+              type: count_distinct
+              label: "#Emails collected"
+              label_group: "Website metrics"
+
+      - name: user_name
+        description: ""
+
+      - name: user_address
+        description: ""
+
+      - name: first_session_id
+        description: ""
+      - name: first_channel_grouping
+        description: ""
+
+      - name: last_session_id
+        description: ""
+
+      - name: country
+        description: ""
+
+      - name: device_type
+        description: ""
+
+      - name: browser
+        description: ""
+
+      - name: operating_system
+        description: ""
+
+      - name: first_visit_date
+        description: ""
+
+      - name: first_visit_initiated
+        description: ""
+
+      - name: first_traffic_source
+        description: ""
+
+      - name: first_traffic_campaign
+        description: ""
+
+      - name: first_traffic_medium
+        description: ""

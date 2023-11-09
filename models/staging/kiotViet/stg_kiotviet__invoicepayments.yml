@@ -1,0 +1,49 @@
+version: 2
+models:
+  - name: stg_kiotviet__invoicepayments
+    description: ""
+    columns:
+      - name: transaction_id
+        description: "{{ doc('column__kiotviet__transaction_id') }}"
+
+      - name: transaction_code
+        description: "{{ doc('column__kiotviet__transaction_code') }}"
+
+      - name: reference_transaction_id
+        description: "{{ doc('column__kiotviet__reference_transaction_id') }}"
+
+      - name: transaction_date
+        description: "{{ doc('column__kiotviet__transaction_date') }}"
+
+      - name: transaction_status
+        description: "{{ doc('column__kiotviet__transaction_status') }}"
+
+      - name: branch_id
+        description: "{{ doc('column__kiotviet__branch_id') }}"
+
+      - name: employee_id
+        description: "{{ doc('column__kiotviet__employee_id') }}"
+
+      - name: customer_id
+        description: "{{ doc('column__kiotviet__customer_id') }}"
+
+      - name: payment_id
+        description: "{{ doc('column__kiotviet__payment_id') }}"
+
+      - name: payment_code
+        description: "{{ doc('column__kiotviet__payment_code') }}"
+
+      - name: payment_status
+        description: "{{ doc('column__kiotviet__payment_status') }}"
+
+      - name: payment_date
+        description: "{{ doc('column__kiotviet__payment_date') }}"
+
+      - name: payment_amount
+        description: "{{ doc('column__kiotviet__payment_amount') }}"
+
+      - name: payment_method
+        description: "{{ doc('column__kiotviet__payment_method') }}"
+
+      - name: bankaccount_id
+        description: "{{ doc('column__kiotviet__bankaccount_id') }}"

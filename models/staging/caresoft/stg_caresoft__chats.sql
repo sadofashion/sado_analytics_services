@@ -1,0 +1,30 @@
+{{
+    config(
+        tags=['caresoft','fact','view']
+    )
+}}
+SELECT
+    ticket_id,
+    ticket_no,
+    customer_id,
+    group_name,
+    conversation_id,
+    cus_email,
+    cus_name,
+    cus_phone,
+    start_time,
+    end_time,
+    chat_duration,
+    agent_email,
+    agent_name,
+    ring_time,
+    meet_time,
+    waitTime,
+    answer_time,
+    chat_status,
+    landing_page,
+    referrer,
+    is_trigger,
+    facebook_page_id,
+    service_id,
+from {{ref('base_caresoft__chats')}}

@@ -1,0 +1,194 @@
+version: 2
+models:
+  - name: revenue_items
+    description: ""
+    meta:
+      joins:
+        - join: stg_kiotviet__branches
+          sql_on: ${stg_kiotviet__branches.branch_id} = ${revenue_items.branch_id}
+        - join: stg_kiotviet__customers
+          sql_on: ${stg_kiotviet__customers.customer_id} = ${revenue_items.customer_id}
+        - join: stg_kiotviet__users
+          sql_on: ${stg_kiotviet__users.user_id} =${revenue_items.employee_id}
+        - join: calendar
+          sql_on: ${calendar.date} = date(revenue_items.transaction_date)
+        - join: revenue
+          sql_on: ${revenue_items.transaction_id} = ${revenue.transaction_id}
+    columns:
+      - name: transaction_id
+        description: ""
+
+      - name: transaction_code
+        description: ""
+
+      - name: reference_transaction_id
+        description: ""
+
+      - name: transaction_date
+        description: ""
+
+      - name: transaction_status
+        description: ""
+
+      - name: branch_id
+        description: ""
+
+      - name: employee_id
+        description: ""
+
+      - name: customer_id
+        description: ""
+
+      - name: product_id
+        description: ""
+
+      - name: product_code
+        description: ""
+
+      - name: quantity
+        description: ""
+        meta:
+          metrics:
+            m_item_sold:
+              type: sum
+              label: "Num Items Sold"
+              group_label: Sales Metrics
+              compact: thousands
+              round: 1
+              filters:
+                - transaction_type: invoice
+                - subtotal: "> 0"
+            m_item_return:
+              type: sum
+              label: "Num Items Return"
+              group_label: Sales Metrics
+              compact: thousands
+              round: 1
+              filters:
+                - transaction_type: return
+
+      - name: price
+        description: ""
+
+      - name: discount_ratio
+        description: ""
+
+      - name: discount
+        description: ""
+        meta: 
+          metrics:
+            m_item_discount_value:
+              type: sum
+              label: Value discount on Items
+              group_label: Sales Metrics
+              filters:
+                - transaction_type: invoice
+              compact: millions
+              round: 1
+
+      - name: subtotal
+        description: ""
+        meta:
+          metrics:
+            m_item_value:
+              type: sum
+              label: Item Value
+              group_label: Sales Metrics
+              compact: billions
+              round: 1
+              filters:
+                - transaction_type: invoice
+          dimension:
+            type: number
+
+      - name: transaction_type
+        description: ""
+
+semantic_models:
+  - name: revenue_items
+    defaults:
+      agg_time_dimension: transaction_date
+    description: "revenue fact table with single revenue stream per row, excluding terminated transaction"
+    model: ref('revenue_items')
+    entities:
+      - name: transaction_item
+        expr: concat(transaction_id, '.',product_id)
+        type: primary
+      - name: branch
+        type: foreign
+        expr: branch_id
+      - name: customer
+        type: foreign
+        expr: customer_id
+      - name: employee
+        type: foreign
+        expr: employee_id
+      - name: product
+        type: foreign
+        expr: product_id
+    dimensions:
+      - name: transaction_date
+        expr: date(transaction_date)
+        type: time
+        type_params:
+          time_granularity: day
+      - name: transaction_type
+        expr: transaction_type
+        type: categorical
+    measures:
+      - name: num_items
+        description: total number of item_sold
+        agg: sum
+        expr: quantity
+      - name: discounted_value
+        description: value discounted for item
+        agg: sum
+        expr: discount
+      - name: item_value
+        description: value of item on transaction
+        agg: sum
+        expr: subtotal
+
+metrics:
+  - name: qty_sold
+    type: simple
+    label: Quantity Sold
+    type_params:
+      measure: num_items
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+  - name: qty_returned
+    type: simple
+    label: Quantity Returned
+    type_params:
+      measure: num_items
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'return'
+  - name: item_discounted_value
+    type: simple
+    label: Item Discounted Value
+    type_params:
+      measure: discounted_value
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+  - name: item_sold_value
+    type: simple
+    label: Item Sold Value
+    type_params:
+      measure: item_value
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+  - name: avg_discount_ratio
+    label: Average Discount Ratio
+    type: ratio
+    type_params:
+      numerator: item_discounted_value
+      denominator: item_sold_value
+  - name: items_per_transaction
+    type: derived
+    label: Items per Transaction
+    type_params:
+      expr: qty_sold/invoice_count
+      metrics:
+        - name: qty_sold
+        - name: invoice_count

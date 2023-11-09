@@ -1,0 +1,330 @@
+version: 2
+models:
+  - name: stg_googleads__search_query_stats
+    description: ""
+    meta:
+      joins:
+        - join: stg_googleads__ad_groups
+          sql_on: >-
+            ${stg_googleads__search_query_stats.ad_group_id} = 
+            ${stg_googleads__ad_groups.ad_group_id}
+          fields:
+            - ad_group_id
+            - ad_group_name
+            - ad_group_type
+        - join: stg_googleads__campaigns
+          sql_on: >-
+            ${stg_googleads__search_query_stats.campaign_id} = 
+            ${stg_googleads__campaigns.campaign_id}
+          fields:
+            - campaign_id
+            - campaign_name
+            - campaign_name
+            - advertising_channel
+            - bidding_stategy
+    columns:
+      - name: date
+        description: "{{ doc('column__googleads__date') }}"
+        meta:
+          dimension:
+            type: date
+      - name: ad_group_id
+        description: "{{ doc('column__googleads__ad_group_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: search_term
+        description: "{{ doc('column__googleads__search_term') }}"
+        meta:
+          dimension:
+            type: string
+      - name: network_type
+        description: "{{ doc('column__googleads__network_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: match_type
+        description: "{{ doc('column__googleads__match_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: view_status
+        description: "{{ doc('column__googleads__view_status') }}"
+        meta:
+          dimension:
+            type: string
+      - name: absolute_top_impression_percentage
+        description: "{{ doc('column__googleads__absolute_top_impression_percentage') }}"
+        meta:
+          metrics:
+            m_absolute_top_impression_percentage:
+              type: average
+              label: Absolute Top Impression Percentage
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: all_conversions
+        description: "{{ doc('column__googleads__all_conversions') }}"
+        meta:
+          metrics:
+            m_all_conversions:
+              type: sum
+              label: All Conversions
+              group_label: GG Ads metrics
+              round: 1
+          dimension:
+            type: number
+      - name: all_conversions_from_interactions_rate
+        description: "{{ doc('column__googleads__all_conversions_from_interactions_rate') }}"
+        meta:
+          metrics:
+            m_all_conversions_from_interactions_rate:
+              type: sum
+              label: All Conversions From Interactions Rate
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: all_conversions_value
+        description: "{{ doc('column__googleads__all_conversions_value') }}"
+        meta:
+          metrics:
+            m_all_conversions_value:
+              type: sum
+              label: All Conversions Value
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: clicks
+        description: "{{ doc('column__googleads__clicks') }}"
+        meta:
+          metrics:
+            m_clicks:
+              type: sum
+              label: Clicks
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: conversions
+        description: "{{ doc('column__googleads__conversions') }}"
+        meta:
+          metrics:
+            m_conversions:
+              type: sum
+              label: Conversions
+              group_label: GG Ads metrics
+              round: 1
+          dimension:
+            type: number
+      - name: conversions_from_interactions_rate
+        description: "{{ doc('column__googleads__conversions_from_interactions_rate') }}"
+        meta:
+          metrics:
+            m_conversions_from_interactions_rate:
+              type: sum
+              label: Conversions From Interactions Rate
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: conversions_value
+        description: "{{ doc('column__googleads__conversions_value') }}"
+        meta:
+          metrics:
+            m_conversions_value:
+              type: sum
+              label: Conversions Value
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: cost
+        description: "{{ doc('column__googleads__cost') }}"
+        meta:
+          metrics:
+            m_cost:
+              type: sum
+              label: Cost
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: cost_per_all_conversions
+        description: "{{ doc('column__googleads__cost_per_all_conversions') }}"
+        meta:
+          metrics:
+            m_cost_per_all_conversions:
+              type: average
+              label: Cost Per All Conversions
+              group_label: GG Ads metrics
+          dimension:
+            type: number
+      - name: cost_per_conversion
+        description: "{{ doc('column__googleads__cost_per_conversion') }}"
+        meta:
+          metrics:
+            m_cost_per_conversion:
+              type: average
+              label: Cost Per Conversion
+              group_label: GG Ads metrics
+          dimension:
+            type: number
+      - name: cross_device_conversions
+        description: "{{ doc('column__googleads__cross_device_conversions') }}"
+        meta:
+          metrics:
+            m_cross_device_conversions:
+              type: sum
+              label: Cross Device Conversions
+              group_label: GG Ads metrics
+              round: 1
+          dimension:
+            type: number
+      - name: engagements
+        description: "{{ doc('column__googleads__engagements') }}"
+        meta:
+          metrics:
+            m_engagements:
+              type: sum
+              label: Engagements
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: impressions
+        description: "{{ doc('column__googleads__impressions') }}"
+        meta:
+          metrics:
+            m_impressions:
+              type: sum
+              label: Impressions
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: interactions
+        description: "{{ doc('column__googleads__interactions') }}"
+        meta:
+          metrics:
+            m_interactions:
+              type: sum
+              label: Interactions
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: top_impression_percentage
+        description: "{{ doc('column__googleads__top_impression_percentage') }}"
+        meta:
+          metrics:
+            m_top_impression_percentage:
+              type: average
+              label: Top Impression Percentage
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: value_per_all_conversions
+        description: "{{ doc('column__googleads__value_per_all_conversions') }}"
+        meta:
+          metrics:
+            m_value_per_all_conversions:
+              type: average
+              label: Value Per All Conversions
+              group_label: GG Ads metrics
+              round: 1
+          dimension:
+            type: number
+      - name: value_per_conversion
+        description: "{{ doc('column__googleads__value_per_conversion') }}"
+        meta:
+          metrics:
+            m_value_per_conversion:
+              type: average
+              label: Value Per Conversion
+              group_label: GG Ads metrics
+              round: 1
+          dimension:
+            type: number
+      - name: video_quartile_p100_rate
+        description: "{{ doc('column__googleads__video_quartile_p100_rate') }}"
+        meta:
+          metrics:
+            m_video_quartile_p100_rate:
+              type: average
+              label: Video Quartile P100 Rate
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: video_quartile_p25_rate
+        description: "{{ doc('column__googleads__video_quartile_p25_rate') }}"
+        meta:
+          metrics:
+            m_video_quartile_p25_rate:
+              type: average
+              label: Video Quartile P25 Rate
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: video_quartile_p50_rate
+        description: "{{ doc('column__googleads__video_quartile_p50_rate') }}"
+        meta:
+          metrics:
+            m_video_quartile_p50_rate:
+              type: average
+              label: Video Quartile P50 Rate
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: video_quartile_p75_rate
+        description: "{{ doc('column__googleads__video_quartile_p75_rate') }}"
+        meta:
+          metrics:
+            m_video_quartile_p75_rate:
+              type: average
+              label: Video Quartile P75 Rate
+              group_label: GG Ads metrics
+              format: percent
+          dimension:
+            type: number
+      - name: video_views
+        description: "{{ doc('column__googleads__video_views') }}"
+        meta:
+          metrics:
+            m_video_views:
+              type: sum
+              label: Video Views
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: view_through_conversions
+        description: "{{ doc('column__googleads__view_through_conversions') }}"
+        meta:
+          metrics:
+            m_view_through_conversions:
+              type: sum
+              label: View Through Conversions
+              group_label: GG Ads metrics
+              round: 1
+          dimension:
+            type: number

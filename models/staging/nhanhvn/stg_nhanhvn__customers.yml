@@ -1,0 +1,70 @@
+version: 2
+models:
+  - name: stg_nhanhvn__customers
+    description: ""
+    columns:
+      - name: customer_id
+        description: "{{ doc('column__nhanhvn__customer_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: customer_name
+        description: "{{ doc('column__nhanhvn__customer_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: "{{ doc('column__nhanhvn__email') }}"
+        meta:
+          dimension:
+            type: string
+      - name: contact_number
+        description: "{{ doc('column__nhanhvn__contact_number') }}"
+        meta:
+          dimension:
+            type: string
+      - name: gender
+        description: "{{ doc('column__nhanhvn__gender') }}"
+        meta:
+          dimension:
+            type: string
+      - name: address
+        description: "{{ doc('column__nhanhvn__address') }}"
+        meta:
+          dimension:
+            type: string
+      - name: birthday
+        description: "{{ doc('column__nhanhvn__birthday') }}"
+        meta:
+          dimension:
+            type: string
+      - name: total_money
+        description: "{{ doc('column__nhanhvn__total_money') }}"
+        meta:
+          dimension:
+            type: number
+      - name: first_purchase_date
+        description: "{{ doc('column__nhanhvn__first_purchase_date') }}"
+        meta:
+          dimension:
+            type: date
+      - name: first_purchase_depot_id
+        description: "{{ doc('column__nhanhvn__first_purchase_depot_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: points
+        description: "{{ doc('column__nhanhvn__points') }}"
+        meta:
+          dimension:
+            type: number
+      - name: total_bills
+        description: "{{ doc('column__nhanhvn__total_bills') }}"
+        meta:
+          dimension:
+            type: number
+      - name: last_bought_date
+        description: "{{ doc('column__nhanhvn__last_bought_date') }}"
+        meta:
+          dimension:
+            type: date

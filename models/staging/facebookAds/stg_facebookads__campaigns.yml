@@ -1,0 +1,75 @@
+version: 2
+models:
+  - name: stg_facebookads__campaigns
+    description: ""
+    columns:
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: account_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: campaign_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: campaign_start_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: campaign_stop_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: campaign_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: big_campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: content_group
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: pic
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: promoted_productline
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: media_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: funnel
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ad_type
+        description: ""
+        meta:
+          dimension:
+            type: string

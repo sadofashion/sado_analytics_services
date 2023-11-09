@@ -1,0 +1,55 @@
+version: 2
+models:
+  - name: stg_kiotviet__branches
+    description: list of branches on kiotviet
+    columns:
+      - name: branch_id
+        description: "{{ doc('column__kiotviet__branch_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: branch_name
+        description: "{{ doc('column__kiotviet__branch_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: address
+        description: "{{ doc('column__kiotviet__address') }}"
+        meta:
+          dimension:
+            type: string
+      - name: ward_name
+        description: "{{ doc('column__kiotviet__ward_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: contact_number
+        description: "{{ doc('column__kiotviet__contact_number') }}"
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: "{{ doc('column__kiotviet__email') }}"
+        meta:
+          dimension:
+            type: string
+      - name: created_date
+        description: "{{ doc('column__kiotviet__created_date') }}"
+        meta:
+          dimension:
+            type: timestamp
+      - name: modified_date
+        description: "{{ doc('column__kiotviet__modified_date') }}"
+        meta:
+          dimension:
+            type: timestamp
+      - name: region
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string

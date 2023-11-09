@@ -1,0 +1,138 @@
+version: 2
+
+models:
+  - name: analytics_events
+    description: >
+      Incrementally materialised table containing records of Google Analytics events
+    meta:
+      joins:
+        - join: analytics_sessions
+          sql_on: ${analytics_sessions.session_id} = ${analytics_events.session_id}
+        - join: analytics_users
+          sql_on: ${analytics_users.client_id} = ${analytics_events.client_id}
+    columns:
+      - name: event_id
+        description: Unique identifier for a particular Google Analytics event
+        tests:
+          - not_null
+          - unique
+        meta:
+          metrics:
+            num_events:
+              type: count_distinct
+              label: "#Events"
+              label_group: "Website metrics"
+
+      - name: event_date
+        description: "Date on which the event took place"
+        tests:
+          - not_null
+      - name: event_timestamp
+        description: "Date and time at which the event took place"
+        tests:
+          - not_null
+      - name: client_id
+        description: "Cookie-based identifier for an individual"
+        tests:
+          - not_null
+        meta:
+          metrics:
+            num_users:
+              type: count_distinct
+              label: "Number of users"
+              group_label: "Website metrics"
+      - name: session_id
+        description: >
+          Identifier for a particular analytics session associated with a particular Client ID
+        tests:
+          - not_null
+        meta:
+          metrics:
+            num_sessions:
+              type: count_distinct
+              label: "Number of sessions"
+              group_label: "Website metrics"
+      - name: event_name
+        description: >
+          The type of event that took place (over ten possibilities - common values:
+          page_view, track_clicks
+        tests:
+          - not_null
+      - name: page_path
+        description: >
+          The URL of the target page with domain stripped, no parameters, fragments etc.)
+        tests:
+          - not_null
+      - name: query_params
+        description: >
+          Extracted query parameter string from unprocessed URL
+          (e.g. ...?ref=x&course=y -> ref=x&course=y)
+      - name: fragment
+        description: "Extracted fragment from unprocessed URL (e.g. ...#subheading -> subheading)"
+      - name: link_click_target
+        description: "The URL the click event was targetting (e.g. when a hyperlink has been clicked)"
+      - name: page_location
+        description: ""
+
+      - name: page_referrer
+        description: ""
+
+      - name: payment_type
+        description: ""
+
+      - name: location
+        description: ""
+
+      - name: method
+        description: ""
+
+      - name: filter
+        description: ""
+
+      - name: transaction_id
+        description: ""
+
+      - name: shipping
+        description: ""
+        meta:
+          metrics:
+            shipping_value:
+              type: sum
+              label: "Shipping value"
+              label_group: "Website metrics"
+
+      - name: delivery_method
+        description: ""
+
+      - name: store
+        description: ""
+
+      - name: value
+        description: ""
+        meta:
+          metrics:
+            event_value:
+              type: sum
+              label: "Event value"
+              label_group: "Website metrics"
+              compact: millions
+              round: 1
+            purchase_value:
+              type: sum
+              label: "Purchase value"
+              label_group: "Website metrics"
+              compact: millions
+              round: 1
+              filters:
+                - event_name: "purchase"
+            atc_value:
+              type: sum
+              label: "Add to cart value"
+              label_group: "Website metrics"
+              compact: millions
+              round: 1
+              filters:
+                - event_name: "add\_to\_cart"
+
+      - name: form_value
+        description: ""

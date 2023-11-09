@@ -1,0 +1,35 @@
+version: 2
+models:
+  - name: stg_nhanhvn__depots
+    description: ""
+    columns:
+      - name: depot_id
+        description: "{{ doc('column__nhanhvn__depot_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: depot_name
+        description: "{{ doc('column__nhanhvn__depot_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: contact_number
+        description: "{{ doc('column__nhanhvn__contact_number') }}"
+        meta:
+          dimension:
+            type: string
+      - name: city
+        description: "{{ doc('column__nhanhvn__city') }}"
+        meta:
+          dimension:
+            type: string
+      - name: district
+        description: "{{ doc('column__nhanhvn__district') }}"
+        meta:
+          dimension:
+            type: string
+      - name: address
+        description: "{{ doc('column__nhanhvn__address') }}"
+        meta:
+          dimension:
+            type: string

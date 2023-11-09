@@ -1,0 +1,58 @@
+version: 2
+models:
+  - name: stg_facebookads__audienceinsights
+    description: ""
+    columns:
+      - name: account_id
+        description: ""
+
+      - name: campaign_id
+        description: ""
+
+      - name: adset_id
+        description: ""
+
+      - name: ad_id
+        description: ""
+
+      - name: date_start
+        description: ""
+
+      - name: age
+        description: ""
+
+      - name: gender
+        description: ""
+
+      - name: clicks
+        description: ""
+
+      - name: impressions
+        description: ""
+
+      - name: reach
+        description: ""
+
+      - name: spend
+        description: ""
+
+      - name: link_click
+        description: ""
+
+      - name: post_engagement
+        description: ""
+
+      - name: messaging_conversation_started_7d
+        description: ""
+
+      - name: offline_conversion_purchase
+        description: ""
+
+      - name: offline_conversion_purchase_value
+        description: ""
+
+      - name: pixel_purchase
+        description: ""
+
+      - name: pixel_purchase_value
+        description: ""

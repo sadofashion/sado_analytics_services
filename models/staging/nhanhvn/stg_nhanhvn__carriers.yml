@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: stg_nhanhvn__carriers
+    description: ""
+    columns:
+      - name: carrier_id
+        description: "{{ doc('column__nhanhvn__carrier_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: service_id
+        description: "{{ doc('column__nhanhvn__service_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: service_name
+        description: "{{ doc('column__nhanhvn__service_name') }}"
+        meta:
+          dimension:
+            type: string

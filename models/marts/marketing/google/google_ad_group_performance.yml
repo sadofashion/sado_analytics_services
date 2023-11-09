@@ -1,0 +1,271 @@
+version: 2
+models:
+  - name: google_ad_group_performance
+    description: ""
+    meta:
+      joins:
+        - join: stg_googleads__ad_groups
+          sql_on: ${google_ad_group_performance.ad_group_id}=${stg_googleads__ad_groups.ad_group_id}
+        - join: stg_googleads__campaigns
+          sql_on: ${google_ad_group_performance.campaign_id}=${stg_googleads__campaigns.campaign_id}
+    columns:
+      - name: campaign_id
+        description: "{{ doc('column__googleads__campaign_id') }}"
+  
+      - name: ad_group_id
+        description: "{{ doc('column__googleads__ad_group_id') }}"
+        
+      - name: date
+        description: "{{ doc('column__googleads__date') }}"
+       
+      - name: network_type
+        description: "{{ doc('column__googleads__network_type') }}"
+       
+      - name: top_impression_percentage
+        description: "{{ doc('column__googleads__top_impression_percentage') }}"
+        meta:
+          metrics:
+            m_top_impression_percentage:
+              type: average
+              label: "Top Impression Percentage"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: search_top_impression_share
+        description: "{{ doc('column__googleads__search_top_impression_share') }}"
+        meta:
+          metrics:
+            m_search_top_impression_share:
+              type: average
+              label: "Search Top Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: video_quartile_p100_rate
+        description: "{{ doc('column__googleads__video_quartile_p100_rate') }}"
+        meta:
+          metrics:
+            m_video_quartile_p100_rate:
+              type: average
+              label: "Video Quartile P100 Rate"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: video_quartile_p75_rate
+        description: "{{ doc('column__googleads__video_quartile_p75_rate') }}"
+        meta:
+          metrics:
+            m_video_quartile_p75_rate:
+              type: average
+              label: "Video Quartile P75 Rate"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: video_quartile_p50_rate
+        description: "{{ doc('column__googleads__video_quartile_p50_rate') }}"
+        meta:
+          metrics:
+            m_video_quartile_p50_rate:
+              type: average
+              label: "Video Quartile P50 Rate"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: video_quartile_p25_rate
+        description: "{{ doc('column__googleads__video_quartile_p25_rate') }}"
+        meta:
+          metrics:
+            m_video_quartile_p25_rate:
+              type: average
+              label: "Video Quartile P25 Rate"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: absolute_top_impression_percentage
+        description: "{{ doc('column__googleads__absolute_top_impression_percentage') }}"
+        meta:
+          metrics:
+            m_absolute_top_impression_percentage:
+              type: average
+              label: "Absolute Top Impression Percentage"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: content_impression_share
+        description: "{{ doc('column__googleads__content_impression_share') }}"
+        meta:
+          metrics:
+            m_content_impression_share:
+              type: average
+              label: "Content Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: content_rank_lost_impression_share
+        description: "{{ doc('column__googleads__content_rank_lost_impression_share') }}"
+        meta:
+          metrics:
+            m_content_rank_lost_impression_share:
+              type: average
+              label: "Content Rank Lost Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+
+      - name: cross_device_conversions
+        description: "{{ doc('column__googleads__cross_device_conversions') }}"
+        meta:
+          metrics:
+            m_cross_device_conversions:
+              type: sum
+              label: "Cross Device Conversions"
+              group_label: "GG Ads metrics"
+              round: 1
+
+      - name: engagements
+        description: "{{ doc('column__googleads__engagements') }}"
+        meta:
+          metrics:
+            m_engagements:
+              type: sum
+              label: "Engagements"
+              group_label: "GG Ads metrics"
+              round: 1
+      - name: relative_ctr
+        description: "{{ doc('column__googleads__relative_ctr') }}"
+        meta:
+          metrics:
+            m_relative_ctr:
+              type: average
+              label: "Relative Ctr"
+              group_label: "GG Ads metrics"
+              format: percent
+      - name: search_absolute_top_impression_share
+        description: "{{ doc('column__googleads__search_absolute_top_impression_share') }}"
+        meta:
+          metrics:
+            m_search_absolute_top_impression_share:
+              type: average
+              label: "Search Absolute Top Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+      - name: search_budget_lost_absolute_top_impression_share
+        description: "{{ doc('column__googleads__search_budget_lost_absolute_top_impression_share') }}"
+        meta:
+          metrics:
+            m_search_budget_lost_absolute_top_impression_share:
+              type: average
+              label: "Search Budget Lost Absolute Top Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+      - name: search_budget_lost_top_impression_share
+        description: "{{ doc('column__googleads__search_budget_lost_top_impression_share') }}"
+        meta:
+          metrics:
+            m_search_budget_lost_top_impression_share:
+              type: average
+              label: "Search Budget Lost Top Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+      - name: search_impression_share
+        description: "{{ doc('column__googleads__search_impression_share') }}"
+        meta:
+          metrics:
+            m_search_impression_share:
+              type: average
+              label: "Search Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+      - name: search_rank_lost_absolute_top_impression_share
+        description: "{{ doc('column__googleads__search_rank_lost_absolute_top_impression_share') }}"
+        meta:
+          metrics:
+            m_search_rank_lost_absolute_top_impression_share:
+              type: average
+              label: "Search Rank Lost Absolute Top Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+      - name: search_rank_lost_impression_share
+        description: "{{ doc('column__googleads__search_rank_lost_impression_share') }}"
+        meta:
+          metrics:
+            m_search_rank_lost_impression_share:
+              type: average
+              label: "Search Rank Lost Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+      - name: search_rank_lost_top_impression_share
+        description: "{{ doc('column__googleads__search_rank_lost_top_impression_share') }}"
+        meta:
+          metrics:
+            m_search_rank_lost_top_impression_share:
+              type: average
+              label: "Search Rank Lost Top Impression Share"
+              group_label: "GG Ads metrics"
+              format: percent
+      - name: video_views
+        description: "{{ doc('column__googleads__video_views') }}"
+        meta:
+          metrics:
+            m_video_views:
+              type: sum
+              label: "Video Views"
+              group_label: "GG Ads metrics"
+              compact: thousands
+      - name: clicks
+        description: "{{ doc('column__googleads__clicks') }}"
+        meta:
+          metrics:
+            m_clicks:
+              type: sum
+              label: "Clicks"
+              group_label: "GG Ads metrics"
+              compact: thousands
+      - name: conversions
+        description: "{{ doc('column__googleads__conversions') }}"
+        meta:
+          metrics:
+            m_conversions:
+              type: sum
+              label: "Conversions"
+              group_label: "GG Ads metrics"
+              round: 1
+      - name: cost
+        description: "{{ doc('column__googleads__cost') }}"
+        meta:
+          metrics:
+            m_cost:
+              type: sum
+              label: "Cost"
+              group_label: "GG Ads metrics"
+              compact: millions
+              round: 2
+      - name: impressions
+        description: "{{ doc('column__googleads__impressions') }}"
+        meta:
+          metrics:
+            m_impressions:
+              type: sum
+              label: "Impressions"
+              group_label: "GG Ads metrics"
+              compact: thousands
+              round: 1
+      - name: interactions
+        description: "{{ doc('column__googleads__interactions') }}"
+        meta:
+          metrics:
+            m_interactions:
+              type: sum
+              label: "Interactions"
+              group_label: "GG Ads metrics"
+              compact: thousands
+              round: 1
+      - name: view_through_conversions
+        description: "{{ doc('column__googleads__view_through_conversions') }}"
+        meta:
+          metrics:
+            m_view_through_conversions:
+              type: sum
+              label: "View Through Conversions"
+              group_label: "GG Ads metrics"
+              compact: thousands
+              round: 1

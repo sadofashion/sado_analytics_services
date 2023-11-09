@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: stg_kiotviet__suppliers
+    description: ""
+    columns:
+      - name: supplier_id
+        description: "{{ doc('column__kiotviet__supplier_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: supplier_name
+        description: "{{ doc('column__kiotviet__supplier_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: supplier_code
+        description: "{{ doc('column__kiotviet__supplier_code') }}"
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,293 @@
+version: 2
+
+sources:
+  - name: googleads
+    description: "Google Ads data export"
+    database: agile-scheme-394814
+    schema: GoogleAds
+    tables:
+      - name: account_conversion_stats
+        identifier: ads_AccountConversionStats_1322374205
+        
+      - name: keyword_cross_device_stats
+        identifier: ads_KeywordCrossDeviceStats_1322374205
+        
+      - name: hourly_account_stats
+        identifier: ads_HourlyAccountStats_1322374205
+        
+      - name: gender
+        identifier: ads_Gender_1322374205
+        
+      - name: ad_conversion_stats
+        identifier: ads_AdConversionStats_1322374205
+        
+      - name: search_query_conversion_stats
+        identifier: ads_SearchQueryConversionStats_1322374205
+        
+      - name: video_non_click_stats
+        identifier: ads_VideoNonClickStats_1322374205
+        
+      - name: ad_group_conversion_stats
+        identifier: ads_AdGroupConversionStats_1322374205
+        
+      - name: hourly_campaign_stats
+        identifier: ads_HourlyCampaignStats_1322374205
+        
+      - name: campaign_cross_device_stats
+        identifier: ads_CampaignCrossDeviceStats_1322374205
+        
+      - name: gender_non_click_stats
+        identifier: ads_GenderNonClickStats_1322374205
+        
+      - name: video
+        identifier: ads_Video_1322374205
+        
+      - name: video_basic_stats
+        identifier: ads_VideoBasicStats_1322374205
+        
+      - name: campaign_audience_non_click_stats
+        identifier: ads_CampaignAudienceNonClickStats_1322374205
+        
+      - name: hourly_account_conversion_stats
+        identifier: ads_HourlyAccountConversionStats_1322374205
+        
+      - name: video_conversion_stats
+        identifier: ads_VideoConversionStats_1322374205
+        
+      - name: ad_group_audience
+        identifier: ads_AdGroupAudience_1322374205
+        
+      - name: age_range_non_click_stats
+        identifier: ads_AgeRangeNonClickStats_1322374205
+        
+      - name: account_non_click_stats
+        identifier: ads_AccountNonClickStats_1322374205
+        
+      - name: parental_status_basic_stats
+        identifier: ads_ParentalStatusBasicStats_1322374205
+        
+      - name: ad_stats
+        identifier: ads_AdStats_1322374205
+        
+      - name: hourly_ad_group_conversion_stats
+        identifier: ads_HourlyAdGroupConversionStats_1322374205
+        
+      - name: parental_status_stats
+        identifier: ads_ParentalStatusStats_1322374205
+        
+      - name: bid_goal
+        identifier: ads_BidGoal_1322374205
+        
+      - name: ad_cross_device_stats
+        identifier: ads_AdCrossDeviceStats_1322374205
+        
+      - name: ad_group_ad_label
+        identifier: ads_AdGroupAdLabel_1322374205
+        
+      - name: ad_group_audience_conversion_stats
+        identifier: ads_AdGroupAudienceConversionStats_1322374205
+        
+      - name: search_query_stats
+        identifier: ads_SearchQueryStats_1322374205
+        
+      - name: ad_group_cross_device_conversion_stats
+        identifier: ads_AdGroupCrossDeviceConversionStats_1322374205
+        
+      - name: budget
+        identifier: ads_Budget_1322374205
+        
+      - name: bid_goal_conversion_stats
+        identifier: ads_BidGoalConversionStats_1322374205
+        
+      - name: ad_group_cross_device_stats
+        identifier: ads_AdGroupCrossDeviceStats_1322374205
+        
+      - name: age_range_stats
+        identifier: ads_AgeRangeStats_1322374205
+        
+      - name: campaign_audience
+        identifier: ads_CampaignAudience_1322374205
+        
+      - name: keyword_cross_device_conversion_stats
+        identifier: ads_KeywordCrossDeviceConversionStats_1322374205
+        
+      - name: campaign
+        identifier: ads_Campaign_1322374205
+        
+      - name: ad_cross_device_conversion_stats
+        identifier: ads_AdCrossDeviceConversionStats_1322374205
+        
+      - name: placement_basic_stats
+        identifier: ads_PlacementBasicStats_1322374205
+        
+      - name: age_range_basic_stats
+        identifier: ads_AgeRangeBasicStats_1322374205
+        
+      - name: keyword_basic_stats
+        identifier: ads_KeywordBasicStats_1322374205
+        
+      - name: parental_status_non_click_stats
+        identifier: ads_ParentalStatusNonClickStats_1322374205
+        
+      - name: gender_conversion_stats
+        identifier: ads_GenderConversionStats_1322374205
+        
+      - name: placement_stats
+        identifier: ads_PlacementStats_1322374205
+        
+      - name: ad_group
+        identifier: ads_AdGroup_1322374205
+        
+      - name: ad_basic_stats
+        identifier: ads_AdBasicStats_1322374205
+        
+      - name: ad_group_audience_stats
+        identifier: ads_AdGroupAudienceStats_1322374205
+        
+      - name: placement_conversion_stats
+        identifier: ads_PlacementConversionStats_1322374205
+        
+      - name: ad_group_stats
+        identifier: ads_AdGroupStats_1322374205
+        
+      - name: campaign_conversion_stats
+        identifier: ads_CampaignConversionStats_1322374205
+        
+      - name: budget_stats
+        identifier: ads_BudgetStats_1322374205
+        
+      - name: account_basic_stats
+        identifier: ads_AccountBasicStats_1322374205
+        
+      - name: customer
+        identifier: ads_Customer_1322374205
+        
+      - name: campaign_label
+        identifier: ads_CampaignLabel_1322374205
+        
+      - name: age_range_conversion_stats
+        identifier: ads_AgeRangeConversionStats_1322374205
+        
+      - name: campaign_audience_basic_stats
+        identifier: ads_CampaignAudienceBasicStats_1322374205
+        
+      - name: keyword_stats
+        identifier: ads_KeywordStats_1322374205
+        
+      - name: hourly_ad_group_stats
+        identifier: ads_HourlyAdGroupStats_1322374205
+        
+      - name: placement
+        identifier: ads_Placement_1322374205
+        
+      - name: video_stats
+        identifier: ads_VideoStats_1322374205
+        
+      - name: campaign_basic_stats
+        identifier: ads_CampaignBasicStats_1322374205
+        
+      - name: ad_group_label
+        identifier: ads_AdGroupLabel_1322374205
+        
+      - name: parental_status_conversion_stats
+        identifier: ads_ParentalStatusConversionStats_1322374205
+        
+      - name: campaign_stats
+        identifier: ads_CampaignStats_1322374205
+        
+      - name: campaign_audience_conversion_stats
+        identifier: ads_CampaignAudienceConversionStats_1322374205
+        
+      - name: campaign_criterion
+        identifier: ads_CampaignCriterion_1322374205
+        
+      - name: hourly_bid_goal_stats
+        identifier: ads_HourlyBidGoalStats_1322374205
+        
+      - name: click_stats
+        identifier: ads_ClickStats_1322374205
+        
+      - name: campaign_audience_stats
+        identifier: ads_CampaignAudienceStats_1322374205
+        
+      - name: parental_status
+        identifier: ads_ParentalStatus_1322374205
+        
+      - name: geo_stats
+        identifier: ads_GeoStats_1322374205
+        
+      - name: ad_group_criterion_label
+        identifier: ads_AdGroupCriterionLabel_1322374205
+        
+      - name: age_range
+        identifier: ads_AgeRange_1322374205
+        
+      - name: geo_conversion_stats
+        identifier: ads_GeoConversionStats_1322374205
+        
+      - name: hourly_campaign_conversion_stats
+        identifier: ads_HourlyCampaignConversionStats_1322374205
+        
+      - name: keyword
+        identifier: ads_Keyword_1322374205
+        
+      - name: campaign_cookie_stats
+        identifier: ads_CampaignCookieStats_1322374205
+        
+      - name: ad_group_audience_basic_stats
+        identifier: ads_AdGroupAudienceBasicStats_1322374205
+        
+      - name: ad_group_criterion
+        identifier: ads_AdGroupCriterion_1322374205
+        
+      - name: paid_organic_stats
+        identifier: ads_PaidOrganicStats_1322374205
+        
+      - name: location_based_campaign_criterion
+        identifier: ads_LocationBasedCampaignCriterion_1322374205
+        
+      - name: gender_stats
+        identifier: ads_GenderStats_1322374205
+        
+      - name: account_stats
+        identifier: ads_AccountStats_1322374205
+        
+      - name: shopping_product_conversion_stats
+        identifier: ads_ShoppingProductConversionStats_1322374205
+        
+      - name: campaign_cross_device_conversion_stats
+        identifier: ads_CampaignCrossDeviceConversionStats_1322374205
+        
+      - name: product_group_stats
+        identifier: ads_ProductGroupStats_1322374205
+        
+      - name: gender_basic_stats
+        identifier: ads_GenderBasicStats_1322374205
+        
+      - name: ad_group_bid_modifier
+        identifier: ads_AdGroupBidModifier_1322374205
+        
+      - name: campaign_location_target_stats
+        identifier: ads_CampaignLocationTargetStats_1322374205
+        
+      - name: ad_group_basic_stats
+        identifier: ads_AdGroupBasicStats_1322374205
+        
+      - name: keyword_conversion_stats
+        identifier: ads_KeywordConversionStats_1322374205
+        
+      - name: shopping_product_stats
+        identifier: ads_ShoppingProductStats_1322374205
+        
+      - name: placement_non_click_stats
+        identifier: ads_PlacementNonClickStats_1322374205
+        
+      - name: bid_goal_stats
+        identifier: ads_BidGoalStats_1322374205
+        
+      - name: ad_group_audience_non_click_stats
+        identifier: ads_AdGroupAudienceNonClickStats_1322374205
+        
+      - name: ad
+        identifier: ads_Ad_1322374205
+        
