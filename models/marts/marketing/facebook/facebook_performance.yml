@@ -2,6 +2,12 @@ version: 2
 models:
   - name: facebook_performance
     description: ""
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${facebook_performance.date_start} = ${calendar.date}
+        - join: stg_gsheet__facebook_budget
+          sql_on: ${facebook_performance.page} = ${stg_gsheet__facebook_budget.branch_name}
     columns:
       - name: account_name
         description: ""

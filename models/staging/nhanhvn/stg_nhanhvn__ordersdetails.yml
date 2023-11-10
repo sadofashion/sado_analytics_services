@@ -45,7 +45,7 @@ models:
       - name: service_id
         description: "{{ doc('column__nhanhvn__service_id') }}"
 
-      - name: money_discount
+      - name: order_discount
         description: "{{ doc('column__nhanhvn__discount') }}, trên toàn bộ đơn"
 
       - name: money_deposit

@@ -3,9 +3,6 @@ models:
   - name: stg_facebookads__creatives
     description: ""
     columns:
-      - name: thumbnail_url
-        description: ""
-
       - name: name
         description: ""
 

@@ -11,7 +11,8 @@ SELECT
     asm,
     store_name,
     phone,
-    email
+    email,
+    source.page,
 FROM
     source
 WHERE

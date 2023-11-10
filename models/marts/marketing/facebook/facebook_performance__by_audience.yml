@@ -9,9 +9,6 @@ models:
       - name: date_start
         description: ""
 
-      - name: region
-        description: ""
-
       - name: impressions
         description: ""
 

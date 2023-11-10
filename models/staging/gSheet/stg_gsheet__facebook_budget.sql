@@ -26,10 +26,16 @@ WITH source AS (
         ) }}
     WHERE
         MONTH >= '2023-11-01'
-)
-
-SELECT
-    source.showroom AS branch,
+),
+formated as 
+(SELECT
+    case 
+        when source.showroom = '5S Hải Dương' then '5S Hải Dương 1'
+        when source.showroom = '5S Thái Nguyên 1' then '5S Thái Nguyên'
+        when source.showroom = '5S GO' then '5S Go Thái Bình'
+        when source.showroom = '5S Hà Tĩnh 1' then '5S Hà Tĩnh' 
+        else source.showroom
+    end AS branch,
     source.month AS budget_month,
     {% for col in all_columns %}
         {% for key,value in targets.items()  %}
@@ -62,3 +68,9 @@ FROM
 WHERE
     rn_ = 1
 {{dbt_utils.group_by(5)}}
+)
+
+select formated.*,
+branch.branch_id,
+from formated
+left join {{ref('stg_kiotviet__branches')}} branch on formated.branch = branch.branch_name

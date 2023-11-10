@@ -54,9 +54,6 @@ models:
         - name: money_used_points
           description: "{{ doc('column__nhanhvn__money_used_points') }}"
 
-        - name: onl_fulfillment_time
-          description: "{{ doc('column__nhanhvn__fulfillment_time') }}"
-
         - name: item_gross_amount
           description: "{{ doc('column__nhanhvn__item_gross_amount') }}"
 

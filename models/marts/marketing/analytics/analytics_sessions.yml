@@ -73,10 +73,6 @@ models:
         description: >
           Granular information (from utm_content) about the campaign that first acquired the
           visitor (usually a specific referral within a wider campaign)
-      - name: sharing_source
-        description: >
-          Where relevant, the sharing medium for the incoming session
-          (as encoded in the landing page query parameters)
       - name: channel_grouping
         description: >
           The acquisition channel associated with the session (based on our internal definition).

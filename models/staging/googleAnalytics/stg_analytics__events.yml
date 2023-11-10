@@ -32,10 +32,7 @@ models:
         description: "Cookie-based identifier for an individual"
         tests:
           - not_null
-      - name: user_id
-        description: "Identifies a user"
-        tests:
-          - not_null
+
       - name: event_name
         description: "The type of event that took place"
         tests:

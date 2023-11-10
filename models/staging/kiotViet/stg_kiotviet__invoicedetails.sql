@@ -1,7 +1,7 @@
 SELECT
     invoices.id AS transaction_id,
     invoices.code AS transaction_code,
-    invoices.orderCode as referencetransaction_id,
+    invoices.orderCode as reference_transaction_id,
     invoices.purchaseDate AS transaction_date,
     invoices.statusValue AS transaction_status,
     invoices.branchId as branch_id,

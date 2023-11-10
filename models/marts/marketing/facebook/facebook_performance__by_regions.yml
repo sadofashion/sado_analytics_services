@@ -9,12 +9,6 @@ models:
       - name: date_start
         description: ""
 
-      - name: age
-        description: ""
-
-      - name: gender
-        description: ""
-
       - name: impressions
         description: ""
 

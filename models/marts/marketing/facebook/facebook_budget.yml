@@ -1,0 +1,20 @@
+models:
+  - name: facebook_budget_month
+    description: Ngân sách quảng cáo FB theo tuần/tháng
+    columns:
+      - name: branch_id
+        description: ""
+      - name: branch
+        description: ""
+      - name: budget_month
+        description: ""
+      - name: start
+        description: ""
+      - name: milestone_name
+        description: ""
+      - name: budget
+        description: ""
+      - name: sales_target
+        description: ""
+      - name: traffic_target
+        description: ""

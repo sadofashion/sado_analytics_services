@@ -18,6 +18,7 @@ WITH asm_list AS (
         END AS store_name,
         phone,
         email,
+        page,
     FROM
         {{ ref('base_gSheet__asms') }}
 )
@@ -26,6 +27,7 @@ SELECT
     branches.branch_id,
     asm_list.phone,
     asm_list.email,
+    asm_list.page,
 FROM
     asm_list
     LEFT JOIN {{ ref('stg_kiotviet__branches') }}
