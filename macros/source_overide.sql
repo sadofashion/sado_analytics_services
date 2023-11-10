@@ -6,24 +6,20 @@
         source_name,
         table_name
     ) %}
-    {% if target.name == 'prod' %}
-        {% do return(original_source) %}
-    {% else %}
-        {% set limit_result %}
-        {% if (config.get('materialized') == 'incremental') %}
-            {{ original_source }}
-        {% else %}
-            (
-                SELECT
-                    *
-                FROM
-                    {{ original_source }}
-                LIMIT
-                    1000
-            )
-        {% endif %}
 
+    {% if (not 'ignore' in config.get('tags') and config.get('materialized') in ['table','view']) %}
+        {% set limit_result %}
+                (
+                    SELECT
+                        *
+                    FROM
+                        {{ original_source }}
+                    LIMIT
+                        1000
+                )
         {% endset %}
         {% do return(limit_result) %}
+    {% else %}
+        {% do return(original_source) %}
     {% endif %}
 {% endmacro %}
