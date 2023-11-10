@@ -8,6 +8,8 @@ models:
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
         - join: stg_gsheet__asms
           sql_on: ${facebook_performance.page} = ${stg_gsheet__asms.page}
+        - join: facebook_budget
+          sql_on: ${facebook_performance.date_start} = ${facebook_budget.date} and ${facebook_performance.page} = ${facebook_budget.page}
     columns:
       - name: account_name
         description: ""
@@ -35,6 +37,17 @@ models:
 
       - name: media_type
         description: ""
+      
+      - name: campaign_id
+        description: ""
+        meta:
+          metrics:
+            m_num_camps:
+              type: count_distinct
+              label: No. Campaigns
+              group_label: FB Ads
+              filters:
+                - impressions: ">=0"
 
       - name: impressions
         description: ""

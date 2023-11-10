@@ -1,0 +1,4 @@
+models:
+  - name: facebook_dashboard
+    description: comprehensive data for facebook dashboards
+    columns: []

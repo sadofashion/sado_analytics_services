@@ -47,8 +47,7 @@ formated as
     ARRAY_AGG(
         STRUCT(
             milestones.start,
-            milestones.
-        END,
+            milestones.end,
         milestones.value,
         regexp_extract(
             milestones.key,
@@ -72,5 +71,7 @@ WHERE
 
 select formated.*,
 branch.branch_id,
+asm.page,
 from formated
 left join {{ref('stg_kiotviet__branches')}} branch on formated.branch = branch.branch_name
+left join {{ref('stg_gsheet__asms')}} asm on branch.branch_id = asm.branch_id

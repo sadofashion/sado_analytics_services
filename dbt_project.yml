@@ -53,3 +53,5 @@ models:
         +materialized: table
     ultilities:
       +materialized: view
+    core:
+      +materialized: table

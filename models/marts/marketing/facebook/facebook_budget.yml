@@ -7,13 +7,23 @@ models:
         - join: stg_gsheet__asms
           sql_on: ${stg_gsheet__asms.branch_id} = ${facebook_budget.branch_id}
         - join: calendar
-          sql_on: ${calendar.date} = ${facebook_budget.start}
+          sql_on: ${calendar.date} = ${facebook_budget.date}
     columns:
       - name: branch_id
         description: ""
         meta:
           dimension:
             type: number
+          metrics:
+            m_num_stores:
+              type: count_distinct
+              label: No. Stores
+              group_label: Misc
+      - name: page
+        description: ""
+        meta:
+          dimension:
+            type: string
       - name: branch
         description: ""
         meta:
@@ -24,11 +34,13 @@ models:
         meta:
           dimension:
             type: date
+            hidden: true
       - name: start
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
       - name: milestone_name
         description: ""
         meta:
@@ -49,21 +61,37 @@ models:
         meta:
           dimension:
             type: number
-      - name: budget
+      - name: end
         description: ""
         meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: daily_budget
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
           metrics:
             m_budget:
               type: sum
-              label: Ads Budget
+              label: Budget
               group_label: Budget
               compact: millions
               round: 1
-          dimension:
-            type: number
-      - name: sales_target
+            m_avg_budget:
+              type: average
+              label: _Budget
+              group_label: Budget
+              compact: millions
+              round: 1
+      - name: daily_sales_target
         description: ""
         meta:
+          dimension:
+            type: number
+            hidden: true
           metrics:
             m_sales_target:
               type: sum
@@ -71,11 +99,18 @@ models:
               group_label: Budget
               compact: millions
               round: 1
-          dimension:
-            type: number
-      - name: traffic_target
+            m_avg_sales_target:
+              type: average
+              label: _Sales Target
+              group_label: Budget
+              compact: millions
+              round: 1
+      - name: daily_traffic_target
         description: ""
         meta:
+          dimension:
+            type: number
+            hidden: true
           metrics:
             m_traffic_target:
               type: sum
@@ -83,10 +118,16 @@ models:
               group_label: Budget
               compact: thousands
               round: 1
-          dimension:
-            type: number
-      - name: end
+            m_avg_traffic_target:
+              type: average
+              label: _Traffic Target
+              group_label: Budget
+              compact: millions
+              round: 1
+      - name: date
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
+          

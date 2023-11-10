@@ -1,6 +1,14 @@
 {{
   config(
-    tags=['table', 'fact','fb']
+    materialized = 'incremental',
+    partition_by = {
+      'field': 'date_start',
+      'data_type': 'date',
+      'granularity': 'day'},
+    incremental_strategy = 'insert_overwrite',
+    unique_key = ['date_start','campaign_id'],
+    on_schema_change = 'sync_all_columns',
+    tags=['incremental', 'daily','fact']
   )
 }}
 
@@ -17,6 +25,7 @@ SELECT
     campaigns.media_type,
     campaigns.ad_type, 
     campaigns.funnel,
+    adsinsights.campaign_id,
     sum(adsinsights.impressions) impressions,
     sum(adsinsights.spend) spend,
     sum(adsinsights.clicks) clicks,
@@ -33,4 +42,4 @@ SELECT
 FROM
     {{ ref('stg_facebookads__adsinsights') }} adsinsights
     left join {{ref('stg_facebookads__campaigns')}} campaigns on adsinsights.campaign_id = campaigns.campaign_id
-    {{dbt_utils.group_by(11)}}
+    {{dbt_utils.group_by(12)}}
