@@ -8,3 +8,4 @@ sources:
       - name: "_ext_asm_list"
       - name: "_ext_nhanhvn_salechannel"
       - name: "_ext_region"
+      - name: "_ext_facebook_budget"

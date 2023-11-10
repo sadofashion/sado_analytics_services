@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'table',
-    tags = ['dimension','view']
+    tags = ['dimension','table']
 ) }}
 
 WITH source AS (
