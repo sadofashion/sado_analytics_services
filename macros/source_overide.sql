@@ -7,7 +7,7 @@
         table_name
     ) %}
 
-    {% if (not 'ignore' in config.get('tags') and config.get('materialized') in ['table','view']) %}
+    {% if (not 'ignore' in config.get('tags') and config.get('materialized') in ['table','view']) and target.name != 'prod'%}
         {% set limit_result %}
                 (
                     SELECT
