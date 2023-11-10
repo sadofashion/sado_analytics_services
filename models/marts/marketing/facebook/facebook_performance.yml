@@ -38,42 +38,158 @@ models:
 
       - name: impressions
         description: ""
+        meta:
+          metrics:
+            m_impressions:
+              type: sum
+              label: Impressions
+              group_label: FB Ads
+              compact: thousands
+              round: 1
+            m_avg_impressions:
+              type: average
+              label: AVG Impressions
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
       - name: spend
         description: ""
+        meta:
+          metrics:
+            m_spend:
+              type: sum
+              label: Spend
+              group_label: FB Ads
+              compact: millions
+              round: 1
+            m_avg_spend:
+              type: average
+              label: Avg Spend
+              group_label: FB Ads
+              compact: millions
+              round: 1
 
       - name: clicks
         description: ""
+        meta:
+          metrics:
+            m_clicks:
+              type: sum
+              label: Clicks
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
       - name: reach
         description: ""
+        meta:
+          metrics:
+            m_reach:
+              type: average
+              label: Reach
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
       - name: link_click
         description: "number of clicks to any urls in ads"
+        meta:
+          metrics:
+            m_link_click:
+              type: sum
+              label: Link Clicks
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
       - name: post_engagement
         description: number of engagement with ad post
+        meta:
+          metrics:
+            m_post_engagement:
+              type: sum
+              label: Post engagement
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
       - name: offline_conversion_purchase
         description: number of offline purchases attributed to ads
+        meta:
+          metrics:
+            m_ocv:
+              type: sum
+              label: Offine CV Purchase
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
       - name: offline_conversion_purchase_value
-        description: offline purchase value attributed to ads 
+        description: offline purchase value attributed to ads
+        meta:
+          metrics:
+            m_ocv_value:
+              type: sum
+              label: Offline CV Value
+              group_label: FB Ads
+              compact: millions
+              round: 1
 
       - name: pixel_purchase
         description: website purchase attributed to ads
+        meta:
+          metrics:
+            m_pcv:
+              type: sum
+              label: Online CV
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
       - name: pixel_purchase_value
         description: website purchase value attributed to ads
+        meta:
+          metrics:
+            m_pcv_value:
+              type: sum
+              label: Online CV Value
+              group_label: FB Ads
+              compact: millions
+              round: 1
 
       - name: meta_purchase
         description: number of purchase generated directly on facebook
+        meta:
+          metrics:
+            m_meta_purchase:
+              type: sum
+              label: Message CV
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
       - name: meta_purchase_value
         description: purchase value generated directly on facebook
+        meta:
+          metrics:
+            m_meta_purchase_value:
+              type: sum
+              label: Message CV Value
+              group_label: FB Ads
+              compact: millions
+              round: 1
 
       - name: _results_message
         description: ""
+        meta:
+          metrics:
+            m_messages:
+              type: sum
+              label: Messages
+              group_label: FB Ads
+              compact: thousands
+              round: 1
 
 semantic_models:
   - name: facebook_performance
