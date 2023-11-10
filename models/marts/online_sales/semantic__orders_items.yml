@@ -1,0 +1,182 @@
+version: 2
+
+semantic_models:
+  - name: online_orders_items
+    defaults:
+      agg_time_dimension: created_date
+    description: "revenue fact table for online sales recorded on nhanhvn"
+    model: ref('orders_items')
+    entities:
+      - name: order_item
+        expr: concat(order_id,'.',product_id)
+        type: primary
+      - name: customer
+        type: foreign
+        expr: customer_id
+      - name: employee
+        type: foreign
+        expr: created_by_id
+      - name: product
+        type: foreign
+        expr: product_id
+    dimensions:
+      - name: created_date
+        expr: date(created_date)
+        type: time
+        type_params:
+          time_granularity: day
+      - name: sale_channel
+        expr: sale_channel
+        type: categorical
+      - name: depot
+        expr: depot_name
+        type: categorical
+      - name: status
+        expr: order_status
+        type: categorical
+      - name: type
+        expr: order_type
+        type: categorical
+      - name: service
+        expr: service_name
+        type: categorical
+      - name: traffic_source
+        expr: traffic_source_name
+        type: categorical
+    measures:
+      - name: onl_items_sold
+        agg: sum
+        expr: quantity
+      - name: onl_items_sold_value
+        agg: sum
+        expr: price
+      - name: onl_items_sold_gross
+        agg: sum
+        expr: item_gross_amount
+      - name: onl_items_discounted_value
+        agg: sum
+        expr: item_discount
+      - name: onl_order_count
+        agg: count_distinct
+        expr: order_id
+      - name: onl_order_discount_value
+        agg: sum
+        expr: order_discount
+      - name: onl_fulfillment_time
+        agg: sum
+        expr: fulfillment_time
+metrics:
+  - name: onl_qty_sold
+    label: Online Qty Sold
+    type: simple
+    type_params:
+      measure: onl_items_sold
+    filter: |
+      {{Dimension('order_item__type')}} = 'Giao hàng tận nhà'
+  - name: onl_qty_sold_7d
+    label: Online Qty Sold
+    type: cumulative
+    type_params:
+      measure: onl_items_sold
+      window: 7 days
+    filter: |
+      {{Dimension('order_item__type')}} = 'Giao hàng tận nhà'
+  - name: onl_qty_returned
+    label: Online Qty Returned
+    type: simple
+    type_params:
+      measure: onl_items_sold
+    filter: |
+      {{Dimension('order_item__type')}} = 'Khách trả lại hàng'
+  - name: onl_purchase_item_value
+    label: Online Purchase Items Value
+    type: simple
+    type_params:
+      measure: onl_items_sold_value
+    filter: |
+      {{Dimension('order_item__type')}} = 'Giao hàng tận nhà'
+  - name: onl_return_item_value
+    label: Online Retuned Items Value
+    type: simple
+    type_params:
+      measure: onl_items_sold_value
+    filter: |
+      {{Dimension('order_item__type')}} = 'Khách trả lại hàng'
+  - name: onl_value_sold
+    label: Online Value Sold
+    type: simple
+    type_params:
+      measure: onl_items_sold_gross
+    filter: |
+      {{Dimension('order_item__type')}} = 'Giao hàng tận nhà'
+  - name: onl_value_returned
+    label: Online Value Returned
+    type: simple
+    type_params:
+      measure: onl_items_sold_gross
+    filter: |
+      {{Dimension('order_item__type')}} = 'Khách trả lại hàng'
+  - name: onl_item_dcnt_value
+    label: Online Items Discount Value
+    type: simple
+    type_params:
+      measure: onl_items_discounted_value
+    filter: |
+      {{Dimension('order_item__type')}} = 'Giao hàng tận nhà'
+  - name: onl_item_dcnt_pct
+    label: Online Items Discount Percentage
+    type: ratio
+    type_params:
+      numerator: onl_item_dcnt_value
+      denominator: onl_purchase_item_value
+  - name: onl_total_dcnt_value
+    label: Online Total Discount Value
+    type: simple
+    type_params:
+      measure: onl_order_discount_value
+    filter: |
+      {{Dimension('order_item__type')}} = 'Giao hàng tận nhà'
+  - name: onl_order_dct_value
+    label: Online on Order-value Discount
+    type: derived
+    type_params:
+      expr: onl_total_dcnt_value - onl_item_dcnt_value
+      metrics:
+        - name: onl_total_dcnt_value
+        - name: onl_item_dcnt_value
+  - name: onl_purchase_count
+    label: Online Purchase Count
+    type: simple
+    type_params:
+      measure: onl_order_count
+    filter: |
+      {{Dimension('order_item__type')}} = 'Giao hàng tận nhà'
+  - name: onl_return_count
+    label: Online Return Count
+    type: simple
+    type_params:
+      measure: onl_order_count
+    filter: |
+      {{Dimension('order_item__type')}} = 'Khách trả lại hàng'
+  - name: onl_total_fulfillment_time
+    label: Online Total Fulfillment Time
+    type: simple
+    type_params:
+      measure: onl_fulfillment_time
+    filter: |
+      {{Dimension('order_item__type')}} = 'Giao hàng tận nhà'
+  - name: onl_avg_fulfillment_time
+    label: Online Fulfillment Time
+    type: derived
+    type_params:
+      expr: onl_total_fulfillment_time/onl_purchase_count
+      metrics:
+        - name: onl_total_fulfillment_time
+        - name: onl_purchase_count
+  - name: onl_return_rate
+    label: Online Return Rate
+    type: ratio
+    type_params:
+      numerator: onl_return_count
+      denominator: onl_purchase_count
+

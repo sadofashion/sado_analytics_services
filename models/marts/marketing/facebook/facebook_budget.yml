@@ -3,7 +3,7 @@ models:
   - name: facebook_budget
     description: ""
     meta:
-      joins: 
+      joins:
         - join: stg_gsheet__asms
           sql_on: ${stg_gsheet__asms.branch_id} = ${facebook_budget.branch_id}
         - join: calendar

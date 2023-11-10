@@ -1,0 +1,129 @@
+version: 2
+
+semantic_models:
+  - name: revenue
+    defaults:
+      agg_time_dimension: transaction_date
+    description: "revenue fact table with single revenue stream per row, excluding terminated transaction"
+    model: ref('revenue')
+    entities:
+      - name: transaction
+        expr: transaction_id
+        type: primary
+      - name: branch
+        type: foreign
+        expr: branch_id
+      - name: customer
+        type: foreign
+        expr: customer_id
+      - name: employee
+        type: foreign
+        expr: employee_id
+    dimensions:
+      - name: transaction_date
+        expr: date(transaction_date)
+        type: time
+        type_params:
+          time_granularity: day
+      - name: transaction_type
+        expr: transaction_type
+        type: categorical
+    measures:
+      - name: transaction_count
+        description: total number of transaction
+        agg: count_distinct
+        expr: transaction_id
+      - name: total_transaction_value
+        description: total value sold
+        agg: sum
+        expr: total
+      - name: received_transaction_value
+        description: total revenue received via payments
+        agg: sum
+        expr: total_payment
+      - name: return_fee
+        agg: sum
+        expr: return_fee
+      - name: order_discount
+        description: total order discount value
+        agg: sum
+        expr: discount
+
+metrics:
+  - name: gross_revenue
+    type: simple
+    label: Gross Revenue
+    type_params:
+      measure: received_transaction_value
+  - name: invoice_value
+    type: simple
+    label: Value Sold
+    type_params:
+      measure: total_transaction_value
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'invoice'
+  - name: invoice_count
+    type: simple
+    label: No of Invoice
+    type_params:
+      measure: transaction_count
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'invoice'
+  - name: return_count
+    type: simple
+    label: No of Return
+    type_params:
+      measure: transaction_count
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'return'
+  - name: invoice_paid_value
+    type: simple
+    label: Paid Value
+    type_params:
+      measure: received_transaction_value
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'invoice'
+  - name: returned_value
+    type: simple
+    label: Returned Value
+    type_params:
+      measure: received_transaction_value
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'return'
+  - name: order_discounted_value
+    type: simple
+    label: Order Discounted Value
+    type_params:
+      measure: order_discount
+    filter: |
+      {{Dimension('transaction__transaction_type')}} = 'invoice'
+  - name: aov
+    type: derived
+    label: AOV
+    type_params:
+      expr: invoice_value/invoice_count
+      metrics:
+        - name: invoice_value
+        - name: invoice_count
+  - name: pending_invoice
+    type: derived
+    label: Pending Income Value
+    type_params:
+      expr: invoice_value - invoice_paid_value
+      metrics:
+        - name: invoice_value
+        - name: invoice_paid_value
+  - name: pct_returned
+    label: Returned Percentage
+    type: derived
+    type_params:
+      expr: return/invoice
+      metrics:
+        - name: return_count
+          filter: |
+            {{Dimension('transaction__transaction_type')}} = 'return'
+          alias: return
+        - name: invoice_count
+          filter: |
+            {{Dimension('transaction__transaction_type')}} = 'invoice'
+          alias: invoice

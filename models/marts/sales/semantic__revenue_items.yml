@@ -1,0 +1,90 @@
+version: 2
+
+semantic_models:
+  - name: revenue_items
+    defaults:
+      agg_time_dimension: transaction_date
+    description: "revenue fact table with single revenue stream per row, excluding terminated transaction"
+    model: ref('revenue_items')
+    entities:
+      - name: transaction_item
+        expr: concat(transaction_id, '.',product_id)
+        type: primary
+      - name: branch
+        type: foreign
+        expr: branch_id
+      - name: customer
+        type: foreign
+        expr: customer_id
+      - name: employee
+        type: foreign
+        expr: employee_id
+      - name: product
+        type: foreign
+        expr: product_id
+    dimensions:
+      - name: transaction_date
+        expr: date(transaction_date)
+        type: time
+        type_params:
+          time_granularity: day
+      - name: transaction_type
+        expr: transaction_type
+        type: categorical
+    measures:
+      - name: num_items
+        description: total number of item_sold
+        agg: sum
+        expr: quantity
+      - name: discounted_value
+        description: value discounted for item
+        agg: sum
+        expr: discount
+      - name: item_value
+        description: value of item on transaction
+        agg: sum
+        expr: subtotal
+
+metrics:
+  - name: qty_sold
+    type: simple
+    label: Quantity Sold
+    type_params:
+      measure: num_items
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+  - name: qty_returned
+    type: simple
+    label: Quantity Returned
+    type_params:
+      measure: num_items
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'return'
+  - name: item_discounted_value
+    type: simple
+    label: Item Discounted Value
+    type_params:
+      measure: discounted_value
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+  - name: item_sold_value
+    type: simple
+    label: Item Sold Value
+    type_params:
+      measure: item_value
+    filter: |
+      {{Dimension('transaction_item__transaction_type')}} = 'invoice'
+  - name: avg_discount_ratio
+    label: Average Discount Ratio
+    type: ratio
+    type_params:
+      numerator: item_discounted_value
+      denominator: item_sold_value
+  - name: items_per_transaction
+    type: derived
+    label: Items per Transaction
+    type_params:
+      expr: qty_sold/invoice_count
+      metrics:
+        - name: qty_sold
+        - name: invoice_count
