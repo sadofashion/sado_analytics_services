@@ -1,3 +1,9 @@
+{{
+  config(
+    tags=['table', 'fact']
+  )
+}}
+
 {% set targets = ["budget", "sales_target", "traffic_target"] %}
 SELECT
     *

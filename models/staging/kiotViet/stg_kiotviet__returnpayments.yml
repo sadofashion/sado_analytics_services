@@ -5,45 +5,81 @@ models:
     columns:
       - name: transaction_id
         description: "{{ doc('column__kiotviet__transaction_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_code
         description: "{{ doc('column__kiotviet__transaction_code') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: reference_transaction_id
         description: "{{ doc('column__kiotviet__reference_transaction_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_date
         description: "{{ doc('column__kiotviet__transaction_date') }}"
-
+        meta:
+          dimension:
+            type: timestamp
       - name: transaction_status
         description: "{{ doc('column__kiotviet__transaction_status') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: branch_id
         description: "{{ doc('column__kiotviet__branch_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: employee_id
         description: "{{ doc('column__kiotviet__employee_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: customer_id
         description: "{{ doc('column__kiotviet__customer_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: payment_id
         description: "{{ doc('column__kiotviet__payment_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: payment_code
         description: "{{ doc('column__kiotviet__payment_code') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: payment_status
         description: "{{ doc('column__kiotviet__payment_status') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: payment_date
         description: "{{ doc('column__kiotviet__payment_date') }}"
-
+        meta:
+          dimension:
+            type: timestamp
       - name: payment_amount
         description: "{{ doc('column__kiotviet__payment_amount') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: payment_method
         description: "{{ doc('column__kiotviet__payment_method') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: bankaccount_id
         description: "{{ doc('column__kiotviet__bankaccount_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: transaction_type
+        description: ""
+        meta:
+          dimension:
+            type: string

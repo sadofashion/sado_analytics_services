@@ -5,8 +5,15 @@ models:
     meta:
       joins:
         - join: stg_kiotviet__branches
-          sql_on: ${stg_kiotviet__branches.branch_id} = ${stg_kiotviet__customers.branch_id}
-          fields: [branch_id, province, ward, branch_name, region]
+          sql_on: >-
+            ${stg_kiotviet__branches.branch_id} =
+            ${stg_kiotviet__customers.branch_id}
+          fields:
+            - branch_id
+            - province
+            - ward
+            - branch_name
+            - region
     columns:
       - name: branch_id
         description: "{{ doc('column__kiotviet__branch_id') }}"

@@ -5,42 +5,76 @@ models:
     columns:
       - name: transaction_id
         description: "{{ doc('column__kiotviet__transaction_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_code
         description: "{{ doc('column__kiotviet__transaction_code') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: reference_transaction_id
         description: "{{ doc('column__kiotviet__reference_transaction_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_date
         description: "{{ doc('column__kiotviet__transaction_date') }}"
-
+        meta:
+          dimension:
+            type: timestamp
       - name: transaction_status
         description: "{{ doc('column__kiotviet__transaction_status') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: branch_id
         description: "{{ doc('column__kiotviet__branch_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: employee_id
         description: "{{ doc('column__kiotviet__employee_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: customer_id
         description: "{{ doc('column__kiotviet__customer_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: salechannel_id
         description: "{{ doc('column__kiotviet__salechannel_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: product_id
         description: "{{ doc('column__kiotviet__product_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: product_code
         description: "{{ doc('column__kiotviet__product_code') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: quantity
         description: "{{ doc('column__kiotviet__quantity') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: price
         description: "{{ doc('column__kiotviet__price') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: subtotal
         description: "{{ doc('column__kiotviet__subtotal') }}"
+        meta:
+          dimension:
+            type: number
+      - name: transaction_type
+        description: ""
+        meta:
+          dimension:
+            type: string

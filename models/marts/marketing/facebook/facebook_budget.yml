@@ -1,20 +1,92 @@
+version: 2
 models:
-  - name: facebook_budget_month
-    description: Ngân sách quảng cáo FB theo tuần/tháng
+  - name: facebook_budget
+    description: ""
+    meta:
+      joins: 
+        - join: stg_gsheet__asms
+          sql_on: ${stg_gsheet__asms.branch_id} = ${facebook_budget.branch_id}
+        - join: calendar
+          sql_on: ${calendar.date} = ${facebook_budget.start}
     columns:
       - name: branch_id
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: branch
         description: ""
+        meta:
+          dimension:
+            type: string
       - name: budget_month
         description: ""
+        meta:
+          dimension:
+            type: date
       - name: start
         description: ""
+        meta:
+          dimension:
+            type: date
       - name: milestone_name
         description: ""
+        meta:
+          dimension:
+            type: string
+      - name: total_budget
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_sales_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_traffic_target
+        description: ""
+        meta:
+          dimension:
+            type: number
       - name: budget
         description: ""
+        meta:
+          metrics:
+            m_budget:
+              type: sum
+              label: Ads Budget
+              group_label: Budget
+              compact: millions
+              round: 1
+          dimension:
+            type: number
       - name: sales_target
         description: ""
+        meta:
+          metrics:
+            m_sales_target:
+              type: sum
+              label: Sales Target
+              group_label: Budget
+              compact: millions
+              round: 1
+          dimension:
+            type: number
       - name: traffic_target
         description: ""
+        meta:
+          metrics:
+            m_traffic_target:
+              type: sum
+              label: Traffic Target
+              group_label: Budget
+              compact: thousands
+              round: 1
+          dimension:
+            type: number
+      - name: end
+        description: ""
+        meta:
+          dimension:
+            type: date

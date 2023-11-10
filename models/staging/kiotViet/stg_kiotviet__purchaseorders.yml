@@ -5,40 +5,66 @@ models:
     columns:
       - name: transaction_id
         description: "{{ doc('column__kiotviet__transaction_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_code
         description: "{{ doc('column__kiotviet__transaction_code') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: transaction_date
         description: "{{ doc('column__kiotviet__transaction_date') }}"
-
+        meta:
+          dimension:
+            type: timestamp
       - name: branch_id
         description: "{{ doc('column__kiotviet__branch_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: employee_id
         description: "{{ doc('column__kiotviet__employee_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: supplier_id
         description: "{{ doc('column__kiotviet__supplier_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: partner_type
         description: "{{ doc('column__kiotviet__partner_type') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: total
         description: "{{ doc('column__kiotviet__total') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: total_payment
         description: "{{ doc('column__kiotviet__total_payment') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: discount
         description: "{{ doc('column__kiotviet__discount') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: discount_ratio
         description: "{{ doc('column__kiotviet__discount_ratio') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_status
         description: "{{ doc('column__kiotviet__transaction_status') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: created_date
         description: "{{ doc('column__kiotviet__created_date') }}"
-
+        meta:
+          dimension:
+            type: timestamp

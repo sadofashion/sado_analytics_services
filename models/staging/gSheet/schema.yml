@@ -38,6 +38,12 @@ models:
             type: string
   - name: stg_gsheet__asms
     description: ""
+    meta:
+      joins: 
+        - join: facebook_performance
+          sql_on: ${stg_gsheet__asms.page} = ${facebook_performance.page}
+        - join: facebook_budget
+          sql_on: ${stg_gsheet__asms.branch_id} = ${facebook_budget.branch_id}
     columns:
       - name: asm_name
         description: ""
@@ -59,3 +65,45 @@ models:
         meta:
           dimension:
             type: string
+      - name: page
+        description: ""
+        meta:
+          dimension:
+            type: string
+  - name: stg_gsheet__facebook_budget
+    columns:
+      - name: branch
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: budget_month
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: budget
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sales_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: traffic_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: milestones
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
