@@ -14,6 +14,8 @@ models:
           sql_on: ${stg_kiotviet__users.user_id} =${revenue.employee_id}
         - join: calendar
           sql_on: ${calendar.date} = date(revenue.transaction_date)
+        - join: stg_gsheet__asms
+          sql_on: ${stg_gsheet__asms.branch_id} = ${revenue.branch_id}
     columns:
       - name: transaction_id
         description: ""

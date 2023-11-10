@@ -38,14 +38,6 @@ models:
             type: string
   - name: stg_gsheet__asms
     description: ""
-    meta:
-      joins: 
-        - join: facebook_performance
-          sql_on: ${stg_gsheet__asms.page} = ${facebook_performance.page}
-        - join: facebook_budget
-          sql_on: ${stg_gsheet__asms.branch_id} = ${facebook_budget.branch_id}
-        - join: revenue
-          sql_on: ${stg_gsheet__asms.branch_id} = ${revenue.branch_id}
     columns:
       - name: asm_name
         description: ""
