@@ -1,8 +1,13 @@
-{{
-  config(
-    tags=['table', 'fact']
-  )
-}}
+{{ config(
+  materialized = 'incremental',
+  partition_by ={ 'field': 'transaction_date',
+  'data_type': 'date',
+  'granularity': 'day' },
+  incremental_strategy = 'insert_overwrite',
+  unique_key = ['transaction_date','page'],
+  on_schema_change = 'sync_all_columns',
+  tags = ['incremental', 'fact','dashboard']
+) }}
 
 {% set metrics = ["impressions","spend","clicks","reach","link_click","post_engagement","offline_conversion_purchase","offline_conversion_purchase_value","pixel_purchase","pixel_purchase_value","meta_purchase","meta_purchase_value","_results_message"] %}
 {% set targets = ["budget", "sales_target", "traffic_target"] %}
@@ -18,6 +23,7 @@ with facebook_performance as (
     sum(fb.{{metric}}) as {{metric}},
     {% endfor %}
     from {{ref("facebook_performance")}} fb
+    where date_start >= '2023-11-01'
     group by 1,2
 ),
 facebook_budget as (
@@ -43,7 +49,8 @@ offline_performance as (
     {% endfor %}
   {% endfor %}
   from {{ref("revenue")}} r
-  left join {{ref("stg_gsheet__asms")}} a on r.branch_id = a.branch_id
+  inner join {{ref("stg_gsheet__asms")}} a on r.branch_id = a.branch_id
+  where r.transaction_date >='2023-11-01'
   group by 1,2,3
 )
 

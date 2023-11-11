@@ -2,6 +2,10 @@ version: 2
 models:
   - name: facebook_dashboard
     description: ""
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${facebook_dashboard.transaction_date}
     columns:
       - name: asm_name
         data_type: string
@@ -15,6 +19,11 @@ models:
         meta:
           dimension:
             type: string
+          metrics:
+            m_num_pages:
+              type: count_distinct
+              label: No. Pages
+              group_label: Misc
       - name: transaction_date
         data_type: date
         description: ngày giao dịch
@@ -22,6 +31,18 @@ models:
           dimension:
             type: date
             hidden: true
+          metrics:
+            m_num_pages_days:
+              type: count_distinct
+              sql: concat(transaction_date,page)
+              label: No. Pages Days
+              group_label: Misc
+              filters:
+                - spend: ">0"
+            m_num_days:
+              type: count_distinct
+              label: No. Days
+              group_label: Misc
       - name: val_transaction_id
         data_type: int64
         description: số lượng giao dịch
