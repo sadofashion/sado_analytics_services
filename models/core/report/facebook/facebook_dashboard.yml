@@ -1,4 +1,359 @@
+version: 2
 models:
   - name: facebook_dashboard
-    description: comprehensive data for facebook dashboards
-    columns: []
+    description: ""
+    columns:
+      - name: asm_name
+        data_type: string
+        description: Tên ASM quản lý CH
+        meta:
+          dimension:
+            type: string
+      - name: page
+        data_type: string
+        description: Tên page để chạy
+        meta:
+          dimension:
+            type: string
+      - name: transaction_date
+        data_type: date
+        description: ngày giao dịch
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: val_transaction_id
+        data_type: int64
+        description: số lượng giao dịch
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_transactions:
+              type: sum
+              label: No. Transactions
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
+      - name: num_invoice_transaction_id
+        data_type: int64
+        description: số lượng invoice
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_invoices:
+              type: sum
+              label: No. Invoices
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
+      - name: num_return_transaction_id
+        data_type: int64
+        description: số lượng trả
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_returns:
+              type: sum
+              label: No. Returns
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
+      - name: val_total
+        data_type: float64
+        description: giá trị giao dịch
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_transaction_val:
+              type: sum
+              label: Transaction Value
+              group_label: Sales metrics
+              compact: millions
+              round: 1
+      - name: num_invoice_total
+        data_type: float64
+        description: giá trị bán
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_invoice_val:
+              type: sum
+              label: Invoice Value
+              group_label: Sales metrics
+              compact: millions
+              round: 1
+      - name: num_return_total
+        data_type: float64
+        description: giá trị trả
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_return_val:
+              type: sum
+              label: Return Value
+              group_label: Sales metrics
+              compact: millions
+              round: 1
+      - name: val_total_payment
+        data_type: float64
+        description: doanh thu thuần
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_payment_val:
+              type: sum
+              label: Payment
+              group_label: Sales metrics
+              compact: millions
+              round: 1
+      - name: num_invoice_total_payment
+        data_type: float64
+        description: doanh thu thuần bán hàng
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_return_total_payment
+        data_type: float64
+        description: doanh thu thuần trả hàng
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: milestone_name
+        data_type: string
+        description: tên tuần
+        meta:
+          dimension:
+            type: string
+      - name: daily_budget
+        data_type: float64
+        description: ngân sach/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_ads_budget:
+              type: sum
+              label: Budget
+              group_label: Budget
+              compact: millions
+              round: 1
+      - name: daily_sales_target
+        data_type: float64
+        description: target sales/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_sales_target:
+              type: sum
+              label: Sales target
+              group_label: Budget
+              compact: millions
+              round: 1
+      - name: daily_traffic_target
+        data_type: float64
+        description: target traffic/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_traffic_target:
+              type: sum
+              label: Traffic target
+              group_label: Budget
+              compact: thousands
+              round: 1
+      - name: impressions
+        data_type: numeric
+        description: hiển thị
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_impressions:
+              type: sum
+              label: Impressions
+              group_label: Ads metrics
+              compact: millions
+              round: 1
+      - name: spend
+        data_type: numeric
+        description: chi tiêu FB
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_spend:
+              type: sum
+              label: Ads Spend
+              group_label: Ads metrics
+              compact: millions
+              round: 1
+      - name: clicks
+        data_type: numeric
+        description: lượng clicks
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_clicks:
+              type: sum
+              label: Clicks
+              group_label: Ads metrics
+              compact: thousands
+              round: 1
+      - name: reach
+        data_type: numeric
+        description: lượng tiếp cận
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: link_click
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_link_click:
+              type: sum
+              label: Link click
+              group_label: Ads metrics
+              compact: thousands
+              round: 1
+      - name: post_engagement
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_post_engagement:
+              type: sum
+              label: Post engagement
+              group_label: Ads metrics
+              compact: thousands
+              round: 1
+      - name: offline_conversion_purchase
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_offline_cv:
+              type: sum
+              label: Offline CV
+              group_label: Ads metrics
+              compact: thousands
+              round: 1
+      - name: offline_conversion_purchase_value
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_offline_cv_value:
+              type: sum
+              label: Offline CV Value
+              group_label: Ads metrics
+              compact: millions
+              round: 1
+      - name: pixel_purchase
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_online_cv:
+              type: sum
+              label: Online CV
+              group_label: Ads metrics
+              compact: thousands
+              round: 1
+      - name: pixel_purchase_value
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_online_cv_value:
+              type: sum
+              label: Online CV Value
+              group_label: Ads metrics
+              compact: millions
+              round: 1
+      - name: meta_purchase
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_mess_cv:
+              type: sum
+              label: Mess CV
+              group_label: Ads metrics
+              compact: thousands
+              round: 1
+      - name: meta_purchase_value
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_mess_cv_value:
+              type: sum
+              label: Mess CV Value
+              group_label: Ads metrics
+              compact: millions
+              round: 1
+      - name: _results_message
+        data_type: numeric
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_messages:
+              type: sum
+              label: Messages
+              group_label: Ads metrics
+              compact: thousands
+              round: 1

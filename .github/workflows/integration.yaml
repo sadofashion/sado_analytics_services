@@ -56,12 +56,13 @@ jobs:
       - id: compile
         if: github.event_name == 'push'
         run: |
-          dbt compile --target-path=prod && dbt docs generate
+          dbt compile && dbt docs generate
+          find ./target -name \*.json -exec cp -v '{}' './prod' ';'
         continue-on-error: true
       - name: Add Manifest to Repo
         uses: EndBug/add-and-commit@v9
         with:
-          add: '*/prod/*.json'
+          add: './prod'
           committer_name: Github Actions
           committer_email: actions@github.com
           message: 'Adding manifest from merge run'
@@ -69,7 +70,7 @@ jobs:
         if: github.event_name == 'push'
         uses: nwtgck/actions-netlify@v2.0
         with:
-          publish-dir: './prod'
+          publish-dir: './target'
           deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: false
           enable-commit-comment: true
