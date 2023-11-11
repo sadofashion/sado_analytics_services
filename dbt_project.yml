@@ -39,9 +39,6 @@ models:
       +materialized: ephemeral
     marts:
       +materialized: table
-      finance:
-        +schema: finance
-        +materialized: table
       sales:
         +schema: sales
         +materialized: table
