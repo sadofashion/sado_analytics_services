@@ -5,29 +5,39 @@ models:
     meta:
       joins:
         - join: stg_googleads__campaigns
-          sql_on: ${stg_googleads__campaigns.campaign_id} = ${google_campaign_performance.campaign_id}
+          sql_on: >-
+            ${stg_googleads__campaigns.campaign_id} =
+            ${google_campaign_performance.campaign_id}
+        - join: calendar
+          sql_on: >-
+            ${calendar.date} = ${google_campaign_performance.date}
     columns:
       - name: campaign_id
         description: "{{ doc('column__googleads__campaign_id') }}"
-
+        meta:
+          dimension:
+            type: number
       - name: date
         description: "{{ doc('column__googleads__date') }}"
         meta:
           dimension:
             type: date
-
+            hidden: true
       - name: slot
         description: "{{ doc('column__googleads__slot') }}"
-
+        meta:
+          dimension:
+            type: string
       - name: ads_cost
         description: "{{ doc('column__googleads__cost') }}"
         meta:
           metrics:
             m_ads_cost:
               type: sum
-              label: "Cost"
+              label: Cost
               group_label: GG Ads metrics
-
+          dimension:
+            type: number
       - name: ads_impressions
         description: "{{ doc('column__googleads__impressions') }}"
         meta:
@@ -36,7 +46,8 @@ models:
               type: sum
               label: "#Impressions"
               group_label: GG Ads metrics
-
+          dimension:
+            type: number
       - name: ads_clicks
         description: "{{ doc('column__googleads__clicks') }}"
         meta:
@@ -45,7 +56,8 @@ models:
               type: sum
               label: "#Clicks"
               group_label: GG Ads metrics
-
+          dimension:
+            type: number
       - name: ads_conversions
         description: "{{ doc('column__googleads__conversions') }}"
         meta:
@@ -54,6 +66,8 @@ models:
               type: sum
               label: "#Conversions"
               group_label: GG Ads metrics
+          dimension:
+            type: number
       - name: ads_interactions
         description: "{{ doc('column__googleads__interactions') }}"
         meta:
@@ -62,7 +76,8 @@ models:
               type: sum
               label: "#Interactions"
               group_label: GG Ads metrics
-
+          dimension:
+            type: number
       - name: ads_purchase
         description: ""
         meta:
@@ -71,16 +86,18 @@ models:
               type: sum
               label: "#Web Purchases"
               group_label: GG Ads metrics
-
+          dimension:
+            type: number
       - name: ads_purchase_value
         description: ""
         meta:
           metrics:
             m_ads_purchase_value:
               type: sum
-              label: "Web Purchases Value"
+              label: Web Purchases Value
               group_label: GG Ads metrics
-
+          dimension:
+            type: number
       - name: ads_contacts
         description: ""
         meta:
@@ -89,7 +106,8 @@ models:
               type: sum
               label: "#Contacts intent"
               group_label: GG Ads metrics
-
+          dimension:
+            type: number
       - name: ads_atc
         description: ""
         meta:
@@ -98,3 +116,5 @@ models:
               type: sum
               label: "#Add to cart"
               group_label: GG Ads metrics
+          dimension:
+            type: number

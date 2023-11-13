@@ -5,48 +5,81 @@ models:
     columns:
       - name: class_code
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: date
         description: ""
-
+        meta:
+          dimension:
+            type: date
       - name: daily_beginning_remain
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: daily_ending_remain
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: quantity_in
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: quantity_out
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: adjustment
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: openning_balance
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: inventory_holding_days
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: receive_qty
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: issue_qty
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: avg_stay
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: consumption_rate
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: inventory_stay_classification
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: consumption_classification
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: fsn_classification
         description: ""
+        meta:
+          dimension:
+            type: string

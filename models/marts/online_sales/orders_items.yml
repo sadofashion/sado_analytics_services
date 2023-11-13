@@ -3,65 +3,113 @@ models:
   - name: orders_items
     description: ""
     columns:
-        - name: order_id
-          description: "{{ doc('column__nhanhvn__order_id') }}"
-
-        - name: sale_channel
-          description: "{{ doc('column__nhanhvn__sale_channel') }}"
-
-        - name: depot_name
-          description: "{{ doc('column__nhanhvn__depot_name') }}"
-
-        - name: customer_id
-          description: "{{ doc('column__nhanhvn__customer_id') }}"
-
-        - name: created_by_id
-          description: "{{ doc('column__nhanhvn__created_by_id') }}"
-
-        - name: traffic_source_name
-          description: "{{ doc('column__nhanhvn__traffic_source_name') }}"
-
-        - name: order_type
-          description: "{{ doc('column__nhanhvn__order_type') }}"
-
-        - name: order_status
-          description: "{{ doc('column__nhanhvn__order_status') }}"
-
-        - name: created_date
-          description: "{{ doc('column__nhanhvn__created_date') }}"
-
-        - name: product_id
-          description: "{{ doc('column__nhanhvn__product_id') }}"
-
-        - name: service_name
-          description: "{{ doc('column__nhanhvn__service_name') }}"
-
-        - name: price
-          description: "{{ doc('column__nhanhvn__price') }}"
-
-        - name: quantity
-          description: "{{ doc('column__nhanhvn__quantity') }}"
-
-        - name: ship_address
-          description: "{{ doc('column__nhanhvn__ship_address') }}"
-
-        - name: item_discount
-          description: "{{ doc('column__nhanhvn__discount') }}, theo sản phẩm"
-
-        - name: order_discount
-          description: "{{ doc('column__nhanhvn__discount') }}, theo đơn hàng"
-
-        - name: money_used_points
-          description: "{{ doc('column__nhanhvn__money_used_points') }}"
-
-        - name: item_gross_amount
-          description: "{{ doc('column__nhanhvn__item_gross_amount') }}"
-
-        - name: delivery_fee
-          description: "{{ doc('column__nhanhvn__delivery_fee') }}"
-
-        - name: sub_total
-          description: "{{ doc('column__nhanhvn__sub_total') }}"
-        
-        - name: order_total_lines
-          description: "Số lượng line trong đơn hàng"
+      - name: order_id
+        description: "{{ doc('column__nhanhvn__order_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: sale_channel
+        description: "{{ doc('column__nhanhvn__sale_channel') }}"
+        meta:
+          dimension:
+            type: string
+      - name: depot_name
+        description: "{{ doc('column__nhanhvn__depot_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: customer_id
+        description: "{{ doc('column__nhanhvn__customer_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: created_by_id
+        description: "{{ doc('column__nhanhvn__created_by_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: traffic_source_name
+        description: "{{ doc('column__nhanhvn__traffic_source_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: order_type
+        description: "{{ doc('column__nhanhvn__order_type') }}"
+        meta:
+          dimension:
+            type: string
+      - name: order_status
+        description: "{{ doc('column__nhanhvn__order_status') }}"
+        meta:
+          dimension:
+            type: string
+      - name: created_date
+        description: "{{ doc('column__nhanhvn__created_date') }}"
+        meta:
+          dimension:
+            type: timestamp
+      - name: product_id
+        description: "{{ doc('column__nhanhvn__product_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: service_name
+        description: "{{ doc('column__nhanhvn__service_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: price
+        description: "{{ doc('column__nhanhvn__price') }}"
+        meta:
+          dimension:
+            type: number
+      - name: quantity
+        description: "{{ doc('column__nhanhvn__quantity') }}"
+        meta:
+          dimension:
+            type: number
+      - name: ship_address
+        description: "{{ doc('column__nhanhvn__ship_address') }}"
+        meta:
+          dimension:
+            type: string
+      - name: item_discount
+        description: "{{ doc('column__nhanhvn__discount') }}, theo sản phẩm"
+        meta:
+          dimension:
+            type: number
+      - name: order_discount
+        description: "{{ doc('column__nhanhvn__discount') }}, theo đơn hàng"
+        meta:
+          dimension:
+            type: number
+      - name: money_used_points
+        description: "{{ doc('column__nhanhvn__money_used_points') }}"
+        meta:
+          dimension:
+            type: number
+      - name: item_gross_amount
+        description: "{{ doc('column__nhanhvn__item_gross_amount') }}"
+        meta:
+          dimension:
+            type: number
+      - name: delivery_fee
+        description: "{{ doc('column__nhanhvn__delivery_fee') }}"
+        meta:
+          dimension:
+            type: number
+      - name: sub_total
+        description: "{{ doc('column__nhanhvn__sub_total') }}"
+        meta:
+          dimension:
+            type: number
+      - name: order_total_lines
+        description: Số lượng line trong đơn hàng
+        meta:
+          dimension:
+            type: number
+      - name: fulfillment_time
+        description: ""
+        meta:
+          dimension:
+            type: number

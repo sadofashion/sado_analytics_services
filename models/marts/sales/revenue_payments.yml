@@ -9,39 +9,81 @@ models:
     columns:
       - name: transaction_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_code
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: reference_transaction_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_date
         description: ""
-
+        meta:
+          dimension:
+            type: timestamp
       - name: transaction_status
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: payment_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: payment_code
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: payment_status
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: payment_date
         description: ""
-
+        meta:
+          dimension:
+            type: timestamp
       - name: payment_amount
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: payment_method
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: bankaccount_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_type
         description: ""
+        meta:
+          dimension:
+            type: string
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: employee_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number

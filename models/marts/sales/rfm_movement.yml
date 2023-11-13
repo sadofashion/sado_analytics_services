@@ -1,16 +1,22 @@
 version: 2
 models:
   - name: rfm_movement
-    description: "rfm segmentation result"
+    description: rfm segmentation result
     meta:
       joins:
         - join: stg_kiotviet__customers
           alias: customers
-          sql_on: ${rfm_movement.customer_id} = ${customers.customer_id} and ${rfm_movement.start_of_month} = date_trunc(current_date(),month)
+          sql_on: >-
+            ${rfm_movement.customer_id} = ${customers.customer_id} and
+            ${rfm_movement.start_of_month} = date_trunc(current_date(),month)
         - join: stg_kiotviet__branches
           alias: last_branch
           sql_on: ${rfm_movement.last_purchase_branch} = ${last_branch.branch_id}
-          fields: [branch_id, branch_name, province, region,]
+          fields:
+            - branch_id
+            - branch_name
+            - province
+            - region
     columns:
       - name: customer_id
         description: ""
@@ -21,59 +27,92 @@ models:
               label: Total customers
               group_label: Customer Metrics
               compact: thousands
-              round: 1 
-
+              round: 1
+          dimension:
+            type: number
       - name: last_purchase_branch
-        description: "lastest store customer made purchase"
-
+        description: lastest store customer made purchase
+        meta:
+          dimension:
+            type: number
       - name: start_of_month
-        description: "month of rfm calculation"
-
+        description: month of rfm calculation
+        meta:
+          dimension:
+            type: date
       - name: first_purchase
         description: ""
-
+        meta:
+          dimension:
+            type: date
       - name: last_purchase
         description: ""
-
+        meta:
+          dimension:
+            type: date
       - name: recency
-        description: "no. days since last purchase"
+        description: no. days since last purchase
         meta:
           metrics:
             m_med_recency:
               type: median
               label: Med of Recency
               group_label: Customer Metrics
+          dimension:
+            type: number
       - name: monetary
-        description: "total monetary value since created"
+        description: total monetary value since created
         meta:
           metrics:
             m_monetary:
               type: average
               label: AVG of Monetary
               group_label: Customer Metrics
-
+          dimension:
+            type: number
       - name: frequency
-        description: "times of purchasing"
+        description: times of purchasing
         meta:
           metrics:
             m_freq:
               type: average
               label: AVG of Freq
               group_label: Customer Metrics
-
+          dimension:
+            type: number
       - name: recency_score
-        description: "calculate by dividing customer base into 5 groups by quantile range of recency"
-
+        description: >-
+          calculate by dividing customer base into 5 groups by quantile range of
+          recency
+        meta:
+          dimension:
+            type: number
       - name: frequency_score
-        description: "calculate by dividing customer base into 5 groups by quantile range of frequency"
-
+        description: >-
+          calculate by dividing customer base into 5 groups by quantile range of
+          frequency
+        meta:
+          dimension:
+            type: number
       - name: monetary_score
-        description: "calculate by dividing customer base into 5 groups by quantile range of monetary value"
-
+        description: >-
+          calculate by dividing customer base into 5 groups by quantile range of
+          monetary value
+        meta:
+          dimension:
+            type: number
       - name: score_concat
-        description: "rfm concatenated score"
-
+        description: rfm concatenated score
+        meta:
+          dimension:
+            type: string
       - name: segment
-        description: "group segmentation base on rfm score"
+        description: group segmentation base on rfm score
+        meta:
+          dimension:
+            type: string
       - name: recency_type
-        description: "classified new and returning customers"
+        description: classified new and returning customers
+        meta:
+          dimension:
+            type: string

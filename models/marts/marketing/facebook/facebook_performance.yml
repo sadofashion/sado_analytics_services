@@ -8,36 +8,52 @@ models:
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
         - join: stg_gsheet__asms
           sql_on: ${facebook_performance.page} = ${stg_gsheet__asms.page}
-        - join: facebook_budget
-          sql_on: ${facebook_performance.date_start} = ${facebook_budget.date} and ${facebook_performance.page} = ${facebook_budget.page}
     columns:
       - name: account_name
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: date_start
         description: ""
-
+        meta:
+          dimension:
+            type: date
       - name: campaign_name
-        description: "campaign name based on convention"
-
+        description: campaign name based on convention
+        meta:
+          dimension:
+            type: string
       - name: big_campaign
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: pic
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: content_group
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: page
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: promoted_productline
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: media_type
         description: ""
-      
+        meta:
+          dimension:
+            type: string
       - name: campaign_id
         description: ""
         meta:
@@ -48,7 +64,8 @@ models:
               group_label: FB Ads
               filters:
                 - impressions: ">=0"
-
+          dimension:
+            type: number
       - name: impressions
         description: ""
         meta:
@@ -68,7 +85,6 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
       - name: spend
         description: ""
         meta:
@@ -88,7 +104,6 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
-
       - name: clicks
         description: ""
         meta:
@@ -102,13 +117,12 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
       - name: reach
         description: ""
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_reach:
               type: average
@@ -116,13 +130,12 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
       - name: link_click
-        description: "number of clicks to any urls in ads"
+        description: number of clicks to any urls in ads
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_link_click:
               type: sum
@@ -130,13 +143,12 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
       - name: post_engagement
         description: number of engagement with ad post
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_post_engagement:
               type: sum
@@ -144,13 +156,12 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
       - name: offline_conversion_purchase
         description: number of offline purchases attributed to ads
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_ocv:
               type: sum
@@ -158,13 +169,12 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
       - name: offline_conversion_purchase_value
         description: offline purchase value attributed to ads
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_ocv_value:
               type: sum
@@ -172,13 +182,12 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
-
       - name: pixel_purchase
         description: website purchase attributed to ads
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_pcv:
               type: sum
@@ -186,13 +195,12 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
       - name: pixel_purchase_value
         description: website purchase value attributed to ads
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_pcv_value:
               type: sum
@@ -200,13 +208,12 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
-
       - name: meta_purchase
         description: number of purchase generated directly on facebook
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_meta_purchase:
               type: sum
@@ -214,13 +221,12 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
       - name: meta_purchase_value
         description: purchase value generated directly on facebook
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_meta_purchase_value:
               type: sum
@@ -228,13 +234,12 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
-
       - name: _results_message
         description: ""
         meta:
           dimension:
-              type: number
-              hidden: true
+            type: number
+            hidden: true
           metrics:
             m_messages:
               type: sum
@@ -242,4 +247,13 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-
+      - name: ad_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: funnel
+        description: ""
+        meta:
+          dimension:
+            type: string

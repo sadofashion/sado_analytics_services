@@ -7,7 +7,9 @@ models:
         - join: stg_kiotviet__branches
           sql_on: ${stg_kiotviet__branches.branch_id} = ${revenue_items.branch_id}
         - join: stg_kiotviet__customers
-          sql_on: ${stg_kiotviet__customers.customer_id} = ${revenue_items.customer_id}
+          sql_on: >-
+            ${stg_kiotviet__customers.customer_id} =
+            ${revenue_items.customer_id}
         - join: stg_kiotviet__users
           sql_on: ${stg_kiotviet__users.user_id} =${revenue_items.employee_id}
         - join: calendar
@@ -17,41 +19,61 @@ models:
     columns:
       - name: transaction_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_code
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: reference_transaction_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: transaction_date
         description: ""
-
+        meta:
+          dimension:
+            type: timestamp
       - name: transaction_status
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: branch_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: employee_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: customer_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: product_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: product_code
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: quantity
         description: ""
         meta:
           metrics:
             m_item_sold:
               type: sum
-              label: "Num Items Sold"
+              label: Num Items Sold
               group_label: Sales Metrics
               compact: thousands
               round: 1
@@ -60,22 +82,27 @@ models:
                 - subtotal: "> 0"
             m_item_return:
               type: sum
-              label: "Num Items Return"
+              label: Num Items Return
               group_label: Sales Metrics
               compact: thousands
               round: 1
               filters:
                 - transaction_type: return
-
+          dimension:
+            type: number
       - name: price
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: discount_ratio
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: discount
         description: ""
-        meta: 
+        meta:
           metrics:
             m_item_discount_value:
               type: sum
@@ -85,7 +112,8 @@ models:
                 - transaction_type: invoice
               compact: millions
               round: 1
-
+          dimension:
+            type: number
       - name: subtotal
         description: ""
         meta:
@@ -100,6 +128,8 @@ models:
                 - transaction_type: invoice
           dimension:
             type: number
-
       - name: transaction_type
         description: ""
+        meta:
+          dimension:
+            type: string

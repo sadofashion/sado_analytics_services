@@ -1,9 +1,9 @@
 version: 2
-
 models:
   - name: analytics_events
     description: >
-      Incrementally materialised table containing records of Google Analytics events
+      Incrementally materialised table containing records of Google Analytics
+      events
     meta:
       joins:
         - join: analytics_sessions
@@ -21,118 +21,173 @@ models:
             num_events:
               type: count_distinct
               label: "#Events"
-              label_group: "Website metrics"
-
+              label_group: Website metrics
+          dimension:
+            type: string
       - name: event_date
-        description: "Date on which the event took place"
+        description: Date on which the event took place
         tests:
           - not_null
+        meta:
+          dimension:
+            type: date
       - name: event_timestamp
-        description: "Date and time at which the event took place"
+        description: Date and time at which the event took place
         tests:
           - not_null
+        meta:
+          dimension:
+            type: timestamp
       - name: client_id
-        description: "Cookie-based identifier for an individual"
+        description: Cookie-based identifier for an individual
         tests:
           - not_null
         meta:
           metrics:
             num_users:
               type: count_distinct
-              label: "Number of users"
-              group_label: "Website metrics"
+              label: Number of users
+              group_label: Website metrics
+          dimension:
+            type: string
       - name: session_id
         description: >
-          Identifier for a particular analytics session associated with a particular Client ID
+          Identifier for a particular analytics session associated with a
+          particular Client ID
         tests:
           - not_null
         meta:
           metrics:
             num_sessions:
               type: count_distinct
-              label: "Number of sessions"
-              group_label: "Website metrics"
+              label: Number of sessions
+              group_label: Website metrics
+          dimension:
+            type: string
       - name: event_name
         description: >
-          The type of event that took place (over ten possibilities - common values:
-          page_view, track_clicks
+          The type of event that took place (over ten possibilities - common
+          values: page_view, track_clicks
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
       - name: page_path
         description: >
-          The URL of the target page with domain stripped, no parameters, fragments etc.)
+          The URL of the target page with domain stripped, no parameters,
+          fragments etc.)
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
       - name: query_params
         description: >
-          Extracted query parameter string from unprocessed URL
-          (e.g. ...?ref=x&course=y -> ref=x&course=y)
+          Extracted query parameter string from unprocessed URL (e.g.
+          ...?ref=x&course=y -> ref=x&course=y)
+        meta:
+          dimension:
+            type: string
       - name: fragment
-        description: "Extracted fragment from unprocessed URL (e.g. ...#subheading -> subheading)"
+        description: >-
+          Extracted fragment from unprocessed URL (e.g. ...#subheading ->
+          subheading)
+        meta:
+          dimension:
+            type: string
       - name: link_click_target
-        description: "The URL the click event was targetting (e.g. when a hyperlink has been clicked)"
+        description: >-
+          The URL the click event was targetting (e.g. when a hyperlink has been
+          clicked)
+        meta:
+          dimension:
+            type: string
       - name: page_location
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: page_referrer
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: payment_type
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: location
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: method
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: filter
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: transaction_id
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: shipping
         description: ""
         meta:
           metrics:
             shipping_value:
               type: sum
-              label: "Shipping value"
-              label_group: "Website metrics"
-
+              label: Shipping value
+              label_group: Website metrics
+          dimension:
+            type: string
       - name: delivery_method
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: store
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: value
         description: ""
         meta:
           metrics:
             event_value:
               type: sum
-              label: "Event value"
-              label_group: "Website metrics"
+              label: Event value
+              label_group: Website metrics
               compact: millions
               round: 1
             purchase_value:
               type: sum
-              label: "Purchase value"
-              label_group: "Website metrics"
+              label: Purchase value
+              label_group: Website metrics
               compact: millions
               round: 1
               filters:
-                - event_name: "purchase"
+                - event_name: purchase
             atc_value:
               type: sum
-              label: "Add to cart value"
-              label_group: "Website metrics"
+              label: Add to cart value
+              label_group: Website metrics
               compact: millions
               round: 1
               filters:
                 - event_name: "add\_to\_cart"
-
+          dimension:
+            type: string
       - name: form_value
         description: ""
+        meta:
+          dimension:
+            type: string

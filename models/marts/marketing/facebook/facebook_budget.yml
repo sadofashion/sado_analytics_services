@@ -130,4 +130,3 @@ models:
           dimension:
             type: date
             hidden: true
-          

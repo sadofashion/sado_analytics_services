@@ -13,7 +13,8 @@ models:
               type: count_distinct
               label: "#Users"
               lable_group: Website metrics
-
+          dimension:
+            type: string
       - name: user_phone
         description: ""
         meta:
@@ -21,8 +22,9 @@ models:
             num_phones_collected:
               type: count_distinct
               label: "# Phones collected"
-              label_group: "Website metrics"
-
+              label_group: Website metrics
+          dimension:
+            type: string
       - name: user_email
         description: ""
         meta:
@@ -30,45 +32,76 @@ models:
             num_emails_collected:
               type: count_distinct
               label: "#Emails collected"
-              label_group: "Website metrics"
-
+              label_group: Website metrics
+          dimension:
+            type: string
       - name: user_name
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: user_address
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: first_session_id
         description: ""
+        meta:
+          dimension:
+            type: string
       - name: first_channel_grouping
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: last_session_id
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: country
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: device_type
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: browser
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: operating_system
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: first_visit_date
         description: ""
-
+        meta:
+          dimension:
+            type: date
       - name: first_visit_initiated
         description: ""
-
+        meta:
+          dimension:
+            type: timestamp
       - name: first_traffic_source
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: first_traffic_campaign
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: first_traffic_medium
         description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,31 +1,70 @@
-version: 2 
+version: 2
 models:
   - name: online_inventory_balance
     description: ""
     columns:
       - name: product_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: date
         description: ""
-
+        meta:
+          dimension:
+            type: date
       - name: daily_ending_remain
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: daily_beginning_remain
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: daily_ending_available
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: daily_beginning_available
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: daily_qty_sold
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: daily_average_remain
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: daily_average_available
         description: ""
+        meta:
+          dimension:
+            type: number
+      - name: quantity_in
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: quantity_out
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: quantity_out_issue
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: quantity_out_adjust
+        description: ""
+        meta:
+          dimension:
+            type: number
