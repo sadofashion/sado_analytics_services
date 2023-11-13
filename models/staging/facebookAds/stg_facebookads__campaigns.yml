@@ -38,16 +38,22 @@ models:
         meta:
           dimension:
             type: string
+        tests:
+          - not_null
       - name: content_group
         description: ""
         meta:
           dimension:
             type: string
+        tests:
+          - not_null
       - name: pic
         description: ""
         meta:
           dimension:
             type: string
+        tests:
+          - not_null
       - name: promoted_productline
         description: ""
         meta:
@@ -58,18 +64,26 @@ models:
         meta:
           dimension:
             type: string
+        tests:
+          - not_null
       - name: media_type
         description: ""
         meta:
           dimension:
             type: string
+        tests:
+          - not_null
       - name: funnel
         description: ""
         meta:
           dimension:
             type: string
+        tests:
+          - not_null
       - name: ad_type
         description: ""
         meta:
           dimension:
             type: string
+        tests:
+          - not_null
