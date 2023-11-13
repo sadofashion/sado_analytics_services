@@ -66,7 +66,8 @@ milestones as (
 )
 
 SELECT
-p.* except(date_start),p.date_start as date,
+p.* except(date_start),
+p.date_start as date,
 o.* except(page,transaction_date),
 b.* EXCEPT(date, page, milestone_name),
 m.milestone_name
