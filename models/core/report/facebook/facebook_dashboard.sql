@@ -27,7 +27,7 @@ with facebook_performance as (
     and (
       fb.page in (select distinct a.page from {{ref("stg_gsheet__asms")}} a)
       or 
-      fb.page in ("5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF")
+      fb.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF")
       )
     group by 1,2,3
 ),
