@@ -5,7 +5,7 @@ models:
     meta:
       joins:
         - join: calendar
-          sql_on: ${calendar.date} = ${facebook_dashboard.transaction_date}
+          sql_on: ${calendar.date} = ${facebook_dashboard.date}
     columns:
       - name: asm_name
         data_type: string
@@ -24,7 +24,7 @@ models:
               type: count_distinct
               label: No. Pages
               group_label: Misc
-      - name: transaction_date
+      - name: date
         data_type: date
         description: ngày giao dịch
         meta:
@@ -34,7 +34,7 @@ models:
           metrics:
             m_num_pages_days:
               type: count_distinct
-              sql: concat(transaction_date,page)
+              sql: concat(${TABLE}.date,page)
               label: No. Pages Days
               group_label: Misc
               filters:
@@ -63,7 +63,6 @@ models:
         meta:
           dimension:
             type: number
-            hidden: true
           metrics:
             m_num_invoices:
               type: sum
@@ -209,7 +208,6 @@ models:
         meta:
           dimension:
             type: number
-            hidden: true
           metrics:
             m_impressions:
               type: sum

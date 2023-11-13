@@ -1,10 +1,10 @@
 {{ config(
   materialized = 'incremental',
-  partition_by ={ 'field': 'transaction_date',
+  partition_by ={ 'field': 'date',
   'data_type': 'date',
   'granularity': 'day' },
   incremental_strategy = 'insert_overwrite',
-  unique_key = ['transaction_date','page'],
+  unique_key = ['date','page'],
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'fact','dashboard']
 ) }}
@@ -24,6 +24,11 @@ with facebook_performance as (
     {% endfor %}
     from {{ref("facebook_performance")}} fb
     where date_start >= '2023-11-01'
+    and (
+      fb.page in (select distinct a.page from {{ref("stg_gsheet__asms")}} a)
+      or 
+      fb.page in ("5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF")
+      )
     group by 1,2
 ),
 facebook_budget as (
@@ -52,12 +57,21 @@ offline_performance as (
   inner join {{ref("stg_gsheet__asms")}} a on r.branch_id = a.branch_id
   where r.transaction_date >='2023-11-01'
   group by 1,2,3
+),
+milestones as (
+  select distinct
+  budget.date,
+  budget.milestone_name,
+    from {{ref("facebook_budget")}} budget
 )
 
 SELECT
-o.*,
-b.* EXCEPT(date, page),
-p.* except(page, date_start)
-from offline_performance o
-left join facebook_budget b on o.page = b.page and o.transaction_date = b.date
-left join facebook_performance p on o.page = p.page and o.transaction_date = p.date_start
+p.* except(date_start),p.date_start as date,
+o.* except(page,transaction_date),
+b.* EXCEPT(date, page, milestone_name),
+m.milestone_name
+from facebook_performance p
+left join facebook_budget b on p.date_start = b.date and (p.page = b.page)
+left join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)
+left join milestones m on p.date_start = m.date
+
