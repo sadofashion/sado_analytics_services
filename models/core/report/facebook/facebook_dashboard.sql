@@ -18,7 +18,7 @@
 
 with facebook_performance as (
     select 
-      fb.page, date_start,
+      fb.page, date_start, pic,
     {% for metric in metrics %}
     sum(fb.{{metric}}) as {{metric}},
     {% endfor %}
@@ -29,7 +29,7 @@ with facebook_performance as (
       or 
       fb.page in ("5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF")
       )
-    group by 1,2
+    group by 1,2,3
 ),
 facebook_budget as (
   select 
