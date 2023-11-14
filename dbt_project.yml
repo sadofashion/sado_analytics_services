@@ -35,6 +35,9 @@ models:
   sado_analytics_services:
     staging:
       +materialized: view
+      base:
+        +docs:
+          show: false #hide base models
     intermediate:
       +materialized: ephemeral
     marts:
@@ -50,5 +53,16 @@ models:
         +materialized: table
     ultilities:
       +materialized: view
+      +docs:
+        show: false #hide ultitlities
     core:
       +materialized: table
+  ### hide packages
+  dbt_utils:
+    +docs:
+      show: false
+  code_gen:
+    +docs:
+      show: false
+
+  
