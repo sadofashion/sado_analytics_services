@@ -37,31 +37,31 @@ models:
       +materialized: view
       base:
         +docs:
-          show: false #hide base models
+          show: false
     intermediate:
       +materialized: ephemeral
+      +docs:
+        show: false
     marts:
       +materialized: table
       sales:
         +schema: sales
-        +materialized: table
       marketing:
         +schema: marketing
-        +materialized: table
       online_sales:
         +schema: online_sales
-        +materialized: table
     ultilities:
       +materialized: view
       +docs:
         show: false #hide ultitlities
     core:
       +materialized: table
+      +schema: core
   ### hide packages
-  dbt_utils:
+  dbt_utils: # Hide "dbt_utils" package
     +docs:
       show: false
-  code_gen:
+  codegen:
     +docs:
       show: false
 
