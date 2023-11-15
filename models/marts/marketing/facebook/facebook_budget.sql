@@ -1,6 +1,6 @@
 {{
   config(
-    tags=['table', 'fact']
+    tags=['table', 'fact','budget']
   )
 }}
 

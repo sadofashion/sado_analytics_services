@@ -19,6 +19,7 @@ models:
         meta:
           dimension:
             type: date
+            hidden: true
       - name: campaign_name
         description: campaign name based on convention
         meta:
@@ -49,6 +50,12 @@ models:
         meta:
           dimension:
             type: string
+            sql: |
+              case when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng đông|áo gió|bomber|áo phao|áo thun|áo nỉ|áo len|polo dài tay|bộ nỉ|quần nỉ|quần gió') then 'Hàng đông'
+                   when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng hè|polo|t-shirt|short tt|short kk|short gió|smc|áo chống nắng') then 'Hàng hè'
+                   when regexp_contains(lower(${TABLE}.promoted_productline),r'th quanh năm|smd|jeans|quần âu|kaki dài|phụ kiện|tanktop') then 'Quanh năm'
+                   else 'Khác' end
+            label: Product type
       - name: media_type
         description: ""
         meta:

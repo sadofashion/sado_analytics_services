@@ -8,6 +8,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: category_id
         description: "{{ doc('column__kiotviet__category_id') }}"
         meta:
@@ -48,6 +49,7 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
       - name: sub_productline
         description: "{{ doc('column__kiotviet__sub_productline') }}"
         meta:
@@ -68,3 +70,14 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+      - name: product_group
+        meta:
+          dimension:
+            type: string
+            sql: |
+              case 
+                when regexp_contains(lower(${TABLE}.productline),r'thu đông') then 'Hàng đông'
+                when regexp_contains(lower(${TABLE}.productline),r'xuân hè') then 'Hàng hè'
+                else 'Quanh năm' end
+            label: Product group

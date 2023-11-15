@@ -5,6 +5,8 @@ WITH date_spine AS (
         end_date = "date_add( current_date() , interval 6 month)"
     ) }}
 )
+
+
     SELECT
         DATE(date_day) AS date,
         extract(day from date_day) as day_of_month,
@@ -32,5 +34,7 @@ WITH date_spine AS (
             FROM
                 date_day
         ) AS year,
+--        {# b.milestone_name #}
     FROM
-        date_spine
+        date_spine d
+--        {# left join budget_period b on date(d.date_day) = b.date #}

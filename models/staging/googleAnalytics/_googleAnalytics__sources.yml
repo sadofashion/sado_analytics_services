@@ -8,7 +8,7 @@ sources:
     tables:
       - name: events
         identifier: events_*
-        loaded_at_field: "parse_timestamp('%Y%m%d',_table_suffix)"
+        loaded_at_field: "case when _table_suffix like '%intraday%' then parse_timestamp('%Y%m%d',regexp_replace(_table_suffix,r'^intraday_','')) else parse_timestamp('%Y%m%d',_table_suffix) end"
         freshness:
           warn_after:
             count: 24

@@ -10,6 +10,8 @@ models:
           sql_on: >-
             ${stg_kiotviet__customers.customer_id} =
             ${revenue_items.customer_id}
+        - join: stg_kiotviet__products
+          sql_on: ${stg_kiotviet__products.product_id} = ${revenue_items.product_id}
         - join: stg_kiotviet__users
           sql_on: ${stg_kiotviet__users.user_id} =${revenue_items.employee_id}
         - join: calendar
@@ -22,6 +24,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: transaction_code
         description: ""
         meta:
@@ -32,11 +35,13 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: transaction_date
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: transaction_status
         description: ""
         meta:
@@ -47,26 +52,31 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: employee_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: customer_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: product_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: product_code
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: quantity
         description: ""
         meta:
