@@ -8,6 +8,8 @@ models:
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
         - join: stg_gsheet__asms
           sql_on: ${facebook_performance.page} = ${stg_gsheet__asms.page}
+        - join: stg_kiotviet__products
+          sql_on: ${stg_kiotviet__products.ads_product_mapping} = ${facebook_performance.promoted_productline}
     columns:
       - name: account_name
         description: ""
@@ -50,12 +52,7 @@ models:
         meta:
           dimension:
             type: string
-            sql: |
-              case when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng đông|áo gió|bomber|áo phao|áo thun|áo nỉ|áo len|polo dài tay|bộ nỉ|quần nỉ|quần gió') then 'Hàng đông'
-                   when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng hè|polo|t-shirt|short tt|short kk|short gió|smc|áo chống nắng') then 'Hàng hè'
-                   when regexp_contains(lower(${TABLE}.promoted_productline),r'th quanh năm|smd|jeans|quần âu|kaki dài|phụ kiện|tanktop') then 'Quanh năm'
-                   else 'Khác' end
-            label: Product type
+            sql: lower(promoted_productline)
       - name: media_type
         description: ""
         meta:
@@ -84,13 +81,13 @@ models:
               type: sum
               label: Impressions
               group_label: FB Ads
-              compact: thousands
+              compact: millions
               round: 1
             m_avg_impressions:
               type: average
               label: AVG Impressions
               group_label: FB Ads
-              compact: thousands
+              compact: millions
               round: 1
       - name: spend
         description: ""

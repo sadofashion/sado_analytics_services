@@ -75,9 +75,11 @@ models:
         meta:
           dimension:
             type: string
-            sql: |
-              case 
-                when regexp_contains(lower(${TABLE}.productline),r'thu đông') then 'Hàng đông'
-                when regexp_contains(lower(${TABLE}.productline),r'xuân hè') then 'Hàng hè'
-                else 'Quanh năm' end
             label: Product group
+        description: ""
+      - name: ads_product_mapping
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
