@@ -72,14 +72,16 @@ models:
             type: string
             hidden: true
       - name: product_group
+        description: ""
         meta:
           dimension:
             type: string
             label: Product group
-        description: ""
+        tests:
+          - not_null
       - name: ads_product_mapping
         description: ""
         meta:
           dimension:
             type: string
-            hidden: true
+            label: Ads products

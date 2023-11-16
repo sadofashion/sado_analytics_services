@@ -42,25 +42,8 @@ SELECT
   C.sub_productline,
   C.category,
   C.productline,
-  CASE
-    {% for key,values in mapping.items() %}
-      WHEN LOWER(C.sub_productline) IN ('{{ values|join("','") }}') THEN '{{key}}'
-    {% endfor %}
-    ELSE LOWER(
-      C.sub_productline
-    )
-  END AS ads_product_mapping,
-  CASE
-    WHEN regexp_contains(
-      C.productline,
-      r'thu đông'
-    ) THEN 'Hàng đông'
-    WHEN regexp_contains(
-      C.productline,
-      r'xuân hè'
-    ) THEN 'Hàng hè'
-    ELSE 'Quanh năm'
-  END AS product_group,
+  c.ads_product_mapping,
+  C.product_group,
 FROM
   {{ ref('base_kiotViet__products') }}
   p
