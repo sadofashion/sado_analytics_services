@@ -8,7 +8,6 @@
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'daily']
 ) }}
-with base as
   SELECT
   {{ dbt_utils.generate_surrogate_key(['event_id', 'params.key']) }} AS param_id,
   event_id,
