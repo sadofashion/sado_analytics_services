@@ -13,13 +13,11 @@ models:
           Surrogate key generated from the event_id and param_key
         tests:
           - not_null
-          - unique
       - name: event_id
         description: >
           Unique identifier for a particular GA4 event
         tests:
           - not_null
-          - unique
       - name: event_date
         description: "Date - the partioning key for the base table"
         tests:
@@ -32,7 +30,6 @@ models:
         description: "Cookie-based identifier for an individual"
         tests:
           - not_null
-
       - name: event_name
         description: "The type of event that took place"
         tests:

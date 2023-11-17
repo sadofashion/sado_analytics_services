@@ -13,19 +13,18 @@ WITH raw_ AS (
     SELECT
         DISTINCT client_id,
         FIRST_VALUE(
-            val_phone ignore nulls
+            user_phone ignore nulls
         ) over(client_window) AS user_phone,
         FIRST_VALUE(
-            val_email ignore nulls
+            user_email ignore nulls
         ) over(client_window) AS user_email,
         FIRST_VALUE(
-            val_name ignore nulls
+            user_name ignore nulls
         ) over(client_window) AS user_name,
         FIRST_VALUE(
-            val_address ignore nulls
+            user_address ignore nulls
         ) over(client_window) AS user_address,
         channel_grouping,
-        val_address,
         session_id,
         country,
         device_type,
@@ -38,8 +37,6 @@ WITH raw_ AS (
         traffic_medium,
     FROM
         {{ ref('int_analytics__events_format') }}
-
-pivot(ANY_VALUE(user_value) AS val FOR user_key IN ('name', 'phone', 'email', 'address')) 
 
 {% if is_incremental() %}
 WHERE
