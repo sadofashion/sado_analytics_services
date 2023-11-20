@@ -39,7 +39,7 @@ _milestone as (
             FROM
                 date_day
         ) AS year,
-        b.milestone_name
+        b.period
     FROM
         date_spine d
         left join _milestone b on date(d.date_day) >= b.start and date(d.date_day) <= b.end
