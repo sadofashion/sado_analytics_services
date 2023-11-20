@@ -8,14 +8,12 @@
         {% for relation in relations %}
         SELECT
             {% if include is defined %}
-                {{ include |
-                JOIN(',') }}
+                {{ include | join(',') }}
             {% else %}
                 * {% if exclude is defined %}
                 EXCEPT
                     (
-                        {{ exclude |
-                        JOIN(',') }}
+                        {{ exclude | join(',') }}
                     )
                 {% endif %}
             {% endif %}
