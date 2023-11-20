@@ -67,13 +67,14 @@ milestones as (
 )
 
 SELECT
-p.* except(date_start),
-p.date_start as date,
+p.* except(page,date_start),
 o.* except(page,transaction_date),
 b.* EXCEPT(date, page, milestone_name),
+coalesce(p.date_start,o.transaction_date,b.date) as date,
+coalesce(p.page,o.page,b.page) as page,
 m.milestone_name
 from facebook_performance p
-left join facebook_budget b on p.date_start = b.date and (p.page = b.page)
-left join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)
-left join milestones m on p.date_start = m.date
+full join facebook_budget b on p.date_start = b.date and (p.page = b.page)
+full join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)
+full join milestones m on coalesce(p.date_start,o.transaction_date,b.date) = m.date
 
