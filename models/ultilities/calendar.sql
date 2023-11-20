@@ -4,6 +4,11 @@ WITH date_spine AS (
         datepart = "day",
         end_date = "date_add( current_date() , interval 6 month)"
     ) }}
+),
+_milestone as (
+    select 
+    milestones.*
+    from {{ref("stg_gsheet__facebook_budget")}}, unnest(milestones) milestones
 )
 
 
@@ -34,7 +39,7 @@ WITH date_spine AS (
             FROM
                 date_day
         ) AS year,
---        {# b.milestone_name #}
+        b.milestone_name
     FROM
         date_spine d
---        {# left join budget_period b on date(d.date_day) = b.date #}
+        left join _milestone b on date(d.date_day) >= b.start and date(d.date_day) <= b.end
