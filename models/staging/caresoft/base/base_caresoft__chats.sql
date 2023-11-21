@@ -1,4 +1,4 @@
-SELECT
+{# SELECT
     *
 EXCEPT(rn_)
 FROM
@@ -17,4 +17,20 @@ FROM
             ) }}
     )
 WHERE
-    rn_ = 1
+    rn_ = 1 #}
+
+
+with union_ as (
+    {{union_relations(
+    relations=[
+        source('caresoft', 'chats_fb'),
+        source('caresoft', 'chats_live'),
+        source('caresoft', 'chats_zalo')
+        ],
+) }}
+), 
+{{deduplicate_cte(
+    cte = 'union_',
+    partition_fields=['conversation_id'],
+    last_updated_fields=['_batched_at']
+    )}}

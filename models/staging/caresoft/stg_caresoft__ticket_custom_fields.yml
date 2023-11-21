@@ -1,0 +1,35 @@
+version: 2
+models:
+  - name: stg_caresoft__ticket_custom_fields
+    description: "caresoft ticket custom fields"
+    columns:
+      - name: custom_field_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: custom_field_label
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: value_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: value_label
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: value_parent_id
+        description: ""
+        meta:
+          dimension:
+            type: number

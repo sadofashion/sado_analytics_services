@@ -21,6 +21,9 @@ models:
         meta:
           dimension:
             type: string
+        tests:
+          - not_null
+          - unique
       - name: caller
         description: ""
         meta:

@@ -12,6 +12,9 @@ models:
         meta:
           dimension:
             type: number
+        tests:
+          - not_null
+          - unique
       - name: phone_no
         description: ""
         meta:

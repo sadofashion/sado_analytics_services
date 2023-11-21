@@ -57,15 +57,17 @@ sources:
             count: 36
             period: hour
       - name: chats
-        identifier: p_chats_*
+        identifier: p_chats__*
         loaded_at_field: _batched_at
-        freshness:
-          warn_after:
-            count: 24
-            period: hour
-          error_after:
-            count: 36
-            period: hour
+      - name: chats_live
+        identifier: p_chats_live__*
+        loaded_at_field: _batched_at
+      - name: chats_fb
+        identifier: p_chats_fb__*
+        loaded_at_field: _batched_at
+      - name: chats_zalo
+        identifier: p_chats_zalo__*
+        loaded_at_field: _batched_at
       - name: agents
         identifier: p_agents_*
         loaded_at_field: _batched_at

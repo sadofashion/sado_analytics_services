@@ -6,15 +6,15 @@ FROM
         SELECT
             *,
             ROW_NUMBER() over (
-                PARTITION BY id
+                PARTITION BY custom_field_id
                 ORDER BY
-                    _batched_at DESC,
-                    updated_at DESC
+                    _batched_at DESC
+                
             ) rn_
         FROM
             {{ source(
                 'caresoft',
-                'agents'
+                'ticket_custom_fields'
             ) }}
     )
 WHERE

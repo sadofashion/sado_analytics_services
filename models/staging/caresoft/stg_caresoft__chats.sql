@@ -19,7 +19,7 @@ SELECT
     agent_name,
     ring_time,
     meet_time,
-    waitTime,
+    waitTime as wait_time,
     answer_time,
     chat_status,
     landing_page,
@@ -27,4 +27,5 @@ SELECT
     is_trigger,
     facebook_page_id,
     service_id,
+    conversation_type,
 from {{ref('base_caresoft__chats')}}
