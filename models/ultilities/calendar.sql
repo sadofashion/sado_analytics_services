@@ -12,7 +12,7 @@ _milestone as (
 )
 
 
-    SELECT
+    SELECT distinct
         DATE(date_day) AS date,
         extract(day from date_day) as day_of_month,
         format_date(
@@ -39,7 +39,7 @@ _milestone as (
             FROM
                 date_day
         ) AS year,
-        b.milestone_name as period
+        b.milestone_name as period,
     FROM
         date_spine d
         left join _milestone b on date(d.date_day) >= b.start and date(d.date_day) <= b.end
