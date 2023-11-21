@@ -186,7 +186,7 @@ models:
               type: sum
               label: Sales target
               group_label: Budget
-              compact: millions
+              compact: billions
               round: 1
       - name: daily_traffic_target
         data_type: float64
