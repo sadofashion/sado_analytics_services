@@ -1,0 +1,77 @@
+version: 2
+models:
+  - name: engagements_details
+    description: "Tổng hợp tương tác (gọi & chat) thông qua caresoft"
+    columns:
+      - name: ticket_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+        tests:
+          - not_null
+      - name: service_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: start_time
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: end_time
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: agent_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+        tests:
+          - not_null
+      - name: engagement_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        tests:
+          - not_null
+          - unique
+      - name: engagement_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: engagement_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: engagement_duration
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: wait_duration
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: missed_reason
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: engagement_channel
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,112 @@
+version: 2
+models:
+  - name: tickets
+    columns:
+      - name: ticket_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+        tests:
+          - not_null
+          - unique
+      - name: assignee_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: contact_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: campaign_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_subject
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: ticket_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: custom_fields_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: engagement_freq
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: service_details
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: procedure
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sales_details
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: employee
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: engagement_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ad_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ad_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: utm_campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: utm_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: utm_medium
+        description: ""
+        meta:
+          dimension:
+            type: string
