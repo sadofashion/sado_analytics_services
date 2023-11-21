@@ -6,6 +6,7 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_dashboard.date}
+          fields: [date, period, year_month, month_name]
     columns:
       - name: asm_name
         data_type: string

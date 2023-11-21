@@ -11,6 +11,7 @@ models:
         - join: calendar
           sql_on: >-
             ${calendar.date} = ${google_campaign_performance.date}
+          fields: [date, period, year_month, month_name]
     columns:
       - name: campaign_id
         description: "{{ doc('column__googleads__campaign_id') }}"

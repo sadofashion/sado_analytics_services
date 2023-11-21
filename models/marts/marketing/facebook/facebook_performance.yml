@@ -6,6 +6,7 @@ models:
       joins:
         - join: calendar
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
+          fields: [date, period, year_month, month_name]
         - join: stg_gsheet__asms
           sql_on: ${facebook_performance.page} = ${stg_gsheet__asms.page}
         - join: stg_kiotviet__categories

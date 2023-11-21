@@ -13,6 +13,9 @@ models:
             - campaign_name
             - advertising_channel
             - bidding_stategy
+        - join: calendar
+          sql_on: ${calendar.date} = ${stg_googleads__ad_group_stats.date}
+          fields: [date, period, year_month, month_name]
     columns:
       - name: campaign_id
         description: "{{ doc('column__googleads__campaign_id') }}"
