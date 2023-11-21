@@ -1,16 +1,18 @@
-name: Cloud Run
+name: Schedule and Run
 
 on:
+  pull_request:
+    branches:
+      - 'master'
   push:
+    branches:
+      - 'master'
   schedule:
     - cron: "15 1-23/2 * * *"
   workflow_dispatch:
 concurrency: ${{ github.ref }}
 
 env:
-  DBT_PROFILES_DIR: .
-  PROFILES_KEY: profiles
-  PROFILES_FILE: profiles.yml
   GCP_SA: chienle-sa@agile-scheme-394814.iam.gserviceaccount.com
 
 jobs:
@@ -27,7 +29,8 @@ jobs:
         uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY}}
-      - id: generate_profile_yaml
+      - name: Generate profiles.yml
+        id: generate_profile_yaml
         run: |
           echo -e "sado_analytics_services:\\n  outputs:\\n    prod:" >> profiles.yml
           echo "      dataset: dbt_prod" >> profiles.yml
@@ -40,44 +43,37 @@ jobs:
           echo "      project: agile-scheme-394814" >> profiles.yml
           echo "      threads: 4" >> profiles.yml
           echo "      type: bigquery" >> profiles.yml
+          echo "    dev:" >> profiles.yml
+          echo "      dataset: dbt_dev" >> profiles.yml
+          echo "      job_execution_timeout_seconds: 300" >> profiles.yml
+          echo "      job_retries: 1" >> profiles.yml
+          echo "      keyfile: ${{ steps.authenticate.outputs.credentials_file_path }}" >> profiles.yml
+          echo "      location: US" >> profiles.yml
+          echo "      method: service-account" >> profiles.yml
+          echo "      priority: interactive" >> profiles.yml
+          echo "      project: agile-scheme-394814" >> profiles.yml
+          echo "      threads: 4" >> profiles.yml
+          echo "      type: bigquery" >> profiles.yml
           echo "  target: prod" >> profiles.yml
           
       - run: |
-          pip install dbt-core==1.6.6 dbt-bigquery==1.6.4 "dbt-metricflow[bigquery]"
+          pip install dbt-core==1.6.6 dbt-bigquery==1.6.4
           dbt deps
-      - id: schedule_flow
+      - name: Schedule flow
+        id: schedule_flow
         if: github.event_name == 'schedule'
         run: |
           dbt run --profiles-dir $PWD --project-dir $PWD --exclude config.materialized:view
-      - id: push_flow
+      - name: Push flow
+        id: push_flow
         if: github.event_name == 'push'
         run: |
           dbt run --profiles-dir $PWD --project-dir $PWD --select state:modified --defer --state prod
-      - id: compile
-        if: github.event_name == 'push'
+      - name: Pull request flow
+        id: pull_request_flow
+        if: github.event_name == 'pull_request'
         run: |
-          dbt compile && dbt docs generate
-          find ./target -name \*.json -exec cp -v '{}' './prod' ';'
-        continue-on-error: true
-      - name: Add Manifest to Repo
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: './prod'
-          committer_name: Github Actions
-          committer_email: actions@github.com
-          message: 'Adding manifest from merge run'
-      - name: Deploy to Netlify
-        if: github.event_name == 'push'
-        uses: nwtgck/actions-netlify@v2.0
-        with:
-          publish-dir: './target'
-          deploy-message: "Deploy from GitHub Actions"
-          enable-pull-request-comment: false
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
-        continue-on-error: true
+          dbt run --profiles-dir $PWD --project-dir $PWD --select state:modified --defer --state prod --target dev
+          dbt test --profiles-dir $PWD --project-dir $PWD --select state:modified --defer --state prod --target dev
+
       
