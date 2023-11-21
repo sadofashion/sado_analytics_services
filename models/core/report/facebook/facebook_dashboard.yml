@@ -154,12 +154,6 @@ models:
           dimension:
             type: number
             hidden: true
-      - name: milestone_name
-        data_type: string
-        description: tên tuần
-        meta:
-          dimension:
-            type: string
       - name: daily_budget
         data_type: float64
         description: ngân sach/ngày

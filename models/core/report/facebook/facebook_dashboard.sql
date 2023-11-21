@@ -59,13 +59,6 @@ offline_performance as (
   inner join {{ref("stg_gsheet__asms")}} a on r.branch_id = a.branch_id
   where r.transaction_date >='2023-11-01'
   group by 1,2,3
-),
-milestones as (
-  select distinct
-  budget.date,
-  budget.milestone_name,
-    from {{ref("facebook_budget")}} budget
-    where budget.date <=current_date()
 )
 
 SELECT
@@ -74,9 +67,7 @@ o.* except(page,transaction_date),
 b.* EXCEPT(date, page, milestone_name),
 coalesce(p.date_start,o.transaction_date,b.date) as date,
 coalesce(p.page,o.page,b.page) as page,
-m.milestone_name
 from facebook_performance p
 full join facebook_budget b on p.date_start = b.date and (p.page = b.page)
 full join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)
-left join milestones m on coalesce(p.date_start,o.transaction_date,b.date) = m.date
 
