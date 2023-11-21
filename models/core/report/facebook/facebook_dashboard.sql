@@ -41,6 +41,7 @@ facebook_budget as (
     sum(daily_{{target}}) as daily_{{target}},
     {% endfor %}
     from {{ref("facebook_budget")}} budget
+    where budget.date <=current_date()
     group by 1,2,3
 ),
 offline_performance as (
@@ -64,6 +65,7 @@ milestones as (
   budget.date,
   budget.milestone_name,
     from {{ref("facebook_budget")}} budget
+    where budget.date <=current_date()
 )
 
 SELECT
@@ -76,5 +78,5 @@ m.milestone_name
 from facebook_performance p
 full join facebook_budget b on p.date_start = b.date and (p.page = b.page)
 full join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)
-full join milestones m on coalesce(p.date_start,o.transaction_date,b.date) = m.date
+left join milestones m on coalesce(p.date_start,o.transaction_date,b.date) = m.date
 
