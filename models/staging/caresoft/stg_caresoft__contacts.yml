@@ -1,6 +1,12 @@
 version: 2
 models:
   - name: stg_caresoft__contacts
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = date(${stg_caresoft__contacts.created_at})
+          fields: [date, month_name, year_month, period]
+
     columns:
       - name: created_at
         description: ""

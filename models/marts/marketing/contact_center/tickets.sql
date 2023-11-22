@@ -32,13 +32,14 @@ ticket_status,
 created_at,
 updated_at,
 ticket_source,
-custom_fields.lable as custom_fields_label,
-custom_fields.value as custom_fields_value,
+cf.custom_field_label as custom_field_label,
+cf.value_label as custom_field_value,
 regexp_extract(tags.name,r'^([a-z\-_]+)[\:\-\.]\s?.*$') as tag_key,
 regexp_extract(tags.name,r'^[a-z\-_]+[\:\-\.]\s?(.*)$') as tag_value,
 from {{ref('stg_caresoft__tickets')}}
 left join unnest(custom_fields) custom_fields
 left join unnest(tags) tags
+left join {{ref("stg_caresoft__ticket_custom_fields")}} cf on custom_fields.id = cf.custom_field_id and custom_fields.value = cf.value_id
 
 {% if is_incremental() %}
                 WHERE
@@ -52,7 +53,7 @@ pivot_custom_fields as (
     select * 
     from unnested
     pivot (
-    any_value(custom_fields_value) for custom_fields_label in (
+    any_value(custom_field_value) for custom_field_label in (
         {%for key, value in label_mapping.items()%}
             '{{key}}' as {{value}} {{ ',' if not loop.last}}
         {%endfor%}

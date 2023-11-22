@@ -9,7 +9,7 @@ SELECT
     username,
     email,
     phone_no,
-    agent_id,
+    safe_cast(agent_id as int64) agent_id,
     created_at,
     updated_at,
     group_id,
