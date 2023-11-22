@@ -57,12 +57,12 @@ offline_performance as (
   from {{ref("revenue")}} r
   inner join {{ref("stg_gsheet__asms")}} a on r.branch_id = a.branch_id
   where r.transaction_date >='2023-11-01'
-  group by 1,2,3
+  group by 1,2
 ),
 
 asms as (
   select distinct a.asm_name, a.page 
-  from {{ref("stg_gsheet__asms")}}
+  from {{ref("stg_gsheet__asms")}} a
 )
 
 SELECT
