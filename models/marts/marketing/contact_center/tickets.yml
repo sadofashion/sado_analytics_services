@@ -1,25 +1,75 @@
 version: 2
 models:
   - name: tickets
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = date(${tickets.created_at})
+          fields: [date, month_name, year_month, period]
+        - join: stg_caresoft__agents
+          sql_on: ${stg_caresoft__agents.id} = ${tickets.assignee_id}
+          fields: [id, group_name, username]
+        - join: stg_caresoft__contacts
+          sql_on: ${stg_caresoft__contacts.contact_id} = ${tickets.contact_id}
+        - join: stg_caresoft__ticket_custom_fields
+          alias: engagement_freq
+          sql_on: ${engagement_freq.value_id} = ${tickets.engagement_freq}
+          fields: [value_id, value_label]
+        - join: stg_caresoft__ticket_custom_fields
+          alias: service_details
+          sql_on: ${service_details.value_id} = ${tickets.service_details}
+          fields: [value_id, value_label]
+        - join: stg_caresoft__ticket_custom_fields
+          alias: procedure
+          sql_on: ${procedure.value_id} = ${tickets.procedure}
+          fields: [value_id, value_label]
+        - join: stg_caresoft__ticket_custom_fields
+          alias: sales_details
+          sql_on: ${sales_details.value_id} = ${tickets.sales_details}
+          fields: [value_id, value_label]
+        - join: stg_caresoft__ticket_custom_fields
+          alias: employee
+          sql_on: ${employee.value_id} = ${tickets.employee}
+          fields: [value_id, value_label]
+        - join: stg_caresoft__ticket_custom_fields
+          alias: engagement_category
+          sql_on: ${engagement_category.value_id} = ${tickets.engagement_category}
+          fields: [value_id, value_label]
     columns:
       - name: ticket_id
         description: ""
-        meta:
-          dimension:
-            type: number
         tests:
           - not_null
           - unique
+        meta:
+          dimension:
+            type: number
+          metrics:
+            m_num_tickets:
+              type: count_distinct
+              label: No. Tickets
+              group_label: Contact Center Metrics
+              compact: thousands
       - name: assignee_id
         description: ""
         meta:
           dimension:
             type: number
+          metrics:
+            m_agents:
+              type: count_distinct
+              label: No. Agents
+              group_label: Contact Center Metrics
       - name: contact_id
         description: ""
         meta:
           dimension:
             type: number
+          metrics:
+            m_contacts_engaged:
+              type: count_distinct
+              label: No. Contacts
+              group_label: Contact Center Metrics
       - name: campaign_id
         description: ""
         meta:
@@ -50,11 +100,6 @@ models:
         meta:
           dimension:
             type: string
-      - name: custom_fields_id
-        description: ""
-        meta:
-          dimension:
-            type: number
       - name: engagement_freq
         description: ""
         meta:

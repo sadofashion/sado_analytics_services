@@ -32,12 +32,21 @@ ticket_status,
 created_at,
 updated_at,
 ticket_source,
-{# custom_fields.id as custom_fields_id, #}
 custom_fields.lable as custom_fields_label,
 custom_fields.value as custom_fields_value,
 regexp_extract(tags.name,r'^([a-z\-_]+)[\:\-\.]\s?.*$') as tag_key,
 regexp_extract(tags.name,r'^[a-z\-_]+[\:\-\.]\s?(.*)$') as tag_value,
-from {{ref('stg_caresoft__tickets')}}, unnest(custom_fields) custom_fields, unnest(tags) tags
+from {{ref('stg_caresoft__tickets')}}
+left join unnest(custom_fields) custom_fields
+left join unnest(tags) tags
+
+{% if is_incremental() %}
+                WHERE
+                      created_at >= timestamp(_dbt_max_partition)
+
+                   OR created_at >= timestamp_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
+{% endif %}
+
 ),
 pivot_custom_fields as (
     select * 
