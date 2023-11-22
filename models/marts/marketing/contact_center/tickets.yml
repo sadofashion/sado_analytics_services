@@ -11,30 +11,6 @@ models:
           fields: [id, group_name, username]
         - join: stg_caresoft__contacts
           sql_on: ${stg_caresoft__contacts.contact_id} = ${tickets.contact_id}
-        - join: stg_caresoft__ticket_custom_fields
-          alias: engagement_freq
-          sql_on: ${engagement_freq.value_id} = ${tickets.engagement_freq}
-          fields: [value_id, value_label]
-        - join: stg_caresoft__ticket_custom_fields
-          alias: service_details
-          sql_on: ${service_details.value_id} = ${tickets.service_details}
-          fields: [value_id, value_label]
-        - join: stg_caresoft__ticket_custom_fields
-          alias: procedure
-          sql_on: ${procedure.value_id} = ${tickets.procedure}
-          fields: [value_id, value_label]
-        - join: stg_caresoft__ticket_custom_fields
-          alias: sales_details
-          sql_on: ${sales_details.value_id} = ${tickets.sales_details}
-          fields: [value_id, value_label]
-        - join: stg_caresoft__ticket_custom_fields
-          alias: employee
-          sql_on: ${employee.value_id} = ${tickets.employee}
-          fields: [value_id, value_label]
-        - join: stg_caresoft__ticket_custom_fields
-          alias: engagement_category
-          sql_on: ${engagement_category.value_id} = ${tickets.engagement_category}
-          fields: [value_id, value_label]
     columns:
       - name: ticket_id
         description: ""
