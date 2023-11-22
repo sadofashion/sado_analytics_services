@@ -39,7 +39,7 @@ regexp_extract(tags.name,r'^[a-z\-_]+[\:\-\.]\s?(.*)$') as tag_value,
 from {{ref('stg_caresoft__tickets')}}
 left join unnest(custom_fields) custom_fields
 left join unnest(tags) tags
-left join {{ref("stg_caresoft__ticket_custom_fields")}} cf on custom_fields.id = cf.custom_field_id and custom_fields.value = cf.value_id
+left join {{ref("stg_caresoft__ticket_custom_fields")}} cf on safe_cast(custom_fields.id as int64) = cf.custom_field_id and safe_cast(custom_fields.value as int64) = cf.value_id
 
 {% if is_incremental() %}
                 WHERE
