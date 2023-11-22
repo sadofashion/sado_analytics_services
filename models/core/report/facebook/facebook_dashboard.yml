@@ -7,6 +7,8 @@ models:
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_dashboard.date}
           fields: [date, period, year_month, month_name]
+        - join: stg_gsheet__asms
+          sql_on: ${stg_gsheet__asms.page} = ${facebook_dashboard.page}
     columns:
       - name: asm_name
         data_type: string
