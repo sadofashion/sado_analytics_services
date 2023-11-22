@@ -5,7 +5,11 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = ${stg_googleads__ad_group_stats.date}
-          fields: [date, period, year_month, month_name]
+          fields:
+            - date
+            - period
+            - year_month
+            - month_name
     description: ""
     columns:
       - name: ad_group_id
