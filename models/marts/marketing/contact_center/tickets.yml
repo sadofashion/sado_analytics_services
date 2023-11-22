@@ -20,6 +20,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
           metrics:
             m_num_tickets:
               type: count_distinct
@@ -31,6 +32,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
           metrics:
             m_agents:
               type: count_distinct
@@ -41,6 +43,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
           metrics:
             m_contacts_engaged:
               type: count_distinct
@@ -51,11 +54,13 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
       - name: ticket_subject
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: ticket_status
         description: ""
         meta:
@@ -66,11 +71,13 @@ models:
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: updated_at
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: ticket_source
         description: ""
         meta:
@@ -111,23 +118,28 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
       - name: ad_name
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: utm_campaign
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: utm_source
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: utm_medium
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
