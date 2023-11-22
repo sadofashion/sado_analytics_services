@@ -31,6 +31,12 @@ missed_reason,
 'hotline' as engagement_channel,
 from 
 {{ref("stg_caresoft__calls")}} calls
+{% if is_incremental() %}
+                WHERE
+                      start_time >= timestamp(_dbt_max_partition)
+
+                   OR start_time >= timestamp_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
+{% endif %}
 
 union all
 
@@ -55,3 +61,10 @@ conversation_type as engagement_channel,
 from 
 {{ref("stg_caresoft__chats")}} chats
 left join {{ref("stg_caresoft__agents")}} agents on agents.email = chats.agent_email
+
+{% if is_incremental() %}
+                WHERE
+                      timestamp(start_time) >= timestamp(_dbt_max_partition)
+
+                   OR timestamp(start_time) >= timestamp_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
+{% endif %}
