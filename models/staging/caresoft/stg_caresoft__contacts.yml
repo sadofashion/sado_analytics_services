@@ -15,114 +15,154 @@ models:
             type: timestamp
       - name: contact_id
         description: ""
-        meta:
-          dimension:
-            type: number
         tests:
           - not_null
           - unique
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_contacts:
+              type: count_distinct
+              label: No. contacts
+              compact: thousands
+              round: 1
       - name: phone_no
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
+          metrics:
+            m_num_phones:
+              type: count_distinct
+              label: No. phones
+              compact: thousands
+              round: 1
       - name: updated_at
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: username
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: account_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: address
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: campaign_handler_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: city_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: created_from
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: custom_fields
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: district_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: email
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: email2
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: gender
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: organization
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: organization_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: phone_no2
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: phone_no3
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: psid
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: role_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: take_email_at
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: take_phone_at
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
+      - name: contact_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+            sql: case when date(${TABLE}.created_at) < date_trunc(${calendar.date},month) then 'old' else 'new' end
