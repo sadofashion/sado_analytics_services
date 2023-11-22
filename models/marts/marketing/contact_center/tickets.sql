@@ -43,9 +43,9 @@ left join {{ref("stg_caresoft__ticket_custom_fields")}} cf on safe_cast(custom_f
 
 {% if is_incremental() %}
                 WHERE
-                      created_at >= timestamp(_dbt_max_partition)
+                      timestamp(created_at) >= timestamp(_dbt_max_partition)
 
-                   OR created_at >= timestamp_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
+                   OR timestamp(created_at) >= timestamp_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
 {% endif %}
 
 ),
