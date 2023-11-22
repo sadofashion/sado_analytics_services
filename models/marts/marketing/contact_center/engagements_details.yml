@@ -24,8 +24,6 @@ models:
         meta:
           dimension:
             type: number
-        tests:
-          - not_null
       - name: service_id
         description: ""
         meta:
@@ -46,8 +44,6 @@ models:
         meta:
           dimension:
             type: number
-        tests:
-          - not_null
       - name: engagement_id
         description: ""
         meta:
