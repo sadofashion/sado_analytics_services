@@ -29,7 +29,7 @@ SELECT
     invoices.product_code,
     invoices.quantity,
     invoices.price,
-    coalesce(invoices.discount_ratio, safe_divide(invoices.discount*100,invoices.price)) discount_ratio,
+    coalesce(invoices.discount_ratio, safe_divide(invoices.discount*100,invoices.price),0) discount_ratio,
     invoices.discount,
     invoices.subTotal,
     invoices.transaction_type,
