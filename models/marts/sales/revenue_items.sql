@@ -1,8 +1,18 @@
 {{
   config(
-    tags=['table', 'fact','kiotviet']
+    tags=['incremental', 'fact','kiotviet'],
+    materialized = 'incremental',
+    partition_by ={ 'field': 'transaction_date',
+                    'data_type': 'timestamp',
+                    'granularity': 'day' 
+                    },
+    incremental_strategy = 'insert_overwrite',
+    unique_key = ['transaction_id','product_id'],
+    on_schema_change = 'sync_all_columns'
   )
 }}
+
+
 
 SELECT
     invoices.transaction_id,
@@ -19,7 +29,7 @@ SELECT
     invoices.product_code,
     invoices.quantity,
     invoices.price,
-    invoices.discount_ratio,
+    coalesce(invoices.discount_ratio, safe_divide(invoices.discount*100,invoices.price),0) discount_ratio,
     invoices.discount,
     invoices.subTotal,
     invoices.transaction_type,
@@ -29,6 +39,12 @@ FROM
 WHERE
     invoices.transaction_status = 'Hoàn thành'
     and invoices.quantity <>0 
+    {% if is_incremental() %}
+    and (
+    date(transaction_date)  >= DATE(_dbt_max_partition)
+    OR date(transaction_date) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY)
+    )
+    {% endif %}
 UNION ALL
 SELECT
     returns.transaction_id,
@@ -52,3 +68,10 @@ FROM
     returns
 WHERE
     returns.transaction_status = 'Đã trả'
+    {% if is_incremental() %}
+    and (
+    date(transaction_date)  >= DATE(_dbt_max_partition)
+    OR date(transaction_date) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY)
+    )
+    {% endif %}
+    
