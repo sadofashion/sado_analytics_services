@@ -1,7 +1,7 @@
 version: 2
 models:
   - name: stg_caresoft__ticket_custom_fields
-    description: "caresoft ticket custom fields"
+    description: caresoft ticket custom fields
     columns:
       - name: custom_field_id
         description: ""

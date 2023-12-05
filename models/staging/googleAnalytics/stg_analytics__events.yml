@@ -1,65 +1,137 @@
 version: 2
-
 models:
-
   - name: stg_analytics__events
     description: >
-      Date-partitioned table in which all GA4 analytics data is unified, reduced to essential
-      fields, and unnested (so the grain of this table is at the event-parameter level and the
-      param_id, not the event_id, is the unique key)
+      Date-partitioned table in which all GA4 analytics data is unified, reduced
+      to essential fields, and unnested (so the grain of this table is at the
+      event-parameter level and the param_id, not the event_id, is the unique
+      key)
     columns:
       - name: param_id
-        description: >
+        description: |
           Surrogate key generated from the event_id and param_key
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
       - name: event_id
-        description: >
+        description: |
           Unique identifier for a particular GA4 event
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
       - name: event_date
-        description: "Date - the partioning key for the base table"
+        description: Date - the partioning key for the base table
         tests:
           - not_null
+        meta:
+          dimension:
+            type: date
       - name: event_timestamp
-        description: "Date and time at which the event took place"
+        description: Date and time at which the event took place
         tests:
           - not_null
+        meta:
+          dimension:
+            type: timestamp
       - name: client_id
-        description: "Cookie-based identifier for an individual"
+        description: Cookie-based identifier for an individual
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
       - name: event_name
-        description: "The type of event that took place"
+        description: The type of event that took place
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
       - name: continent
-        description: "Continent the visitor is based in (identified via IP address)"
+        description: Continent the visitor is based in (identified via IP address)
+        meta:
+          dimension:
+            type: string
       - name: country
-        description: "Country the visitor is based in (identified via IP address)"
+        description: Country the visitor is based in (identified via IP address)
+        meta:
+          dimension:
+            type: string
       - name: device_type
-        description: "Type of device being used by the visitor (desktop, mobile, or tablet)"
+        description: Type of device being used by the visitor (desktop, mobile, or tablet)
         tests:
           - accepted_values:
-              values: [desktop, mobile, tablet]
+              values:
+                - desktop
+                - mobile
+                - tablet
+        meta:
+          dimension:
+            type: string
       - name: browser
-        description: "Browser the visitor was using (over 100 possible values)"
+        description: Browser the visitor was using (over 100 possible values)
+        meta:
+          dimension:
+            type: string
       - name: operating_system
-        description: "Operating system the visitor was using (over 20 possible values)"
+        description: Operating system the visitor was using (over 20 possible values)
+        meta:
+          dimension:
+            type: string
       - name: traffic_source
         description: >
-          The acquisition channel for this sessions (thousands of possible values);
-          the name of the network that first acquired the visitor.
+          The acquisition channel for this sessions (thousands of possible
+          values); the name of the network that first acquired the visitor.
+        meta:
+          dimension:
+            type: string
       - name: traffic_campaign
-        description: "Name of the marketing campaign that first acquired the visitor"
+        description: Name of the marketing campaign that first acquired the visitor
+        meta:
+          dimension:
+            type: string
       - name: traffic_medium
         description: >
-          Name of the medium (organic search, email, etc.) that first acquired the visitor
+          Name of the medium (organic search, email, etc.) that first acquired
+          the visitor
+        meta:
+          dimension:
+            type: string
       - name: param_key
         description: >
-          Lookup key for the parameter (indicates the type of parameter represented by this record)
+          Lookup key for the parameter (indicates the type of parameter
+          represented by this record)
         tests:
           - not_null
+        meta:
+          dimension:
+            type: string
       - name: param_value
-        description: "Value of the parameter denoted by param_key"
+        description: Value of the parameter denoted by param_key
+        meta:
+          dimension:
+            type: string
+      - name: channel_grouping_session
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: items
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_value
+        description: ""
+        meta:
+          dimension:
+            type: string

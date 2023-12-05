@@ -5,13 +5,24 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = date(${tickets.created_at})
-          fields: [date, month_name, year_month, period, no_days]
+          fields:
+            - date
+            - month_name
+            - year_month
+            - period
+            - no_days
         - join: stg_caresoft__agents
           sql_on: ${stg_caresoft__agents.id} = ${tickets.assignee_id}
-          fields: [id, group_name, username]
+          fields:
+            - id
+            - group_name
+            - username
         - join: stg_caresoft__contacts
           sql_on: ${stg_caresoft__contacts.contact_id} = ${tickets.contact_id}
-          fields: [contact_id, created_at, contact_type]
+          fields:
+            - contact_id
+            - created_at
+            - contact_type
     columns:
       - name: ticket_id
         description: ""

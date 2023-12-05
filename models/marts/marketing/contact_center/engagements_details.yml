@@ -1,16 +1,22 @@
 version: 2
 models:
   - name: engagements_details
-    description: "Tổng hợp tương tác (gọi & chat) thông qua caresoft"
+    description: Tổng hợp tương tác (gọi & chat) thông qua caresoft
     meta:
       joins:
         - join: tickets
           sql_on: ${engagements_details.ticket_id} = ${tickets.ticket_id}
         - join: stg_caresoft__contacts
-          sql_on: ${engagements_details.customer_id} = ${stg_caresoft__contacts.contact_id}
+          sql_on: >-
+            ${engagements_details.customer_id} =
+            ${stg_caresoft__contacts.contact_id}
         - join: calendar
           sql_on: date(${engagements_details.start_time}) = ${calendar.date}
-          fields: [date, month_name, year_month, period]
+          fields:
+            - date
+            - month_name
+            - year_month
+            - period
         - join: stg_caresoft__agents
           sql_on: ${stg_caresoft__agents.agent_id} = ${engagements_details.agent_id}
     columns:
