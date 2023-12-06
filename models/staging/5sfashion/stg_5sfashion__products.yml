@@ -1,32 +1,50 @@
 version: 2
-
 models:
   - name: stg_5sfashion__products
     description: ""
     columns:
       - name: product_id
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: product_type
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: product_name
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: product_keyword
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: categories
         description: ""
-
+        meta:
+          dimension:
+            type: string
       - name: updated_at
         description: ""
-
+        meta:
+          dimension:
+            type: timestamp
       - name: created_at
         description: ""
-
+        meta:
+          dimension:
+            type: timestamp
       - name: published_at
         description: ""
-
+        meta:
+          dimension:
+            type: timestamp
       - name: product_code
         description: ""
+        meta:
+          dimension:
+            type: string

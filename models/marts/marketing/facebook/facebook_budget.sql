@@ -1,10 +1,10 @@
 {{
   config(
-    tags=['table', 'fact','budget']
+    tags=['table', 'fact','budget','ignore']
   )
 }}
 
-{% set targets = ["budget", "sales_target", "traffic_target"] %}
+{% set targets = ["budget", "sales_target", "traffic_target",'aov'] %}
 
 with processed as (
 
@@ -24,12 +24,12 @@ FROM
         SELECT
             branch_id,
             branch,
-            budget_month,
+            {# budget_month, #}
             b.page,
             milestones.*,
-            {% for item in targets %}
+            {# {% for item in targets %}
                 {{ item }} as total_{{ item }},
-            {% endfor %}
+            {% endfor %} #}
         FROM
             {{ ref('stg_gsheet__facebook_budget') }} b,
             unnest(milestones) milestones

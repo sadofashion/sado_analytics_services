@@ -16,6 +16,12 @@ models:
               group_label: General metrics
           dimension:
             type: date
+            time_intervals:
+              - DAY
+              - WEEK
+              - MONTH
+              - YEAR
+              - QUARTER
       - name: day_of_month
         description: ""
         meta:
@@ -66,3 +72,13 @@ models:
         meta:
           dimension:
             type: string
+      - name: start
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: end
+        description: ""
+        meta:
+          dimension:
+            type: date

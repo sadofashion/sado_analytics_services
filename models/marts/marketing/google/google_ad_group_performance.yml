@@ -12,7 +12,11 @@ models:
             ${google_ad_group_performance.campaign_id}=${stg_googleads__campaigns.campaign_id}
         - join: calendar
           sql_on: ${google_ad_group_performance.date}=${calendar.date}
-          fields: [date, period, year_month, month_name]
+          fields:
+            - date
+            - period
+            - year_month
+            - month_name
     columns:
       - name: campaign_id
         description: "{{ doc('column__googleads__campaign_id') }}"

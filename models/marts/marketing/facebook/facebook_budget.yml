@@ -8,7 +8,11 @@ models:
           sql_on: ${stg_gsheet__asms.branch_id} = ${facebook_budget.branch_id}
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_budget.date}
-          fields: [date, period, year_month, month_name]
+          fields:
+            - date
+            - period
+            - year_month
+            - month_name
     columns:
       - name: branch_id
         description: ""

@@ -15,7 +15,11 @@ models:
             - bidding_stategy
         - join: calendar
           sql_on: ${calendar.date} = ${stg_googleads__campaign_stats.date}
-          fields: [date, period, year_month, month_name]
+          fields:
+            - date
+            - period
+            - year_month
+            - month_name
     columns:
       - name: row_id
         description: ""

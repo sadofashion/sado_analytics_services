@@ -81,11 +81,6 @@ models:
         meta:
           dimension:
             type: timestamp
-      - name: waittime
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: answer_time
         description: ""
         meta:
@@ -121,3 +116,13 @@ models:
         meta:
           dimension:
             type: number
+      - name: wait_time
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: conversation_type
+        description: ""
+        meta:
+          dimension:
+            type: string

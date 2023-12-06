@@ -6,7 +6,11 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_dashboard.date}
-          fields: [date, period, year_month, month_name]
+          fields:
+            - date
+            - period
+            - year_month
+            - month_name
         - join: stg_gsheet__asms
           sql_on: ${stg_gsheet__asms.page} = ${facebook_dashboard.page}
     columns:
@@ -373,8 +377,3 @@ models:
               group_label: Ads metrics
               compact: thousands
               round: 1
-      - name: pic
-        description: ""
-        meta:
-          dimension:
-            type: string

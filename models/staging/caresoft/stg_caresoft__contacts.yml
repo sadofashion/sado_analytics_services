@@ -5,14 +5,21 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = date(${stg_caresoft__contacts.created_at})
-          fields: [date, month_name, year_month, period]
-
+          fields:
+            - date
+            - month_name
+            - year_month
+            - period
     columns:
       - name: created_at
         description: ""
         meta:
           dimension:
             type: timestamp
+          additional_dimension:
+            contact_type:
+              type: string
+              sql: case when date(${TABLE}.created_at) < date_trunc(${calendar.date},month) then 'old' else 'new' end
       - name: contact_id
         description: ""
         tests:
@@ -160,9 +167,3 @@ models:
           dimension:
             type: timestamp
             hidden: true
-      - name: contact_type
-        description: ""
-        meta:
-          dimension:
-            type: string
-            sql: case when date(${TABLE}.created_at) < date_trunc(${calendar.date},month) then 'old' else 'new' end

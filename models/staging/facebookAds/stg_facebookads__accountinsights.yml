@@ -5,39 +5,66 @@ models:
     columns:
       - name: account_id
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: date_start
         description: ""
-
+        meta:
+          dimension:
+            type: date
       - name: clicks
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: impressions
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: reach
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: spend
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: link_click
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: post_engagement
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: messaging_conversation_started_7d
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: offline_conversion_purchase
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: offline_conversion_purchase_value
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: pixel_purchase
         description: ""
-
+        meta:
+          dimension:
+            type: number
       - name: pixel_purchase_value
         description: ""
+        meta:
+          dimension:
+            type: number

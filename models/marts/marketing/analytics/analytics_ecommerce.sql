@@ -93,4 +93,3 @@ FROM
   data_
 WHERE
   1 = 1 -- and  rn_ = 1
-
