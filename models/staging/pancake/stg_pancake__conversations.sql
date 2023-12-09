@@ -11,5 +11,5 @@ SELECT
     conversations.type,
     conversations.updated_at,
 FROM
-    {{ ref("conversations") }}
+    {{ ref("base_pancake__conversations") }}
     conversations
