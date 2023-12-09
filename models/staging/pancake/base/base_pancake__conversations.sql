@@ -22,7 +22,7 @@ SELECT
     ads.ad_id, 
     source.tag_histories
 FROM
-    source,
-    left join unnest(tags) tags,
+    source
+    left join unnest(tags) tags
     left join unnest(customers) customers
     left join unnest(ads) ads
