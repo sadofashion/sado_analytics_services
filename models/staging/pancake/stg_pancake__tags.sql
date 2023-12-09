@@ -9,4 +9,4 @@ distinct
     ref.category
 FROM
     source
-    left join {{ref("stg_gsheet__pancake_tags")}} ref on source.tag_value = ref.tag_value 
+    left join {{ref("stg_gsheet__pancake_tags")}} ref on source.text = ref.tag_value 
