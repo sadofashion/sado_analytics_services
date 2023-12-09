@@ -1,50 +1,66 @@
 version: 1
 sources:
-  - name: nhanhvn
-    schema: Nhanhvn
-    description: "data pulled from nhanhvn via API & Webhook"
+  - name: pancake
+    schema: Pancake
+    description: data pulled from Pancake
     database: agile-scheme-394814
     tables:
-      - name: "p_bills_*"
+      - name: users
+        identifier: p_users__*
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_carriers_*"
-      - name: "p_categories_*"
+      - name: conversations
+        identifier: p_conversations__*
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_customers_*"
+      - name: customer_engagements
+        identifier: p_customer_engagements__*
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_orders_*"
-      - name: "p_products_*"
+      - name: pages
+        identifier: p_pages__*
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_stores_*"
-      - name: "p_users_*"
-      - name: "p_webhook_inventoryChange"
+      - name: user_stats
+        identifier: p_user_stats__*
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_webhook_orderAdd"
+      - name: posts
+        identifier: p_posts__*
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_webhook_orderUpdate"
+      - name: tags
+        identifier: p_tags__*
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_inventory_*"
+      - name: page
+        identifier: p_page__*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: customers
+        identifier: p_customers__*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
+      - name: page_stats
+        identifier: p_page_stats__*
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }

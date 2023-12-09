@@ -10,3 +10,4 @@ sources:
       - name: "_ext_region"
       - name: "facebook_budget"
         identifier: "_ext_facebook_budget__*"
+      - name: "_ext_pancake_tags"
