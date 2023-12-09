@@ -40,6 +40,7 @@ _milestone as (
                 date_day
         ) AS year,
         b.milestone_name as period,
+        concat(format_date('%Y.%m',date_day),regexp_extract(b.milestone_name,r'Tuần (\d+)')) as period_code
     FROM
         date_spine d
         left join _milestone b on date(d.date_day) >= b.start and date(d.date_day) <= b.end
