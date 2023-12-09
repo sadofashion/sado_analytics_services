@@ -2,7 +2,7 @@ WITH source AS (
     {{ dbt_utils.deduplicate(relation = source('pancake', 'conversations'), partition_by = 'id', order_by = "_batched_at desc",) }}
 )
 SELECT
-    source.id AS message_id,
+    source.id AS conversation_id,
     datetime(
         source.inserted_at
     ) AS inserted_at,
