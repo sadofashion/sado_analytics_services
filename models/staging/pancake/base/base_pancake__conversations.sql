@@ -17,8 +17,12 @@ SELECT
     source.page_id,
     source.updated_at,
     tags.id AS tag_id,
+    tags.text AS tag_value,
     source.snippet,
+    ads.ad_id, 
+    source.tag_histories
 FROM
     source,
-    unnest(tags) tags,
-    unnest(customers) customers
+    left join unnest(tags) tags,
+    left join unnest(customers) customers
+    left join unnest(ads) ads
