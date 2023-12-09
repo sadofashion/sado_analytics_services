@@ -8,5 +8,5 @@ SELECT
 FROM
     {{ source(
         'gSheet',
-        _ext_pancake_tags
+        "_ext_pancake_tags"
     ) }}
