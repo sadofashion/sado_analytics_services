@@ -11,6 +11,8 @@ models:
             - period
             - year_month
             - month_name
+            - period_code
+            - no_days
         - join: stg_gsheet__asms
           sql_on: ${stg_gsheet__asms.page} = ${facebook_dashboard.page}
     columns:

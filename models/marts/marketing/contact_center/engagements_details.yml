@@ -17,6 +17,8 @@ models:
             - month_name
             - year_month
             - period
+            - period_code
+            - no_days
         - join: stg_caresoft__agents
           sql_on: ${stg_caresoft__agents.agent_id} = ${engagements_details.agent_id}
     columns:

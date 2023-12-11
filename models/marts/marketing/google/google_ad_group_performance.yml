@@ -17,6 +17,8 @@ models:
             - period
             - year_month
             - month_name
+            - no_days
+            - period_code
     columns:
       - name: campaign_id
         description: "{{ doc('column__googleads__campaign_id') }}"

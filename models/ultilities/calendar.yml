@@ -72,13 +72,8 @@ models:
         meta:
           dimension:
             type: string
-      - name: start
+      - name: period_code
         description: ""
         meta:
           dimension:
-            type: date
-      - name: end
-        description: ""
-        meta:
-          dimension:
-            type: date
+            type: string

@@ -13,6 +13,8 @@ models:
             - period
             - year_month
             - month_name
+            - no_days
+            - period_code
     columns:
       - name: branch_id
         description: ""
