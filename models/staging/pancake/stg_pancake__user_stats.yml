@@ -1,0 +1,64 @@
+version: 2
+models:
+  - name: stg_pancake__user_stats
+    columns:
+      - name: average_response_time
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: hour
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: hour_in_integer
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: phone_number_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: private_reply_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unique_comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unique_inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string

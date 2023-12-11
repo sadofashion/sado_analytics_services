@@ -1,0 +1,19 @@
+version: 2
+models:
+  - name: stg_pancake__tags
+    columns:
+      - name: tag_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: tag_value
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,49 @@
+version: 2
+models:
+  - name: stg_pancake__customer_engagements
+    columns:
+      - name: comment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: hour
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: inbox
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: new_customer
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: new_customer_from_inbox
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: old_order_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,59 @@
+version: 2
+models:
+  - name: stg_pancake__conversations
+    columns:
+      - name: inserted_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: conversation_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: post_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: tag_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: message_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: snippet
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

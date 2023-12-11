@@ -1,0 +1,59 @@
+version: 2
+models:
+  - name: stg_pancake__posts
+    columns:
+      - name: post_title
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: inserted_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: post_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: like_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: reaction_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: phone_number_count
+        description: ""
+        meta:
+          dimension:
+            type: number

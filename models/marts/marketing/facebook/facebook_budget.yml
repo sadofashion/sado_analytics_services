@@ -137,3 +137,8 @@ models:
           dimension:
             type: date
             hidden: true
+      - name: daily_aov
+        description: ""
+        meta:
+          dimension:
+            type: number

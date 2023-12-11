@@ -106,3 +106,15 @@ models:
         meta:
           dimension:
             type: number
+  - name: stg_gsheet__pancake_tags
+    columns:
+      - name: tag_value
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category
+        description: ""
+        meta:
+          dimension:
+            type: string

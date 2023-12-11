@@ -1,0 +1,74 @@
+version: 2
+models:
+  - name: stg_pancake__pages
+    columns:
+      - name: avatar_url
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: business
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: connected
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: last_global_id_crawl
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: need_fix_webhook
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_content_sync_group_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: role_in_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shop_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: special_feature
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: timezone
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: username
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: status
+        description: ""
+        meta:
+          dimension:
+            type: string
