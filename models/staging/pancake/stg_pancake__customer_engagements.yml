@@ -1,6 +1,12 @@
 version: 2
 models:
   - name: stg_pancake__customer_engagements
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calenar.date} = date(${stg_pancake__customer_engagements.hour})
+          fields: [date, period, period_code]
+        - 
     columns:
       - name: comment
         description: ""

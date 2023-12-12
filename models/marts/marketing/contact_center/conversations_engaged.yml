@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: stg_pancake__conversations
+  - name: conversations_engaged
     meta:
       joins:
         - join: stg_pancake__customers
@@ -39,7 +39,6 @@ models:
         meta:
           dimension:
             type: timestamp
-            hidden: true
           additional_dimensions:
             d_conversation_type:
               type: string
@@ -53,12 +52,15 @@ models:
           dimension:
             type: string
             hidden: true
-          metrics:
+          metrics: 
             m_num_conversations:
               type: count_distinct
-              label: No. Conversations
+              label: No. conversations
               group_label: Pancake metrics
               compact: thousands
+        tests:
+          - not_null
+          - unique
       - name: customer_id
         description: ""
         meta:
@@ -88,37 +90,86 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
       - name: tag_id
         description: ""
         meta:
           dimension:
             type: number
-            hidden: true
       - name: message_count
         description: ""
         meta:
           dimension:
             type: number
-            hidden: true
           metrics:
             m_num_messages:
               type: sum
               label: No. Messages
               group_label: Pancake metrics
               compact: thousands
+
       - name: snippet
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
+
       - name: type
         description: ""
         meta:
           dimension:
             type: string
-      - name: updated_at
+      - name: ads_assisted
         description: ""
         meta:
           dimension:
-            type: timestamp
-            hidden: true
+            type: string
+      - name: deal_detail
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: refuse_reason
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: agent
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: conversation_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: promotion_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: customer_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: stage
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: claim_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+
