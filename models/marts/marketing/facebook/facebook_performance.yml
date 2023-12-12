@@ -6,11 +6,19 @@ models:
       joins:
         - join: calendar
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
-          fields: [date, period, year_month, month_name]
+          fields:
+            - date
+            - period
+            - year_month
+            - month_name
+            - no_days
+            - period_code
         - join: stg_gsheet__asms
           sql_on: ${facebook_performance.page} = ${stg_gsheet__asms.page}
         - join: stg_kiotviet__categories
-          sql_on: ${stg_kiotviet__categories.ads_product_mapping} = ${facebook_performance.promoted_productline}
+          sql_on: >-
+            ${stg_kiotviet__categories.ads_product_mapping} =
+            ${facebook_performance.promoted_productline}
     columns:
       - name: account_name
         description: ""
@@ -54,14 +62,18 @@ models:
           dimension:
             type: string
             sql: lower(promoted_productline)
-          additional_dimension:
+          additional_dimensions:
             productline:
               type: string
-              sql: |
-                case when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng đông|áo gió|bomber|áo phao|áo thun|áo nỉ|áo len|polo dài tay|bộ nỉ|quần nỉ|quần gió') then 'Hàng đông'
+              sql: >
+                case when
+                regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng
+                đông|áo gió|bomber|áo phao|áo thun|áo nỉ|áo len|polo dài tay|bộ
+                nỉ|quần nỉ|quần gió') then 'Hàng đông'
                     when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng hè|polo|t-shirt|short tt|short kk|short gió|smc|áo chống nắng') then 'Hàng hè'
                     when regexp_contains(lower(${TABLE}.promoted_productline),r'th quanh năm|smd|jeans|quần âu|kaki dài|phụ kiện|tanktop|quần dài') then 'Quanh năm'
-                    else 'Khác' end
+                    else 'Khác' endnpm --prefix ./reports install
+
       - name: media_type
         description: ""
         meta:

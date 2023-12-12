@@ -1,0 +1,69 @@
+version: 2
+models:
+  - name: stg_pancake__page_stats
+    columns:
+      - name: customer_comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: hour
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: inbox_interactive_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: new_customer_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: new_inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: page_comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: page_inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: phone_number_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: today_uniq_website_referral
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: today_website_guest_referral
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: uniq_phone_number_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string

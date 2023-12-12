@@ -10,3 +10,4 @@ profiles.yml
 cred.json
 lightdash-dockerfile
 .vscode
+reports/

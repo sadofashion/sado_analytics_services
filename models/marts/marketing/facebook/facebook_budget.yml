@@ -13,6 +13,8 @@ models:
             - period
             - year_month
             - month_name
+            - no_days
+            - period_code
     columns:
       - name: branch_id
         description: ""
@@ -135,3 +137,8 @@ models:
           dimension:
             type: date
             hidden: true
+      - name: daily_aov
+        description: ""
+        meta:
+          dimension:
+            type: number

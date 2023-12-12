@@ -1,0 +1,75 @@
+version: 2
+models:
+  - name: stg_pancake__user_stats
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = date(${stg_pancake__user_stats.hour})
+          fields: [date,period, period_code]
+        - join: stg_pancake__pages
+          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__user_stats.page_id}
+          fields: [page_id, page_name]
+        - join: stg_pancake__users
+          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__user_stats.user_id}
+          fields: [user_id, user_name]
+    columns:
+      - name: average_response_time
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: hour
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: hour_in_integer
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: phone_number_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: private_reply_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unique_comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: unique_inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string

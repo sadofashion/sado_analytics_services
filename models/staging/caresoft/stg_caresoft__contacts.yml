@@ -16,10 +16,12 @@ models:
         meta:
           dimension:
             type: timestamp
-          additional_dimension:
+          additional_dimensions:
             contact_type:
               type: string
-              sql: case when date(${TABLE}.created_at) < date_trunc(${calendar.date},month) then 'old' else 'new' end
+              sql: >-
+                case when date(${TABLE}.created_at) <
+                date_trunc(${calendar.date},month) then 'old' else 'new' end
       - name: contact_id
         description: ""
         tests:

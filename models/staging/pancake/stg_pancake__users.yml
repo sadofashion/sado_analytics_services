@@ -1,0 +1,19 @@
+version: 2
+models:
+  - name: stg_pancake__users
+    columns:
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_email
+        description: ""
+        meta:
+          dimension:
+            type: string

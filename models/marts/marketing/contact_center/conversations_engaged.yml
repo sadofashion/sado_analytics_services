@@ -1,0 +1,175 @@
+version: 2
+models:
+  - name: conversations_engaged
+    meta:
+      joins:
+        - join: stg_pancake__customers
+          sql_on: >-
+            ${stg_pancake__conversations.customer_id} =
+            ${stg_pancake__customers.customer_id}
+          fields:
+            - customer_id
+            - city
+            - gender
+            - inserted_at
+        - join: stg_pancake__pages
+          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__customers.page_id}
+          fields:
+            - page_id
+            - page_name
+        - join: stg_pancake__posts
+          sql_on: ${stg_pancake__posts.post_id} = ${stg_pancake__customers.post_id}
+          fields:
+            - post_id
+            - post_title
+        - join: stg_pancake__users
+          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__customers.user_id}
+          fields:
+            - user_id
+            - user_name
+        - join: calendar
+          sql_on: ${calenar.date} = date(${stg_pancake__customers.inserted_at})
+          fields:
+            - date
+            - period
+            - period_code
+    columns:
+      - name: inserted_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+          additional_dimensions:
+            d_conversation_type:
+              type: string
+              sql: >
+                case when ${stg_pancake__customers.inserted_at} <
+                ${TABLE}.inserted_at then 'Khách mới' else 'Khách cũ' end
+              label: Conversation type
+      - name: conversation_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics: 
+            m_num_conversations:
+              type: count_distinct
+              label: No. conversations
+              group_label: Pancake metrics
+              compact: thousands
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_num_customer_engaged:
+              type: count_distinct
+              label: No. Engaged Customers
+              group_label: Pancake metrics
+              compact: thousands
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: post_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: tag_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: message_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            m_num_messages:
+              type: sum
+              label: No. Messages
+              group_label: Pancake metrics
+              compact: thousands
+
+      - name: snippet
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ads_assisted
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: deal_detail
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: refuse_reason
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: agent
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: conversation_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: promotion_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: customer_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: stage
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: claim_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+

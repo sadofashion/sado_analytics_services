@@ -1,78 +1,73 @@
 version: 2
 models:
-  - name: calendar
-    description: ""
+  - name: stg_pancake__pages
     columns:
-      - name: date
+      - name: avatar_url
         description: ""
-        tests:
-          - not_null
-          - unique
         meta:
-          metrics:
-            no_days:
-              type: count_distinct
-              label: Days in Month
-              group_label: General metrics
           dimension:
-            type: date
-            time_intervals:
-              - DAY
-              - WEEK
-              - MONTH
-              - YEAR
-              - QUARTER
-      - name: day_of_month
+            type: string
+      - name: business
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: connected
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: last_global_id_crawl
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: need_fix_webhook
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_content_sync_group_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: role_in_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shop_id
         description: ""
         meta:
           dimension:
             type: number
-      - name: day_name
+      - name: special_feature
         description: ""
         meta:
           dimension:
-            type: string
-      - name: start_of_month
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: end_of_month
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: start_of_week
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: end_of_week
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: month_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: year_month
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: year
+            type: boolean
+      - name: timezone
         description: ""
         meta:
           dimension:
             type: number
-      - name: period
+      - name: username
         description: ""
         meta:
           dimension:
             type: string
-      - name: period_code
+      - name: status
         description: ""
         meta:
           dimension:

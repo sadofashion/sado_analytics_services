@@ -1,0 +1,64 @@
+version: 2
+models:
+  - name: stg_pancake__orders
+    columns:
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: seller_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: display_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: full_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order_created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: is_locked
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: order_modified_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_contact_number
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: recipient_location
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: status
+        description: ""
+        meta:
+          dimension:
+            type: number
