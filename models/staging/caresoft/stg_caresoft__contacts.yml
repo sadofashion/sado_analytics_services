@@ -16,7 +16,7 @@ models:
         meta:
           dimension:
             type: timestamp
-          additional_dimension:
+          additional_dimensions:
             contact_type:
               type: string
               sql: >-

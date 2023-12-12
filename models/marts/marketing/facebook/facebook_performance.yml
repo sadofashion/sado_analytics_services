@@ -62,7 +62,7 @@ models:
           dimension:
             type: string
             sql: lower(promoted_productline)
-          additional_dimension:
+          additional_dimensions:
             productline:
               type: string
               sql: >
@@ -72,7 +72,8 @@ models:
                 nỉ|quần nỉ|quần gió') then 'Hàng đông'
                     when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng hè|polo|t-shirt|short tt|short kk|short gió|smc|áo chống nắng') then 'Hàng hè'
                     when regexp_contains(lower(${TABLE}.promoted_productline),r'th quanh năm|smd|jeans|quần âu|kaki dài|phụ kiện|tanktop|quần dài') then 'Quanh năm'
-                    else 'Khác' end
+                    else 'Khác' endnpm --prefix ./reports install
+
       - name: media_type
         description: ""
         meta:
