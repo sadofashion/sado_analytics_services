@@ -5,7 +5,7 @@ models:
       joins:
         - join: stg_pancake__customers
           sql_on: >-
-            ${stg_pancake__conversations.customer_id} =
+            ${conversations_engaged.customer_id} =
             ${stg_pancake__customers.customer_id}
           fields:
             - customer_id
@@ -13,22 +13,22 @@ models:
             - gender
             - inserted_at
         - join: stg_pancake__pages
-          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__customers.page_id}
+          sql_on: ${stg_pancake__pages.page_id} = ${conversations_engaged.page_id}
           fields:
             - page_id
             - page_name
         - join: stg_pancake__posts
-          sql_on: ${stg_pancake__posts.post_id} = ${stg_pancake__customers.post_id}
+          sql_on: ${stg_pancake__posts.post_id} = ${conversations_engaged.post_id}
           fields:
             - post_id
             - post_title
         - join: stg_pancake__users
-          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__customers.user_id}
+          sql_on: ${stg_pancake__users.user_id} = ${conversations_engaged.user_id}
           fields:
             - user_id
             - user_name
         - join: calendar
-          sql_on: ${calenar.date} = date(${stg_pancake__customers.inserted_at})
+          sql_on: ${calendar.date} = date(${conversations_engaged.inserted_at})
           fields:
             - date
             - period
@@ -143,7 +143,7 @@ models:
           dimension:
             type: string
 
-      - name: conversation_type
+      - name: conversation_category
         description: ""
         meta:
           dimension:

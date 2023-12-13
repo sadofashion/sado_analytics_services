@@ -15,7 +15,7 @@
     "deal_detail" :"Chốt đơn",
     "refuse_reason" :"Lý do không mua",
     "agent" :"Nhân sự",
-    "conversation_type" :"Phân loại",
+    "conversation_category" :"Phân loại",
     "promotion_type" :"Phân loại chương trình",
     "customer_type" :"Phân loại KH",
     "stage" :"Tiến trình chăm sóc",
