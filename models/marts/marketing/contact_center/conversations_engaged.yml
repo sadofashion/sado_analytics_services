@@ -40,12 +40,12 @@ models:
           dimension:
             type: timestamp
           additional_dimensions:
-            d_conversation_type:
+            d_customer_class:
               type: string
               sql: >
                 case when ${stg_pancake__customers.inserted_at} <
                 ${TABLE}.inserted_at then 'Khách mới' else 'Khách cũ' end
-              label: Conversation type
+              label: Customer type
       - name: conversation_id
         description: ""
         meta:
@@ -143,7 +143,7 @@ models:
           dimension:
             type: string
 
-      - name: conversation_category
+      - name: conversation_type
         description: ""
         meta:
           dimension:
