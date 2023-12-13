@@ -1,3 +1,9 @@
+{{
+  config(
+    tags=['view', 'dimensions','pancake']
+  )
+}}
+
 WITH source AS (
     {{ dbt_utils.deduplicate(relation = source('pancake', 'tags'), partition_by = 'id', order_by = "_batched_at desc",) }}
 )

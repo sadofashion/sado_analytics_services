@@ -3,9 +3,9 @@ WITH source AS (
 )
 SELECT
     source.id AS conversation_id,
-    datetime(
+    date_add(datetime(
         source.inserted_at
-    ) AS inserted_at,
+    ), interval 7 hour) AS inserted_at,
     source.type,
     customers.fb_id AS customer_fb_id,
     customers.id AS customer_id,
@@ -15,7 +15,7 @@ SELECT
     source.message_count,
     source.post_id,
     source.page_id,
-    source.updated_at,
+    date_add(source.updated_at, interval 7 hour) as updated_at,
     tags.id AS tag_id,
     tags.text AS tag_value,
     source.snippet,

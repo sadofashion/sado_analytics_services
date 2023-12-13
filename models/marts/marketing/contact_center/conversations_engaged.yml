@@ -39,13 +39,14 @@ models:
         meta:
           dimension:
             type: timestamp
+            hidden: true
           additional_dimensions:
             d_customer_class:
               type: string
               sql: >
                 case when ${stg_pancake__customers.inserted_at} <
                 ${TABLE}.inserted_at then 'Khách mới' else 'Khách cũ' end
-              label: Customer type
+              label: Customer group
       - name: conversation_id
         description: ""
         meta:

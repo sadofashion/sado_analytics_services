@@ -1,3 +1,9 @@
+{{
+  config(
+    tags=['view', 'fact','pancake']
+  )
+}}
+
 WITH source AS (
     {{ dbt_utils.deduplicate(
         relation = source(

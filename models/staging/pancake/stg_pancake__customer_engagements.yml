@@ -15,43 +15,94 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_comments:
+              type: sum
+              label: No. comments
+              group_label: Pancake metrics
+              compact: thousands
       - name: hour
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: inbox
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_inbox:
+              type: sum
+              label: No. inbox
+              group_label: Pancake metrics
+              compact: thousands
       - name: new_customer
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_new_customer:
+              type: sum
+              label: No. new customer
+              group_label: Pancake metrics
+              compact: thousands
       - name: new_customer_from_inbox
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_new_customer_from_inbox:
+              type: sum
+              label: No. new customer from inbox
+              group_label: Pancake metrics
+              compact: thousands
       - name: old_order_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_old_order_count:
+              type: sum
+              label: No. old order
+              group_label: Pancake metrics
+              compact: thousands
       - name: order_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_order_count:
+              type: sum
+              label: No. orders
+              group_label: Pancake metrics
+              compact: thousands
       - name: total
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_engagements:
+              type: sum
+              label: No. engagements
+              group_label: Pancake metrics
+              compact: thousands
       - name: page_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true

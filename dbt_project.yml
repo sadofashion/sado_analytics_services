@@ -65,4 +65,5 @@ models:
     +docs:
       show: false
 
-  
+vars:
+    "dbt_date:time_zone": "Asia/Saigon"
