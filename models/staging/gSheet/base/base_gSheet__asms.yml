@@ -1,0 +1,34 @@
+version: 2
+models:
+  - name: base_gSheet__asms
+    columns:
+      - name: asm
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: store_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: phone
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: pic
+        description: ""
+        meta:
+          dimension:
+            type: string

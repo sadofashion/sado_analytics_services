@@ -19,7 +19,7 @@
 with facebook_performance as (
     select 
       fb.page, date_start, 
-
+      fb.pic,
     {% for metric in metrics %}
     sum(fb.{{metric}}) as {{metric}},
     {% endfor %}
@@ -30,23 +30,25 @@ with facebook_performance as (
       or 
       fb.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF")
       )
-    group by 1,2
+    group by 1,2,3
 ),
 facebook_budget as (
   select 
   budget.page,
   budget.date,
   budget.milestone_name,
+  budget.pic,
   {% for target in targets %}
     sum(daily_{{target}}) as daily_{{target}},
     {% endfor %}
     from {{ref("facebook_budget")}} budget
     where budget.date <=current_date()
-    group by 1,2,3
+    group by 1,2,3,4
 ),
 offline_performance as (
   select 
   a.page,
+  a.pic,
   date(r.transaction_date) transaction_date,
   {% for col, cal in rev_calcols.items() %}
     {{cal}} {{col}}{{")"}} as val_{{col}},
@@ -57,21 +59,22 @@ offline_performance as (
   from {{ref("revenue")}} r
   inner join {{ref("stg_gsheet__asms")}} a on r.branch_id = a.branch_id
   where r.transaction_date >='2023-11-01'
-  group by 1,2
+  group by 1,2,3
 ),
 
 asms as (
-  select distinct a.asm_name, a.page 
+  select distinct a.asm_name, a.page, a.pic
   from {{ref("stg_gsheet__asms")}} a
 )
 
 SELECT
-p.* except(page,date_start),
-o.* except(page,transaction_date),
-b.* EXCEPT(date, page, milestone_name),
+p.* except(page,date_start,pic),
+o.* except(page,transaction_date,pic),
+b.* EXCEPT(date, page, milestone_name,pic),
 coalesce(p.date_start,o.transaction_date,b.date) as date,
 coalesce(p.page,o.page,b.page) as page,
 asms.asm_name,
+coalesce(asms.pic,o.pic,b.pic,p.pic) as pic,
 from facebook_performance p
 full join facebook_budget b on p.date_start = b.date and (p.page = b.page)
 full join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)

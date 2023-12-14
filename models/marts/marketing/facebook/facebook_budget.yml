@@ -36,12 +36,6 @@ models:
         meta:
           dimension:
             type: string
-      - name: budget_month
-        description: ""
-        meta:
-          dimension:
-            type: date
-            hidden: true
       - name: start
         description: ""
         meta:
@@ -53,21 +47,6 @@ models:
         meta:
           dimension:
             type: string
-      - name: total_budget
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: total_sales_target
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: total_traffic_target
-        description: ""
-        meta:
-          dimension:
-            type: number
       - name: end
         description: ""
         meta:

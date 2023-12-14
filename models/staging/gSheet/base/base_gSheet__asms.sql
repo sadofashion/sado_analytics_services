@@ -13,6 +13,7 @@ SELECT
     phone,
     email,
     source.page,
+    source.pic,
 FROM
     source
 WHERE

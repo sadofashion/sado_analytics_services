@@ -1,109 +1,98 @@
 version: 2
 models:
-  - name: stg_gsheet__nhanhvnsalechannels
-    description: Phân loại kênh bán hàng lấy theo Nhanhvn
+  - name: base_kiotViet__returns
     columns:
-      - name: sale_channel_id
+      - name: id
         description: ""
         meta:
           dimension:
             type: number
-      - name: sale_channel
+      - name: code
         description: ""
         meta:
           dimension:
             type: string
-  - name: stg_gsheet__regions
-    description: Phân loại khu vực và nhóm CH
-    columns:
-      - name: region
-        description: Nhóm
-        meta:
-          dimension:
-            type: string
-      - name: branch_name
-        description: Tên chi nhánh trên Nhanhvn
-        meta:
-          dimension:
-            type: string
-      - name: province
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: address
-        description: ""
-        meta:
-          dimension:
-            type: string
-  - name: stg_gsheet__asms
-    description: ""
-    columns:
-      - name: asm_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: branch_id
+      - name: invoiceid
         description: ""
         meta:
           dimension:
             type: number
-      - name: phone
+      - name: returndate
         description: ""
         meta:
           dimension:
-            type: string
-      - name: email
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: page
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: pic
-        description: ""
-        meta:
-          dimension:
-            type: string
-  - name: stg_gsheet__facebook_budget
-    columns:
-      - name: branch
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: budget_month
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: page
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: milestones
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: branch_id
+            type: timestamp
+      - name: branchid
         description: ""
         meta:
           dimension:
             type: number
-  - name: stg_gsheet__pancake_tags
-    columns:
-      - name: tag_value
+      - name: receivedbyid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customerid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returntotal
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returndiscount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: totalpayment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returnfee
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returnfeeratio
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: salechannelid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: statusvalue
         description: ""
         meta:
           dimension:
             type: string
-      - name: category
+      - name: createddate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: modifieddate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: payments
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: returndetails
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: transaction_type
         description: ""
         meta:
           dimension:

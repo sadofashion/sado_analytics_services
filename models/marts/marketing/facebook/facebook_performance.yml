@@ -46,6 +46,12 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_pic:
+              type: string
+              sql: coalesce(${TABLE}.pic,${stg_gsheet__asms.pic})
+              label: PIC
       - name: content_group
         description: ""
         meta:
@@ -72,8 +78,7 @@ models:
                 nỉ|quần nỉ|quần gió') then 'Hàng đông'
                     when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng hè|polo|t-shirt|short tt|short kk|short gió|smc|áo chống nắng') then 'Hàng hè'
                     when regexp_contains(lower(${TABLE}.promoted_productline),r'th quanh năm|smd|jeans|quần âu|kaki dài|phụ kiện|tanktop|quần dài') then 'Quanh năm'
-                    else 'Khác' endnpm --prefix ./reports install
-
+                    else 'Khác' end
       - name: media_type
         description: ""
         meta:

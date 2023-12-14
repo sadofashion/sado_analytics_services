@@ -1,6 +1,7 @@
 SELECT
     conversations.inserted_at,
     {{dbt_utils.generate_surrogate_key(['conversation_id','customer_id'])}} as conversation_id,
+    conversations.conversation_id as chat_id,
     conversations.customer_id,
     conversations.user_id,
     conversations.page_id,
