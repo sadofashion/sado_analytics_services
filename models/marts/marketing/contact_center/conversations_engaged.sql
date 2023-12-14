@@ -5,8 +5,6 @@
         'field': 'inserted_at',
         'data_type': 'datetime',
         'granularity': 'day',
-        "time_ingestion_partitioning": true,
-        "copy_partitions": true 
         },
     incremental_strategy = 'insert_overwrite',
     on_schema_change = 'sync_all_columns',
@@ -58,7 +56,7 @@ raw_ AS (
         1 = 1
 
 {% if is_incremental() %}
-AND DATE(updated_at) >= DATE(_dbt_max_partition)
+AND DATE(updated_at) >= date_add(DATE(_dbt_max_partition), interval -3 day)
 {% endif %}
 )
 SELECT
