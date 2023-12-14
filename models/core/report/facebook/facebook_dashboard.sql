@@ -68,9 +68,9 @@ asms as (
 )
 
 SELECT
-p.* except(page,date_start),
-o.* except(page,transaction_date),
-b.* EXCEPT(date, page, milestone_name),
+p.* except(page,date_start,pic),
+o.* except(page,transaction_date,pic),
+b.* EXCEPT(date, page, milestone_name,pic),
 coalesce(p.date_start,o.transaction_date,b.date) as date,
 coalesce(p.page,o.page,b.page) as page,
 asms.asm_name,
