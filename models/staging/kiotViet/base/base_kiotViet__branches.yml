@@ -1,0 +1,49 @@
+version: 2
+models:
+  - name: base_kiotViet__branches
+    columns:
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: branchname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: locationname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: wardname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: contactnumber
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: createddate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: modifieddate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

@@ -379,3 +379,8 @@ models:
               group_label: Ads metrics
               compact: thousands
               round: 1
+      - name: pic
+        description: ""
+        meta:
+          dimension:
+            type: string

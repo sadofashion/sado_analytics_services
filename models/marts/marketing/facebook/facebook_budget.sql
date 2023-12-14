@@ -27,6 +27,7 @@ FROM
             {# budget_month, #}
             b.page,
             milestones.*,
+            b.pic,
             {# {% for item in targets %}
                 {{ item }} as total_{{ item }},
             {% endfor %} #}

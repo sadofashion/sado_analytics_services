@@ -69,6 +69,7 @@ SELECT
     formated.*,
     branch.branch_id,
     asm.page,
+    asm.pic,
 FROM
     formated
     LEFT JOIN {{ ref('stg_kiotviet__branches') }}
