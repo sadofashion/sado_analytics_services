@@ -5,7 +5,7 @@ SELECT
 source.id as customer_id,
 source.name as customer_name,
 source.gender,
-source.inserted_at,
+date_add(source.inserted_at, interval 7 hour) inserted_at,
 source.phone_numbers,
 source.lives_in as city,
 source.psid as customer_facebook_id,

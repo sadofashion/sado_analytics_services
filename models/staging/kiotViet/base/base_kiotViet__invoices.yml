@@ -1,109 +1,93 @@
 version: 2
 models:
-  - name: stg_gsheet__nhanhvnsalechannels
-    description: Phân loại kênh bán hàng lấy theo Nhanhvn
+  - name: base_kiotViet__invoices
     columns:
-      - name: sale_channel_id
+      - name: id
         description: ""
         meta:
           dimension:
             type: number
-      - name: sale_channel
+      - name: uuid
         description: ""
         meta:
           dimension:
             type: string
-  - name: stg_gsheet__regions
-    description: Phân loại khu vực và nhóm CH
-    columns:
-      - name: region
-        description: Nhóm
-        meta:
-          dimension:
-            type: string
-      - name: branch_name
-        description: Tên chi nhánh trên Nhanhvn
-        meta:
-          dimension:
-            type: string
-      - name: province
+      - name: code
         description: ""
         meta:
           dimension:
             type: string
-      - name: address
+      - name: purchasedate
         description: ""
         meta:
           dimension:
-            type: string
-  - name: stg_gsheet__asms
-    description: ""
-    columns:
-      - name: asm_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: branch_id
+            type: timestamp
+      - name: branchid
         description: ""
         meta:
           dimension:
             type: number
-      - name: phone
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: email
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: page
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: pic
-        description: ""
-        meta:
-          dimension:
-            type: string
-  - name: stg_gsheet__facebook_budget
-    columns:
-      - name: branch
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: budget_month
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: page
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: milestones
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: branch_id
+      - name: soldbyid
         description: ""
         meta:
           dimension:
             type: number
-  - name: stg_gsheet__pancake_tags
-    columns:
-      - name: tag_value
+      - name: customerid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ordercode
         description: ""
         meta:
           dimension:
             type: string
-      - name: category
+      - name: total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: totalpayment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: statusvalue
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: createddate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: modifieddate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: discountratio
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: payments
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: invoicedetails
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: transaction_type
         description: ""
         meta:
           dimension:
