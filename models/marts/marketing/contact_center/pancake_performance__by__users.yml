@@ -7,74 +7,171 @@ models:
           combination_of_columns:
             - user_id
             - hour
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = date(${stg_pancake__user_stats.hour})
+          fields: [date,period, period_code]
+        - join: stg_pancake__users
+          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__user_stats.user_id}
+          fields: [user_id, user_name]
     columns:
-      - name: average_response_time
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: comment_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: hour
-        description: ""
-        meta:
-          dimension:
-            type: timestamp
-      - name: hour_in_integer
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: inbox_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: order_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: phone_number_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: private_reply_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: unique_comment_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: unique_inbox_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: page_id
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: user_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
+      - name: average_response_time
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          additional_dimensions:
+            d_average_response_time:
+              type: number
+              sql: case when ${d_hour} >= 7 and ${d_hour} <= 23 then ${TABLE}.average_response_time else 0 end
+              hidden: true
+          metrics:
+            m_avg_response_time:
+              type: average
+              round: 1
+              label: Avg response time (hour)
+              group_label: Pancake metrics
+              sql: ${d_average_response_time}/3600
+            m_med_response_time:
+              type: median
+              round: 1
+              label: Median of response time (min)
+              group_label: Pancake metrics
+              sql: ${d_average_response_time}/60
+      - name: comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_comment:
+              type: sum
+              round: 2
+              label: No. comments
+              group_label: Pancake metrics
+              compact: thousands
+      - name: hour
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+            hidden: true
+          additional_dimensions:
+            d_hour:
+              type: number
+              sql: extract(hour from ${TABLE}.hour)
+              label: Hour
+      - name: hour_in_integer
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_inbox:
+              type: sum
+              round: 2
+              label: No. inboxes
+              group_label: Pancake metrics
+              compact: thousands
+      - name: order_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_order:
+              type: sum
+              round: 0
+              label: No. orders
+              group_label: Pancake metrics
+      - name: phone_number_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_phone:
+              type: sum
+              label: No. phones
+              group_label: Pancake metrics
+              round: 0
+      - name: private_reply_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_private_reply:
+              type: sum
+              round: 0
+              label: No. private replies
+              group_label: Pancake metrics
+      - name: unique_comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_unique_comment:
+              type: sum
+              round: 0
+              label: No. unique comments
+              group_label: Pancake metrics
+      - name: unique_inbox_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_unique inbox:
+              type: sum
+              round: 0
+              label: No. unique inboxes
+              group_label: Pancake metrics
       - name: num_order
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_orders:
+              type: sum
+              label: No. orders
+              group_label: Pancake metrics
+              round: 0
       - name: total_payment
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_total_payment:
+              type: sum
+              label: Payment value
+              group_label: Pancake metrics
+              compact: millions
+              round: 2
+              
