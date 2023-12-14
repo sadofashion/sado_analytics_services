@@ -52,9 +52,9 @@ models:
             type: number
             hidden: true
           metrics:
-            m_:
+            m_num_inbox_interactive:
               type: sum
-              label:
+              label: No. interactive inboxes
               group_label: Pancake metrics
       - name: new_customer_count
         description: ""
@@ -87,7 +87,7 @@ models:
           metrics:
             m_num_page_comment:
               type: sum
-              label:
+              label: No. page comments
               group_label: Pancake metrics
       - name: page_inbox_count
         description: ""
