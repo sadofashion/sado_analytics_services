@@ -8,7 +8,7 @@
         },
     incremental_strategy = 'insert_overwrite',
     on_schema_change = 'sync_all_columns',
-    tags = ['caresoft','fact','incremental']
+    tags = ['pancake','fact','incremental']
 ) }}
 
 {% set tag_fields ={ 

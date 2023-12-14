@@ -45,6 +45,11 @@ models:
           dimension:
             type: timestamp
             hidden: true
+          additional_dimensions:
+            type: number
+            sql: extract(hour from ${TABLE}.hour)
+            label: Hour
+            
       - name: hour_in_integer
         description: ""
         meta:
