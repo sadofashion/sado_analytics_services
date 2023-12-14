@@ -61,7 +61,7 @@ offline_performance as (
 ),
 
 asms as (
-  select distinct a.asm_name, a.page 
+  select distinct a.asm_name, a.page, a.pic
   from {{ref("stg_gsheet__asms")}} a
 )
 
@@ -72,6 +72,7 @@ b.* EXCEPT(date, page, milestone_name),
 coalesce(p.date_start,o.transaction_date,b.date) as date,
 coalesce(p.page,o.page,b.page) as page,
 asms.asm_name,
+asms.pic,
 from facebook_performance p
 full join facebook_budget b on p.date_start = b.date and (p.page = b.page)
 full join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)

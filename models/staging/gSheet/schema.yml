@@ -64,6 +64,11 @@ models:
         meta:
           dimension:
             type: string
+      - name: pic
+        description: ""
+        meta:
+          dimension:
+            type: string
   - name: stg_gsheet__facebook_budget
     columns:
       - name: branch
