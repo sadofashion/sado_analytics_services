@@ -19,7 +19,7 @@
 with facebook_performance as (
     select 
       fb.page, date_start, 
-      fb.pic,
+      {# fb.pic, #}
     {% for metric in metrics %}
     sum(fb.{{metric}}) as {{metric}},
     {% endfor %}
@@ -30,20 +30,20 @@ with facebook_performance as (
       or 
       fb.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF")
       )
-    group by 1,2,3
+    group by 1,2
 ),
 facebook_budget as (
   select 
   budget.page,
   budget.date,
   budget.milestone_name,
-  budget.pic,
+  {# budget.pic, #}
   {% for target in targets %}
     sum(daily_{{target}}) as daily_{{target}},
     {% endfor %}
     from {{ref("facebook_budget")}} budget
     where budget.date <=current_date()
-    group by 1,2,3,4
+    group by 1,2,3
 ),
 offline_performance as (
   select 
@@ -68,13 +68,13 @@ asms as (
 )
 
 SELECT
-p.* except(page,date_start,pic),
+p.* except(page,date_start),
 o.* except(page,transaction_date,pic),
-b.* EXCEPT(date, page, milestone_name,pic),
+b.* EXCEPT(date, page, milestone_name),
 coalesce(p.date_start,o.transaction_date,b.date) as date,
 coalesce(p.page,o.page,b.page) as page,
 asms.asm_name,
-coalesce(asms.pic,o.pic,b.pic,p.pic) as pic,
+coalesce(asms.pic,o.pic) as pic,
 from facebook_performance p
 full join facebook_budget b on p.date_start = b.date and (p.page = b.page)
 full join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)

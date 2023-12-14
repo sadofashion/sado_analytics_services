@@ -1,6 +1,7 @@
 version: 2
 models:
   - name: stg_pancake__user_stats
+    description: Thống kê dữ liệu nhân viên theo page theo giờ
     meta:
       joins:
         - join: calendar
@@ -18,58 +19,125 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_avg_response_time:
+              type: average
+              round: 2
+              label: Avg response time
+              group_label: Pancake metrics
       - name: comment_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_comment:
+              type: sum
+              round: 2
+              label: No. comments
+              group_label: Pancake metrics
+              compact: thousands
       - name: hour
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: hour_in_integer
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: inbox_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_inbox:
+              type: sum
+              round: 2
+              label: No. inboxes
+              group_label: Pancake metrics
+              compact: thousands
       - name: order_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_order:
+              type: sum
+              round: 2
+              label: No. orders
+              group_label: Pancake metrics
+              compact: thousands
       - name: phone_number_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_phone:
+              type: sum
+              round: 2
+              label: No. phones
+              group_label: Pancake metrics
+              compact: thousands
       - name: private_reply_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_private_reply:
+              type: sum
+              round: 2
+              label: No. private replies
+              group_label: Pancake metrics
+              compact: thousands
       - name: unique_comment_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_unique_comment:
+              type: sum
+              round: 2
+              label: No. unique comments
+              group_label: Pancake metrics
+              compact: thousands
       - name: unique_inbox_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_unique inbox:
+              type: sum
+              round: 2
+              label: No. unique inboxes
+              group_label: Pancake metrics
+              compact: thousands
       - name: page_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: user_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true

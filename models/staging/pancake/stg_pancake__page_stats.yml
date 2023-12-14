@@ -1,6 +1,15 @@
 version: 2
 models:
   - name: stg_pancake__page_stats
+    description: Thống kê dữ liệu theo page theo giờ
+    meta:
+      joins:
+        - join: stg_pancake__pages
+          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__page_stats.page_id}
+          fields: [page_id, page_name]
+        - join: calendar
+          sql_on: ${calendar.date} = date(${stg_pancake__page_stats.hour})
+          fields: [date, period, period_code]
     columns:
       - name: customer_comment_count
         description: ""

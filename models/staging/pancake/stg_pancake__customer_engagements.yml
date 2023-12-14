@@ -1,6 +1,7 @@
 version: 2
 models:
   - name: stg_pancake__customer_engagements
+    description: Thống kê tương tác với khách hàng theo page theo giờ
     meta:
       joins:
         - join: calendar
