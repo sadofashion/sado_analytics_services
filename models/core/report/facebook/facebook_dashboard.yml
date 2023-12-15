@@ -384,3 +384,15 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_pic:
+              type: string
+              sql: |
+                case ${TABLE}.page 
+                when '5SFTHA' then 'Thắng'
+                when '5SFTIE' then 'Tiến'
+                when '5SFTUN' then 'Tùng'
+                when '5SFTRA' then 'Trang'
+                else ${TABLE}.pic end
+              label: PIC

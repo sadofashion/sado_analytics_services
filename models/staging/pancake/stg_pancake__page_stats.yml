@@ -1,69 +1,152 @@
 version: 2
 models:
   - name: stg_pancake__page_stats
+    description: Thống kê dữ liệu theo page theo giờ
+    meta:
+      joins:
+        - join: stg_pancake__pages
+          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__page_stats.page_id}
+          fields: [page_id, page_name]
+        - join: calendar
+          sql_on: ${calendar.date} = date(${stg_pancake__page_stats.hour})
+          fields: [date, period, period_code]
     columns:
       - name: customer_comment_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_customer_comment:
+              type: sum
+              label: No. customer comments
+              group_label: Pancake metrics
+          
       - name: customer_inbox_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_customer_inbox:
+              type: sum
+              label: No. inboxes
+              group_label: Pancake metrics
       - name: hour
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true 
+          additional_dimensions:
+            d_hour:
+              type: number
+              sql: extract(hour from ${TABLE}.hour)
+              label: Hour
       - name: inbox_interactive_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_inbox_interactive:
+              type: sum
+              label: No. interactive inboxes
+              group_label: Pancake metrics
       - name: new_customer_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_new_customer:
+              type: sum
+              label: No. new customers
+              group_label: Pancake metrics
       - name: new_inbox_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_new_inbox:
+              type: sum
+              label: No. new inboxes
+              group_label: Pancake metrics
       - name: page_comment_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_page_comment:
+              type: sum
+              label: No. page comments
+              group_label: Pancake metrics
       - name: page_inbox_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_page_inbox:
+              type: sum
+              label: No. page inboxes
+              group_label: Pancake metrics
       - name: phone_number_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_phone:
+              type: sum
+              label: No. phones
+              group_label: Pancake metrics
       - name: today_uniq_website_referral
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_unique_website_ref:
+              type: sum
+              label: No. unique website referrals
+              group_label: Pancake metrics
       - name: today_website_guest_referral
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_website_ref:
+              type: sum
+              label: No. website referrals
+              group_label: Pancake metrics
       - name: uniq_phone_number_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_unique_phone:
+              type: sum
+              label: No. unique phones
+              group_label: Pancake metrics
       - name: page_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true

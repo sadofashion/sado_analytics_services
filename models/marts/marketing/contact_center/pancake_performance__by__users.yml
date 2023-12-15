@@ -1,19 +1,27 @@
 version: 2
 models:
-  - name: stg_pancake__user_stats
-    description: Thống kê dữ liệu nhân viên theo page theo giờ
+  - name: pancake_performance__by__users
+    description: Tổng hợp dữ liệu thống kê theo nhân sự
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - user_id
+            - hour
     meta:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = date(${stg_pancake__user_stats.hour})
           fields: [date,period, period_code]
-        - join: stg_pancake__pages
-          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__user_stats.page_id}
-          fields: [page_id, page_name]
         - join: stg_pancake__users
           sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__user_stats.user_id}
           fields: [user_id, user_name]
     columns:
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
       - name: average_response_time
         description: ""
         meta:
@@ -141,15 +149,29 @@ models:
               round: 0
               label: No. unique inboxes
               group_label: Pancake metrics
-      - name: page_id
+      - name: num_order
         description: ""
         meta:
           dimension:
-            type: string
+            type: number
             hidden: true
-      - name: user_id
+          metrics:
+            m_num_orders:
+              type: sum
+              label: No. orders
+              group_label: Pancake metrics
+              round: 0
+      - name: total_payment
         description: ""
         meta:
           dimension:
-            type: string
+            type: number
             hidden: true
+          metrics:
+            m_total_payment:
+              type: sum
+              label: Payment value
+              group_label: Pancake metrics
+              compact: millions
+              round: 2
+              
