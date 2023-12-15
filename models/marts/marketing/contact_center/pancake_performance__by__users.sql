@@ -37,9 +37,11 @@ orders as (
     count(distinct order_id) num_order,
     sum(payment) as total_payment,
     from {{ref("stg_pancake__orders")}}
-    {% if is_incremental() %}
     where
-         date(order_created_at) >= date_add(date(_dbt_max_partition), interval -3 day)
+    seller_id is not null
+    {% if is_incremental() %}
+    
+         and date(order_created_at) >= date_add(date(_dbt_max_partition), interval -3 day)
         {% endif %}
     group by 1,2
 )

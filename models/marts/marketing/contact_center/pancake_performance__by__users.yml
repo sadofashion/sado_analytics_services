@@ -22,6 +22,8 @@ models:
           dimension:
             type: string
             hidden: true
+        tests:
+          - not_null
       - name: average_response_time
         description: ""
         meta:
@@ -76,6 +78,8 @@ models:
           dimension:
             type: string
             hidden: true
+        tests:
+          - not_null
       - name: inbox_count
         description: ""
         meta:
