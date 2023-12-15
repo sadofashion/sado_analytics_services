@@ -165,15 +165,24 @@ models:
           additional_dimensions:
             d_stage:
               type: string
-              sql: |
-                case when ${TABLE}.stage like '%Chưa phản hồi%' then '[2] Chưa phản hồi'
+              sql: >
+                case when ${TABLE}.stage like '%Chưa phản hồi%' then '[2] Chưa
+                phản hồi'
+
                 when ${TABLE}.stage like '%Tham khảo%' then '[3] Tham khảo'
+
                 when ${TABLE}.stage like '%Đang chổt%' then '[4] Đang chốt'
+
                 when ${TABLE}.stage like '%chuyển CH%' then '[5] Chốt đơn'
+
                 when ${TABLE}.stage like '%Khách ra SR%' then '[5] Chốt đơn'
+
                 when ${TABLE}.stage like '%Đã mua hàng%' then '[5] Chốt đơn'
+
                 when ${TABLE}.stage like '%Giá Cao%' then 'Huỷ'
+
                 when ${TABLE}.stage like '%Hết hàng%' then 'Huỷ'
+
                 else '[1] Hội thoại mới' end
               label: Stage
       - name: claim_status
