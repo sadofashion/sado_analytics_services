@@ -56,7 +56,7 @@ raw_ AS (
         1 = 1
 
 {% if is_incremental() %}
-AND DATE(updated_at) >= date_add(DATE(_dbt_max_partition), interval -3 day)
+AND DATE(updated_at) >= date_add(DATE(_dbt_max_partition), interval -7 day)
 {% endif %}
 )
 SELECT

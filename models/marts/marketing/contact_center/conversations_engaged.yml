@@ -53,7 +53,7 @@ models:
           dimension:
             type: string
             hidden: true
-          metrics: 
+          metrics:
             m_num_conversations:
               type: count_distinct
               label: No. conversations
@@ -92,30 +92,24 @@ models:
           dimension:
             type: string
             hidden: true
-      - name: tag_id
-        description: ""
-        meta:
-          dimension:
-            type: number
       - name: message_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
           metrics:
             m_num_messages:
               type: sum
               label: No. Messages
               group_label: Pancake metrics
               compact: thousands
-
       - name: snippet
         description: ""
         meta:
           dimension:
             type: string
             hidden: true
-
       - name: type
         description: ""
         meta:
@@ -131,46 +125,46 @@ models:
         meta:
           dimension:
             type: string
-
       - name: refuse_reason
         description: ""
         meta:
           dimension:
             type: string
-
       - name: agent
         description: ""
         meta:
           dimension:
             type: string
-
       - name: conversation_type
         description: ""
         meta:
           dimension:
             type: string
-
+            hidden: true
+          additional_dimensions:
+            d_conversation_type:
+              type: string
+              label: Conversation type
+              sql: |
+                case when ${TABLE}.conversation_type is null then "Mua hàng"
+                else ${TABLE}.conversation_type end
       - name: promotion_type
         description: ""
         meta:
           dimension:
             type: string
-
       - name: customer_type
         description: ""
         meta:
           dimension:
             type: string
-
       - name: stage
         description: ""
         meta:
           dimension:
             type: string
-
       - name: claim_status
         description: ""
         meta:
           dimension:
             type: string
-
