@@ -12,8 +12,6 @@
 ) }}
 
 {% set tag_fields ={ 
-    "deal_detail" :"Chốt đơn",
-    "refuse_reason" :"Lý do không mua",
     "agent" :"Nhân sự",
     "conversation_type" :"Phân loại",
     "promotion_type" :"Phân loại chương trình",
@@ -62,7 +60,7 @@ AND DATE(updated_at) >= date_add(DATE(_dbt_max_partition), interval -7 day)
 SELECT
     DISTINCT *
 FROM
-    raw_ pivot (ANY_VALUE(tag_value) for category IN ({% for key, value in tag_fields.items() %}
+    raw_ pivot (string_agg(distinct tag_value,',') for category IN ({% for key, value in tag_fields.items() %}
         "{{value}}" AS {{ key }}
         {{ "," if not loop.last }}
     {% endfor %}))
