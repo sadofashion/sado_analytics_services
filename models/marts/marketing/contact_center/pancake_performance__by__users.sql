@@ -18,7 +18,6 @@ with user_stats as (
     avg(average_response_time) average_response_time,
     sum(comment_count) comment_count,
     sum(inbox_count) inbox_count,
-    sum(order_count) order_count,
     sum(phone_number_count) phone_number_count,
     sum(private_reply_count) private_reply_count,
     sum(unique_comment_count) unique_comment_count,

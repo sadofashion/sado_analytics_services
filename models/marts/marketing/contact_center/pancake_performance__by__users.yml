@@ -10,10 +10,10 @@ models:
     meta:
       joins:
         - join: calendar
-          sql_on: ${calendar.date} = date(${stg_pancake__user_stats.hour})
+          sql_on: ${calendar.date} = date(${pancake_performance__by__users.hour})
           fields: [date,period, period_code]
         - join: stg_pancake__users
-          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__user_stats.user_id}
+          sql_on: ${stg_pancake__users.user_id} = ${pancake_performance__by__users.user_id}
           fields: [user_id, user_name]
     columns:
       - name: user_id
@@ -93,18 +93,6 @@ models:
               label: No. inboxes
               group_label: Pancake metrics
               compact: thousands
-      - name: order_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_num_order:
-              type: sum
-              round: 0
-              label: No. orders
-              group_label: Pancake metrics
       - name: phone_number_count
         description: ""
         meta:
