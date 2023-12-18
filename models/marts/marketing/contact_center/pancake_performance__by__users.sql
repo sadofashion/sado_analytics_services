@@ -47,8 +47,10 @@ orders as (
 )
 
 select 
-us.*,
+us.* except(hour, user_id),
+coalesce(us.user_id, o.seller_id) as user_id,
+coalesce(us.hour, o.hour) as hour,
 o.num_order,
 o.total_payment
 from user_stats us
-left join orders o on us.user_id = o.seller_id and us.hour = o.hour
+full join orders o on us.user_id = o.seller_id and us.hour = o.hour
