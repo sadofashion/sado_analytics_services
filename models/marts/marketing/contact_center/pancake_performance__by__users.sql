@@ -32,15 +32,16 @@ with user_stats as (
 orders as (
     select 
     seller_id,
-    date_trunc(order_created_at, hour) as hour,
+    date_trunc(inserted_at, hour) as hour,
     count(distinct order_id) num_order,
-    sum(payment) as total_payment,
+    sum(total_price) as total_payment,
     from {{ref("stg_pancake__orders")}}
     where
     seller_id is not null
+    and status = 'Đã xác nhận'
     {% if is_incremental() %}
     
-         and date(order_created_at) >= date_add(date(_dbt_max_partition), interval -3 day)
+         and date(inserted_at) >= date_add(date(_dbt_max_partition), interval -3 day)
         {% endif %}
     group by 1,2
 )

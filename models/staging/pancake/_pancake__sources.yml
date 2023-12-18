@@ -65,3 +65,9 @@ sources:
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
+      - name: pos_orders
+        identifier: p_pos_orders__*
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }
