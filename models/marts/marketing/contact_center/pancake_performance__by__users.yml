@@ -10,11 +10,18 @@ models:
     meta:
       joins:
         - join: calendar
-          sql_on: ${calendar.date} = date(${stg_pancake__user_stats.hour})
-          fields: [date,period, period_code]
+          sql_on: ${calendar.date} = date(${pancake_performance__by__users.hour})
+          fields:
+            - date
+            - period
+            - period_code
         - join: stg_pancake__users
-          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__user_stats.user_id}
-          fields: [user_id, user_name]
+          sql_on: >-
+            ${stg_pancake__users.user_id} =
+            ${pancake_performance__by__users.user_id}
+          fields:
+            - user_id
+            - user_name
     columns:
       - name: user_id
         description: ""
@@ -22,6 +29,8 @@ models:
           dimension:
             type: string
             hidden: true
+        tests:
+          - not_null
       - name: average_response_time
         description: ""
         meta:
@@ -31,7 +40,9 @@ models:
           additional_dimensions:
             d_average_response_time:
               type: number
-              sql: case when ${d_hour} >= 7 and ${d_hour} <= 23 then ${TABLE}.average_response_time else 0 end
+              sql: >-
+                case when ${d_hour} >= 7 and ${d_hour} <= 23 then
+                ${TABLE}.average_response_time else 0 end
               hidden: true
           metrics:
             m_avg_response_time:
@@ -70,12 +81,6 @@ models:
               type: number
               sql: extract(hour from ${TABLE}.hour)
               label: Hour
-      - name: hour_in_integer
-        description: ""
-        meta:
-          dimension:
-            type: string
-            hidden: true
       - name: inbox_count
         description: ""
         meta:
@@ -89,18 +94,6 @@ models:
               label: No. inboxes
               group_label: Pancake metrics
               compact: thousands
-      - name: order_count
-        description: ""
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_num_order:
-              type: sum
-              round: 0
-              label: No. orders
-              group_label: Pancake metrics
       - name: phone_number_count
         description: ""
         meta:
@@ -174,4 +167,3 @@ models:
               group_label: Pancake metrics
               compact: millions
               round: 2
-              

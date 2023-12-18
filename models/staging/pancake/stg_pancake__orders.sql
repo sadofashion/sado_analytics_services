@@ -1,4 +1,4 @@
-{%set pancake_order_statuses = {
+{% set pancake_order_statuses = {
     "0":"Mới",
     "17":"Chờ xác nhận",
     "11":"Chờ hàng",
@@ -22,22 +22,32 @@
 %}
 
 
-SELECT
-    customer_id,
-    recent_orders.assigning_seller_id as seller_id,
-    recent_orders.display_id,
-    recent_orders.id as order_id,
-    recent_orders.full_name,
-    recent_orders.inserted_at as order_created_at,
-    recent_orders.is_locked,
-    recent_orders.last_update_status_at as order_modified_at,
-    recent_orders.payment,
-    recent_orders.phone_number as customer_contact_number,
-    recent_orders.recipient_location,
-    case recent_orders.status
-    {%for key, value in pancake_order_statuses.items()%}
-        when {{key}} then "{{value}}"
-    {%endfor%}
-    end as status,
-FROM
-    {{ ref("base_pancake__customers") }},unnest(recent_orders) recent_orders
+WITH source AS (
+    {{ dbt_utils.deduplicate(relation = source('pancake', 'pos_orders'), partition_by = 'id,shop_id', order_by = "_batched_at desc",) }}
+)
+
+select 
+source.page_id,
+source.id as order_id,
+source.shop_id,
+case source.status
+{%for key, value in pancake_order_statuses.items() %}
+when {{key}} then '{{value}}'
+{%endfor%}
+end as status,
+source.shipping_address.*,
+source.bill_phone_number as phone_number,
+source.assigning_seller_id as seller_id,
+datetime_add(datetime(source.inserted_at), interval 7 hour) inserted_at,
+datetime_add(datetime(source.updated_at), interval 7 hour) updated_at,
+source.customer.customer_id as customer_id,
+source.conversation_id,
+source.total_price_after_sub_discount,
+source.total_price,
+source.time_assign_seller as seller_assigned_at,
+source.p_utm_campaign,
+source.p_utm_medium,
+source.p_utm_source,
+source.p_utm_term,
+source.p_utm_content,
+from source
