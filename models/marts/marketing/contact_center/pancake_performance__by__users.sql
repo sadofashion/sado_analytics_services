@@ -41,7 +41,7 @@ orders as (
     and status = 'Đã xác nhận'
     {% if is_incremental() %}
     
-         and date(inserted_at) >= date_add(date(_dbt_max_partition), interval -3 day)
+         and date(updated_at) >= date_add(date(_dbt_max_partition), interval -3 day)
         {% endif %}
     group by 1,2
 )
