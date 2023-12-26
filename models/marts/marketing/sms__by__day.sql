@@ -8,5 +8,5 @@ select
     count(distinct phone) as customer_sent,
     sum(sms_cost) sms_cost,
 from {{ref("stg_esms__sent_data")}}
-where sms_status = 'Thành công'
+where sent_status = 'Thành công'
 group by 1

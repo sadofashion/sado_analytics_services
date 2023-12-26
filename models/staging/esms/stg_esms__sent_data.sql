@@ -29,7 +29,7 @@ WITH source AS (
 )
 SELECT
   phone,
-  {{ dbt_utils.generate_surrogate_key(['phone','sms_id','senttime']) }} as sent_id,
+  {{ dbt_utils.generate_surrogate_key(['phone','SmsId','senttime']) }} as sent_id,
   ReferenceId as reference_id,
   SellPrice as sms_cost,
   case sendstatus 
