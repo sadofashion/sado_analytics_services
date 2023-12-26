@@ -83,7 +83,8 @@ sms as (
 SELECT
     r.*,
     ads.* EXCEPT(date_start),
-    web.* EXCEPT(session_date)
+    web.* EXCEPT(session_date),
+    sms.* except(sent_date),
 FROM
     revenue r
     LEFT JOIN ads_spend ads
