@@ -71,7 +71,15 @@ web_metrics AS (
                 "Organic Search" AS organic_search
         )
 )
+),
+sms as (
+    select 
+        * 
+    from {{ref("sms__by__day")}}
 )
+
+
+
 SELECT
     r.*,
     ads.* EXCEPT(date_start),
@@ -82,3 +90,5 @@ FROM
     ON r.t_date = ads.date_start
     LEFT JOIN web_metrics web
     ON r.t_date = web.session_date
+    left join sms
+    on r.t_date = sms.sent_date
