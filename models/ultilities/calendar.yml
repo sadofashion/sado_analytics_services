@@ -1,7 +1,9 @@
 version: 2
 models:
   - name: calendar
-    description: ""
+    description: The 'calendar' model generates a calendar table with various
+      date-related information. This calendar table can be used for analyzing
+      and reporting data based on different time periods.
     columns:
       - name: date
         description: ""

@@ -1,7 +1,9 @@
 version: 2
 models:
   - name: facebook_dashboard
-    description: ""
+    description: This model combines Facebook performance data, budget data, and
+      offline sales data to provide a comprehensive dashboard for analyzing
+      marketing performance.
     meta:
       joins:
         - join: calendar
@@ -16,195 +18,6 @@ models:
         - join: stg_gsheet__asms
           sql_on: ${stg_gsheet__asms.page} = ${facebook_dashboard.page}
     columns:
-      - name: asm_name
-        data_type: string
-        description: Tên ASM quản lý CH
-        meta:
-          dimension:
-            type: string
-      - name: page
-        data_type: string
-        description: Tên page để chạy
-        meta:
-          dimension:
-            type: string
-          metrics:
-            m_num_pages:
-              type: count_distinct
-              label: No. Pages
-              group_label: Misc
-      - name: date
-        data_type: date
-        description: ngày giao dịch
-        meta:
-          dimension:
-            type: date
-            hidden: true
-          metrics:
-            m_num_pages_days:
-              type: count_distinct
-              sql: concat(${TABLE}.date,page)
-              label: No. Pages Days
-              group_label: Misc
-              filters:
-                - spend: ">0"
-            m_num_days:
-              type: count_distinct
-              label: No. Days
-              group_label: Misc
-      - name: val_transaction_id
-        data_type: int64
-        description: số lượng giao dịch
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_num_transactions:
-              type: sum
-              label: No. Transactions
-              group_label: Sales metrics
-              compact: thousands
-              round: 1
-      - name: num_invoice_transaction_id
-        data_type: int64
-        description: số lượng invoice
-        meta:
-          dimension:
-            type: number
-          metrics:
-            m_num_invoices:
-              type: sum
-              label: No. Invoices
-              group_label: Sales metrics
-              compact: thousands
-              round: 1
-      - name: num_return_transaction_id
-        data_type: int64
-        description: số lượng trả
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_num_returns:
-              type: sum
-              label: No. Returns
-              group_label: Sales metrics
-              compact: thousands
-              round: 1
-      - name: val_total
-        data_type: float64
-        description: giá trị giao dịch
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_transaction_val:
-              type: sum
-              label: Transaction Value
-              group_label: Sales metrics
-              compact: billions
-              round: 1
-      - name: num_invoice_total
-        data_type: float64
-        description: giá trị bán
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_invoice_val:
-              type: sum
-              label: Invoice Value
-              group_label: Sales metrics
-              compact: billions
-              round: 1
-      - name: num_return_total
-        data_type: float64
-        description: giá trị trả
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_return_val:
-              type: sum
-              label: Return Value
-              group_label: Sales metrics
-              compact: millions
-              round: 1
-      - name: val_total_payment
-        data_type: float64
-        description: doanh thu thuần
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_payment_val:
-              type: sum
-              label: Payment
-              group_label: Sales metrics
-              compact: billions
-              round: 1
-      - name: num_invoice_total_payment
-        data_type: float64
-        description: doanh thu thuần bán hàng
-        meta:
-          dimension:
-            type: number
-            hidden: true
-      - name: num_return_total_payment
-        data_type: float64
-        description: doanh thu thuần trả hàng
-        meta:
-          dimension:
-            type: number
-            hidden: true
-      - name: daily_budget
-        data_type: float64
-        description: ngân sach/ngày
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_ads_budget:
-              type: sum
-              label: Budget
-              group_label: Budget
-              compact: millions
-              round: 1
-      - name: daily_sales_target
-        data_type: float64
-        description: target sales/ngày
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_sales_target:
-              type: sum
-              label: Sales target
-              group_label: Budget
-              compact: billions
-              round: 1
-      - name: daily_traffic_target
-        data_type: float64
-        description: target traffic/ngày
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_traffic_target:
-              type: sum
-              label: Traffic target
-              group_label: Budget
-              compact: thousands
-              round: 1
       - name: impressions
         data_type: numeric
         description: hiển thị
@@ -379,6 +192,195 @@ models:
               group_label: Ads metrics
               compact: thousands
               round: 1
+      - name: val_transaction_id
+        data_type: int64
+        description: số lượng giao dịch
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_transactions:
+              type: sum
+              label: No. Transactions
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
+      - name: num_invoice_transaction_id
+        data_type: int64
+        description: số lượng invoice
+        meta:
+          dimension:
+            type: number
+          metrics:
+            m_num_invoices:
+              type: sum
+              label: No. Invoices
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
+      - name: num_return_transaction_id
+        data_type: int64
+        description: số lượng trả
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_returns:
+              type: sum
+              label: No. Returns
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
+      - name: val_total
+        data_type: float64
+        description: giá trị giao dịch
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_transaction_val:
+              type: sum
+              label: Transaction Value
+              group_label: Sales metrics
+              compact: billions
+              round: 1
+      - name: num_invoice_total
+        data_type: float64
+        description: giá trị bán
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_invoice_val:
+              type: sum
+              label: Invoice Value
+              group_label: Sales metrics
+              compact: billions
+              round: 1
+      - name: num_return_total
+        data_type: float64
+        description: giá trị trả
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_return_val:
+              type: sum
+              label: Return Value
+              group_label: Sales metrics
+              compact: millions
+              round: 1
+      - name: val_total_payment
+        data_type: float64
+        description: doanh thu thuần
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_payment_val:
+              type: sum
+              label: Payment
+              group_label: Sales metrics
+              compact: billions
+              round: 1
+      - name: num_invoice_total_payment
+        data_type: float64
+        description: doanh thu thuần bán hàng
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_return_total_payment
+        data_type: float64
+        description: doanh thu thuần trả hàng
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: daily_budget
+        data_type: float64
+        description: ngân sach/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_ads_budget:
+              type: sum
+              label: Budget
+              group_label: Budget
+              compact: millions
+              round: 1
+      - name: daily_sales_target
+        data_type: float64
+        description: target sales/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_sales_target:
+              type: sum
+              label: Sales target
+              group_label: Budget
+              compact: billions
+              round: 1
+      - name: daily_traffic_target
+        data_type: float64
+        description: target traffic/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_traffic_target:
+              type: sum
+              label: Traffic target
+              group_label: Budget
+              compact: thousands
+              round: 1
+      - name: date
+        data_type: date
+        description: ngày giao dịch
+        meta:
+          dimension:
+            type: date
+            hidden: true
+          metrics:
+            m_num_pages_days:
+              type: count_distinct
+              sql: concat(${TABLE}.date,page)
+              label: No. Pages Days
+              group_label: Misc
+              filters:
+                - spend: ">0"
+            m_num_days:
+              type: count_distinct
+              label: No. Days
+              group_label: Misc
+      - name: page
+        data_type: string
+        description: Tên page để chạy
+        meta:
+          dimension:
+            type: string
+          metrics:
+            m_num_pages:
+              type: count_distinct
+              label: No. Pages
+              group_label: Misc
+      - name: asm_name
+        data_type: string
+        description: Tên ASM quản lý CH
+        meta:
+          dimension:
+            type: string
       - name: pic
         description: ""
         meta:

@@ -10,7 +10,7 @@ WITH revenue AS (
         SUM(quantity) AS items_qty,
         AVG(price) AS avg_price,
         AVG(discount_ratio) AS avg_discount_ratio,
-    {%for name,group in product_groups.items() %}
+    {# {%for name,group in product_groups.items() %}
         COUNT(
             DISTINCT case when p.product_group='{{group}}' then transaction_id end
         ) AS {{name}}_num_invoice,
@@ -18,7 +18,7 @@ WITH revenue AS (
         SUM( case when p.product_group='{{group}}' then quantity end) AS {{name}}_items_qty,
         AVG(case when p.product_group='{{group}}' then price end) AS {{name}}_avg_price,
         AVG(case when p.product_group='{{group}}' then discount_ratio end) AS {{name}}_avg_discount_ratio,
-    {%endfor%}
+    {%endfor%} #}
     FROM
         {{ ref("revenue_items") }}
         r
@@ -76,6 +76,11 @@ sms as (
     select 
         * 
     from {{ref("sms__by__day")}}
+),
+weather as (
+    select 
+        * 
+    from {{ref("weather")}}
 )
 
 
@@ -85,6 +90,10 @@ SELECT
     ads.* EXCEPT(date_start),
     web.* EXCEPT(session_date),
     sms.* except(sent_date),
+    weather.apparent_temperature_mean_10d,
+    weather.apparent_temperature_mean_15d,
+    weather.apparent_temperature_mean_30d,
+    weather.rain_sum,
 FROM
     revenue r
     LEFT JOIN ads_spend ads
@@ -93,3 +102,5 @@ FROM
     ON r.t_date = web.session_date
     left join sms
     on r.t_date = sms.sent_date
+    left join weather
+    on r.t_date = weather.date
