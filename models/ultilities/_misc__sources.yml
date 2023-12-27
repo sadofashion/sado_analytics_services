@@ -1,0 +1,10 @@
+version: 1
+sources:
+  - name: misc
+    schema: Misc
+    description: "misc data pulled from various sources for various purposes"
+    database: agile-scheme-394814
+    tables:
+      - identifier: p__weather__*
+        name: weather
+    

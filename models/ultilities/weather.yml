@@ -1,0 +1,42 @@
+version: 2
+models:
+  - name: weather
+    columns:
+      - name: date
+        description: ""
+      - name: temperature_2m_max
+        description: ""
+      - name: temperature_2m_min
+        description: ""
+      - name: temperature_2m_mean
+        description: ""
+      - name: apparent_temperature_max
+        description: ""
+      - name: apparent_temperature_min
+        description: ""
+      - name: apparent_temperature_mean
+        description: ""
+      - name: apparent_temperature_mean_10d
+        description: ""
+      - name: temperature_2m_mean_10d
+        description: ""
+      - name: apparent_temperature_mean_15d
+        description: ""
+      - name: temperature_2m_mean_15d
+        description: ""
+      - name: apparent_temperature_mean_30d
+        description: ""
+      - name: temperature_2m_mean_30d
+        description: ""
+      - name: rain_sum
+        description: ""
+      - name: wind_speed10m_max
+        description: ""
+      - name: lat
+        description: ""
+      - name: long
+        description: ""
+    description: This model aggregates weather data by date, providing maximum,
+      minimum, and mean temperatures, rain sum, and
+      maximum wind speed for each location. It also calculates rolling averages
+      for temperature and apparent temperature over 10, 15, and 30 days.
