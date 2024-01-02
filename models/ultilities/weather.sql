@@ -2,7 +2,7 @@ WITH source AS (
     {{ dbt_utils.deduplicate(relation = source('misc', 'weather'), partition_by = 'lat,long,time', order_by = "_batched_at desc",) }}
 )
 
-{%set ranges = [7,15,30]%}
+{%set ranges = [3,5,7]%}
 
 SELECT
     DATE(
