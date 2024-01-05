@@ -50,7 +50,13 @@ models:
           additional_dimensions:
             d_pic:
               type: string
-              sql: coalesce(${TABLE}.pic,${stg_gsheet__asms.pic})
+              sql: case ${TABLE}.page 
+                when '5SFTHA' then 'Thắng'
+                when '5SFTIE' then 'Tiến'
+                when '5SFTUN' then 'Tùng'
+                when '5SFTRA' then 'Trang'
+                else coalesce(${stg_gsheet__asms.pic},${TABLE}.pic,)
+                end
               label: PIC
       - name: content_group
         description: ""

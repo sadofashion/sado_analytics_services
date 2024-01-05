@@ -6,6 +6,10 @@ models:
       joins:
         - join: stg_kiotviet__branches
           sql_on: ${stg_kiotviet__branches.branch_id} = ${revenue_items.branch_id}
+        
+        - join: stg_gsheet__asms
+          sql_on: ${stg_gsheet__asms.branch_id} = ${revenue_items.branch_id}
+
         - join: stg_kiotviet__customers
           sql_on: >-
             ${stg_kiotviet__customers.customer_id} =
