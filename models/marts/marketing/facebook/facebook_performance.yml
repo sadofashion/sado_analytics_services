@@ -55,7 +55,7 @@ models:
                 when '5SFTIE' then 'Tiến'
                 when '5SFTUN' then 'Tùng'
                 when '5SFTRA' then 'Trang'
-                else coalesce(${stg_gsheet__asms.pic},${TABLE}.pic,)
+                else coalesce(${stg_gsheet__asms.pic},${TABLE}.pic)
                 end
               label: PIC
       - name: content_group
