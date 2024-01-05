@@ -45,3 +45,4 @@ SELECT
   {%endfor%} end as sms_type,
 from 
 source
+where senttime is not null

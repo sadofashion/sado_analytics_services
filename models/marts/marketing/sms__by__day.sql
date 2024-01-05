@@ -9,5 +9,4 @@ select
     sum(sms_cost) sms_cost,
 from {{ref("stg_esms__sent_data")}}
 where sent_status = 'Thành công'
-and sent_time is not null
 group by 1
