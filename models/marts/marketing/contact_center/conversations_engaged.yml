@@ -120,16 +120,6 @@ models:
         meta:
           dimension:
             type: string
-      - name: deal_detail
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: refuse_reason
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: agent
         description: ""
         meta:
@@ -185,6 +175,19 @@ models:
 
                 else '[1] Hội thoại mới' end
               label: Stage
+            d_closed_state:
+              type: string
+              sql: >
+                case  when ${TABLE}.stage like '%Đã mua hàng%' then 'Đã mua
+                hàng' when ${TABLE}.stage like '%chuyển CH%' then 'chuyển CH'
+                when ${TABLE}.stage like '%Khách ra SR%' then 'Khách ra SR' end
+              label: Closed State
+            d_refuse_reason:
+              type: string
+              sql: >
+                case  when ${TABLE}.stage like '%Giá Cao%' then 'Giá Cao' when
+                ${TABLE}.stage like '%Hết hàng%' then 'Hết hàng' end
+              label: Refuse Reason
       - name: claim_status
         description: ""
         meta:
