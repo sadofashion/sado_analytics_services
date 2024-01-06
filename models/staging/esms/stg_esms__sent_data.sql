@@ -33,11 +33,10 @@ SELECT
     senttime
   ) AS sent_time,
   smsid AS sms_id,
-  CASEsmstype
-
+  CASE smstype
   {% for key, type in sms_types.items() %}
   WHEN {{ key }} THEN '{{type}}'
-{% endfor %}END AS sms_type,
+{% endfor %} END AS sms_type,
 FROM
   source
 WHERE
