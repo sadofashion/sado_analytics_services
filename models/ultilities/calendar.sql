@@ -1,6 +1,6 @@
 WITH date_spine AS (
     {{ dbt_utils.date_spine(
-        start_date = "cast('2023-06-01' as Date)",
+        start_date = "cast('2018-01-01' as Date)",
         datepart = "day",
         end_date = "date_add( current_date() , interval 6 month)"
     ) }}

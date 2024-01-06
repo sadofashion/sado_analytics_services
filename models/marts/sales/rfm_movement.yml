@@ -87,6 +87,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: frequency_score
         description: >-
           calculate by dividing customer base into 5 groups by quantile range of
@@ -94,6 +95,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: monetary_score
         description: >-
           calculate by dividing customer base into 5 groups by quantile range of
@@ -101,18 +103,20 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: score_concat
         description: rfm concatenated score
         meta:
           dimension:
             type: string
+            hidden: true
       - name: segment
         description: group segmentation base on rfm score
         meta:
           dimension:
             type: string
       - name: recency_type
-        description: classified new and returning customers
+        description: classify new and returning customers
         meta:
           dimension:
             type: string
