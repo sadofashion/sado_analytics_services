@@ -7,6 +7,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: branch_name
         description: ""
         meta:
@@ -27,21 +28,25 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
       - name: email
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: created_date
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: modified_date
         description: ""
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: region
         description: ""
         meta:
@@ -58,22 +63,26 @@ models:
           dimension:
             type: string
       - name: fb_ads_page
-        description: ""
+        description: tên page chạy ads
         meta:
           dimension:
             type: string
       - name: fb_ads_pic
-        description: ""
+        description: tên người chạy ads
         meta:
           dimension:
             type: string
       - name: dbt_valid_from
-        description: ""
+        description: thời điểm snapshot bắt đầu được sử dụng
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: dbt_valid_to
-        description: ""
+        description: thời điểm snapshot kết thúc
         meta:
           dimension:
             type: timestamp
+            hidden: true
+    description: Danh sách CH offline tồn tại trên kiotviet, map với thông tin page
+      chạy ads & người chạy ads tương ứng

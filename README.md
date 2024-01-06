@@ -1,7 +1,39 @@
-![architecture](https://github.com/dbt-labs/dbt-core/blob/202cb7e51e218c7b29eb3b11ad058bd56b7739de/etc/dbt-transform.png)
+# Sado - analytics project
 
-## Getting started
+- Link to [Github](<https://github.com/chienazazaz/sado_analytics_services>)
+- Link to [Report](<https://headscloud.dev>)
 
-- [Install dbt](https://docs.getdbt.com/docs/get-started/installation)
-- Read the [introduction](https://docs.getdbt.com/docs/introduction/) and [viewpoint](https://docs.getdbt.com/docs/about/viewpoint/)
+![architecture](.github/project_structure.png)
+![model](.github/project_structure.png)
 
+## Conventions
+- snakecase
+- staging models: **[staging|base]_[source]__[entity]**
+- marts/core models: **[entity]** or **[dim|fct]__[entity]**
+
+## Schedule
+- on_push: select all modified models
+- every 2 hour (GMT+7): select all incremental and table models (exclude view) 
+
+# Project structure
+``` yml
+└── sado_analytics_service/
+    ├── analyses/
+    ├── snapshots/
+    └── models/
+        ├── staging/
+        │   ├── stg_models.sql
+        │   ├── stg_models.yml
+        │   └── base/
+        ├── intermediate
+        ├── marts/
+        │   ├── marketing/
+        │   │   ├── facebook: facebook ads/pages analytics models
+        │   │   ├── google: google ads analytics models
+        │   │   ├── analytics: website analytics models
+        │   │   └── contact_center: contact center centric models
+        │   ├── sales: offline sales models
+        │   └── online_sales: online sales models
+        ├── core: model for exposures only
+        └── utilities: misc and reusable models (calendar, weather, geocoding)
+```

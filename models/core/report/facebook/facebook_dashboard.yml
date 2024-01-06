@@ -20,6 +20,7 @@ models:
             ${dim__offline_stores.fb_ads_page} = ${facebook_dashboard.page} 
             and (${facebook_dashboard.date} >= ${dim__offline_stores.dbt_valid_from} or ${dim__offline_stores.dbt_valid_from}='2024-01-06')
             and (${facebook_dashboard.date} < ${dim__offline_stores.dbt_valid_to} or ${dim__offline_stores.dbt_valid_to} is null)
+          fields: [fb_ads_page, fb_ads_pic, dbt_valid_from, dbt_valid_to, asm_name, branch_name, province,region]
     columns:
       - name: impressions
         data_type: numeric
