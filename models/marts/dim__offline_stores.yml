@@ -1,0 +1,79 @@
+version: 2
+models:
+  - name: dim__offline_stores
+    columns:
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: branch_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ward_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: contact_number
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: modified_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: region
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: asm_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: fb_ads_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: fb_ads_pic
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: dbt_valid_from
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: dbt_valid_to
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

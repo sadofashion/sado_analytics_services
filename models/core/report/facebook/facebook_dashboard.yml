@@ -15,8 +15,11 @@ models:
             - month_name
             - period_code
             - no_days
-        - join: stg_gsheet__asms
-          sql_on: ${stg_gsheet__asms.page} = ${facebook_dashboard.page}
+        - join: dim__offline_stores
+          sql_on: |
+            ${dim__offline_stores.fb_ads_page} = ${facebook_dashboard.page} 
+            and (${facebook_dashboard.date} >= ${dim__offline_stores.dbt_valid_from} or ${dim__offline_stores.dbt_valid_from}='2024-01-06')
+            and (${facebook_dashboard.date} < ${dim__offline_stores.dbt_valid_to} or ${dim__offline_stores.dbt_valid_to} is null)
     columns:
       - name: impressions
         data_type: numeric
