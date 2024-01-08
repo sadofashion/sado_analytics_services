@@ -60,7 +60,7 @@ data_ AS (
     val_transaction_id AS transaction_id,
     val_shipping AS shipping,
     val_delivery_method AS delivery_method,
-    val_value AS VALUE,
+    val_value AS value,
     COALESCE(
       regexp_extract(
         val_page_location,

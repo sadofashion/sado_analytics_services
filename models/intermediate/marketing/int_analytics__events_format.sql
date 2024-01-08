@@ -75,4 +75,4 @@ SELECT
   {# user_{{param}}, #}
   {# {% endfor %} #}
 FROM
-  base pivot(ANY_VALUE(user_value) AS USER for user_key IN ('{{user_params | join("', '")}}'))
+  base pivot(ANY_VALUE(user_value) AS user for user_key IN ('{{user_params | join("', '")}}'))
