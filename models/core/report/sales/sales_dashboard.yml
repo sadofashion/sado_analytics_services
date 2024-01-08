@@ -1,0 +1,107 @@
+version: 2
+models:
+  - name: sales_dashboard
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${sales_dashboard.date}
+        - join: dim__offline_stores
+          sql_on: >
+            ${dim__offline_stores.new_ads_page} = ${facebook_dashboard.page} 
+          fields:
+            - new_ads_page
+            - new_ads_pic
+            - asm_name
+            - branch_name
+            - province
+            - region
+    columns:
+      - name: val_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_invoice_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_return_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: val_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_invoice_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_return_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: val_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_invoice_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_return_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_stores
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: daily_budget
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: daily_sales_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: daily_traffic_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true

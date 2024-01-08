@@ -43,7 +43,7 @@ revenue AS (
         1,
         2
 ),
-performance (
+performance as (
     SELECT
         sms.*,
         revenue.num_invoice,
@@ -63,11 +63,11 @@ performance (
             sms.sent_time,
             DAY
         ) <= 7
-    GROUP BY
+    {# GROUP BY
         1,
         2,
         3,
-        4
+        4 #}
 )
 SELECT
     segment,
@@ -76,3 +76,4 @@ SELECT
     SUM(total_invoice_value) total_invoice_value,
 FROM
     performance
+group by 1,2

@@ -11,7 +11,7 @@
 
 {% set metrics = ["impressions","spend","clicks","reach","link_click","post_engagement","offline_conversion_purchase","offline_conversion_purchase_value","pixel_purchase","pixel_purchase_value","meta_purchase","meta_purchase_value","_results_message"] %}
 {% set targets = ["budget", "sales_target", "traffic_target"] %}
-{% set rev_calcols ={ "transaction_id" :"count(distinct",
+{% set rev_calcols ={ "transaction_id" :"count(distinct ",
 "total" :"sum(",
 "total_payment" :"sum(" } %}
 {% set rev_types = ["invoice", "return"] %}
@@ -66,8 +66,8 @@ facebook_budget AS (
     {# budget.pic, #}
     {% for target in targets %}
       SUM(
-        daily_ {{ target }}
-      ) AS daily_ {{ target }},
+        daily_{{ target }}
+      ) AS daily_{{ target }},
     {% endfor %}
   FROM
     {{ ref("facebook_budget") }}
@@ -86,17 +86,13 @@ offline_performance AS (
     DATE(
       r.transaction_date
     ) transaction_date,
-    {% for col,
-      cal in rev_calcols.items() %}
-      {{ cal }}
-      {{ col }}
-      {{ ")" }} AS val_ {{ col }},
+    {% for col,cal in rev_calcols.items() %}
+      {{ cal }} {{ col }}{{ ")" }} AS val_{{ col }},
       {% for type in rev_types %}
         {{ cal }}
         CASE
           WHEN transaction_type = '{{type}}' THEN {{ col }}
-        END {{ ")" }} AS num_ {{ type }}
-        _ {{ col }},
+        END {{ ")" }} AS num_{{ type }}_{{ col }},
       {% endfor %}
     {% endfor %}
 
@@ -160,13 +156,13 @@ EXCEPT(
     o.pic
   ) AS pic,
 FROM
-  facebook_performance p full
-  JOIN facebook_budget b
+  facebook_performance p 
+  full outer JOIN facebook_budget b
   ON p.date_start = b.date
   AND (
     p.page = b.page
-  ) full
-  JOIN offline_performance o
+  ) 
+  full outer JOIN offline_performance o
   ON o.transaction_date = p.date_start
   AND (
     o.page = p.page
