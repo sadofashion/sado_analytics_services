@@ -1,8 +1,6 @@
-{{
-  config(
-    tags=['table', 'fact','nhanhvn']
-  )
-}}
+{{ config(
+    tags = ['table', 'fact','nhanhvn']
+) }}
 
 SELECT
     *
@@ -19,7 +17,9 @@ FROM
             ) AS rn_
         FROM
             {{ ref('stg_nhanhvn__inventories') }}
-           where 1=1  and depot_name = 'KHO ONLINE HÀ NỘI'
+        WHERE
+            1 = 1
+            AND depot_name = 'KHO ONLINE HÀ NỘI'
     )
 WHERE
     rn_ = 1

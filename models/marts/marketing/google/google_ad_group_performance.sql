@@ -1,7 +1,9 @@
 {{ config(
     tags = ['ggads','fact','view']
 ) }}
+
 WITH ad_group_stats AS (
+
     SELECT
         ad_group_id,
         campaign_id,

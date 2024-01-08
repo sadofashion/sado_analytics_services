@@ -1,16 +1,13 @@
-{{
-  config(
+{{ config(
     materialized = 'incremental',
-    partition_by = {
-      'field': 'transaction_date',
-      'data_type': 'timestamp',
-      'granularity': 'day'},
+    partition_by ={ 'field': 'transaction_date',
+    'data_type': 'timestamp',
+    'granularity': 'day' },
     incremental_strategy = 'insert_overwrite',
     unique_key = ['transaction_date','transaction_id'],
     on_schema_change = 'sync_all_columns',
-    tags=['incremental', 'daily','fact','kiotviet']
-  )
-}}
+    tags = ['incremental', 'daily','fact','kiotviet']
+) }}
 
 SELECT
     invoices.transaction_id,

@@ -2,11 +2,11 @@
     tags = ['ggads','fact','view']
 ) }}
 
-WITH 
-campaign_stats AS (
+WITH campaign_stats AS (
+
     SELECT
         campaign_id,
-        date,
+        DATE,
         slot,
         SUM(cost) AS ads_cost,
         SUM(impressions) AS ads_impressions,
@@ -23,7 +23,7 @@ campaign_stats AS (
 campaign_conversion_stats AS (
     SELECT
         campaign_id,
-        date,
+        DATE,
         slot,
         SUM(
             CASE

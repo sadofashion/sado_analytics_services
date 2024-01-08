@@ -39,11 +39,11 @@ WITH raw_ AS (
       'select_item',
       'view_item'
     )
-    {% if is_incremental() %}
+
+{% if is_incremental() %}
 AND (event_date >= DATE(_dbt_max_partition)
 OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
-{% endif %}
-),
+{% endif %}),
 data_ AS (
   SELECT
     event_id,
@@ -60,11 +60,11 @@ data_ AS (
     val_transaction_id AS transaction_id,
     val_shipping AS shipping,
     val_delivery_method AS delivery_method,
-    val_value AS value,
+    val_value AS VALUE,
     COALESCE(
       regexp_extract(
         val_page_location,
-        r'(?:[a-zA-Z]+://)?(?:[a-zA-Z0-9-.]+){1}(/[^\?#;&]+)'
+        r '(?:[a-zA-Z]+://)?(?:[a-zA-Z0-9-.]+){1}(/[^\?#;&]+)'
       ),
       '/'
     ) AS page_path,

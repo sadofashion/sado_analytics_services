@@ -11,82 +11,169 @@
 
 {% set metrics = ["impressions","spend","clicks","reach","link_click","post_engagement","offline_conversion_purchase","offline_conversion_purchase_value","pixel_purchase","pixel_purchase_value","meta_purchase","meta_purchase_value","_results_message"] %}
 {% set targets = ["budget", "sales_target", "traffic_target"] %}
-{% set rev_calcols = {"transaction_id":"count(distinct", "total":"sum(", "total_payment":"sum("} %}
+{% set rev_calcols ={ "transaction_id" :"count(distinct",
+"total" :"sum(",
+"total_payment" :"sum(" } %}
 {% set rev_types = ["invoice", "return"] %}
+WITH facebook_performance AS (
 
-
-
-with facebook_performance as (
-    select 
-      fb.page, date_start, 
-      {# fb.pic, #}
+  SELECT
+    fb.page,
+    date_start,
+    {# fb.pic, #}
     {% for metric in metrics %}
-    sum(fb.{{metric}}) as {{metric}},
+      SUM(
+        fb.{{ metric }}
+      ) AS {{ metric }},
     {% endfor %}
-    from {{ref("facebook_performance")}} fb
-    where date_start >= '2023-11-01'
-    and (
-      fb.page in (select distinct a.new_ads_page from {{ref("dim__offline_stores")}} a)
-      or
-      fb.page in (select distinct a.old_ads_page from {{ref("dim__offline_stores")}} a)
-      or 
-      fb.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF")
+  FROM
+    {{ ref("facebook_performance") }}
+    fb
+  WHERE
+    date_start >= '2023-11-01'
+    AND (
+      fb.page IN (
+        SELECT
+          DISTINCT A.new_ads_page
+        FROM
+          {{ ref("dim__offline_stores") }} A
       )
-    group by 1,2
+      OR fb.page IN (
+        SELECT
+          DISTINCT A.old_ads_page
+        FROM
+          {{ ref("dim__offline_stores") }} A
+      )
+      OR fb.page IN (
+        "5SFTHA",
+        "5SFTIE",
+        "5SFTUN",
+        "5SFTRA",
+        "5SFT",
+        "5SFG",
+        "5SF"
+      )
+    )
+  GROUP BY
+    1,
+    2
 ),
-facebook_budget as (
-  select 
-  budget.page,
-  budget.date,
-  budget.milestone_name,
-  {# budget.pic, #}
-  {% for target in targets %}
-    sum(daily_{{target}}) as daily_{{target}},
+facebook_budget AS (
+  SELECT
+    budget.page,
+    budget.date,
+    budget.milestone_name,
+    {# budget.pic, #}
+    {% for target in targets %}
+      SUM(
+        daily_ {{ target }}
+      ) AS daily_ {{ target }},
     {% endfor %}
-    from {{ref("facebook_budget")}} budget
-    where budget.date <=current_date()
-    group by 1,2,3
+  FROM
+    {{ ref("facebook_budget") }}
+    budget
+  WHERE
+    budget.date <= CURRENT_DATE()
+  GROUP BY
+    1,
+    2,
+    3
 ),
-offline_performance as (
-  select 
-  a.new_ads_page as page,
-  a.new_ads_pic as pic,
-  date(r.transaction_date) transaction_date,
-  {% for col, cal in rev_calcols.items() %}
-    {{cal}} {{col}}{{")"}} as val_{{col}},
-    {% for type in rev_types%}
-      {{cal}} case when transaction_type = '{{type}}' then {{col}} end{{")"}} as num_{{type}}_{{col}}, 
+offline_performance AS (
+  SELECT
+    A.new_ads_page AS page,
+    A.new_ads_pic AS pic,
+    DATE(
+      r.transaction_date
+    ) transaction_date,
+    {% for col,
+      cal in rev_calcols.items() %}
+      {{ cal }}
+      {{ col }}
+      {{ ")" }} AS val_ {{ col }},
+      {% for type in rev_types %}
+        {{ cal }}
+        CASE
+          WHEN transaction_type = '{{type}}' THEN {{ col }}
+        END {{ ")" }} AS num_ {{ type }}
+        _ {{ col }},
+      {% endfor %}
     {% endfor %}
-  {% endfor %}
-  count(distinct r.branch_id) as num_stores,
-  from {{ref("revenue")}} r
-  inner join {{ref("dim__offline_stores")}} a 
-  on r.branch_id = a.branch_id
-  where r.transaction_date >='2023-11-01'
-  and r.branch_id not in (1000087891)
-  group by 1,2,3
-),
 
-asms as (
-  select distinct a.asm_name,
-  a.new_ads_page as page,
-  a.new_ads_pic as pic,
-  a.old_ads_page as old_page,
-  a.old_ads_pic as old_pic,
-  from {{ref("dim__offline_stores")}} a
+    COUNT(
+      DISTINCT r.branch_id
+    ) AS num_stores,
+  FROM
+    {{ ref("revenue") }}
+    r
+    INNER JOIN {{ ref("dim__offline_stores") }} A
+    ON r.branch_id = A.branch_id
+  WHERE
+    r.transaction_date >= '2023-11-01'
+    AND r.branch_id NOT IN (1000087891)
+  GROUP BY
+    1,
+    2,
+    3
+),
+asms AS (
+  SELECT
+    DISTINCT A.asm_name,
+    A.new_ads_page AS page,
+    A.new_ads_pic AS pic,
+    A.old_ads_page AS old_page,
+    A.old_ads_pic AS old_pic,
+  FROM
+    {{ ref("dim__offline_stores") }} A
 )
-
 SELECT
-distinct
-p.* except(page,date_start),
-o.* except(page,transaction_date,pic),
-b.* EXCEPT(date, page, milestone_name),
-coalesce(p.date_start,o.transaction_date,b.date) as date,
-coalesce(p.page,o.page,b.page) as page,
-asms.asm_name,
-coalesce(asms.pic,o.pic) as pic,
-from facebook_performance p
-full join facebook_budget b on p.date_start = b.date and (p.page = b.page)
-full join offline_performance o on  o.transaction_date = p.date_start and (o.page = p.page)
-left join asms on coalesce(p.page,o.page,b.page) = asms.page
-
+  DISTINCT p.*
+EXCEPT(
+    page,
+    date_start
+  ),
+  o.*
+EXCEPT(
+    page,
+    transaction_date,
+    pic
+  ),
+  b.*
+EXCEPT(
+    DATE,
+    page,
+    milestone_name
+  ),
+  COALESCE(
+    p.date_start,
+    o.transaction_date,
+    b.date
+  ) AS DATE,
+  COALESCE(
+    p.page,
+    o.page,
+    b.page
+  ) AS page,
+  asms.asm_name,
+  COALESCE(
+    asms.pic,
+    o.pic
+  ) AS pic,
+FROM
+  facebook_performance p full
+  JOIN facebook_budget b
+  ON p.date_start = b.date
+  AND (
+    p.page = b.page
+  ) full
+  JOIN offline_performance o
+  ON o.transaction_date = p.date_start
+  AND (
+    o.page = p.page
+  )
+  LEFT JOIN asms
+  ON COALESCE(
+    p.page,
+    o.page,
+    b.page
+  ) = asms.page

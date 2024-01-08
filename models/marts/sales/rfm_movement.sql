@@ -1,28 +1,26 @@
-{{
-  config(
-    materialized = 'incremental',
-    partition_by ={ 'field': 'start_of_month',
-    'data_type': 'date',
-    'granularity': 'month' },
-    incremental_strategy = 'insert_overwrite',
-    unique_key = ['customer_id', 'start_of_month'],
-    on_schema_change = 'sync_all_columns',
-    tags=['incremental','table', 'fact', 'kiotviet']
-  )
-}}
+{{ config(
+  materialized = 'incremental',
+  partition_by ={ 'field': 'start_of_month',
+  'data_type': 'date',
+  'granularity': 'month' },
+  incremental_strategy = 'insert_overwrite',
+  unique_key = ['customer_id', 'start_of_month'],
+  on_schema_change = 'sync_all_columns',
+  tags = ['incremental','table', 'fact', 'kiotviet']
+) }}
 
-WITH calendar as (
-  select distinct start_of_month, 
-  from {{ref('calendar')}} 
+WITH calendar AS (
+
+  SELECT
+    DISTINCT start_of_month,
+  FROM
+    {{ ref('calendar') }}
 ),
 source AS (
   SELECT
     customer_id,
     DATE(transaction_date) transaction_date,
-    DATE_TRUNC(
-      DATE(transaction_date),
-      MONTH
-    ) transaction_month,
+    DATE_TRUNC(DATE(transaction_date), MONTH) transaction_month,
     SUM(total) total,
     COUNT(
       DISTINCT CASE
@@ -34,104 +32,368 @@ source AS (
     ) num_transactions,
   FROM
     {{ ref('revenue') }}
-    where customer_id is not null
-    group by 1,2,3
+  WHERE
+    customer_id IS NOT NULL
+  GROUP BY
+    1,
+    2,
+    3
 ),
-aggregated_and_cross_join as (
-select 
-  calendar.start_of_month,
-  source.customer_id,
-  sum(case when calendar.start_of_month= source.transaction_month then total end) total,
-  sum(case when calendar.start_of_month= source.transaction_month then num_transactions end) num_transactions,
-  max(case when calendar.start_of_month= source.transaction_month then transaction_date end) transaction_date
-from calendar
-cross join source
-where 1=1
-  and calendar.start_of_month <= current_date()
-  
-    group by 1,2
+aggregated_and_cross_join AS (
+  SELECT
+    calendar.start_of_month,
+    source.customer_id,
+    SUM(
+      CASE
+        WHEN calendar.start_of_month = source.transaction_month THEN total
+      END
+    ) total,
+    SUM(
+      CASE
+        WHEN calendar.start_of_month = source.transaction_month THEN num_transactions
+      END
+    ) num_transactions,
+    MAX(
+      CASE
+        WHEN calendar.start_of_month = source.transaction_month THEN transaction_date
+      END
+    ) transaction_date
+  FROM
+    calendar
+    CROSS JOIN source
+  WHERE
+    1 = 1
+    AND calendar.start_of_month <= CURRENT_DATE()
+  GROUP BY
+    1,
+    2
 ),
-
-aggregated_cumulative as (
-  select 
+aggregated_cumulative AS (
+  SELECT
     start_of_month,
     customer_id,
-    min(transaction_date) over w3 as first_purchase,
-    coalesce(max(transaction_date) over w4, max(transaction_date) over w5) as last_purchase,
-    coalesce(sum(total) over w1,0) as monetary,
-    coalesce(sum(num_transactions) over w1,0) as frequency,
-    date_diff(coalesce(max(transaction_date) over w2,last_day(start_of_month,month)), coalesce(max(transaction_date) over w4, max(transaction_date) over w5),day) as recency
-  from aggregated_and_cross_join
-  window w1 as (
-    PARTITION by customer_id order by unix_date(start_of_month) desc
-    range between 93 preceding and current row
-  ),
-  w2 as (
-    PARTITION by customer_id, start_of_month order by unix_date(start_of_month) asc range between unbounded preceding and 1 preceding
-  ),
-  w4 as (
-    PARTITION by customer_id,start_of_month order by unix_date(start_of_month) asc range between unbounded preceding and current row
-  ),
-  w5 as (
-    PARTITION by customer_id order by unix_date(start_of_month) asc range between unbounded preceding and 1 preceding
-  ),
-  w3 as (
-    PARTITION by customer_id
-  )
-),
+    MIN(transaction_date) over w3 AS first_purchase,
+    COALESCE(MAX(transaction_date) over w4, MAX(transaction_date) over w5) AS last_purchase,
+    COALESCE(SUM(total) over w1, 0) AS monetary,
+    COALESCE(SUM(num_transactions) over w1, 0) AS frequency,
+    date_diff(
+      COALESCE(MAX(transaction_date) over w2, LAST_DAY(start_of_month, MONTH)),
+      COALESCE(MAX(transaction_date) over w4, MAX(transaction_date) over w5),
+      DAY) AS recency
+      FROM
+        aggregated_and_cross_join window w1 AS (
+          PARTITION BY customer_id
+          ORDER BY
+            unix_date(start_of_month) DESC RANGE BETWEEN 93 preceding
+            AND CURRENT ROW
+        ),
+        w2 AS (
+          PARTITION BY customer_id,
+          start_of_month
+          ORDER BY
+            unix_date(start_of_month) ASC RANGE BETWEEN unbounded preceding
+            AND 1 preceding
+        ),
+        w4 AS (
+          PARTITION BY customer_id,
+          start_of_month
+          ORDER BY
+            unix_date(start_of_month) ASC RANGE BETWEEN unbounded preceding
+            AND CURRENT ROW
+        ),
+        w5 AS (
+          PARTITION BY customer_id
+          ORDER BY
+            unix_date(start_of_month) ASC RANGE BETWEEN unbounded preceding
+            AND 1 preceding
+        ),
+        w3 AS (
+          PARTITION BY customer_id
+        )
+    ),
+    scoring AS (
+      SELECT
+        customer_id,
+        start_of_month,
+        first_purchase,
+        last_purchase,
+        recency,
+        monetary,
+        frequency,
+        NTILE(5) over (
+          PARTITION BY start_of_month
+          ORDER BY
+            recency DESC
+        ) AS recency_score,
+        CASE
+          WHEN frequency > 0 THEN NTILE(5) over (
+            PARTITION BY start_of_month,(
+              CASE
+                WHEN monetary > 0 THEN "purchase"
+                ELSE "notpurchase"
+              END
+            )
+            ORDER BY
+              frequency ASC
+          )
+          ELSE 1
+        END AS frequency_score,
+        CASE
+          WHEN monetary > 0 THEN NTILE(5) over (
+            PARTITION BY start_of_month,
+            (
+              CASE
+                WHEN monetary > 0 THEN "purchase"
+                ELSE "notpurchase"
+              END
+            )
+            ORDER BY
+              monetary ASC
+          )
+          ELSE 1
+        END AS monetary_score
+      FROM
+        aggregated_cumulative
+      WHERE
+        start_of_month >= DATE_TRUNC(
+          first_purchase,
+          MONTH
+        )
+    ),
+    last_branch AS (
+      SELECT
+        DISTINCT customer_id,
+        DATE(transaction_date) transaction_date,
+        DATE_TRUNC(DATE(transaction_date), MONTH) AS transaction_month,
+        FIRST_VALUE(branch_id) over (
+          PARTITION BY customer_id,
+          DATE_TRUNC(DATE(transaction_date), MONTH)
+          ORDER BY
+            transaction_date DESC rows BETWEEN unbounded preceding
+            AND unbounded following) AS last_purchase_branch,
+          FROM
+            {{ ref('revenue') }}
+          WHERE
+            customer_id IS NOT NULL
+        )
+      SELECT
+        scoring.*,
+        CONCAT(
+          recency_score,
+          frequency_score,
+          monetary_score
+        ) score_concat,
+        CASE
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '555',
+            '554',
+            '544',
+            '545',
+            '454',
+            '455',
+            '445'
+          ) THEN 'Champions'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '543',
+            '444',
+            '435',
+            '355',
+            '354',
+            '345',
+            '344',
+            '335'
+          ) THEN 'Loyal'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '553',
+            '551',
+            '552',
+            '541',
+            '542',
+            '533',
+            '532',
+            '531',
+            '452',
+            '451',
+            '442',
+            '441',
+            '431',
+            '453',
+            '433',
+            '432',
+            '423',
+            '353',
+            '352',
+            '351',
+            '342',
+            '341',
+            '333',
+            '323'
+          ) THEN 'Potential Loyalists'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '512',
+            '511',
+            '422',
+            ' 421 412',
+            '411',
+            '311'
+          ) THEN 'New Customers'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '525',
+            '524',
+            '523',
+            '522',
+            '521',
+            '515',
+            '514',
+            '513',
+            '425',
+            '424',
+            '413',
+            '414',
+            '415',
+            '315',
+            '314',
+            '313'
+          ) THEN 'Promising'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '535',
+            '534',
+            '443',
+            '434',
+            '343',
+            '334',
+            '325',
+            '324'
+          ) THEN 'Need Attention'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '331',
+            '321',
+            '312',
+            '221',
+            '213',
+            '231',
+            '241',
+            '251'
+          ) THEN 'About To Sleep'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '255',
+            '254',
+            '245',
+            '244',
+            '253',
+            '252',
+            '243',
+            '242',
+            '235',
+            '234',
+            '225',
+            '224',
+            '153',
+            '152',
+            '145',
+            '143',
+            '142',
+            '135',
+            '134',
+            '133',
+            '125',
+            '124'
+          ) THEN 'At Risk'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '155',
+            '154',
+            '144',
+            '214',
+            '215',
+            '115',
+            '114',
+            '113'
+          ) THEN 'Cannot Lose Them'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '332',
+            '322',
+            '233',
+            '232',
+            '223',
+            '222',
+            '132',
+            '123',
+            '122',
+            '212',
+            '211'
+          ) THEN 'Hibernating customers'
+          WHEN CONCAT(
+            recency_score,
+            frequency_score,
+            monetary_score
+          ) IN (
+            '111',
+            '112',
+            '121',
+            '131',
+            '141',
+            '151'
+          ) THEN 'Lost customers'
+        END AS SEGMENT,
+        CASE
+          WHEN DATE_TRUNC(
+            first_purchase,
+            MONTH
+          ) = start_of_month THEN "Khách mới"
+          WHEN recency > 360 THEN '1 năm chưa quay lại'
+          WHEN recency > 180 THEN '6 tháng chưa quay lại'
+          WHEN recency > 90 THEN '3 tháng chưa quay lại'
+          WHEN recency > 30 THEN '1 tháng chưa quay lại'
+          ELSE "Khách quay lại"
+        END AS recency_type,
+        last_branch.last_purchase_branch,
+      FROM
+        scoring
+        LEFT JOIN last_branch
+        ON scoring.customer_id = last_branch.customer_id
+        AND last_branch.transaction_month = scoring.start_of_month
 
-scoring as (
-  SELECT
-  customer_id,
-  start_of_month,
-  first_purchase,
-  last_purchase,
-  recency,
-  monetary,
-  frequency,
-  NTILE(5) OVER (PARTITION by start_of_month ORDER BY recency desc ) AS recency_score,
-  case when frequency >0 then  NTILE(5) OVER (PARTITION by start_of_month,(case when monetary>0 then "purchase" else "notpurchase" end) ORDER BY frequency asc ) else 1 end AS frequency_score,
-  case when monetary > 0 then NTILE(5) OVER (PARTITION by start_of_month, (case when monetary>0 then "purchase" else "notpurchase" end) ORDER BY monetary asc ) else 1 end AS monetary_score
-FROM
-  aggregated_cumulative
-  where
-  start_of_month >= date_trunc(first_purchase,month)
-  ),
-
-  last_branch as (
-    select distinct customer_id,
-    date(transaction_date) transaction_date,
-    date_trunc( date(transaction_date), month) as transaction_month,
-    first_value(branch_id) over (partition by customer_id, date_trunc( date(transaction_date), month) order by transaction_date desc rows between unbounded preceding and unbounded following) as last_purchase_branch,
-    from {{ ref('revenue') }}
-    where customer_id is not null
-  )
-
-
-  select scoring.*,
-  concat(recency_score,frequency_score,monetary_score) score_concat,
-  case when concat(recency_score,frequency_score,monetary_score) in ('555', '554', '544', '545', '454', '455', '445') then 'Champions'
-  when concat(recency_score,frequency_score,monetary_score) in ('543','444','435','355','354','345','344','335') then 'Loyal'
-  when concat(recency_score,frequency_score,monetary_score) in ('553','551','552','541','542','533','532','531','452','451','442','441','431','453','433','432','423','353','352','351','342','341','333','323') then 'Potential Loyalists'
-  when concat(recency_score,frequency_score,monetary_score) in ('512','511','422',' 421 412','411','311') then 'New Customers'
-  when concat(recency_score,frequency_score,monetary_score) in ('525','524','523','522','521','515','514','513','425','424','413','414','415','315','314','313') then 'Promising'
-  when concat(recency_score,frequency_score,monetary_score) in ('535','534','443','434','343','334','325','324') then 'Need Attention'
-  when concat(recency_score,frequency_score,monetary_score) in ('331','321','312','221','213','231','241','251') then 'About To Sleep'
-  when concat(recency_score,frequency_score,monetary_score) in ('255','254','245','244','253','252','243','242','235','234','225','224','153','152','145','143','142','135','134','133','125','124') then 'At Risk'
-  when concat(recency_score,frequency_score,monetary_score) in ('155','154','144','214','215','115','114','113') then 'Cannot Lose Them'
-  when concat(recency_score,frequency_score,monetary_score) in ('332','322','233','232','223','222','132','123','122','212','211') then 'Hibernating customers'
-  when concat(recency_score,frequency_score,monetary_score) in ('111','112','121','131','141','151') then 'Lost customers'
-  end as segment,
-  case when date_trunc(first_purchase,month) = start_of_month then "Khách mới"
-  when recency > 360 then '1 năm chưa quay lại'
-              when recency > 180 then '6 tháng chưa quay lại'
-              when recency > 90 then '3 tháng chưa quay lại'
-              when recency > 30 then '1 tháng chưa quay lại'
-              else "Khách quay lại" end as recency_type,
-  last_branch.last_purchase_branch,
-  from scoring
-  left join last_branch on scoring.customer_id = last_branch.customer_id and last_branch.transaction_month = scoring.start_of_month
-    {% if is_incremental() %}
-  where
-   date(start_of_month) >= DATE(_dbt_max_partition)
-    {% endif %}
+{% if is_incremental() %}
+WHERE
+  DATE(start_of_month) >= DATE(_dbt_max_partition)
+{% endif %}

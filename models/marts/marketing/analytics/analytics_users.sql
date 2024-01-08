@@ -10,6 +10,7 @@
 ) }}
 
 WITH raw_ AS (
+
     SELECT
         DISTINCT client_id,
         FIRST_VALUE(
@@ -56,8 +57,8 @@ window client_window AS (
         AND unbounded following
 )
 )
-SELECT distinct
-    client_id,
+SELECT
+    DISTINCT client_id,
     user_phone,
     user_email,
     user_name,

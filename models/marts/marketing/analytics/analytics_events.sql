@@ -42,7 +42,7 @@ SELECT
   shipping,
   delivery_method,
   store,
-  value,
+  VALUE,
   form_value
 FROM
   {{ ref('int_analytics__events_format') }}
@@ -50,7 +50,6 @@ WHERE
   1 = 1
 
 {% if is_incremental() %}
-AND (
-  event_date >= DATE(_dbt_max_partition)
-  OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
-  {% endif %}
+AND (event_date >= DATE(_dbt_max_partition)
+OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
+{% endif %}

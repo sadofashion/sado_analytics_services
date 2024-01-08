@@ -37,7 +37,9 @@ WITH inventory AS (
     WHERE
         products.class_code IS NOT NULL
         AND balance.daily_ending_remain IS NOT NULL
-    group by 1,2
+    GROUP BY
+        1,
+        2
 ),
 aggregated_data AS (
     SELECT
@@ -69,7 +71,7 @@ aggregated_data AS (
                 DATE >= '2023-09-25' window w1 AS (
                     PARTITION BY DATE
                     ORDER BY
-                        avg_stay desc RANGE BETWEEN unbounded preceding
+                        avg_stay DESC RANGE BETWEEN unbounded preceding
                         AND CURRENT ROW
                 ),
                 w2 AS (
@@ -96,7 +98,7 @@ aggregated_data AS (
                     WHEN avg_stay IS NOT NULL THEN NTILE(10) over (
                         PARTITION BY DATE
                         ORDER BY
-                            cummulative_avg_stay desc
+                            cummulative_avg_stay DESC
                     )
                     ELSE 10
                 END AS avg_stay_score,
@@ -110,7 +112,11 @@ aggregated_data AS (
                 END AS consumption_rate_score,
             FROM
                 classification_data
-                where (avg_stay is not null or consumption_rate <> 0)
+            WHERE
+                (
+                    avg_stay IS NOT NULL
+                    OR consumption_rate <> 0
+                )
         )
     SELECT
         *
@@ -135,7 +141,7 @@ aggregated_data AS (
             ) THEN 'S'
             ELSE 'N'
         END AS consumption_classification,
-        CASE NTILE(3) over (PARTITION BY DATE
+        CASENTILE(3) over (PARTITION BY DATE
     ORDER BY
         (avg_stay_score + consumption_rate_score) DESC)
         WHEN 3 THEN 'F'
