@@ -42,7 +42,7 @@ SELECT
   shipping,
   delivery_method,
   store,
-  VALUE,
+  value,
   form_value
 FROM
   {{ ref('int_analytics__events_format') }}
