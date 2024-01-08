@@ -46,8 +46,8 @@ FROM
     {{dbt_utils.group_by(12)}}
     )
 
-    select 
-    * except(page,pic),
+    select distinct
+    facebook_performance.* except(page,pic),
     coalesce(s.new_ads_page,facebook_performance.page) as page,
     coalesce(s.new_ads_pic,facebook_performance.pic) as pic
     from facebook_performance
