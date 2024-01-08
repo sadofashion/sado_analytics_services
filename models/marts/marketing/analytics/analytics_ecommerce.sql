@@ -64,7 +64,7 @@ data_ AS (
     COALESCE(
       regexp_extract(
         val_page_location,
-        r '(?:[a-zA-Z]+://)?(?:[a-zA-Z0-9-.]+){1}(/[^\?#;&]+)'
+        r'(?:[a-zA-Z]+://)?(?:[a-zA-Z0-9-.]+){1}(/[^\?#;&]+)'
       ),
       '/'
     ) AS page_path,

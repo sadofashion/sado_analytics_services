@@ -123,28 +123,14 @@ asms AS (
     {{ ref("dim__offline_stores") }} A
 )
 SELECT
-  DISTINCT p.*
-EXCEPT(
-    page,
-    date_start
-  ),
-  o.*
-EXCEPT(
-    page,
-    transaction_date,
-    pic
-  ),
-  b.*
-EXCEPT(
-    DATE,
-    page,
-    milestone_name
-  ),
+  DISTINCT p.* EXCEPT(page,date_start),
+  o.* EXCEPT(page,transaction_date,pic),
+  b.* EXCEPT(date,page,milestone_name),
   COALESCE(
     p.date_start,
     o.transaction_date,
     b.date
-  ) AS DATE,
+  ) AS date,
   COALESCE(
     p.page,
     o.page,

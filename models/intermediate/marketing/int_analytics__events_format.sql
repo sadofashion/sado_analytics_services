@@ -48,7 +48,7 @@ WITH base AS (
       r'utm_content=([^&]+)'
     ) AS traffic_referrer,
     {% for param in event_params if param != 'ga_session_id' %}
-      val_ {{ param }} AS {{ param }},
+      val_{{ param }} AS {{ param }},
     {% endfor %}
 
     user_value,

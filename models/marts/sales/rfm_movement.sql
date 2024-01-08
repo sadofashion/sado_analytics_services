@@ -374,7 +374,7 @@ aggregated_cumulative AS (
             '141',
             '151'
           ) THEN 'Lost customers'
-        END AS SEGMENT,
+        END AS segment,
         CASE
           WHEN DATE_TRUNC(
             first_purchase,

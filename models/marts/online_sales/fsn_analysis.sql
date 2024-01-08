@@ -141,7 +141,7 @@ aggregated_data AS (
             ) THEN 'S'
             ELSE 'N'
         END AS consumption_classification,
-        CASENTILE(3) over (PARTITION BY DATE
+        CASE NTILE(3) over (PARTITION BY DATE
     ORDER BY
         (avg_stay_score + consumption_rate_score) DESC)
         WHEN 3 THEN 'F'
