@@ -58,6 +58,7 @@ offline_performance as (
       {{cal}} case when transaction_type = '{{type}}' then {{col}} end{{")"}} as num_{{type}}_{{col}}, 
     {% endfor %}
   {% endfor %}
+  count(distinct r.branch_id) as num_stores,
   from {{ref("revenue")}} r
   inner join {{ref("dim__offline_stores")}} a 
   on r.branch_id = a.branch_id
