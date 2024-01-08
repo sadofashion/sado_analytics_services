@@ -62,27 +62,28 @@ models:
         meta:
           dimension:
             type: string
-      - name: fb_ads_page
-        description: tên page chạy ads
+      - name: new_ads_page
+        description: ""
         meta:
           dimension:
             type: string
-      - name: fb_ads_pic
-        description: tên người chạy ads
+      - name: new_ads_pic
+        description: ""
         meta:
           dimension:
             type: string
-      - name: dbt_valid_from
-        description: thời điểm snapshot bắt đầu được sử dụng
+      - name: old_ads_page
+        description: ""
         meta:
           dimension:
-            type: timestamp
+            type: string
             hidden: true
-      - name: dbt_valid_to
-        description: thời điểm snapshot kết thúc
+      - name: old_ads_pic
+        description: ""
         meta:
           dimension:
-            type: timestamp
+            type: string
             hidden: true
-    description: Danh sách CH offline tồn tại trên kiotviet, map với thông tin page
-      chạy ads & người chạy ads tương ứng
+    description: >-
+      Danh sách CH offline tồn tại trên kiotviet, map với thông tin page chạy
+      ads & người chạy ads tương ứng
