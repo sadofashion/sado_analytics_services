@@ -177,6 +177,7 @@ aggregated_cumulative AS (
             customer_id IS NOT NULL
         )
       SELECT
+        distinct
         scoring.*,
         CONCAT(
           recency_score,

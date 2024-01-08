@@ -2,6 +2,11 @@ version: 2
 models:
   - name: rfm_movement
     description: rfm segmentation result
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_id
+            - start_of_month
     meta:
       joins:
         - join: stg_kiotviet__customers

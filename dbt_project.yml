@@ -21,11 +21,11 @@ models:
     staging:
       +materialized: view
       base:
-        docs:
+        +docs:
           show: false
     intermediate:
       +materialized: ephemeral
-      docs:
+      +docs:
         show: false
     marts:
       +materialized: table
@@ -37,7 +37,7 @@ models:
         +schema: online_sales
     utilities:
       +materialized: view
-      docs:
+      +docs:
         show: false #hide ultitlities
     core:
       +materialized: table

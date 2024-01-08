@@ -149,9 +149,9 @@ FROM
     p.page = b.page
   ) 
   full outer JOIN offline_performance o
-  ON o.transaction_date = p.date_start
+  ON o.transaction_date = coalesce(p.date_start,b.date)
   AND (
-    o.page = p.page
+    o.page = COALESCE(p.page,b.page)
   )
   LEFT JOIN asms
   ON COALESCE(

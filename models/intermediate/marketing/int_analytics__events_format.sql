@@ -68,11 +68,9 @@ WITH base AS (
 WHERE
   event_date >= DATE(_dbt_max_partition)
   OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY)
-{% endif %}) pivot(ANY_VALUE(param_value) AS val FOR param_key IN ('{{event_params | join("', '")}}'))
+{% endif %}) pivot(any_value(param_value) AS val FOR param_key IN ('{{event_params | join("', '")}}'))
 )
 SELECT
-  * {# {% for param in user_params %} #}
-  {# user_{{param}}, #}
-  {# {% endfor %} #}
+  * 
 FROM
-  base pivot(ANY_VALUE(user_value) AS user for user_key IN ('{{user_params | join("', '")}}'))
+  base pivot(any_value(user_value) AS user for user_key IN ('{{user_params | join("', '")}}'))

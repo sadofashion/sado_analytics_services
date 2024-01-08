@@ -3,7 +3,7 @@
   partition_by ={ 'field': 'event_date',
   'data_type': 'date',
   'granularity': 'day' },
-  incremental_strategy = 'merge',
+  incremental_strategy = 'insert_overwrite',
   unique_key = 'concat(event_id,item_id)',
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'daily','GA4']
@@ -60,7 +60,7 @@ data_ AS (
     val_transaction_id AS transaction_id,
     val_shipping AS shipping,
     val_delivery_method AS delivery_method,
-    val_value AS value,
+    val_value AS _value,
     COALESCE(
       regexp_extract(
         val_page_location,
@@ -84,7 +84,7 @@ data_ AS (
         event_timestamp ASC
     ) AS rn_
   FROM
-    raw_ AS r pivot (ANY_VALUE(param_value) AS val FOR param_key IN ('ga_session_id', 'page_location', 'payment_type', 'transaction_id', 'shipping', 'delivery_method', 'value'))
+    raw_ AS r pivot (any_value(param_value) AS val FOR param_key IN ('ga_session_id', 'page_location', 'payment_type', 'transaction_id', 'shipping', 'delivery_method', 'value'))
 )
 SELECT
   *
