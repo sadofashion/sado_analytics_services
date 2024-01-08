@@ -13,7 +13,7 @@ models:
             - gender
             - inserted_at
         - join: stg_pancake__pages
-          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__customers.page_id}
+          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__conversations.page_id}
           fields:
             - page_id
             - page_name
