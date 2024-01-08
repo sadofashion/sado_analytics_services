@@ -26,7 +26,9 @@ with facebook_performance as (
     from {{ref("facebook_performance")}} fb
     where date_start >= '2023-11-01'
     and (
-      fb.page in (select distinct a.fb_ads_page from {{ref("dim__offline_stores")}} a)
+      fb.page in (select distinct a.new_ads_page from {{ref("dim__offline_stores")}} a)
+      or
+      fb.page in (select distinct a.old_ads_page from {{ref("dim__offline_stores")}} a)
       or 
       fb.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF")
       )
@@ -47,8 +49,8 @@ facebook_budget as (
 ),
 offline_performance as (
   select 
-  a.fb_ads_page as page,
-  a.fb_ads_pic as pic,
+  a.new_ads_page as page,
+  a.new_ads_pic as pic,
   date(r.transaction_date) transaction_date,
   {% for col, cal in rev_calcols.items() %}
     {{cal}} {{col}}{{")"}} as val_{{col}},
@@ -59,21 +61,22 @@ offline_performance as (
   from {{ref("revenue")}} r
   inner join {{ref("dim__offline_stores")}} a 
   on r.branch_id = a.branch_id
-
-and (date(r.transaction_date) >= (a.dbt_valid_from) or (a.dbt_valid_from)='2024-01-06')
-and (date(r.transaction_date) < (a.dbt_valid_to) or (a.dbt_valid_to) is null)
-
   where r.transaction_date >='2023-11-01'
+  and r.branch_id not in (1000087891)
   group by 1,2,3
 ),
 
 asms as (
-  select distinct a.asm_name, 
-  a.fb_ads_page as page, a.fb_ads_pic as pic
+  select distinct a.asm_name,
+  a.new_ads_page as page,
+  a.new_ads_pic as pic,
+  a.old_ads_page as old_page,
+  a.old_ads_pic as old_pic,
   from {{ref("dim__offline_stores")}} a
 )
 
 SELECT
+distinct
 p.* except(page,date_start),
 o.* except(page,transaction_date,pic),
 b.* EXCEPT(date, page, milestone_name),

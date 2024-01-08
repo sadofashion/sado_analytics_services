@@ -11,14 +11,39 @@ WITH branches AS (
         {{ ref("stg_kiotviet__branches") }}
     WHERE
         branch_name LIKE '5S%'
+        and branch_id not in (1000087891)
+),
+
+old_values as ( 
+select 
+distinct
+branch_id,
+asm_name,
+fb_ads_page as old_ads_page,
+fb_ads_pic as old_ads_pic,
+from {{ ref("offline_ads_pages") }}
+where dbt_valid_to is not null
+),
+
+new_values as ( 
+select 
+distinct
+branch_id,
+asm_name,
+fb_ads_page as new_ads_page,
+fb_ads_pic as new_ads_pic,
+from {{ ref("offline_ads_pages") }}
+where dbt_valid_to is null
 )
 
-select 
+select
+distinct
 branches.*,
-a.asm_name,
-a.fb_ads_page,
-a.fb_ads_pic,
-date(a.dbt_valid_from) dbt_valid_from,
-date(a.dbt_valid_to) dbt_valid_to,
-from branches
-left join {{ ref("offline_ads_pages") }} a on a.branch_id = branches.branch_id
+v.* except(branch_id)
+from branches 
+left join (select 
+new_values.*, 
+coalesce(old_values.old_ads_page, new_values.new_ads_page) old_ads_page, 
+coalesce(old_values.old_ads_pic, new_values.new_ads_pic) old_ads_pic, 
+from new_values
+left join old_values on old_values.branch_id = new_values.branch_id) v on branches.branch_id = v.branch_id

@@ -4,7 +4,6 @@
 - Link to [Report](<https://headscloud.dev>)
 
 ![architecture](.github/project_structure.png)
-![model](.github/project_structure.png)
 
 ## Conventions
 - snakecase

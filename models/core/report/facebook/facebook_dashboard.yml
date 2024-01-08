@@ -4,6 +4,11 @@ models:
     description: This model combines Facebook performance data, budget data, and
       offline sales data to provide a comprehensive dashboard for analyzing
       marketing performance.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date
+            - page
     meta:
       joins:
         - join: calendar

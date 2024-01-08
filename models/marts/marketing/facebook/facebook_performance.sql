@@ -13,7 +13,8 @@
 }}
 
 
-SELECT
+with facebook_performance as (
+  SELECT
     campaigns.account_name,
     adsinsights.date_start,
     campaigns.campaign_name,
@@ -43,3 +44,11 @@ FROM
     {{ ref('stg_facebookads__adsinsights') }} adsinsights
     left join {{ref('stg_facebookads__campaigns')}} campaigns on adsinsights.campaign_id = campaigns.campaign_id
     {{dbt_utils.group_by(12)}}
+    )
+
+    select 
+    * except(page,pic),
+    coalesce(s.new_ads_page,facebook_performance.page) as page,
+    coalesce(s.new_ads_pic,facebook_performance.pic) as pic
+    from facebook_performance
+    left join {{ ref("dim__offline_stores") }} s on facebook_performance.page = s.old_ads_page

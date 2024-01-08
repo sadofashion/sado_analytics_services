@@ -11,3 +11,5 @@ cred.json
 lightdash-dockerfile
 .vscode
 reports/
+
+.piperider
