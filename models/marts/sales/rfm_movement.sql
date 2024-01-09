@@ -9,6 +9,17 @@
   tags = ['incremental','table', 'fact', 'kiotviet']
 ) }}
 
+{% set rfm_groups ={ "Champions": ['555','554','544','545','454','455','445'],
+"Loyal" :['543','444','435','355','354','345','344','335'],
+"Potential Loyalists": ['553', '551', '552', '541', '542', '533', '532', '531', '452', '451', '442', '441', '431', '453', '433', '432', '423', '353', '352', '351', '342', '341', '333', '323'],
+'New Customers' :['512', '511', '422', '421','412', '411', '311'],
+'Promising' :['525', '524', '523', '522', '521', '515', '514', '513', '425', '424', '413', '414', '415', '315', '314', '313'],
+'Need Attention' :['535', '534', '443', '434', '343', '334', '325', '324'],
+'About To Sleep' :[ '331', '321', '312', '221', '213', '231', '241', '251'],
+'At Risk' :[ '255', '254', '245', '244', '253', '252', '243', '242', '235', '234', '225', '224', '153', '152', '145', '143', '142', '135', '134', '133', '125', '124'],
+'Cannot Lose Them' :[ '155', '154', '144', '214', '215', '115', '114', '113'],
+'Hibernating customers' :[ '332', '322', '233', '232', '223', '222', '132', '123', '122', '212', '211'],
+'Lost customers' :[ '111', '112', '121', '131', '141', '151'] } %}
 WITH calendar AS (
 
   SELECT
@@ -177,205 +188,21 @@ aggregated_cumulative AS (
             customer_id IS NOT NULL
         )
       SELECT
-        distinct
-        scoring.*,
+        DISTINCT scoring.*,
         CONCAT(
           recency_score,
           frequency_score,
           monetary_score
         ) score_concat,
         CASE
+        {%for key,values in rfm_groups.items() %}
           WHEN CONCAT(
             recency_score,
             frequency_score,
             monetary_score
-          ) IN (
-            '555',
-            '554',
-            '544',
-            '545',
-            '454',
-            '455',
-            '445'
-          ) THEN 'Champions'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '543',
-            '444',
-            '435',
-            '355',
-            '354',
-            '345',
-            '344',
-            '335'
-          ) THEN 'Loyal'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '553',
-            '551',
-            '552',
-            '541',
-            '542',
-            '533',
-            '532',
-            '531',
-            '452',
-            '451',
-            '442',
-            '441',
-            '431',
-            '453',
-            '433',
-            '432',
-            '423',
-            '353',
-            '352',
-            '351',
-            '342',
-            '341',
-            '333',
-            '323'
-          ) THEN 'Potential Loyalists'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '512',
-            '511',
-            '422',
-            ' 421 412',
-            '411',
-            '311'
-          ) THEN 'New Customers'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '525',
-            '524',
-            '523',
-            '522',
-            '521',
-            '515',
-            '514',
-            '513',
-            '425',
-            '424',
-            '413',
-            '414',
-            '415',
-            '315',
-            '314',
-            '313'
-          ) THEN 'Promising'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '535',
-            '534',
-            '443',
-            '434',
-            '343',
-            '334',
-            '325',
-            '324'
-          ) THEN 'Need Attention'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '331',
-            '321',
-            '312',
-            '221',
-            '213',
-            '231',
-            '241',
-            '251'
-          ) THEN 'About To Sleep'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '255',
-            '254',
-            '245',
-            '244',
-            '253',
-            '252',
-            '243',
-            '242',
-            '235',
-            '234',
-            '225',
-            '224',
-            '153',
-            '152',
-            '145',
-            '143',
-            '142',
-            '135',
-            '134',
-            '133',
-            '125',
-            '124'
-          ) THEN 'At Risk'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '155',
-            '154',
-            '144',
-            '214',
-            '215',
-            '115',
-            '114',
-            '113'
-          ) THEN 'Cannot Lose Them'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '332',
-            '322',
-            '233',
-            '232',
-            '223',
-            '222',
-            '132',
-            '123',
-            '122',
-            '212',
-            '211'
-          ) THEN 'Hibernating customers'
-          WHEN CONCAT(
-            recency_score,
-            frequency_score,
-            monetary_score
-          ) IN (
-            '111',
-            '112',
-            '121',
-            '131',
-            '141',
-            '151'
-          ) THEN 'Lost customers'
-        END AS segment,
+          ) in ('{{values | join("', '")}}') then '{{key}}'
+          {%endfor%}
+        END AS SEGMENT,
         CASE
           WHEN DATE_TRUNC(
             first_purchase,

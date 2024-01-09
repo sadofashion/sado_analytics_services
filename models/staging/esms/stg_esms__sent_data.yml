@@ -1,0 +1,59 @@
+version: 2
+models:
+  - name: stg_esms__sent_data
+    description: Thông tin gửi SMS
+    columns:
+      - name: phone
+        description: SĐT KH
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: sent_id
+        description: mã tin gửi
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: reference_id
+        description: Mã tin nhắn
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: sms_cost
+        description: Chi phí tin nhắn
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: sent_status
+        description: Trạng thái gửi
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: sent_result
+        description: Kết quả gửi
+        meta:
+          dimension:
+            type: boolean
+            hidden: true
+      - name: sent_time
+        description: Thời giản gửi
+        meta:
+          dimension:
+            type: timestamp
+            hidden: true
+      - name: sms_id
+        description: Mã tin nhắn
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: sms_type
+        description: Loại tin nhắn
+        meta:
+          dimension:
+            type: string
+            hidden: true

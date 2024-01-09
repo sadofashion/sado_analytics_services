@@ -12,6 +12,7 @@ WITH sms AS (
             s.sent_time
         ) sent_time,
         r.segment,
+        s.sms_cost,
     FROM
         {{ ref("stg_esms__sent_data") }}
         s
@@ -74,6 +75,8 @@ SELECT
     days_lag,
     SUM(num_invoice) num_invoice,
     SUM(total_invoice_value) total_invoice_value,
+    count(phone) as num_sent,
+    sum(sms_cost) sms_cost,
 FROM
     performance
 group by 1,2

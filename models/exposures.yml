@@ -13,6 +13,7 @@ exposures:
     depends_on:
       - ref('facebook_dashboard')
       - ref('revenue_items')
+      - ref('facebook_performance')
     label: "Báo cáo Facebook - B&M"
     config:
       enabled: true
