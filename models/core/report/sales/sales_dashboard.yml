@@ -6,8 +6,8 @@ models:
         - join: calendar
           sql_on: ${calendar.date} = ${sales_dashboard.date}
         - join: dim__offline_stores
-          sql_on: >
-            ${dim__offline_stores.new_ads_page} = ${facebook_dashboard.page} 
+          sql_on: |
+            ${dim__offline_stores.new_ads_page} = ${facebook_dashboard.page}
           fields:
             - new_ads_page
             - new_ads_pic
@@ -17,55 +17,165 @@ models:
             - region
     columns:
       - name: val_transaction_id
-        description: ""
+        data_type: int64
+        description: số lượng giao dịch
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_transactions:
+              type: sum
+              label: No. Transactions
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
       - name: num_invoice_transaction_id
-        description: ""
+        data_type: int64
+        description: số lượng invoice
         meta:
           dimension:
             type: number
-            hidden: true
+          metrics:
+            m_num_invoices:
+              type: sum
+              label: No. Invoices
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
       - name: num_return_transaction_id
-        description: ""
+        data_type: int64
+        description: số lượng trả
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_returns:
+              type: sum
+              label: No. Returns
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
       - name: val_total
-        description: ""
+        data_type: float64
+        description: giá trị giao dịch
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_transaction_val:
+              type: sum
+              label: Transaction Value
+              group_label: Sales metrics
+              compact: billions
+              round: 1
       - name: num_invoice_total
-        description: ""
+        data_type: float64
+        description: giá trị bán
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_invoice_val:
+              type: sum
+              label: Invoice Value
+              group_label: Sales metrics
+              compact: billions
+              round: 1
       - name: num_return_total
-        description: ""
+        data_type: float64
+        description: giá trị trả
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_return_val:
+              type: sum
+              label: Return Value
+              group_label: Sales metrics
+              compact: millions
+              round: 1
       - name: val_total_payment
-        description: ""
+        data_type: float64
+        description: doanh thu thuần
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_payment_val:
+              type: sum
+              label: Payment
+              group_label: Sales metrics
+              compact: billions
+              round: 1
       - name: num_invoice_total_payment
-        description: ""
+        data_type: float64
+        description: doanh thu thuần bán hàng
         meta:
           dimension:
             type: number
             hidden: true
       - name: num_return_total_payment
-        description: ""
+        data_type: float64
+        description: doanh thu thuần trả hàng
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: daily_budget
+        data_type: float64
+        description: ngân sach/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_ads_budget:
+              type: sum
+              label: Budget
+              group_label: Budget
+              compact: millions
+              round: 1
+      - name: daily_sales_target
+        data_type: float64
+        description: target sales/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_sales_target:
+              type: sum
+              label: Sales target
+              group_label: Budget
+              compact: billions
+              round: 1
+      - name: daily_traffic_target
+        data_type: float64
+        description: target traffic/ngày
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_traffic_target:
+              type: sum
+              label: Traffic target
+              group_label: Budget
+              compact: thousands
+              round: 1
+      - name: date
+        description: Ngày
+        meta:
+          dimension:
+            type: date
+      - name: branch_id
+        description: Mã CH
         meta:
           dimension:
             type: number
@@ -75,33 +185,7 @@ models:
         meta:
           dimension:
             type: number
-            hidden: true
-      - name: daily_budget
-        description: ""
-        meta:
-          dimension:
-            type: number
-            hidden: true
-      - name: daily_sales_target
-        description: ""
-        meta:
-          dimension:
-            type: number
-            hidden: true
-      - name: daily_traffic_target
-        description: ""
-        meta:
-          dimension:
-            type: number
-            hidden: true
-      - name: date
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: branch_id
-        description: ""
-        meta:
-          dimension:
-            type: number
-            hidden: true
+    description: >-
+      The sales_dashboard model combines offline sales performance data with
+      budget data to provide a comprehensive view of branch-level sales
+      performance.
