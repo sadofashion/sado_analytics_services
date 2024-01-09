@@ -18,17 +18,17 @@ models:
             - page_id
             - page_name
         - join: stg_pancake__posts
-          sql_on: ${stg_pancake__posts.post_id} = ${stg_pancake__customers.post_id}
+          sql_on: ${stg_pancake__posts.post_id} = ${stg_pancake__conversations.post_id}
           fields:
             - post_id
             - post_title
         - join: stg_pancake__users
-          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__customers.user_id}
+          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__conversations.user_id}
           fields:
             - user_id
             - user_name
         - join: calendar
-          sql_on: ${calenar.date} = date(${stg_pancake__customers.inserted_at})
+          sql_on: ${calendar.date} = date(${stg_pancake__conversations.inserted_at})
           fields:
             - date
             - period

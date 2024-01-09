@@ -7,7 +7,7 @@ models:
           sql_on: ${calendar.date} = ${sales_dashboard.date}
         - join: dim__offline_stores
           sql_on: |
-            ${dim__offline_stores.new_ads_page} = ${facebook_dashboard.page}
+            ${dim__offline_stores.branch_id} = ${sales_dashboard.branch_id}
           fields:
             - new_ads_page
             - new_ads_pic
@@ -36,6 +36,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
           metrics:
             m_num_invoices:
               type: sum
@@ -174,6 +175,7 @@ models:
         meta:
           dimension:
             type: date
+            hidden: true
       - name: branch_id
         description: Mã CH
         meta:
@@ -185,6 +187,13 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_num_stores:
+              type: sum
+              label: No. Stores
+              group_label: Misc
+              round: 0
     description: >-
       The sales_dashboard model combines offline sales performance data with
       budget data to provide a comprehensive view of branch-level sales

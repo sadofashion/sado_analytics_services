@@ -1,0 +1,50 @@
+version: 2
+
+exposures:
+  - name: facebook_dashboard
+    description: Báo cáo chỉ số facebook
+    type: dashboard
+    url: https://headscloud.dev/projects/f688b398-d991-4533-a08c-529b76aa688c/dashboards/8604afc8-6d32-4bbe-b9bc-dcbb954aad25/
+    maturity: high
+    tags: [facebook_ads, offline_performance]
+    owner:
+      name: chienle
+      email: lchien063@gmail.com
+    depends_on:
+      - ref('facebook_dashboard')
+      - ref('revenue_items')
+    label: "Báo cáo Facebook - B&M"
+    config:
+      enabled: true
+
+  - name: sales_dashboard
+    description: Báo cáo chỉ số kinh doanh
+    type: dashboard
+    url: https://headscloud.dev/projects/f688b398-d991-4533-a08c-529b76aa688c/dashboards/67414d36-16cb-4e1a-bd7b-53164854d7e0
+    maturity: high
+    tags: [offline_performance, sales]
+    owner:
+      name: chienle
+      email: lchien063@gmail.com
+    depends_on:
+      - ref('revenue')
+      - ref('revenue_items')
+    label: "Báo cáo kinh doanh"
+    config:
+      enabled: true
+  
+  - name: customer_analysis
+    description: Báo cáo khách hàng
+    type: dashboard
+    url: https://headscloud.dev/projects/f688b398-d991-4533-a08c-529b76aa688c/dashboards/e369fc15-569b-4b73-bbb2-e8019eb14d5a
+    maturity: high
+    tags: [offline_performance, customer_analysis]
+    owner:
+      name: chienle
+      email: lchien063@gmail.com
+    depends_on:
+      - ref('revenue')
+      - ref('revenue_items')
+    label: "Báo cáo khách hàng"
+    config:
+      enabled: true

@@ -1,3 +1,9 @@
+{{
+  config(
+    tags=['view', 'fact','pancake']
+    )
+}}
+
 SELECT
     conversations.inserted_at,
     {{dbt_utils.generate_surrogate_key(['conversation_id','customer_id'])}} as conversation_id,
