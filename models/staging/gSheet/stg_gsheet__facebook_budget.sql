@@ -37,6 +37,7 @@ formated AS (
             WHEN source.showroom = '5S Thái Nguyên 1' THEN '5S Thái Nguyên'
             WHEN source.showroom = '5S GO' THEN '5S Go Thái Bình'
             WHEN source.showroom = '5S Hà Tĩnh 1' THEN '5S Hà Tĩnh'
+            WHEN source.showroom = '5S Thái Bình 1' THEN '5S Thái bình 1'
             ELSE source.showroom
         END AS branch,
         source.month AS budget_month,
@@ -74,7 +75,7 @@ FROM
     formated
     LEFT JOIN {{ ref('stg_kiotviet__branches') }}
     branch
-    ON formated.branch = branch.branch_name
+    ON lower(formated.branch) = lower(branch.branch_name)
     LEFT JOIN {{ ref('dim__offline_stores') }}
     asm
     ON branch.branch_id = asm.branch_id
