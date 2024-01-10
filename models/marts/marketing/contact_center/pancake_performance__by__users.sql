@@ -6,7 +6,7 @@
         'data_type': 'datetime',
         'granularity': 'day',
         },
-    incremental_strategy = 'insert_overwrite',
+    incremental_strategy = 'merge',
     on_schema_change = 'sync_all_columns',
     tags = ['pancake','fact','incremental']
 ) }}
@@ -53,4 +53,4 @@ coalesce(us.hour, o.hour) as hour,
 o.num_order,
 o.total_payment
 from user_stats us
-full join orders o on us.user_id = o.seller_id and us.hour = o.hour
+full outer join orders o on us.user_id = o.seller_id and us.hour = o.hour

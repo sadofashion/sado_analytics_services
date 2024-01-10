@@ -30,7 +30,26 @@ exposures:
     depends_on:
       - ref('revenue')
       - ref('revenue_items')
+      - ref('rfm_movement')
     label: "Báo cáo kinh doanh"
+    config:
+      enabled: true
+  
+  - name: sales_dashboard2
+    description: Báo cáo chỉ số kinh doanh2
+    type: dashboard
+    url: https://headscloud.dev/projects/f688b398-d991-4533-a08c-529b76aa688c/dashboards/0b62f888-3dfb-43e5-9d6b-97665d0223e6/view
+    maturity: high
+    tags: [offline_performance, sales]
+    owner:
+      name: chienle
+      email: lchien063@gmail.com
+    depends_on:
+      - ref('revenue')
+      - ref('revenue_items')
+      - ref('rfm_movement')
+      - ref('sales_dashboard')
+    label: "Báo cáo kinh doanh mới"
     config:
       enabled: true
   
@@ -46,6 +65,7 @@ exposures:
     depends_on:
       - ref('revenue')
       - ref('revenue_items')
+      - ref('rfm_movement')
     label: "Báo cáo khách hàng"
     config:
       enabled: true
