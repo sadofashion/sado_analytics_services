@@ -16,8 +16,7 @@ WITH processed AS (
         *
     EXCEPT
         ({% for item in targets %}
-            val_{{ item }}
-            {{ ", " if not loop.last }}
+            val_{{ item }} {{ ", " if not loop.last }}
         {% endfor %}),
         {% for item in targets %}
             safe_divide(val_{{ item }}, date_diff(tb.END, tb.start, DAY) + 1) AS daily_{{ item }},
