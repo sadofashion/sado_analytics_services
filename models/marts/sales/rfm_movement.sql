@@ -202,7 +202,7 @@ aggregated_cumulative AS (
             monetary_score
           ) in ('{{values | join("', '")}}') then '{{key}}'
           {%endfor%}
-        END AS SEGMENT,
+        END AS segment,
         CASE
           WHEN DATE_TRUNC(
             first_purchase,
