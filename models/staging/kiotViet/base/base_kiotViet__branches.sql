@@ -20,5 +20,3 @@ SELECT
     modifiedDate
 FROM
     source
-WHERE
-    rn_ = 1

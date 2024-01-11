@@ -15,5 +15,3 @@ SELECT
     birthDate,
 FROM
     source
-WHERE
-    rn_ = 1

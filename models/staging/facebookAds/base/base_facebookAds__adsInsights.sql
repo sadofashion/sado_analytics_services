@@ -1,20 +1,16 @@
 WITH source AS (
-    SELECT
-        *,
-        ROW_NUMBER() over (
-            PARTITION BY account_id,
+    {{ dbt_utils.deduplicate(
+        relation = source(
+            'facebookAds',
+            'p_AdsInsights__*'
+        ),
+        partition_by = 'account_id,
             campaign_id,
             adset_id,
             ad_id,
-            date_start
-            ORDER BY
-                _batched_at DESC
-        ) AS rn_,
-    FROM
-        {{ source(
-            'facebookAds',
-            'p_AdsInsights__*'
-        ) }}
+            date_start',
+        order_by = "_batched_at desc",
+    ) }}
 )
 SELECT
     account_id,
@@ -32,5 +28,3 @@ SELECT
     cost_per_unique_action_type,
 FROM
     source
-WHERE
-    rn_ = 1

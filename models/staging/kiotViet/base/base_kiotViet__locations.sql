@@ -13,5 +13,3 @@ SELECT
     name,
     normalName
 from source
-WHERE
-    rn_ = 1

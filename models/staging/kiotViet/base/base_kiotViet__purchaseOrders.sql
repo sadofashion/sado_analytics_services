@@ -45,5 +45,3 @@ SELECT
     purchaseOrderDetails,
 FROM
     raw_
-WHERE
-    rn_ = 1

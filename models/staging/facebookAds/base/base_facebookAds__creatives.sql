@@ -1,18 +1,14 @@
 WITH source AS (
-    SELECT
-        *,
-        ROW_NUMBER() over (
-            PARTITION BY account_id,
-            ad_id,
-            id
-            ORDER BY
-                _batched_at DESC
-        ) AS rn_,
-    FROM
-        {{ source(
+    {{ dbt_utils.deduplicate(
+        relation = source(
             'facebookAds',
             'p_CreativesInsights__*'
-        ) }}
+        ),
+        partition_by = 'account_id,
+            ad_id,
+            id',
+        order_by = "_batched_at desc",
+    ) }}
 )
 SELECT
     account_id,
@@ -25,5 +21,3 @@ SELECT
     name,
 FROM
     source
-WHERE
-    rn_ = 1
