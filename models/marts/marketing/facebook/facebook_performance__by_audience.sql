@@ -29,6 +29,6 @@ SELECT
 FROM
   {{ ref('stg_facebookads__audienceinsights') }}
   {% if is_incremental() %}
-    and date_start >= date_add(date(_dbt_max_partition), interval -3 day)
+    where date_start >= date_add(date(_dbt_max_partition), interval -3 day)
   {% endif %}
   {{ dbt_utils.group_by(5) }}

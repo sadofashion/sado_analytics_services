@@ -57,5 +57,5 @@ WHERE
     C.date >= processed.start
     AND C.date <= processed.end {# {{dbt_utils.group_by(14)}} #}
         {% if is_incremental() %}
-          and processed.start >=  date_add(date(_dbt_max_partition))
+          and processed.start >=  date(_dbt_max_partition)
         {% endif %}

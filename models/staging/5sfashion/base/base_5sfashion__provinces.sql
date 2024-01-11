@@ -10,9 +10,6 @@ WITH source AS (
 )
 SELECT
     *
-EXCEPT(
-        rn_,
-        _batched_at
-    )
+EXCEPT(_batched_at)
 FROM
     source
