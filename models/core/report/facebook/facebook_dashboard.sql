@@ -15,6 +15,8 @@
 "total" :"sum(",
 "total_payment" :"sum(" } %}
 {% set rev_types = ["invoice", "return"] %}
+
+
 WITH facebook_performance AS (
 
   SELECT
@@ -29,8 +31,13 @@ WITH facebook_performance AS (
   FROM
     {{ ref("facebook_performance") }}
     fb
-  WHERE
+  WHERE 
+  {% if is_incremental() %}
+    date_start >= date_add(date(_dbt_max_partition), interval -3 day)
+  {% else %}
     date_start >= '2023-11-01'
+  {% endif %}
+    
     AND (
       fb.page IN (
         SELECT
@@ -74,6 +81,9 @@ facebook_budget AS (
     budget
   WHERE
     budget.date <= CURRENT_DATE()
+    {% if is_incremental() %}
+    and budget.date >= date_add(date(_dbt_max_partition), interval -3 day)
+  {% endif %}
   GROUP BY
     1,
     2,
@@ -105,7 +115,11 @@ offline_performance AS (
     INNER JOIN {{ ref("dim__offline_stores") }} A
     ON r.branch_id = A.branch_id
   WHERE
+       {% if is_incremental() %}
+    date(r.transaction_date) >= date_add(date(_dbt_max_partition), interval -3 day)
+  {% else %}
     r.transaction_date >= '2023-11-01'
+  {% endif %}
     AND r.branch_id NOT IN (1000087891)
   GROUP BY
     1,
