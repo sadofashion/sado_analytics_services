@@ -25,16 +25,7 @@ WITH source AS (
         ) }}
 ),
 raw_ AS (
-    SELECT
-        *,
-        ROW_NUMBER() over (
-            PARTITION BY id
-            ORDER BY
-                _batched_at DESC,
-                modifiedDate DESC
-        ) AS rn_
-    FROM
-        source
+    {{ dbt_utils.deduplicate(relation = 'source', partition_by = 'id', order_by = "_batched_at desc",) }}
 )
 SELECT
     id,
@@ -59,5 +50,3 @@ SELECT
     "invoice" as transaction_type,
 FROM
     raw_
-WHERE
-    rn_ = 1

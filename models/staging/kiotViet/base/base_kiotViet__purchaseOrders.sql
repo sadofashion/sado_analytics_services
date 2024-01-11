@@ -20,14 +20,11 @@ WITH source AS (
         ) }}
 ),
 raw_ AS (
-    SELECT
-        *,
-        ROW_NUMBER() over (
-            PARTITION BY id
-            ORDER BY
-                _batched_at DESC
-        ) AS rn_
-        from source
+    {{ dbt_utils.deduplicate(
+        relation = 'source',
+        partition_by = 'id',
+        order_by = "_batched_at desc",
+    ) }}
 )
 SELECT
     id,

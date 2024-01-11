@@ -1,17 +1,12 @@
 WITH source AS (
-    SELECT
-        *,
-        ROW_NUMBER() over (
-            PARTITION BY id
-            ORDER BY
-                modifiedDate DESC,
-                _batched_at DESC
-        ) AS rn_
-    FROM
-        {{ source(
+    {{ dbt_utils.deduplicate(
+        relation = source(
             'kiotViet',
             'p_products_list_*'
-        ) }}
+        ),
+        partition_by = 'id',
+        order_by = "modifiedDate DESC,_batched_at desc",
+    ) }}
 )
 SELECT
     id,
@@ -20,8 +15,9 @@ SELECT
     code,
     tradeMarkName,
     isActive,
-    type,
+    TYPE,
     attributes
-from source
+FROM
+    source
 WHERE
     rn_ = 1

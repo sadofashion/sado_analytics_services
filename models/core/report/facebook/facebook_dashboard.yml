@@ -260,7 +260,7 @@ models:
               type: sum
               label: Transaction Value
               group_label: Sales metrics
-              compact: billions
+              compact: millions
               round: 1
       - name: num_invoice_total
         data_type: float64
@@ -274,7 +274,7 @@ models:
               type: sum
               label: Invoice Value
               group_label: Sales metrics
-              compact: billions
+              compact: millions
               round: 1
       - name: num_return_total
         data_type: float64
@@ -302,7 +302,7 @@ models:
               type: sum
               label: Payment
               group_label: Sales metrics
-              compact: billions
+              compact: millions
               round: 1
       - name: num_invoice_total_payment
         data_type: float64
@@ -344,7 +344,7 @@ models:
               type: sum
               label: Sales target
               group_label: Budget
-              compact: billions
+              compact: millions
               round: 1
       - name: daily_traffic_target
         data_type: float64

@@ -68,7 +68,12 @@ WITH facebook_performance AS (
     adsinsights
     LEFT JOIN {{ ref('stg_facebookads__campaigns') }}
     campaigns
-    ON adsinsights.campaign_id = campaigns.campaign_id {{ dbt_utils.group_by(12) }}
+    ON adsinsights.campaign_id = campaigns.campaign_id 
+    {% if is_incremental() %}
+      where date_start >= date_add(date(_dbt_max_partition), interval -3 day)
+    {% endif %}
+
+    {{ dbt_utils.group_by(12) }}
 )
 SELECT
   DISTINCT facebook_performance.*

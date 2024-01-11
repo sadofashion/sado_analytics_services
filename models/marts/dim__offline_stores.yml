@@ -8,6 +8,9 @@ models:
           dimension:
             type: number
             hidden: true
+        tests:
+          - not_null
+          - unique
       - name: branch_name
         description: ""
         meta:
