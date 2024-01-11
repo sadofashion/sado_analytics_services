@@ -8,71 +8,88 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: date_start
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
       - name: impressions
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: spend
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: clicks
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: reach
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: link_click
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: post_engagement
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: offline_conversion_purchase
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: offline_conversion_purchase_value
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: pixel_purchase
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: pixel_purchase_value
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: messaging_conversation_started_7d
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: row_id
-        description: ""
+        description: unique id for each record
         meta:
           dimension:
             type: string
+            hidden: true
+        tests:
+          - not_null
+          - unique
       - name: age
         description: ""
         meta:
@@ -83,3 +100,4 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true

@@ -1,22 +1,12 @@
 WITH source AS (
-    SELECT
-        *,
-        ROW_NUMBER() over (
-            PARTITION BY _id
-            ORDER BY
-                _batched_at DESC,
-                updated_at DESC
-        ) rn_
-    FROM
-        {{ source(
+    {{dbt_utils.deduplicate(source=source(
             '5sfashion',
             'provinces'
-        ) }}
+        ),partition_by='_id', order_by='updated_at DESC,_batched_at DESC'
+        )}}
 )
 SELECT
     *
 EXCEPT(rn_, _batched_at)
 FROM
     source
-WHERE
-    rn_ = 1

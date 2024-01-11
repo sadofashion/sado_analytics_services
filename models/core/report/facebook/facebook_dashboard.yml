@@ -28,7 +28,6 @@ models:
             - new_ads_page
             - new_ads_pic
             - asm_name
-            - branch_name
             - province
             - region
     columns:

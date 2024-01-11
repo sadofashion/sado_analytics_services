@@ -3,7 +3,7 @@
   partition_by ={ 'field': 'date_start',
   'data_type': 'date',
   'granularity': 'day' },
-  incremental_strategy = 'insert_overwrite',
+  incremental_strategy = 'merge',
   unique_key = ['date_start','campaign_id'],
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'daily','fact']

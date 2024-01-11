@@ -31,6 +31,8 @@ models:
       +materialized: table
       sales:
         +schema: sales
+      dimensions:
+        +schema: dimensions
       marketing:
         +schema: marketing
       online_sales:
