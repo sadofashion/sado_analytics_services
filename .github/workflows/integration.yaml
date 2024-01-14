@@ -63,7 +63,7 @@ jobs:
         id: schedule_flow
         if: github.event_name == 'schedule'
         run: |
-          dbt run --profiles-dir $PWD --project-dir $PWD --exclude config.materialized:view --select config.tag:fact
+          dbt run --profiles-dir $PWD --project-dir $PWD --exclude config.materialized:view --select config.tags:fact
           dbt snapshot --profiles-dir $PWD --project-dir $PWD
       - name: Push flow
         id: push_flow
