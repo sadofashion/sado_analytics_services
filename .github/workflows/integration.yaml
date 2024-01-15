@@ -7,6 +7,13 @@ on:
   push:
     branches:
       - 'master'
+    paths-ignore:
+      - "**/**/*.yml"
+      - "**/**/**/*.yml"
+      - "**/*.yml"
+      - "*.yml"
+      - "*.md"
+      - "**/*.md"
   schedule:
     - cron: "15 1-23/2 * * *"
   workflow_dispatch:
