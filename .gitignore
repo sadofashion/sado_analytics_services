@@ -13,3 +13,4 @@ lightdash-dockerfile
 reports/
 
 .piperider
+*.env
