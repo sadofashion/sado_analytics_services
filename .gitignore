@@ -6,7 +6,6 @@ logs/
 dbt-env/
 .venv
 test*
-profiles.yml
 cred.json
 lightdash-dockerfile
 .vscode
