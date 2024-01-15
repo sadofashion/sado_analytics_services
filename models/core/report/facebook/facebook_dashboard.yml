@@ -22,7 +22,7 @@ models:
             - period_code
             - no_days
         - join: dim__offline_stores
-          sql_on: >
+          sql_on: |
             ${dim__offline_stores.new_ads_page} = ${facebook_dashboard.page} 
           fields:
             - new_ads_page
