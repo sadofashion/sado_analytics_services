@@ -226,10 +226,14 @@ aggregated_cumulative AS (
 WHERE
   DATE(start_of_month) >= date_add(DATE(_dbt_max_partition), interval -1 month)
 {% endif %}
-)
+),
+previous as (
 select *,
 coalesce(lag(segment) over (partition by customer_id order by start_of_month asc),'First-time Purchaser') as previous_segment
 from final
+)
+
+select * from previous 
 {% if is_incremental() %}
 WHERE
   DATE(start_of_month) >= DATE(_dbt_max_partition)
