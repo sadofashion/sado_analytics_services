@@ -14,7 +14,11 @@ models:
           sql_on: >-
             ${rfm_movement.customer_id} = ${customers.customer_id} and
             ${rfm_movement.start_of_month} = date_trunc(current_date(),month)
-          fields: [customer_id, customer_groups, customer_type,branch_name]
+          fields:
+            - customer_id
+            - customer_groups
+            - customer_type
+            - branch_name
         - join: stg_kiotviet__branches
           alias: last_branch
           sql_on: ${rfm_movement.last_purchase_branch} = ${last_branch.branch_id}
@@ -123,6 +127,11 @@ models:
             type: string
       - name: recency_type
         description: classify new and returning customers
+        meta:
+          dimension:
+            type: string
+      - name: previous_segment
+        description: ""
         meta:
           dimension:
             type: string
