@@ -122,6 +122,8 @@ models:
             hidden: true
       - name: segment
         description: group segmentation base on rfm score
+        tests:
+          - not_null
         meta:
           dimension:
             type: string
