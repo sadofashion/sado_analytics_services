@@ -224,7 +224,7 @@ aggregated_cumulative AS (
 
 {% if is_incremental() %}
 WHERE
-  DATE(start_of_month) >= DATE(_dbt_max_partition)
+  DATE(start_of_month) >= date_add(DATE(_dbt_max_partition), interval -2 month)
 {% endif %}
 )
 select *,
