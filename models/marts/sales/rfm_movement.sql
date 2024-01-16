@@ -186,8 +186,9 @@ aggregated_cumulative AS (
             {{ ref('revenue') }}
           WHERE
             customer_id IS NOT NULL
-        )
-      SELECT
+        ),
+      final as (
+        SELECT
         DISTINCT scoring.*,
         CONCAT(
           recency_score,
@@ -225,3 +226,7 @@ aggregated_cumulative AS (
 WHERE
   DATE(start_of_month) >= DATE(_dbt_max_partition)
 {% endif %}
+)
+select *,
+coalesce(lag(segment) over (partition by customer_id order by start_of_month asc),'First-time Purchaser') as previous_segment
+from final
