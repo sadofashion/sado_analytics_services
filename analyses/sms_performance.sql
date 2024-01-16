@@ -54,6 +54,7 @@ performance as (
         sms.*,
         revenue.num_invoice,
         revenue.total_invoice_value,
+        concat()
         date_diff(
             revenue.transaction_date,
             sms.sent_time,

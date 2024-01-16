@@ -121,6 +121,7 @@ offline_performance AS (
     r.transaction_date >= '2023-11-01'
   {% endif %}
     AND r.branch_id NOT IN (1000087891)
+    and A.asm_name is not null
   GROUP BY
     1,
     2,
