@@ -75,7 +75,7 @@ web_metrics AS (
 sms as (
     select 
         * 
-    from {{ref("sms__by__day")}}
+    from {{ref("sms_dashboard")}}
 ),
 weather as (
     select 

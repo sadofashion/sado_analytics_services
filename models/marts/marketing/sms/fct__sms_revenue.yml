@@ -1,19 +1,25 @@
 version: 2
 models:
-  - name: stg_esms__sent_data
-    description: Thông tin gửi SMS
+  - name: fct__sms_revenue
+    description: ""
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - sent_id
+            - transaction_date
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = date(${TABLE}.sent_time)
     columns:
       - name: phone
-        description: SĐT KH
+        description: ""
         meta:
           dimension:
             type: string
             hidden: true
       - name: sent_id
-        description: mã tin gửi
-        tests:
-          - not_null
-          - unique
+        description: ""
         meta:
           dimension:
             type: string
@@ -25,44 +31,64 @@ models:
             type: string
             hidden: true
       - name: reference_id
-        description: Mã tin nhắn
+        description: ""
         meta:
           dimension:
             type: string
             hidden: true
       - name: sms_cost
-        description: Chi phí tin nhắn
+        description: ""
         meta:
           dimension:
             type: number
             hidden: true
       - name: sent_status
-        description: Trạng thái gửi
+        description: ""
         meta:
           dimension:
             type: string
             hidden: true
       - name: sent_result
-        description: Kết quả gửi
+        description: ""
         meta:
           dimension:
             type: boolean
             hidden: true
       - name: sent_time
-        description: Thời giản gửi
+        description: ""
         meta:
           dimension:
             type: timestamp
             hidden: true
       - name: sms_id
-        description: Mã tin nhắn
+        description: ""
         meta:
           dimension:
             type: number
             hidden: true
       - name: sms_type
-        description: Loại tin nhắn
+        description: ""
         meta:
           dimension:
             type: string
+      - name: transaction_date
+        description: ""
+        meta:
+          dimension:
+            type: date
             hidden: true
+      - name: total
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            type: count_distinct
+            label: No. customer converted
+            round: 0

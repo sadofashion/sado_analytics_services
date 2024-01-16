@@ -1,0 +1,101 @@
+version: 2
+models:
+  - name: sms_dashboard
+    description: ""
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - sent_month
+            - segment
+            - previous_segment
+            - campaign
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${TABLE}.sent_month
+        - join: dim__sms_campaigns
+          sql_on: ${dim__sms_campaigns.campaign} = ${TABLE}.campaign
+    columns:
+      - name: sent_month
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: segment
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: previous_segment
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sms_sent
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_sms_sent:
+              type: sum
+              label: No. SMS sent
+              compact: thousands
+              round: 2
+      - name: customer_sent
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_customer_sent:
+              type: sum
+              label: No. customer sent
+              compact: thousands
+              round: 2
+      - name: sms_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_sms_cost:
+              type: sum
+              label: SMS Cost
+              compact: millions
+              round: 2
+      - name: total
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_sms_revenue:
+              type: sum
+              label: SMS Revenue
+              compact: millions
+              round: 2
+      - name: num_customer_converted
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_customer_converted:
+              type: sum
+              label: No. Customer converted
+              compact: thousands
+              round: 2
+            

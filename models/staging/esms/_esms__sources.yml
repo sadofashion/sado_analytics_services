@@ -5,5 +5,5 @@ sources:
     description: "data pulled from esms via API"
     database: agile-scheme-394814
     tables:
-      - identifier: p__sms_sent_data__*
+      - identifier: p__sms_sent_data_v1__*
         name: sms_sent_data
