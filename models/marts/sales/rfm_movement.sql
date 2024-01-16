@@ -230,3 +230,7 @@ WHERE
 select *,
 coalesce(lag(segment) over (partition by customer_id order by start_of_month asc),'First-time Purchaser') as previous_segment
 from final
+{% if is_incremental() %}
+WHERE
+  DATE(start_of_month) >= DATE(_dbt_max_partition)
+{% endif %}
