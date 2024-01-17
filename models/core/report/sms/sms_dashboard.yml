@@ -12,9 +12,9 @@ models:
     meta:
       joins:
         - join: calendar
-          sql_on: ${calendar.date} = ${TABLE}.sent_month
+          sql_on: ${calendar.date} = ${sms_dashboard.sent_month}
         - join: dim__sms_campaigns
-          sql_on: ${dim__sms_campaigns.campaign} = ${TABLE}.campaign
+          sql_on: ${dim__sms_campaigns.campaign} = ${sms_dashboard.campaign}
     columns:
       - name: sent_month
         description: ""

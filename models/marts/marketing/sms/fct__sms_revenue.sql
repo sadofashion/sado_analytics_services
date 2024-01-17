@@ -1,7 +1,7 @@
 {{ config(
     materialized = 'incremental',
     partition_by ={ 'field': 'sent_time',
-    'data_type': 'datetime',
+    'data_type': 'date',
     'granularity': 'day' },
     incremental_strategy = 'merge',
     unique_key = ['campaign','phone', 'sent_time', 'transaction_date'],
@@ -65,7 +65,10 @@ FROM
 WHERE
     DATE(
         sms.sent_time
-    ) < revenue.transaction_date
-    AND date_diff(revenue.transaction_date, DATE(sms.sent_time), DAY) <= 7 
+    ) < revenue.transaction_date 
+    AND (
+        revenue.transaction_date  < DATE(sms.end_date) 
+    or date_diff(revenue.transaction_date, DATE(sms.sent_time), DAY) <= 10 
+    )
 
 qualify ROW_NUMBER() over( PARTITION BY revenue.customer_id, revenue.transaction_date ORDER BY sms.sent_time DESC) = 1

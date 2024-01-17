@@ -89,6 +89,7 @@ models:
           dimension:
             type: number
           metrics:
-            type: count_distinct
-            label: No. customer converted
-            round: 0
+            m_customer_converted:
+              type: count_distinct
+              label: No. customer converted
+              round: 0
