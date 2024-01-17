@@ -8,18 +8,16 @@ models:
         meta:
           dimension:
             type: string
-        tests:
-          - unique
       - name: start_date
         description: ""
         meta:
           dimension:
-            type: string
+            type: date
       - name: end_date
         description: ""
         meta:
           dimension:
-            type: string
+            type: date
       - name: audience
         description: ""
         meta:

@@ -54,7 +54,7 @@ AND DATE(
 {% endif %}
 )
 SELECT
-    sms.*,
+    sms.* except(start_date, end_date,audience),
     revenue.transaction_date,
     revenue.total,
     revenue.customer_id,
@@ -67,7 +67,7 @@ WHERE
         sms.sent_time
     ) < revenue.transaction_date 
     AND (
-        revenue.transaction_date  < DATE(sms.end_date) 
+        revenue.transaction_date  <= DATE(sms.end_date) 
     or date_diff(revenue.transaction_date, DATE(sms.sent_time), DAY) <= 10 
     )
 

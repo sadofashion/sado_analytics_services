@@ -10,7 +10,15 @@ models:
     meta:
       joins:
         - join: calendar
-          sql_on: ${calendar.date} = date(${TABLE}.sent_time)
+          alias: sent_calendar
+          sql_on: ${sent_calendar.date} = date(${fct__sms_revenue.sent_time})
+        - join: dim__sms_campaigns
+          sql_on: ${dim__sms_campaigns.campaign} = ${fct__sms_revenue.campaign}
+        - join: rfm_movement
+          sql_on: ${rfm_movement.customer_id} = ${fct__sms_revenue.customer_id} and date(${rfm_movement.start_of_month}) = date_trunc(date(${fct__sms_revenue.sent_time}),month)
+        - join: calendar
+          alias: rev_calendar
+          sql_on: ${rev_calendar.date} = ${fct__sms_revenue.transaction_date}
     columns:
       - name: phone
         description: ""
@@ -77,19 +85,62 @@ models:
           dimension:
             type: date
             hidden: true
+          additional_dimensions:
+            d_lag_days:
+              type: number
+              sql: date_diff(transaction_date,date(sent_time),day)
+          metrics:
+            m_avg_lag_days:
+              type: average
+              sql: ${d_lag_days}
+              label: Avg lag days
+              round: 2
       - name: total
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_sms_revenue:
+              type: sum
+              label: SMS Revenue
+              compact: millions
+              round: 2
       - name: customer_id
         description: ""
         meta:
           dimension:
             type: number
+          additional_dimensions:
+            d_previous_segment:
+              type: string
+              sql: coalesce(${rfm_movement.previous_segment},'Cold Data')
+              label: Previous Segment
+            d_segment:
+              type: string
+              sql: coalesce(${rfm_movement.segment},'Cold Data')
+              label: Segment
           metrics:
             m_customer_converted:
               type: count_distinct
               label: No. customer converted
               round: 0
+      - name: start_date
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: end_date
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: audience
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
