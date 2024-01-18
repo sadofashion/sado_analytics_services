@@ -15,7 +15,10 @@ models:
         - join: dim__sms_campaigns
           sql_on: ${dim__sms_campaigns.campaign} = ${fct__sms_revenue.campaign}
         - join: rfm_movement
-          sql_on: ${rfm_movement.customer_id} = ${fct__sms_revenue.customer_id} and date(${rfm_movement.start_of_month}) = date_trunc(date(${fct__sms_revenue.sent_time}),month)
+          sql_on: >-
+            ${rfm_movement.customer_id} = ${fct__sms_revenue.customer_id} and
+            date(${rfm_movement.start_of_month}) =
+            date_trunc(date(${fct__sms_revenue.sent_time}),month)
         - join: calendar
           alias: rev_calendar
           sql_on: ${rev_calendar.date} = ${fct__sms_revenue.transaction_date}
@@ -126,21 +129,3 @@ models:
               type: count_distinct
               label: No. customer converted
               round: 0
-      - name: start_date
-        description: ""
-        meta:
-          dimension:
-            type: string
-            hidden: true
-      - name: end_date
-        description: ""
-        meta:
-          dimension:
-            type: string
-            hidden: true
-      - name: audience
-        description: ""
-        meta:
-          dimension:
-            type: string
-            hidden: true

@@ -54,13 +54,13 @@ SELECT
     WHEN {{ key }} THEN '{{type}}'
     {% endfor %}
   END AS sms_type,
-  SPLIT(regexp_extract(campaign, r'\|\|([0-9\-_]+)\|\|'), '_') [offset(0)] AS start_date,
-  SPLIT(regexp_extract(campaign, r'\|\|([0-9\-_]+)\|\|'), '_') [offset(1)] AS end_date,
+  SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(0)] AS start_date,
+  SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(1)] AS end_date,
   CASE
     WHEN campaign IS NULL THEN 'SINH NHAT'
     ELSE regexp_extract(
       campaign,
-      r'\|\|-\s?(.*)$'
+      r'\|-\s?(.*)$'
     )
   END AS audience
 FROM
