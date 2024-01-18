@@ -36,8 +36,9 @@ sms_sent_data AS (
     and DATE_TRUNC(DATE(sent_time), MONTH) = c.start_of_month
     WHERE
         sms.sent_time IS NOT NULL
-            AND sms.campaign LIKE 'QC%'
+            {# AND sms.campaign LIKE 'QC%' #}
             AND sent_status = 'Thành công'
+            and (audience not in ('TUYEN DUNG') or audience is null)
     GROUP BY
         1,2,3,4
 ),
