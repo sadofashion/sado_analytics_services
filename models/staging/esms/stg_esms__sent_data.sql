@@ -57,6 +57,7 @@ SELECT
   SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(0)] AS start_date,
   SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(1)] AS end_date,
   CASE
+    when regexp_contains(lower(content),r'phong van|chon loc ho so') then 'TUYEN DUNG'
     WHEN campaign IS NULL THEN 'SINH NHAT'
     ELSE regexp_extract(
       campaign,
