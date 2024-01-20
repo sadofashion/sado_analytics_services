@@ -55,11 +55,15 @@ models:
         meta:
           dimension:
             type: date
+        tests:
+          - not_null
       - name: last_purchase
         description: ""
         meta:
           dimension:
             type: date
+        tests:
+          - not_null
       - name: recency
         description: no. days since last purchase
         meta:

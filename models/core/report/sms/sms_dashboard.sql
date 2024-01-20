@@ -8,7 +8,8 @@ WITH customer_data as (
         c.customer_id, 
         rfm.segment, 
         rfm.previous_segment, 
-        rfm.start_of_month
+        rfm.start_of_month,
+        rfm.first_purchase,
     from {{ ref('stg_kiotviet__customers') }} c
     left join {{ ref('rfm_movement') }} rfm 
     on c.customer_id = rfm.customer_id
@@ -21,7 +22,7 @@ sms_sent_data AS (
         DATE_TRUNC(DATE(sent_time), MONTH) sent_month,
         sms.campaign,
         coalesce(c.segment,'Cold Data') segment,
-        coalesce(c.previous_segment,'Cold Data') previous_segment,
+        case when c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) > DATE(sent_time) then 'Cold Data' else c.previous_segment end previous_segment,
         COUNT(
             DISTINCT sent_id
         ) AS sms_sent,
@@ -48,7 +49,7 @@ sms_revenue as (
         date_trunc(date(sent_time),month) sent_month,
         r.campaign,
         coalesce(c.segment,'Cold Data') segment,
-        coalesce(c.previous_segment,'Cold Data') previous_segment,
+        case when c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) > DATE(sent_time) then 'Cold Data' else c.previous_segment end previous_segment,
         sum(total) total,
         count(distinct r.customer_id) as num_customer_converted,
     from {{ ref('fct__sms_revenue') }} r 
