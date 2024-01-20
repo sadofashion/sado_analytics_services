@@ -22,7 +22,7 @@ sms_sent_data AS (
         DATE_TRUNC(DATE(sent_time), MONTH) sent_month,
         sms.campaign,
         coalesce(c.segment,'Cold Data') segment,
-        case when (c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) > DATE(sent_time)) or c.first_purchase is null then 'Cold Data' else c.previous_segment end previous_segment,
+        case when (c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) >= DATE(sent_time)) or c.first_purchase is null then 'Cold Data' else c.previous_segment end previous_segment,
         COUNT(
             DISTINCT sent_id
         ) AS sms_sent,
@@ -49,7 +49,7 @@ sms_revenue as (
         date_trunc(date(sent_time),month) sent_month,
         r.campaign,
         coalesce(c.segment,'Cold Data') segment,
-        case when c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) > DATE(sent_time) then 'Cold Data' else c.previous_segment end previous_segment,
+        case when c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) >= DATE(sent_time) then 'Cold Data' else c.previous_segment end previous_segment,
         sum(total) total,
         count(distinct r.customer_id) as num_customer_converted,
     from {{ ref('fct__sms_revenue') }} r 
