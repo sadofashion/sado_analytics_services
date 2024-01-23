@@ -36,7 +36,7 @@ with offline_performance AS (
     {{ ref("revenue") }}
     r
   WHERE
-    r.transaction_date >= '2023-11-01'
+    r.transaction_date >= '2023-01-01'
   GROUP BY
     1,
     2
