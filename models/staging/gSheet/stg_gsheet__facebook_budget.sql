@@ -69,13 +69,11 @@ WHERE
 SELECT
     formated.*,
     branch.branch_id,
-    asm.new_ads_page as page,
-    asm.new_ads_pic as pic,
+    {# asm.new_ads_page as page,
+    asm.new_ads_pic as pic, #}
 FROM
     formated
     LEFT JOIN {{ ref('stg_kiotviet__branches') }}
     branch
     ON lower(formated.branch) = lower(branch.branch_name)
-    LEFT JOIN {{ ref('dim__offline_stores') }}
-    asm
-    ON branch.branch_id = asm.branch_id
+    
