@@ -15,6 +15,7 @@ SELECT
     payments.method AS payment_method,
     payments.accountId AS bankaccount_id,
     invoices.transaction_type,
+    invoices.modifiedDate as modified_date
 FROM
     {{ ref('base_kiotViet__invoices') }}
     invoices

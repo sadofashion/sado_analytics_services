@@ -14,7 +14,8 @@ SELECT
     invoiceDetails.discountRatio as discount_ratio,
     invoiceDetails.discount,
     invoiceDetails.subTotal,
-    invoices.transaction_type
+    invoices.transaction_type,
+    invoices.modifiedDate as modified_date,
 FROM
     {{ ref('base_kiotViet__invoices') }}
     invoices

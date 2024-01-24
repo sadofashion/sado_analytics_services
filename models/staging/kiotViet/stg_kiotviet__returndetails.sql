@@ -13,7 +13,8 @@ SELECT
     returnDetails.quantity,
     returnDetails.price,
     returnDetails.subTotal,
-    returns.transaction_type
+    returns.transaction_type,
+    returns.modifiedDate as modified_date,
 FROM
     {{ ref('base_kiotViet__returns') }}
     returns

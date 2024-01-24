@@ -3,8 +3,8 @@
     partition_by ={ 'field': 'transaction_date',
     'data_type': 'timestamp',
     'granularity': 'day' },
-    incremental_strategy = 'insert_overwrite',
-    unique_key = ['transaction_date','transaction_id'],
+    incremental_strategy = 'merge',
+    unique_key = ['payment_id','transaction_id'],
     on_schema_change = 'sync_all_columns',
     tags = ['incremental', 'daily','fact','kiotviet']
 ) }}
@@ -33,6 +33,9 @@ FROM
     invoices
 WHERE
     invoices.transaction_status = 'Hoàn thành'
+    {% if is_incremental() %}
+      and date(invoices.modified_date) >= date_add(date(_dbt_max_partition), interval -3 day)
+    {% endif %}
 UNION ALL
 SELECT
     returns.transaction_id,
@@ -50,9 +53,12 @@ SELECT
     returns.payment_amount,
     returns.payment_method,
     returns.bankaccount_id,
-    returns.transaction_type
+    returns.transaction_type,
 FROM
     {{ ref('stg_kiotviet__returnpayments') }}
     returns
 WHERE
     returns.transaction_status = 'Đã trả'
+{% if is_incremental() %}
+      and date(returns.modified_date) >= date_add(date(_dbt_max_partition), interval -3 day)
+    {% endif %}

@@ -33,6 +33,6 @@
         │   │   └── contact_center: contact center centric models
         │   ├── sales: offline sales models
         │   └── online_sales: online sales models
-        ├── core: model for exposures only
+        ├── core: model exposed to dashboard only
         └── utilities: misc and reusable models (calendar, weather, geocoding)
 ```
