@@ -91,7 +91,8 @@ facebook_budget AS (
 ),
 offline_performance AS (
   SELECT
-    A.new_ads_page AS page,
+  case when r.transaction_date between '2024-01-07' and '2024-01-23' then A.old_ads_page else A.new_ads_page end as page,
+    {# A.new_ads_page AS page, #}
     A.new_ads_pic AS pic,
     DATE(
       r.transaction_date

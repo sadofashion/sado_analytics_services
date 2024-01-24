@@ -26,15 +26,7 @@ FROM
         SELECT
             branch_id,
             branch,
-            {# budget_month, #}
-            b.page,
             milestones.*,
-            b.pic,
-            {# {% for item in targets %}
-            {{ item }} AS total_ {{ item }},
-        {% endfor %}
-
-        #}
         FROM
             {{ ref('stg_gsheet__facebook_budget') }} b,
             unnest(milestones) milestones
@@ -46,8 +38,8 @@ FROM
         {% endfor %}
     )
     ) AS tb
-)
-SELECT
+),
+final as (SELECT
     processed.*,
     C.date,
 FROM
@@ -59,3 +51,11 @@ WHERE
         {% if is_incremental() %}
           and processed.start >=  date(_dbt_max_partition)
         {% endif %}
+        )
+select final.*,
+case when final.date between '2024-01-07' and '2024-01-23' then asm.old_ads_page else asm.new_ads_page end as page,
+asm.new_ads_pic as pic,
+from final
+LEFT JOIN {{ ref('dim__offline_stores') }}
+    asm
+    ON final.branch_id = asm.branch_id

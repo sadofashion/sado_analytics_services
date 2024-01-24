@@ -22,7 +22,8 @@ asm_name,
 fb_ads_page as old_ads_page,
 fb_ads_pic as old_ads_pic,
 from {{ ref("offline_ads_pages") }}
-where dbt_valid_to is not null
+where dbt_valid_to is not null and branch_id is not null
+qualify row_number() over (partition by branch_id order by dbt_valid_to desc) =1
 ),
 
 new_values as ( 
@@ -33,7 +34,7 @@ asm_name,
 fb_ads_page as new_ads_page,
 fb_ads_pic as new_ads_pic,
 from {{ ref("offline_ads_pages") }}
-where dbt_valid_to is null
+where dbt_valid_to is null and branch_id is not null
 )
 
 select
