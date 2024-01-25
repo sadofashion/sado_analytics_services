@@ -60,5 +60,5 @@ FROM
 WHERE
     returns.transaction_status = 'Đã trả'
 {% if is_incremental() %}
-      date(coalesce(returns.modified_date, returns.transaction_date)) >= date_add(date(_dbt_max_partition), interval -3 day)
+      and date(coalesce(returns.modified_date, returns.transaction_date)) >= date_add(date(_dbt_max_partition), interval -3 day)
     {% endif %}
