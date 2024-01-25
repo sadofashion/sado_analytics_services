@@ -85,10 +85,14 @@ EXCEPT(
     when s.new_ads_page = facebook_performance.page then s.new_ads_page
     when s.old_ads_page = facebook_performance.page then s.old_ads_page
     else facebook_performance.page end as page,
-  COALESCE(
+    case 
+    when s.new_ads_page = facebook_performance.page then s.new_ads_pic
+    when s.old_ads_page = facebook_performance.page then s.old_ads_pic
+    else facebook_performance.page end as pic,
+  {# COALESCE(
     s.new_ads_pic,
     facebook_performance.pic
-  ) AS pic
+  ) AS pic #}
 FROM
   facebook_performance
   LEFT JOIN {{ ref("dim__offline_stores") }}

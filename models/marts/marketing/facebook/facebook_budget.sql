@@ -53,8 +53,8 @@ WHERE
         {% endif %}
         )
 select final.*,
-case when final.date between '2024-01-07' and '2024-01-23' then asm.old_ads_page else asm.new_ads_page end as page,
-asm.new_ads_pic as pic,
+case when final.date between '2024-01-07' and '2024-01-23' and asm.new_ads_page<> '5S Hà Nội' then asm.old_ads_page else asm.new_ads_page end as page,
+{# asm.new_ads_pic as pic, #}
 from final
 LEFT JOIN {{ ref('dim__offline_stores') }}
     asm

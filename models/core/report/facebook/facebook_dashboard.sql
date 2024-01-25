@@ -91,7 +91,7 @@ facebook_budget AS (
 ),
 offline_performance AS (
   SELECT
-  case when r.transaction_date between '2024-01-07' and '2024-01-23' then A.old_ads_page else A.new_ads_page end as page,
+  case when (r.transaction_date between '2024-01-07' and '2024-01-23') and A.new_ads_page not in ('5S Hà Nội') then A.old_ads_page else A.new_ads_page end as page,
     {# A.new_ads_page AS page, #}
     A.new_ads_pic AS pic,
     DATE(
@@ -139,7 +139,8 @@ asms AS (
     {{ ref("dim__offline_stores") }} A
 )
 SELECT
-  DISTINCT p.* EXCEPT(page,date_start),
+  DISTINCT 
+  p.* EXCEPT(page,date_start),
   o.* EXCEPT(page,transaction_date,pic),
   b.* EXCEPT(date,page,milestone_name),
   COALESCE(
