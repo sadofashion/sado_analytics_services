@@ -43,8 +43,8 @@ WHERE
     AND invoices.quantity <> 0
 
 {% if is_incremental() %}
-AND (DATE(modified_date) >= DATE(_dbt_max_partition)
-OR DATE(modified_date) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
+AND (date(coalesce(invoices.modified_date, invoices.transaction_date)) >= DATE(_dbt_max_partition)
+OR date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
 {% endif %}
 UNION ALL
 SELECT
@@ -75,6 +75,6 @@ WHERE
     returns.transaction_status = 'Đã trả'
 
 {% if is_incremental() %}
-AND (DATE(modified_date) >= DATE(_dbt_max_partition)
-OR DATE(modified_date) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
+AND (date(coalesce(returns.modified_date, returns.transaction_date)) >= DATE(_dbt_max_partition)
+OR date(coalesce(returns.modified_date, returns.transaction_date)) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
 {% endif %}

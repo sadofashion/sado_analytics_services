@@ -34,7 +34,7 @@ FROM
 WHERE
     invoices.transaction_status = 'Hoàn thành'
     {% if is_incremental() %}
-      and date(invoices.modified_date) >= date_add(date(_dbt_max_partition), interval -3 day)
+      and date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_add(date(_dbt_max_partition), interval -3 day)
     {% endif %}
 UNION ALL
 SELECT
@@ -60,5 +60,5 @@ FROM
 WHERE
     returns.transaction_status = 'Đã trả'
 {% if is_incremental() %}
-      and date(returns.modified_date) >= date_add(date(_dbt_max_partition), interval -3 day)
+      date(coalesce(returns.modified_date, returns.transaction_date)) >= date_add(date(_dbt_max_partition), interval -3 day)
     {% endif %}
