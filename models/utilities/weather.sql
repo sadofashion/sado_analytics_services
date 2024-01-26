@@ -1,8 +1,33 @@
 WITH source AS (
     {{ dbt_utils.deduplicate(relation = source('misc', 'weather'), partition_by = 'lat,long,time', order_by = "_batched_at desc",) }}
-)
+),
 
-{%set ranges = [3,5,7]%}
+source_hourly AS (
+    {{ dbt_utils.deduplicate(relation = source('misc', 'weather_hourly'), partition_by = 'lat,long,time', order_by = "_batched_at desc",) }}
+),
+
+hourly as (
+    select date(source_hourly.time) as date,
+    extract(hour from timestamp(source_hourly.time)) as hour,
+    source_hourly.rain,
+    source_hourly.temperature2m,
+    source_hourly.lat,
+    source_hourly.long,
+    from source_hourly
+),
+
+hourly_aggregate as (
+    select 
+    hourly.date,
+    hourly.lat,
+    hourly.long,
+    count( distinct case when hourly.rain>0 then hourly.hour end) as raining_hour,
+    sum(hourly.rain) as rain_sum,
+    avg(hourly.temperature2m) as avg_temp,
+    from hourly
+    where hourly.hour between 9 and 23
+    group by 1,2,3
+)
 
 SELECT
     DATE(
@@ -14,27 +39,16 @@ SELECT
     source.apparentTemperatureMax AS apparent_temperature_max,
     source.apparentTemperatureMin AS apparent_temperature_min,
     source.apparentTemperatureMean AS apparent_temperature_mean,
-    {%for range in ranges%}
-    AVG(
-        source.apparentTemperatureMean
-    ) over w{{range}}d as apparent_temperature_mean_{{range}}d,
-    AVG(
-        source.temperature2mMean
-    ) over w{{range}}d as temperature_2m_mean_{{range}}d,
-    {%endfor%}
-    
     source.rainSum AS rain_sum,
     source.windSpeed10mMax AS wind_speed10m_max,
     source.lat AS lat,
     source.long AS long,
+    safe_divide(hourly_aggregate.raining_hour,15) as rain_pct,
+    hourly_aggregate.rain_sum as selling_hour_rain,
+    hourly_aggregate.avg_temp as selling_hour_avg_temp,
 FROM
     source
-    window
-    {%for range in ranges%}
-    w{{range}}d AS (
-        PARTITION BY concat(lat,long)
-        ORDER BY
-            unix_date(DATE(source.time)) ASC RANGE BETWEEN {{range}} preceding
-            AND CURRENT ROW
-    ) {{',' if not loop.last}}
-    {%endfor%}
+    left join hourly_aggregate 
+    on source.lat= hourly_aggregate.lat 
+    and source.long = hourly_aggregate.long 
+    and DATE(source.time) = hourly_aggregate.date

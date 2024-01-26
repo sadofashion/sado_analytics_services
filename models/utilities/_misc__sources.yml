@@ -7,4 +7,6 @@ sources:
     tables:
       - identifier: p__weather__*
         name: weather
+      - identifier: p__weather_hourly__*
+        name: weather_hourly
     
