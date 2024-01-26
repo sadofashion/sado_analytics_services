@@ -1,3 +1,9 @@
+{{
+  config(
+    tags=['table','dimension','sms']
+    )
+}}
+
 SELECT
     DISTINCT campaign,
     date(start_date) start_date,
