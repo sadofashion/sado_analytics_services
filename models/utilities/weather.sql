@@ -21,7 +21,7 @@ hourly_aggregate as (
     hourly.date,
     hourly.lat,
     hourly.long,
-    count( distinct case when hourly.rain>0 then hourly.hour end) as raining_hour,
+    count( distinct case when hourly.rain>=3 then hourly.hour end) as raining_hour,
     sum(hourly.rain) as rain_sum,
     avg(hourly.temperature2m) as avg_temp,
     from hourly
@@ -43,7 +43,7 @@ SELECT
     source.windSpeed10mMax AS wind_speed10m_max,
     source.lat AS lat,
     source.long AS long,
-    safe_divide(hourly_aggregate.raining_hour,15) as rain_pct,
+    safe_divide(hourly_aggregate.raining_hour,14) as rain_pct,
     hourly_aggregate.rain_sum as selling_hour_rain,
     hourly_aggregate.avg_temp as selling_hour_avg_temp,
 FROM
