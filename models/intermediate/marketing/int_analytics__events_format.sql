@@ -6,7 +6,7 @@
   incremental_strategy = 'merge',
   unique_key = 'event_id',
   on_schema_change = 'sync_all_columns',
-  tags = ['incremental', 'daily'],
+  tags = ['incremental', 'daily','fact'],
 ) }}
 
 {% set event_params = ['ga_session_id', 'page_location', 'page_referrer', 'click_element_url', 'payment_type', 'location', 'method', 'filter', 'transaction_id', 'referrer', 'shipping', 'delivery_method', 'store', 'value', 'form_value', 'ga_session_number', "engagement_time_msec", "search_term"] %}

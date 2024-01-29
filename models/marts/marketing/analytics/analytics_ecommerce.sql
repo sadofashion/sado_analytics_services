@@ -6,7 +6,7 @@
   incremental_strategy = 'insert_overwrite',
   unique_key = 'concat(event_id,item_id)',
   on_schema_change = 'sync_all_columns',
-  tags = ['incremental', 'daily','GA4']
+  tags = ['incremental', 'daily','GA4','fact']
 ) }}
 
 WITH raw_ AS (
