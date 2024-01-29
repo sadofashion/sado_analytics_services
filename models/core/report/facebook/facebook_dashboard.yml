@@ -226,6 +226,7 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
           metrics:
             m_num_invoices:
               type: sum
