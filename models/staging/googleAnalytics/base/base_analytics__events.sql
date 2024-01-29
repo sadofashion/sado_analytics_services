@@ -8,7 +8,7 @@
     incremental_strategy = 'merge',
     unique_key='event_id',
     on_schema_change = 'sync_all_column',
-    tags=['incremental', 'daily','fact']
+    tags=['incremental', 'daily','GA4']
   )
 }}
 
@@ -48,7 +48,7 @@
            _table_suffix LIKE 'intraday_%'
            
         OR (
-           PARSE_DATE('%Y%m%d', _table_suffix) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+           PARSE_DATE('%Y%m%d', _table_suffix) >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
            {% if target.name == 'prod' %}
            OR 
               PARSE_DATE('%Y%m%d', _table_suffix) >= DATE(_dbt_max_partition)

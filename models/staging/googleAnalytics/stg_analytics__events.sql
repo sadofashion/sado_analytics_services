@@ -6,7 +6,7 @@
   incremental_strategy = 'insert_overwrite',
   unique_key = 'param_id',
   on_schema_change = 'sync_all_columns',
-  tags = ['incremental', 'daily','fact']
+  tags = ['incremental', 'daily','GA4']
 ) }}
   SELECT
   {{ dbt_utils.generate_surrogate_key(['event_id', 'params.key']) }} AS param_id,
