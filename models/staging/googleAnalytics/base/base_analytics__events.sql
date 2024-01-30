@@ -49,10 +49,10 @@
            
         OR (
            PARSE_DATE('%Y%m%d', _table_suffix) >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
-           {% if target.name == 'prod' %}
+           {# {% if target.name == 'prod' %}
            OR 
               PARSE_DATE('%Y%m%d', _table_suffix) >= DATE(_dbt_max_partition)
-              {% endif %}
+              {% endif %} #}
            )
            
 {% endif %}
