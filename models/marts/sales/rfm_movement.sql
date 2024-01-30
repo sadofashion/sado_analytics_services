@@ -45,6 +45,7 @@ source AS (
     {{ ref('revenue') }}
   WHERE
     customer_id IS NOT NULL
+    and total <> 0
   GROUP BY
     1,
     2,
