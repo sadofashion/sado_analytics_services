@@ -45,7 +45,7 @@ source AS (
     {{ ref('revenue') }}
   WHERE
     customer_id IS NOT NULL
-    and total <> 0
+    {# and total <> 0 #}
   GROUP BY
     1,
     2,
@@ -213,7 +213,7 @@ aggregated_cumulative AS (
           WHEN recency > 360 THEN '1 năm chưa quay lại'
           WHEN recency > 180 THEN '6 tháng chưa quay lại'
           WHEN recency > 90 THEN '3 tháng chưa quay lại'
-          WHEN recency > 30 THEN '1 tháng chưa quay lại'
+          WHEN recency > 31 THEN '1 tháng chưa quay lại'
           ELSE "Khách quay lại"
         END AS recency_type,
         last_branch.last_purchase_branch,

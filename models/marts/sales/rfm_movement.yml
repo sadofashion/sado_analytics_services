@@ -72,6 +72,7 @@ models:
               type: median
               label: Med of Recency
               group_label: Customer Metrics
+              round: 1
           dimension:
             type: number
       - name: monetary
@@ -82,6 +83,8 @@ models:
               type: average
               label: AVG of Monetary
               group_label: Customer Metrics
+              compact: thousands
+              round: 0
           dimension:
             type: number
       - name: frequency
@@ -92,6 +95,7 @@ models:
               type: average
               label: AVG of Freq
               group_label: Customer Metrics
+              round: 1
           dimension:
             type: number
       - name: recency_score
