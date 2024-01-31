@@ -171,8 +171,12 @@ FROM
     o.page = COALESCE(p.page,b.page)
   )
   LEFT JOIN asms
-  ON COALESCE(
+  ON (COALESCE(
     p.page,
     o.page,
     b.page
-  ) = asms.page
+  ) = asms.page or COALESCE(
+    p.page,
+    o.page,
+    b.page
+  ) = asms.old_page)
