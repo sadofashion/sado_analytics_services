@@ -9,17 +9,20 @@
   tags = ['incremental','table', 'fact', 'kiotviet']
 ) }}
 
-{% set rfm_groups ={ "Champions": ['555','554','544','545','454','455','445'],
-"Loyal" :['543','444','435','355','354','345','344','335'],
-"Potential Loyalists": ['553', '551', '552', '541', '542', '533', '532', '531', '452', '451', '442', '441', '431', '453', '433', '432', '423', '353', '352', '351', '342', '341', '333', '323'],
-'New Customers' :['512', '511', '422', '421','412', '411', '311'],
-'Promising' :['525', '524', '523', '522', '521', '515', '514', '513', '425', '424', '413', '414', '415', '315', '314', '313'],
-'Need Attention' :['535', '534', '443', '434', '343', '334', '325', '324'],
-'About To Sleep' :[ '331', '321', '312', '221', '213', '231', '241', '251'],
-'At Risk' :[ '255', '254', '245', '244', '253', '252', '243', '242', '235', '234', '225', '224', '153', '152', '145', '143', '142', '135', '134', '133', '125', '124'],
-'Cannot Lose Them' :[ '155', '154', '144', '214', '215', '115', '114', '113'],
-'Hibernating customers' :[ '332', '322', '233', '232', '223', '222', '132', '123', '122', '212', '211'],
-'Lost customers' :[ '111', '112', '121', '131', '141', '151'] } %}
+{% set rfm_groups ={ 
+  "Champions": ['555','554','544','545','454','455','445'],
+  "Loyal" :['543','444','435','355','354','345','344','335'],
+  "Potential Loyalists": ['553', '551', '552', '541', '542', '533', '532', '531', '452', '451', '442', '441', '431', '453', '433', '432', '423', '353', '352', '351', '342', '341', '333', '323'],
+  'New Customers' :['512', '511', '422', '421','412', '411', '311'],
+  'Promising' :['525', '524', '523', '522', '521', '515', '514', '513', '425', '424', '413', '414', '415', '315', '314', '313'],
+  'Need Attention' :['535', '534', '443', '434', '343', '334', '325', '324'],
+  'About To Sleep' :[ '331', '321', '312', '221', '213', '231', '241', '251'],
+  'At Risk' :[ '255', '254', '245', '244', '253', '252', '243', '242', '235', '234', '225', '224', '153', '152', '145', '143', '142', '135', '134', '133', '125', '124'],
+  'Cannot Lose Them' :[ '155', '154', '144', '214', '215', '115', '114', '113'],
+  'Hibernating customers' :[ '332', '322', '233', '232', '223', '222', '132', '123', '122', '212', '211'],
+  'Lost customers' :[ '111', '112', '121', '131', '141', '151'] 
+} 
+%}
 WITH calendar AS (
 
   SELECT
@@ -89,14 +92,15 @@ aggregated_cumulative AS (
     COALESCE(SUM(total) over w1, 0) AS monetary,
     COALESCE(SUM(num_transactions) over w1, 0) AS frequency,
     date_diff(
-      COALESCE(MAX(transaction_date) over w2, LAST_DAY(start_of_month, MONTH)),
+      COALESCE(MAX(transaction_date) over w2, case when LAST_DAY(start_of_month, MONTH) < current_date() then LAST_DAY(start_of_month, MONTH) else current_date() end  ),
       COALESCE(MAX(transaction_date) over w4, MAX(transaction_date) over w5),
       DAY) AS recency
       FROM
-        aggregated_and_cross_join window w1 AS (
+        aggregated_and_cross_join 
+        window w1 AS (
           PARTITION BY customer_id
           ORDER BY
-            unix_date(start_of_month) DESC RANGE BETWEEN 93 preceding
+            unix_date(LAST_DAY(start_of_month, MONTH)) asc RANGE BETWEEN 93 preceding
             AND CURRENT ROW
         ),
         w2 AS (
@@ -138,13 +142,14 @@ aggregated_cumulative AS (
             recency DESC
         ) AS recency_score,
         CASE
-          WHEN frequency > 0 THEN NTILE(5) over (
-            PARTITION BY start_of_month,(
+          WHEN frequency > 0 and monetary > 0 THEN NTILE(5) over (
+            PARTITION BY start_of_month
+            {# ,(
               CASE
                 WHEN monetary > 0 THEN "purchase"
                 ELSE "notpurchase"
               END
-            )
+            ) #}
             ORDER BY
               frequency ASC
           )
@@ -152,13 +157,14 @@ aggregated_cumulative AS (
         END AS frequency_score,
         CASE
           WHEN monetary > 0 THEN NTILE(5) over (
-            PARTITION BY start_of_month,
+            PARTITION BY start_of_month
+            {# ,
             (
               CASE
                 WHEN monetary > 0 THEN "purchase"
                 ELSE "notpurchase"
               END
-            )
+            ) #}
             ORDER BY
               monetary ASC
           )
@@ -229,7 +235,12 @@ WHERE
 {% endif %}
 ),
 previous as (
-select *,
+select * except(last_purchase_branch),
+{# last_purchase_branch, #}
+first_value(last_purchase_branch ignore nulls) over (
+          partition by customer_id 
+          order by start_of_month desc 
+          rows between current row and unbounded following) last_purchase_branch,
 coalesce(lag(segment) over (partition by customer_id order by start_of_month asc),'First-time Purchaser') as previous_segment
 from final
 )
