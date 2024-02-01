@@ -100,7 +100,7 @@ aggregated_cumulative AS (
         window w1 AS (
           PARTITION BY customer_id
           ORDER BY
-            unix_date(LAST_DAY(start_of_month, MONTH)) asc RANGE BETWEEN 93 preceding
+            unix_date(LAST_DAY(start_of_month, MONTH)) asc RANGE BETWEEN 365 preceding
             AND CURRENT ROW
         ),
         w2 AS (
