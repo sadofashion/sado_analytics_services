@@ -36,7 +36,12 @@ with offline_performance AS (
     {{ ref("revenue") }}
     r
   WHERE
-    r.transaction_date >= '2023-01-01'
+    
+    {% if is_incremental() %}
+      r.modified_date >= date_add(date(_dbt_max_partition), interval -2 day)
+    {% else %}
+      r.transaction_date >= '2023-01-01'
+    {% endif %}
   GROUP BY
     1,
     2

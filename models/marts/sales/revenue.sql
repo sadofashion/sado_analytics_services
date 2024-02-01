@@ -27,6 +27,7 @@ SELECT
         NULL AS int64
     ) AS return_fee,
     invoices.transaction_type,
+    date(coalesce(invoices.modified_date, invoices.transaction_date)) as modified_date,
 FROM
     {{ ref('stg_kiotviet__invoices') }}
     invoices
@@ -50,7 +51,8 @@ SELECT
         NULL AS float64
     ) discount_ratio,
     returns.return_fee,
-    returns.transaction_type
+    returns.transaction_type,
+    date(coalesce(returns.modified_date, returns.transaction_date)) as modified_date,
 FROM
     {{ ref('stg_kiotviet__returns') }}
     returns
