@@ -89,7 +89,7 @@ aggregated_cumulative AS (
     customer_id,
     MIN(transaction_date) over w3 AS first_purchase,
     COALESCE(MAX(transaction_date) over w4, MAX(transaction_date) over w5) AS last_purchase,
-    COALESCE(SUM(total) over w1, 0) AS monetary,
+    coalesce(safe_divide(SUM(total) over w1,SUM(num_transactions) over w1),0) AS monetary,
     COALESCE(SUM(num_transactions) over w1, 0) AS frequency,
     date_diff(
       COALESCE(MAX(transaction_date) over w2, case when LAST_DAY(start_of_month, MONTH) < current_date() then LAST_DAY(start_of_month, MONTH) else current_date() end  ),
@@ -142,14 +142,14 @@ aggregated_cumulative AS (
             recency DESC
         ) AS recency_score,
         CASE
-          WHEN frequency > 0 and monetary > 0 THEN NTILE(5) over (
+          WHEN frequency > 0 THEN NTILE(5) over (
             PARTITION BY start_of_month
-            {# ,(
+            ,(
               CASE
                 WHEN monetary > 0 THEN "purchase"
                 ELSE "notpurchase"
               END
-            ) #}
+            )
             ORDER BY
               frequency ASC
           )
@@ -158,13 +158,13 @@ aggregated_cumulative AS (
         CASE
           WHEN monetary > 0 THEN NTILE(5) over (
             PARTITION BY start_of_month
-            {# ,
+            ,
             (
               CASE
                 WHEN monetary > 0 THEN "purchase"
                 ELSE "notpurchase"
               END
-            ) #}
+            )
             ORDER BY
               monetary ASC
           )
