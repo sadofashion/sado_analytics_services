@@ -46,7 +46,7 @@ GROUP BY
             sms.sent_time IS NOT NULL
             {# AND sms.campaign LIKE 'QC%' #}
             AND sent_status = 'Thành công'
-            and (audience not in ('TUYEN DUNG') or audience is null)
+            and (audience not in ('TUYEN DUNG','THONG BAO DON HANG') or audience is null)
 
 {% if is_incremental() %}
 AND DATE(
