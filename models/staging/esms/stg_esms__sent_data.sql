@@ -19,17 +19,17 @@ WITH source AS (
 SELECT
   phone,
   {{ dbt_utils.generate_surrogate_key(['phone','SmsId']) }} AS sent_id,
+  case when smstype = 25 and regexp_contains(content,r'^\(.*\)$')
+  then 'CSKH||THONG BAO DON HANG' else
   COALESCE(
     campaign,
     'QC||SINH NHAT'
-  ) AS campaign,
+  ) end AS campaign,
   referenceid AS reference_id,
   sellprice AS sms_cost,
   CASE
     sendstatus
-
-    {% for key,
-    status in sms_statuses.items() %}
+    {% for key,status in sms_statuses.items() %}
     WHEN {{ key }} THEN "{{status}}"
     {% endfor %}
   END AS sent_status,
@@ -48,9 +48,7 @@ SELECT
   smsid AS sms_id,
   CASE
     smstype
-
-    {% for key,
-    type in sms_types.items() %}
+    {% for key,type in sms_types.items() %}
     WHEN {{ key }} THEN '{{type}}'
     {% endfor %}
   END AS sms_type,
@@ -58,6 +56,7 @@ SELECT
   SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(1)] AS end_date,
   CASE
     when regexp_contains(lower(content),r'phong van|chon loc ho so|ung tuyen') then 'TUYEN DUNG'
+    when smstype = 25 and regexp_contains(content,r'^\(.*\)$') then 'THONG BAO DON HANG'
     WHEN campaign IS NULL THEN 'SINH NHAT'
     ELSE regexp_extract(
       campaign,
