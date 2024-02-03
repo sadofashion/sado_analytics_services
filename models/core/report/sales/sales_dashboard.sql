@@ -38,7 +38,7 @@ with offline_performance AS (
   WHERE
     
     {% if is_incremental() %}
-      r.modified_date >= date_add(date(_dbt_max_partition), interval -2 day)
+      coalesce(r.modified_date, date(r.transaction_date)) >= date_add(date(_dbt_max_partition), interval -2 day)
     {% else %}
       r.transaction_date >= '2023-01-01'
     {% endif %}
