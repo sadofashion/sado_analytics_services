@@ -38,7 +38,7 @@ with offline_performance AS (
   WHERE
     
     {% if is_incremental() %}
-      coalesce(r.modified_date, date(r.transaction_date)) >= date_add(date(_dbt_max_partition), interval -2 day)
+      coalesce(r.modified_date, date(r.transaction_date)) >= date_add(date(_dbt_max_partition), interval -7 day)
     {% else %}
       r.transaction_date >= '2023-01-01'
     {% endif %}
@@ -60,7 +60,10 @@ budget AS (
     {{ ref("facebook_budget") }}
     budget
   WHERE
-    budget.date <= CURRENT_DATE()
+     {% if is_incremental() %}
+      budget.date >= date_add(date(_dbt_max_partition), interval -2 day)
+    {% endif %}
+  and   budget.date <= CURRENT_DATE()
   GROUP BY
     1,
     2
