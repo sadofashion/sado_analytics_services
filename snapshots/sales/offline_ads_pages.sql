@@ -4,7 +4,7 @@
     target_schema = target_schema,
     strategy = 'check',
     unique_key = 'branch_id',
-    check_cols = ['fb_ads_pic','fb_ads_page','asm_name','asm_phone','asm_email']
+    check_cols = ['fb_ads_page','branch_id']
   ) }}
 
   SELECT
