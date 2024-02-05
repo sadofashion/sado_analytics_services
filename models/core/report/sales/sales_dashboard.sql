@@ -60,10 +60,10 @@ budget AS (
     {{ ref("facebook_budget") }}
     budget
   WHERE
+  budget.date <= CURRENT_DATE()
      {% if is_incremental() %}
-      budget.date >= date_add(date(_dbt_max_partition), interval -3 day)
+      and budget.date >= date_add(date(_dbt_max_partition), interval -3 day)
     {% endif %}
-  and   budget.date <= CURRENT_DATE()
   GROUP BY
     1,
     2
