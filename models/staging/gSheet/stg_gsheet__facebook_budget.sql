@@ -45,8 +45,7 @@ formated AS (
         ARRAY_AGG(
             STRUCT(
                 milestones.start,
-                milestones.
-            END,
+                milestones.end,
             milestones.value,
             regexp_extract(
                 milestones.key,
