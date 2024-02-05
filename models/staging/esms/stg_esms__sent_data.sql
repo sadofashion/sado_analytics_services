@@ -20,8 +20,9 @@ SELECT
   phone,
   {{ dbt_utils.generate_surrogate_key(['phone','SmsId']) }} AS sent_id,
   case when smstype = 25 and regexp_contains(content,r'^\(.*\)$')
-  then 'CSKH||THONG BAO DON HANG' else
-  COALESCE(
+  then 'CSKH||THONG BAO DON HANG' 
+  when campaign ='Chiến dịch 02/02/2024' then 'QC||FLASHSALES'
+  else COALESCE(
     campaign,
     'QC||SINH NHAT'
   ) end AS campaign,
@@ -52,8 +53,8 @@ SELECT
     WHEN {{ key }} THEN '{{type}}'
     {% endfor %}
   END AS sms_type,
-  SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(0)] AS start_date,
-  SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(1)] AS end_date,
+  case when campaign ='Chiến dịch 02/02/2024' then '2024-02-02' else SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(0)] end AS start_date,
+  case when campaign ='Chiến dịch 02/02/2024' then '2024-02-04' else SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(1)] end AS end_date,
   CASE
     when regexp_contains(lower(content),r'phong van|chon loc ho so|ung tuyen') then 'TUYEN DUNG'
     when smstype = 25 and regexp_contains(content,r'^\(.*\)$') then 'THONG BAO DON HANG'
