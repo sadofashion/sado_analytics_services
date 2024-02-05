@@ -71,7 +71,7 @@ sms_revenue as (
     on r.customer_id = c.customer_id 
     and date_trunc(date(sent_time),month) = c.start_of_month
             {% if is_incremental() %}
-                where sms.sent_time >= date(_dbt_max_partition)
+                where r.sent_time >= date(_dbt_max_partition)
             {% endif %}
     group by 1,2,3,4
 )

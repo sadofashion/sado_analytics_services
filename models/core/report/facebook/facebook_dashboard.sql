@@ -153,7 +153,7 @@ SELECT
     o.page,
     b.page
   ) AS page,
-  asms.asm_name,
+  coalesce(asms.asm_name,a2.asm_name) asm_namem,
   COALESCE(
     asms.pic,
     o.pic
@@ -163,20 +163,18 @@ FROM
   full outer JOIN facebook_budget b
   ON p.date_start = b.date
   AND (
-    p.page = b.page
+    lower(p.page) = lower(b.page)
   ) 
   full outer JOIN offline_performance o
   ON o.transaction_date = coalesce(p.date_start,b.date)
   AND (
-    o.page = COALESCE(p.page,b.page)
+    lower(o.page) = lower(COALESCE(p.page,b.page))
   )
   LEFT JOIN asms
-  ON (COALESCE(
+  ON lower(COALESCE(
     p.page,
     o.page,
     b.page
-  ) = asms.page or COALESCE(
-    p.page,
-    o.page,
-    b.page
-  ) = asms.old_page)
+  )) = lower(asms.page) 
+  left join asms as a2 on ( LOWER(COALESCE( p.page, o.page, b.page )) = LOWER(a2.old_page) )
+  
