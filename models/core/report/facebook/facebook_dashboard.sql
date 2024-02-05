@@ -153,7 +153,7 @@ SELECT
     o.page,
     b.page
   ) AS page,
-  coalesce(asms.asm_name,a2.asm_name) asm_namem,
+  coalesce(asms.asm_name,a2.asm_name) asm_name,
   COALESCE(
     asms.pic,
     o.pic
