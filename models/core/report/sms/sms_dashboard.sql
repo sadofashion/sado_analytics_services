@@ -1,6 +1,14 @@
 {{ config(
-    tags = ['table','fact'],
+  materialized = 'incremental',
+  partition_by ={ 'field': 'sent_month',
+  'data_type': 'date',
+  'granularity': 'day' },
+  incremental_strategy = 'merge',
+  unique_key = ["sent_month", "segment", "previous_segment", "campaign"],
+  on_schema_change = 'sync_all_columns',
+  tags = ['incremental', 'fact','dashboard']
 ) }}
+
 
 WITH customer_data as (
     select 
@@ -14,6 +22,9 @@ WITH customer_data as (
     left join {{ ref('rfm_movement') }} rfm 
     on c.customer_id = rfm.customer_id
     where c.contact_number is not null
+    {% if is_incremental() %}
+      and rfm.start_of_month >= date(_dbt_max_partition)
+    {% endif %}
 ),
 
 sms_sent_data AS (
@@ -40,6 +51,9 @@ sms_sent_data AS (
             {# AND sms.campaign LIKE 'QC%' #}
             AND sent_status = 'Thành công'
             and (audience not in ('TUYEN DUNG','THONG BAO DON HANG') or audience is null)
+            {% if is_incremental() %}
+                and sms.sent_time >= date(_dbt_max_partition)
+            {% endif %}
     GROUP BY
         1,2,3,4
 ),
@@ -56,6 +70,9 @@ sms_revenue as (
     left join customer_data c 
     on r.customer_id = c.customer_id 
     and date_trunc(date(sent_time),month) = c.start_of_month
+            {% if is_incremental() %}
+                where sms.sent_time >= date(_dbt_max_partition)
+            {% endif %}
     group by 1,2,3,4
 )
 
