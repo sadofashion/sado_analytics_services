@@ -156,7 +156,8 @@ SELECT
   coalesce(asms.asm_name,a2.asm_name) asm_name,
   COALESCE(
     asms.pic,
-    o.pic
+    a2.pic,
+    o.pic,
   ) AS pic,
 FROM
   facebook_performance p 
