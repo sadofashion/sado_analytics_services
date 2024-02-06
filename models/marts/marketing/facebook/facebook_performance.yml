@@ -2,6 +2,12 @@ version: 2
 models:
   - name: facebook_performance
     description: ""
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date_start
+            - campaign_id
+            - account_name
     meta:
       joins:
         - join: calendar

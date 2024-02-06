@@ -22,11 +22,9 @@ WITH facebook_performance AS (
   SELECT
     fb.page,
     date_start,
-    {# fb.pic, #}
+    fb.pic,
     {% for metric in metrics %}
-      SUM(
-        fb.{{ metric }}
-      ) AS {{ metric }},
+      SUM(fb.{{ metric }}) AS {{ metric }},
     {% endfor %}
   FROM
     {{ ref("facebook_performance") }}
@@ -63,7 +61,7 @@ WITH facebook_performance AS (
     )
   GROUP BY
     1,
-    2
+    2,3
 ),
 facebook_budget AS (
   SELECT
@@ -140,7 +138,7 @@ asms AS (
 )
 SELECT
   DISTINCT 
-  p.* EXCEPT(page,date_start),
+  p.* EXCEPT(page,date_start,pic),
   o.* EXCEPT(page,transaction_date,pic),
   b.* EXCEPT(date,page,milestone_name),
   COALESCE(
@@ -158,6 +156,7 @@ SELECT
     asms.pic,
     a2.pic,
     o.pic,
+  p.pic
   ) AS pic,
 FROM
   facebook_performance p 

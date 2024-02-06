@@ -88,7 +88,7 @@ EXCEPT(
     case 
     when s.new_ads_page = facebook_performance.page then s.new_ads_pic
     when s.old_ads_page = facebook_performance.page then s.old_ads_pic
-    else facebook_performance.page end as pic,
+    else facebook_performance.pic end as pic,
   {# COALESCE(
     s.new_ads_pic,
     facebook_performance.pic
