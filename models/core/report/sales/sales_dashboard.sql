@@ -38,7 +38,8 @@ with offline_performance AS (
   WHERE
     
     {% if is_incremental() %}
-      coalesce(r.modified_date, date(r.transaction_date)) >= date_add(date(_dbt_max_partition), interval -3 day)
+      date(r.transaction_date) >= date_add(date(_dbt_max_partition), interval -3 day)
+      r.transaction_date >='2024-02-01'
     {% else %}
       r.transaction_date >= '2023-01-01'
     {% endif %}
@@ -63,6 +64,7 @@ budget AS (
   budget.date <= CURRENT_DATE()
      {% if is_incremental() %}
       and budget.date >= date_add(date(_dbt_max_partition), interval -3 day)
+      {# and budget.date >= '2024-02-01' #}
     {% endif %}
   GROUP BY
     1,
