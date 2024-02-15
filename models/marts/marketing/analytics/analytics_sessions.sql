@@ -37,7 +37,7 @@ FROM
 
 {% if is_incremental() %}
 qualify FIRST_VALUE(event_date) over(session_window) >= DATE(_dbt_max_partition)
-OR FIRST_VALUE(event_date) over(session_window) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY)
+OR FIRST_VALUE(event_date) over(session_window) >= date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
 {% endif %}
 
 window session_window AS (

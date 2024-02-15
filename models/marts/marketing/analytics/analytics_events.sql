@@ -51,5 +51,5 @@ WHERE
 
 {% if is_incremental() %}
 AND (event_date >= DATE(_dbt_max_partition)
-OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
+OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 1 DAY))
 {% endif %}

@@ -48,7 +48,7 @@
            _table_suffix LIKE 'intraday_%'
            
         OR (
-           PARSE_DATE('%Y%m%d', _table_suffix) >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
+           PARSE_DATE('%Y%m%d', _table_suffix) >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
            {# {% if target.name == 'prod' %}
            OR 
               PARSE_DATE('%Y%m%d', _table_suffix) >= DATE(_dbt_max_partition)

@@ -67,7 +67,7 @@ WITH base AS (
 {% if is_incremental() %}
 WHERE
   event_date >= DATE(_dbt_max_partition)
-  OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY)
+  OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
 {% endif %}) pivot(any_value(param_value) AS val FOR param_key IN ('{{event_params | join("', '")}}'))
 )
 SELECT

@@ -165,7 +165,7 @@ FROM
 {% if is_incremental() %}
 WHERE
   event_date >= DATE(_dbt_max_partition)
-  OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY)
+  OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
 {% endif %})
 LEFT JOIN unnest(event_params) AS params
 LEFT JOIN unnest(user_properties) USER
