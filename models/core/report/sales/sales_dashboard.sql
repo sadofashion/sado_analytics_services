@@ -39,7 +39,7 @@ with offline_performance AS (
     
     {% if is_incremental() %}
       date(r.transaction_date) >= date_add(date(_dbt_max_partition), interval -3 day)
-      r.transaction_date >='2024-02-01'
+      {# r.transaction_date >='2024-02-01' #}
     {% else %}
       r.transaction_date >= '2023-01-01'
     {% endif %}
