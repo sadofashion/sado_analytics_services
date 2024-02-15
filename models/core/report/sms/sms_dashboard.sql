@@ -6,7 +6,7 @@
   incremental_strategy = 'merge',
   unique_key = ["sent_month", "segment", "previous_segment", "campaign"],
   on_schema_change = 'sync_all_columns',
-  tags = ['incremental', 'fact','dashboard']
+  tags = ['incremental', 'fact','dashboard','daily']
 ) }}
 
 

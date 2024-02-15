@@ -6,7 +6,7 @@
   incremental_strategy = 'merge',
   unique_key = ['date_start','campaign_id'],
   on_schema_change = 'sync_all_columns',
-  tags = ['incremental', 'daily','fact']
+  tags = ['incremental', 'hourly','fact']
 ) }}
 
 WITH facebook_performance AS (
@@ -70,7 +70,7 @@ WITH facebook_performance AS (
     campaigns
     ON adsinsights.campaign_id = campaigns.campaign_id 
     {% if is_incremental() %}
-      where date_start >= date_add(date(_dbt_max_partition), interval -3 day)
+      where date_start >= date_add(date(_dbt_max_partition), interval -1 day)
     {% endif %}
 
     {{ dbt_utils.group_by(12) }}

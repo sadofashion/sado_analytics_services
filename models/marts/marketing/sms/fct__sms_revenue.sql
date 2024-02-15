@@ -6,7 +6,7 @@
     incremental_strategy = 'merge',
     unique_key = ['campaign','phone', 'sent_time', 'transaction_date'],
     on_schema_change = 'sync_all_columns',
-    tags = ['incremental', 'fact','sms']
+    tags = ['incremental', 'fact','sms','daily']
 ) }}
 
 WITH revenue AS (

@@ -6,7 +6,7 @@
     incremental_strategy = 'merge',
     unique_key = ['transaction_id'],
     on_schema_change = 'sync_all_columns',
-    tags = ['incremental', 'daily','fact','kiotviet']
+    tags = ['incremental', 'hourly','fact','kiotviet']
 ) }}
 
 SELECT
@@ -34,7 +34,7 @@ FROM
 WHERE
     invoices.transaction_status = 'Hoàn thành'
     {% if is_incremental() %}
-      and date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_add(date(_dbt_max_partition), interval -3 day)
+      and date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_add(date(_dbt_max_partition), interval -2 day)
     {% endif %}
 UNION ALL
 SELECT
@@ -59,5 +59,5 @@ FROM
 WHERE
     returns.transaction_status = 'Đã trả'
     {% if is_incremental() %}
-      and date(coalesce(returns.modified_date, returns.transaction_date)) >= date_add(date(_dbt_max_partition), interval -3 day)
+      and date(coalesce(returns.modified_date, returns.transaction_date)) >= date_add(date(_dbt_max_partition), interval -2 day)
     {% endif %}

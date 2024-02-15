@@ -1,4 +1,4 @@
-name: Schedule and Run
+name: Schedule and Push integration
 
 on:
   pull_request:
@@ -14,6 +14,7 @@ on:
       - "*.sql"
   schedule:
     - cron: "15 1-23/2 * * *"
+    - cron: "15 1 * * *"
   workflow_dispatch:
 concurrency: ${{ github.ref }}
 
@@ -38,17 +39,26 @@ jobs:
       - run: |
           pip install dbt-core==1.6.6 dbt-bigquery==1.6.4
           dbt deps
-      - name: Schedule flow
-        id: schedule_flow
-        if: github.event_name == 'schedule'
+
+      - name: Schedule flow at every 2 hours
+        id: schedule_flow_2h
+        if: github.event_name == 'schedule' && github.event.schedule == '15 1-23/2 * * *'
         run: |
-          dbt run --profiles-dir $PWD --project-dir $PWD --exclude config.materialized:view --select config.tags:fact config.materialized:incremental
+          dbt run --profiles-dir $PWD --project-dir $PWD --exclude config.materialized:view config.tags:daily config.tags:inactive --select config.tags:fact config.tags:incremental
           dbt snapshot --profiles-dir $PWD --project-dir $PWD
+
+      - name: Schedule flow daily
+        id: schedule_flow_daily
+        if: github.event_name == 'schedule' && github.event.schedule == '15 1 * * *'
+        run: |
+          dbt run --profiles-dir $PWD --project-dir $PWD --exclude config.materialized:view config.tags:inactive --select config.tags:fact,config.tags:incremental,config.tags:daily
+
       - name: Push flow
         id: push_flow
         if: github.event_name == 'push'
         run: |
           dbt run --profiles-dir $PWD --project-dir $PWD --select state:modified --defer --state prod
+
       - name: Pull request flow
         id: pull_request_flow
         if: github.event_name == 'pull_request'

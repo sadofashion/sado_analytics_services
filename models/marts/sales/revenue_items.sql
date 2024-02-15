@@ -1,5 +1,5 @@
 {{ config(
-    tags = ['incremental', 'fact','kiotviet'],
+    tags = ['incremental', 'fact','kiotviet','hourly'],
     materialized = 'incremental',
     partition_by ={ 'field': 'transaction_date',
     'data_type': 'timestamp',
@@ -43,7 +43,7 @@ WHERE
     AND invoices.quantity <> 0
 {% if is_incremental() %}
 AND (date(coalesce(invoices.modified_date, invoices.transaction_date)) >= DATE(_dbt_max_partition)
-OR date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
+OR date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_sub(CURRENT_DATE(), INTERVAL 1 DAY))
 {% endif %}
 {{dbt_utils.group_by(12)}}
 
@@ -78,6 +78,6 @@ WHERE
 
 {% if is_incremental() %}
 AND (date(coalesce(returns.modified_date, returns.transaction_date)) >= DATE(_dbt_max_partition)
-OR date(coalesce(returns.modified_date, returns.transaction_date)) >= date_sub(CURRENT_DATE(), INTERVAL 2 DAY))
+OR date(coalesce(returns.modified_date, returns.transaction_date)) >= date_sub(CURRENT_DATE(), INTERVAL 1 DAY))
 {% endif %}
 {{dbt_utils.group_by(12)}}

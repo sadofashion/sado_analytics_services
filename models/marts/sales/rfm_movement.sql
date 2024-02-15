@@ -6,7 +6,7 @@
   incremental_strategy = 'merge',
   unique_key = ['customer_id', 'start_of_month'],
   on_schema_change = 'sync_all_columns',
-  tags = ['incremental','table', 'fact', 'kiotviet']
+  tags = ['incremental','table', 'fact', 'kiotviet','daily']
 ) }}
 
 {% set rfm_groups ={ 
