@@ -359,8 +359,6 @@ models:
               type: sum
               label: Traffic target
               group_label: Budget
-              compact: thousands
-              round: 1
       - name: date
         data_type: date
         description: ngày giao dịch

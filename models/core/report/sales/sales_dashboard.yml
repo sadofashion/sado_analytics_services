@@ -165,8 +165,7 @@ models:
               type: sum
               label: Traffic target
               group_label: Budget
-              compact: thousands
-              round: 1
+              round: 0
       - name: date
         description: Ngày
         meta:
