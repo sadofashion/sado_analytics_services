@@ -1,0 +1,35 @@
+name: Daily schedule
+
+on:
+  schedule:
+    - cron: "30 10 * * *"
+  workflow_dispatch:
+concurrency: ${{ github.ref }}
+
+env:
+  GCP_SA: chienle-sa@agile-scheme-394814.iam.gserviceaccount.com
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - id: authenticate
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY}}
+
+      - run: |
+          pip install dbt-core==1.6.6 dbt-bigquery==1.6.4
+          dbt deps
+
+      - name: Schedule flow daily
+        run: |
+          dbt run --profiles-dir $PWD --project-dir $PWD --exclude config.materialized:view config.tags:inactive --select config.tags:fact,config.tags:incremental,config.tags:daily
+
+     
