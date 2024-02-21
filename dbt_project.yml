@@ -20,9 +20,6 @@ models:
   sado_analytics_services:
     staging:
       +materialized: view
-      base:
-        +docs:
-          show: false
     intermediate:
       +materialized: ephemeral
       +docs:
@@ -45,5 +42,29 @@ models:
       +materialized: table
       +schema: core
 
+    elementary:
+      +schema: "elementary"
+
 vars:
     "dbt_date:time_zone": "Asia/Saigon"
+    dbt_project_evaluator:
+      documentation_coverage_target: 75
+      test_coverage_target: 75
+      models_fanout_threshold: 10
+      model_types: ['base','staging', 'intermediate', 'marts', 'core', 'utils']
+      staging_folder_name: staging
+      staging_prefixes: ['stg_']
+      base_folder_name: base
+      base_prefixes: ['base_']
+      intermediate_folder_name: intermediate
+      intermediate_prefixes: ['int_']
+      marts_folder_name: marts
+      marts_prefixes: ['','fct_','dim_']
+      core_folder_name: core
+      core_prefixes: ['']
+      utils_folder_name: utilities
+      utils_prefixes: ['']
+
+dispatch:
+  - macro_namespace: dbt
+    search_order: ['dbt_project_evaluator', 'dbt']

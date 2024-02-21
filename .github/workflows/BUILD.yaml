@@ -5,10 +5,10 @@ on:
     branches:
       - 'master'
     paths:
-      - "**/**/*.sql"
-      - "**/**/**/*.sql"
-      - "**/*.sql"
-      - "*.sql"
+      - "models/**/**/*.sql"
+      - "models/**/**/**/*.sql"
+      - "models/**/*.sql"
+      - "models/*.sql"
   workflow_dispatch:
 concurrency: ${{ github.ref }}
 
