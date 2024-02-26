@@ -44,6 +44,7 @@ models:
 
     elementary:
       +schema: "elementary"
+      +enabled: "false"
 
 vars:
     "dbt_date:time_zone": "Asia/Saigon"
