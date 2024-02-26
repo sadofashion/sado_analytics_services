@@ -69,8 +69,10 @@ WITH facebook_performance AS (
     LEFT JOIN {{ ref('stg_facebookads__campaigns') }}
     campaigns
     ON adsinsights.campaign_id = campaigns.campaign_id 
+    where 1=1
+    and campaigns.account_name not in ('Wookids_KT')
     {% if is_incremental() %}
-      where date_start >= date_add(date(_dbt_max_partition), interval -1 day)
+       and date_start >= date_add(date(_dbt_max_partition), interval -1 day)
     {% endif %}
 
     {{ dbt_utils.group_by(12) }}

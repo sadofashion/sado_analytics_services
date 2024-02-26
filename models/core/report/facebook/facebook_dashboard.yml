@@ -60,6 +60,26 @@ models:
               group_label: Ads metrics
               compact: millions
               round: 1
+            m_ads_cost_conv:
+              type: number
+              sql: safe_divide(${m_spend},${m_ads_purchase})
+              label: "Ads Cost/Conv"
+              group_label: Ads metrics
+              compact: thousands
+              round: 1
+            m_ads_cost_revenue:
+              type: number
+              sql: safe_divide(${m_spend},${m_payment_val})
+              label: "Ads Cost/Revenue"
+              group_label: Ads metrics
+              format: percent
+              round: 1
+            m_ads_roas:
+              type: number
+              sql: safe_divide(${m_payment_val},${m_spend})
+              label: "Ads ROAS"
+              group_label: Ads metrics
+              round: 2
       - name: clicks
         data_type: numeric
         description: lượng clicks
@@ -123,6 +143,13 @@ models:
               group_label: Ads metrics
               compact: thousands
               round: 1
+            m_ads_purchase:
+              type: number
+              sql: coalesce( ${m_offline_cv} ,0 )+coalesce( ${m_online_cv} ,0 )+coalesce( ${m_mess_cv} ,0 )
+              label: "#Ads Purchase"
+              group_label: Ads metrics
+              compact: thousands
+              round: 1
       - name: offline_conversion_purchase_value
         data_type: numeric
         description: ""
@@ -134,6 +161,13 @@ models:
             m_offline_cv_value:
               type: sum
               label: Offline CV Value
+              group_label: Ads metrics
+              compact: millions
+              round: 1
+            m_ads_purchase_value:
+              type: number
+              sql: coalesce(${m_offline_cv_value},0)+coalesce(${m_online_cv_value},0)+coalesce(${m_mess_cv_value},0)
+              label: Ads Purchase Value
               group_label: Ads metrics
               compact: millions
               round: 1
@@ -233,8 +267,14 @@ models:
               type: sum
               label: No. Invoices
               group_label: Sales metrics
+              round: 0
+            m_ads_cost_invoice:
+              type: number
+              sql: safe_divide(${m_spend},${m_num_invoices})
+              label: "Ads Cost/Invoice"
+              group_label: Sales metrics
               compact: thousands
-              round: 1
+              round: 0
       - name: num_return_transaction_id
         data_type: int64
         description: số lượng trả
@@ -247,8 +287,7 @@ models:
               type: sum
               label: No. Returns
               group_label: Sales metrics
-              compact: thousands
-              round: 1
+              round: 0
       - name: val_total
         data_type: float64
         description: giá trị giao dịch
@@ -305,6 +344,13 @@ models:
               group_label: Sales metrics
               compact: millions
               round: 1
+            m_run_rate:
+              label: Sales Run rate
+              group_label: Sales metrics
+              type: number
+              sql: safe_divide(${m_payment_val},${m_sales_target})
+              format: percent
+              round: 2
       - name: num_invoice_total_payment
         data_type: float64
         description: doanh thu thuần bán hàng
@@ -333,6 +379,13 @@ models:
               group_label: Budget
               compact: millions
               round: 1
+            m_ads_budget_run_rate:
+              type: number
+              sql: safe_divide(${m_spend},${m_ads_budget})
+              label: "% Ads Budget"
+              group_label: Ads metrics
+              format: percent
+              round: 2
       - name: daily_sales_target
         data_type: float64
         description: target sales/ngày
@@ -359,6 +412,7 @@ models:
               type: sum
               label: Traffic target
               group_label: Budget
+              round: 0
       - name: date
         data_type: date
         description: ngày giao dịch
