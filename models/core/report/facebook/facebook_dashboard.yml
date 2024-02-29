@@ -24,7 +24,7 @@ models:
             - no_days
         - join: dim__offline_stores
           sql_on: |
-            ${dim__offline_stores.new_ads_page} = ${facebook_dashboard.page} 
+            ${dim__offline_stores.new_ads_page} = ${facebook_dashboard.page}
           fields:
             - new_ads_page
             - new_ads_pic
@@ -45,6 +45,13 @@ models:
               label: Impressions
               group_label: Ads metrics
               compact: millions
+              round: 1
+            m_cost_per_mile:
+              type: number
+              label: CPM
+              group_label: Ads metrics
+              sql: safe_divide(${m_spend}*1000,${m_impressions})
+              compact: thousands
               round: 1
       - name: spend
         data_type: numeric
@@ -94,6 +101,13 @@ models:
               group_label: Ads metrics
               compact: thousands
               round: 1
+            m_cost_per_click:
+              type: number
+              label: CPC
+              group_label: Ads metrics
+              sql: safe_divide(${m_spend},${m_clicks})
+              compact: thousands
+              round: 1
       - name: reach
         data_type: numeric
         description: lượng tiếp cận
@@ -115,6 +129,13 @@ models:
               group_label: Ads metrics
               compact: thousands
               round: 1
+            m_cost_per_link_click:
+              type: number
+              label: Cost per linh clicks
+              group_label: Ads metrics
+              sql: safe_divide(${m_spend},${m_link_click})
+              compact: thousands
+              round: 1
       - name: post_engagement
         data_type: numeric
         description: ""
@@ -127,6 +148,13 @@ models:
               type: sum
               label: Post engagement
               group_label: Ads metrics
+              compact: thousands
+              round: 1
+            m_cost_per_post_engagement:
+              type: number
+              label: Cost per post engagement
+              group_label: Ads metrics
+              sql: safe_divide(${m_spend},${m_post_engagement})
               compact: thousands
               round: 1
       - name: offline_conversion_purchase
@@ -145,7 +173,7 @@ models:
               round: 1
             m_ads_purchase:
               type: number
-              sql: coalesce( ${m_offline_cv} ,0 )+coalesce( ${m_online_cv} ,0 )+coalesce( ${m_mess_cv} ,0 )
+              sql: coalesce( ${m_offline_cv} ,0 ) + coalesce( ${m_online_cv} ,0 ) + coalesce( ${m_mess_cv} ,0 )
               label: "#Ads Purchase"
               group_label: Ads metrics
               compact: thousands
@@ -241,6 +269,13 @@ models:
               group_label: Ads metrics
               compact: thousands
               round: 1
+            m_cost_per_message:
+              type: number
+              label: Cost per message
+              group_label: Ads metrics
+              sql: safe_divide(${m_spend},${m_messages})
+              compact: thousands
+              round: 1
       - name: val_transaction_id
         data_type: int64
         description: số lượng giao dịch
@@ -330,6 +365,13 @@ models:
               group_label: Sales metrics
               compact: millions
               round: 1
+            m_return_rate:
+              type: number
+              label: "% Value Returned"
+              group_label: Sales metrics
+              sql: safe_divide(${m_return_val},${m_invoice_val})
+              format: percent
+              round: 2
       - name: val_total_payment
         data_type: float64
         description: doanh thu thuần

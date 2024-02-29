@@ -42,8 +42,8 @@ models:
               label: No. Invoices
               group_label: Sales metrics
               round: 0
-            m_num_invoices_PSD:
-              type: sum
+            m_num_invoices_psd:
+              type: number
               label: No. Invoices PSD
               group_label: Sales metrics
               sql: safe_divide(${m_num_invoices},${m_num_stores})
@@ -135,7 +135,7 @@ models:
               group_label: Sales metrics
               type: number
               sql: safe_divide(${m_payment_val},${m_num_stores})
-              format: millions
+              compact: millions
               round: 2
       - name: num_invoice_total_payment
         data_type: float64
