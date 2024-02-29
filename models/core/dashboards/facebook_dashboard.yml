@@ -477,6 +477,8 @@ models:
       - name: page
         data_type: string
         description: Tên page để chạy
+        tests:
+          - not_null
         meta:
           dimension:
             type: string
