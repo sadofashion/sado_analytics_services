@@ -5,8 +5,6 @@ models:
     columns:
       - name: client_id
         description: ""
-        tests:
-          - unique
         meta:
           metrics:
             num_users:

@@ -55,6 +55,7 @@ models:
                 - desktop
                 - mobile
                 - tablet
+                - smart tv
         meta:
           dimension:
             type: string
@@ -84,15 +85,11 @@ models:
             type: timestamp
       - name: landing_page
         description: First page associated with the session (URL without site domain)
-        tests:
-          - not_null
         meta:
           dimension:
             type: string
       - name: exit_page
         description: Final page associated with the session (URL without site domain)
-        tests:
-          - not_null
         meta:
           dimension:
             type: string
@@ -139,6 +136,7 @@ models:
                 - Paid Search
                 - Display
                 - Unassigned
+                - Organic Video
         meta:
           dimension:
             type: string

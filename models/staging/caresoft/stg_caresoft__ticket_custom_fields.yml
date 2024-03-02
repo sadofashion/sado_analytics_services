@@ -8,9 +8,6 @@ models:
         meta:
           dimension:
             type: number
-        tests:
-          - unique
-          - not_null
       - name: custom_field_label
         description: ""
         meta:

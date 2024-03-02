@@ -43,9 +43,6 @@ WITH raw_ AS (
 WHERE
     event_date >= DATE(_dbt_max_partition)
     OR event_date >= date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
-{% endif %}
-
-{% if is_incremental() %}
 qualify FIRST_VALUE(event_date) over(client_window) >= DATE(_dbt_max_partition)
 OR FIRST_VALUE(event_date) over(client_window) >= date_sub(CURRENT_DATE(), INTERVAL 1 DAY)
 {% endif %}

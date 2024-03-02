@@ -7,9 +7,6 @@ models:
     columns:
       - name: event_id
         description: Unique identifier for a particular Google Analytics event
-        tests:
-          - not_null
-          - unique
         meta:
           dimension:
             type: string

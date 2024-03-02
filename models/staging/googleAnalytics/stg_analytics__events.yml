@@ -69,6 +69,7 @@ models:
                 - desktop
                 - mobile
                 - tablet
+                - smart tv
         meta:
           dimension:
             type: string

@@ -41,16 +41,3 @@ FROM
     asm_list
     LEFT JOIN  branches
     ON asm_list.store_name = branches.branch_name
-
-{# 
-select
-distinct
-branches.*,
-v.* except(branch_id)
-from branches 
-left join (select 
-new_values.*, 
-coalesce(old_values.old_ads_page, new_values.new_ads_page) old_ads_page, 
-coalesce(old_values.old_ads_pic, new_values.new_ads_pic) old_ads_pic, 
-from new_values
-left join old_values on old_values.branch_id = new_values.branch_id) v on branches.branch_id = v.branch_id #}

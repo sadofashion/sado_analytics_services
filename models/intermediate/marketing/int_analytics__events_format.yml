@@ -155,6 +155,7 @@ models:
                 - Paid Search
                 - Display
                 - Unassigned
+                - Organic Video
         meta:
           dimension:
             type: string
