@@ -35,6 +35,8 @@ SELECT
     asm_list.local_page,
     asm_list.region_page,
     asm_list.fb_ads_pic,
+    branches.province,
+    branches.region,
 FROM
     asm_list
     LEFT JOIN  branches

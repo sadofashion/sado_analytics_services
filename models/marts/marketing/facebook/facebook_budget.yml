@@ -4,8 +4,8 @@ models:
     description: ""
     meta:
       joins:
-        - join: stg_gsheet__asms
-          sql_on: ${stg_gsheet__asms.branch_id} = ${facebook_budget.branch_id}
+        - join: dim__offline_stores
+          sql_on: ${dim__offline_stores.branch_id} =${facebook_budget.branch_id}
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_budget.date}
           fields:
@@ -116,13 +116,16 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: local_page
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: region_page
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true

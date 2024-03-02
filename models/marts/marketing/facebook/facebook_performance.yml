@@ -20,10 +20,14 @@ models:
             - no_days
             - period_code
         - join: dim__offline_stores
-          sql_on: ${facebook_performance.page} = ${dim__offline_stores.new_ads_page}
+          sql_on: >-
+            (${facebook_performance.page} = ${dim__offline_stores.local_page}
+            and ${facebook_performance.page_type}='local_page') or
+            (${facebook_performance.page} = ${dim__offline_stores.region_page}
+            and ${facebook_performance.page_type}='region_page')
           fields:
-            - new_ads_page
-            - new_ads_pic
+            - local_page
+            - region_page
             - asm_name
             - branch_name
             - province
