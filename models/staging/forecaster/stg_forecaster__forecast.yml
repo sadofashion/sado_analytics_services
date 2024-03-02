@@ -1,0 +1,34 @@
+version: 2
+models:
+  - name: stg_forecaster__forecast
+    columns:
+      - name: forecast_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: date_in_future
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: mean_estimated
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: mean_upper_estimated
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: mean_lower_estimated
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: forecasted_value
+        description: ""
+        meta:
+          dimension:
+            type: number

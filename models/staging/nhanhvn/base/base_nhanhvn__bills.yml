@@ -1,0 +1,189 @@
+version: 2
+models:
+  - name: base_nhanhvn__bills
+    columns:
+      - name: bill_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: related_bill_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: depot_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: requirement_bill_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: inventory_check_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: bill_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: created_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sale_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: bill_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: bill_mode
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_by_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: technical_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: points
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: used_points
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: money
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sale_bonus
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: money_transfer
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: cash
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: installment_money
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: credit_money
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: money_used_points
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: return_fee
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: description
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: supplier_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: coupon_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: coupon_value
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_money
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: money_return
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: cash_account
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: transfer_account
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: credit_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: installment_account
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: products
+        description: ""
+        meta:
+          dimension:
+            type: string

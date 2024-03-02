@@ -12,53 +12,123 @@ models:
         meta:
           dimension:
             type: string
-      - name: display_id
-        description: ""
-        meta:
-          dimension:
-            type: number
       - name: order_id
         description: ""
         meta:
           dimension:
             type: number
-      - name: full_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: order_created_at
-        description: ""
-        meta:
-          dimension:
-            type: timestamp
-      - name: is_locked
-        description: ""
-        meta:
-          dimension:
-            type: boolean
-      - name: order_modified_at
-        description: ""
-        meta:
-          dimension:
-            type: timestamp
-      - name: payment
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: customer_contact_number
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: recipient_location
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: status
         description: ""
         meta:
           dimension:
             type: number
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shop_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: commnue_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: commune_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: district_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: district_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: full_address
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: province_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: province_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: phone_number
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: inserted_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: conversation_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: total_price_after_sub_discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: seller_assigned_at
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: p_utm_campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: p_utm_medium
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: p_utm_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: p_utm_term
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: p_utm_content
+        description: ""
+        meta:
+          dimension:
+            type: string

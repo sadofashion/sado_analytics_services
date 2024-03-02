@@ -1,0 +1,139 @@
+version: 2
+models:
+  - name: base_nhanhvn__customers
+    columns:
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: mobile
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: gender
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: birthday
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: level
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: group
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: levelid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: groupid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: citylocationid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: districtlocationid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: wardlocationid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: totalmoney
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: starteddate
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: starteddepotid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: points
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: totalbills
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: lastboughtdate
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: taxcode
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: businessname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: businessaddress
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: description
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

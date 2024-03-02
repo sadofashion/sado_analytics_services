@@ -1,0 +1,44 @@
+version: 2
+models:
+  - name: base_kiotViet__products
+    columns:
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: categoryid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: fullname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: trademarkname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: isactive
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: attributes
+        description: ""
+        meta:
+          dimension:
+            type: string

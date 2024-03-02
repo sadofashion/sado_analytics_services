@@ -1,0 +1,59 @@
+version: 2
+models:
+  - name: base_nhanhvn__stores
+    columns:
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: mobile
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: cityid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: cityname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: districtid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: districtname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: wardid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: wardname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

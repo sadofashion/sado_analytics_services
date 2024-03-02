@@ -1,0 +1,99 @@
+version: 2
+models:
+  - name: base_kiotViet__returns
+    columns:
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: invoiceid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returndate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: branchid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: receivedbyid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customerid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returntotal
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returndiscount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: totalpayment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returnfee
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: returnfeeratio
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: salechannelid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: statusvalue
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: createddate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: modifieddate
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: payments
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: returndetails
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: transaction_type
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,134 @@
+version: 2
+models:
+  - name: base_caresoft__chats
+    columns:
+      - name: _dbt_source_relation
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ticket_no
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: group_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: conversation_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: cus_email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: cus_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: cus_phone
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: start_time
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: end_time
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: chat_duration
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: agent_email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: agent_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ring_time
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: meet_time
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: waittime
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: answer_time
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: chat_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: landing_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: referrer
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_trigger
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: facebook_page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: service_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: conversation_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

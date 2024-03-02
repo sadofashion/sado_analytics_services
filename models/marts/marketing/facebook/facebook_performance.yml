@@ -28,7 +28,6 @@ models:
             - branch_name
             - province
             - region
-
         - join: stg_kiotviet__categories
           sql_on: >-
             ${stg_kiotviet__categories.ads_product_mapping} =
@@ -64,13 +63,10 @@ models:
           additional_dimensions:
             d_pic:
               type: string
-              sql: case ${TABLE}.page 
-                when '5SFTHA' then 'Thắng'
-                when '5SFTIE' then 'Tiến'
-                when '5SFTUN' then 'Tùng'
-                when '5SFTRA' then 'Trang'
-                else ${TABLE}.pic
-                end
+              sql: >-
+                case ${TABLE}.page when '5SFTHA' then 'Thắng' when '5SFTIE' then
+                'Tiến' when '5SFTUN' then 'Tùng' when '5SFTRA' then 'Trang' else
+                ${TABLE}.pic end
               label: PIC
       - name: content_group
         description: ""
@@ -303,6 +299,11 @@ models:
           dimension:
             type: string
       - name: funnel
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_type
         description: ""
         meta:
           dimension:

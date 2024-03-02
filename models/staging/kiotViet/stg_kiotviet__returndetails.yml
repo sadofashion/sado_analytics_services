@@ -78,3 +78,8 @@ models:
         meta:
           dimension:
             type: string
+      - name: modified_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

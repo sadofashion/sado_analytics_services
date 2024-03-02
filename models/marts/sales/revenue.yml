@@ -8,7 +8,11 @@ models:
       joins:
         - join: stg_kiotviet__branches
           sql_on: ${stg_kiotviet__branches.branch_id} = ${revenue.branch_id}
-          fields: [branch_name, region, province, branch_id]
+          fields:
+            - branch_name
+            - region
+            - province
+            - branch_id
         - join: rfm_movement
           sql_on: >-
             ${rfm_movement.customer_id} = ${revenue.customer_id} and
@@ -17,20 +21,20 @@ models:
         - join: stg_kiotviet__customers
           sql_on: ${stg_kiotviet__customers.customer_id} = ${revenue.customer_id}
           fields:
-            [
-              customer_id,
-              customer_groups,
-              customer_type,
-              m_avg_invoiced,
-              m_total_points,
-              m_rewarded_points,
-              m_avg_revenue,
-              m_no_customers,
-              m_num_phones,
-            ]
+            - customer_id
+            - customer_groups
+            - customer_type
+            - m_avg_invoiced
+            - m_total_points
+            - m_rewarded_points
+            - m_avg_revenue
+            - m_no_customers
+            - m_num_phones
         - join: stg_kiotviet__users
           sql_on: ${stg_kiotviet__users.user_id} =${revenue.employee_id}
-          fields: [user_id, user_name]
+          fields:
+            - user_id
+            - user_name
         - join: calendar
           sql_on: ${calendar.date} = date(revenue.transaction_date)
         - join: dim__offline_stores
@@ -201,3 +205,8 @@ models:
         meta:
           dimension:
             type: string
+      - name: modified_date
+        description: ""
+        meta:
+          dimension:
+            type: date

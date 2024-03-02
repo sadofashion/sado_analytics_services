@@ -22,12 +22,17 @@ models:
         meta:
           dimension:
             type: string
-      - name: page
+      - name: pic
         description: ""
         meta:
           dimension:
             type: string
-      - name: pic
+      - name: local_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region_page
         description: ""
         meta:
           dimension:

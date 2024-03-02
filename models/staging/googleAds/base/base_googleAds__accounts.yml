@@ -1,0 +1,24 @@
+version: 2
+models:
+  - name: base_googleAds__accounts
+    columns:
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: account_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: currency_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_manager_account
+        description: ""
+        meta:
+          dimension:
+            type: boolean

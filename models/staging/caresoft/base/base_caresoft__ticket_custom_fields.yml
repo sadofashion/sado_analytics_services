@@ -1,0 +1,29 @@
+version: 2
+models:
+  - name: base_caresoft__ticket_custom_fields
+    columns:
+      - name: custom_field_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: custom_field_lable
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: values
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

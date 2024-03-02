@@ -26,11 +26,6 @@ models:
               type: count_distinct
               label: No. Stores
               group_label: Misc
-      - name: page
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: branch
         description: ""
         meta:
@@ -121,3 +116,13 @@ models:
         meta:
           dimension:
             type: number
+      - name: local_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region_page
+        description: ""
+        meta:
+          dimension:
+            type: string

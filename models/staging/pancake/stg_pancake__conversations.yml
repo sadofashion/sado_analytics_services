@@ -13,17 +13,23 @@ models:
             - gender
             - inserted_at
         - join: stg_pancake__pages
-          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__conversations.page_id}
+          sql_on: >-
+            ${stg_pancake__pages.page_id} =
+            ${stg_pancake__conversations.page_id}
           fields:
             - page_id
             - page_name
         - join: stg_pancake__posts
-          sql_on: ${stg_pancake__posts.post_id} = ${stg_pancake__conversations.post_id}
+          sql_on: >-
+            ${stg_pancake__posts.post_id} =
+            ${stg_pancake__conversations.post_id}
           fields:
             - post_id
             - post_title
         - join: stg_pancake__users
-          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__conversations.user_id}
+          sql_on: >-
+            ${stg_pancake__users.user_id} =
+            ${stg_pancake__conversations.user_id}
           fields:
             - user_id
             - user_name
@@ -122,3 +128,18 @@ models:
           dimension:
             type: timestamp
             hidden: true
+      - name: chat_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ad_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: tag_histories
+        description: ""
+        meta:
+          dimension:
+            type: string

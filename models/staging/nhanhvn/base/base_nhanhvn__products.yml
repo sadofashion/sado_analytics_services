@@ -1,0 +1,194 @@
+version: 2
+models:
+  - name: base_nhanhvn__products
+    columns:
+      - name: idnhanh
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: parentid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: brandid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: brandname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: typeid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: typename
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: avgcost
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: merchantcategoryid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: merchantproductid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: categoryid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: internalcategoryid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: barcode
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: othername
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: importprice
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: oldprice
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: price
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: wholesaleprice
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: image
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: showhot
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: shownew
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: showhome
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: order
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: previewlink
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: shippingweight
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: width
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: length
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: height
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: vat
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: createddatetime
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: warrantyaddress
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: warrantyphone
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: warranty
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: countryname
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: unit
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

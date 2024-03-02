@@ -1,0 +1,194 @@
+version: 2
+models:
+  - name: base_caresoft__ticket_details
+    columns:
+      - name: ticket_no
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ticket_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_subject
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: ticket_source_end_status
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ticket_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_priority
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: service_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ticket_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: requester_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: assignee_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: is_overdue
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: custom_fields
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: assignee
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: requester
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: tags
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ccs
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: follows
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sla_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: group_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: duedate
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: satisfaction
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: satisfaction_at
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: satisfaction_send
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: satisfaction_content
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: campaign_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: automessage_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: feedback_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: incident_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: qa_script_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: qa_agent
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: current_agent
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ticket_source_detail_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: comments
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sla
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

@@ -1,0 +1,174 @@
+version: 2
+models:
+  - name: base_pancake__posts
+    columns:
+      - name: is_dynamic_linked
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: reactions
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: like_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: message
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: delete_comment
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: privacy
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: rating_point
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_removed
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: story_tags
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: comment_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: live_video_ended_time
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: post_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: admin_creator
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: link
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: inserted_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: has_running_rules
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: recommendation_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: sub_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: edit_history
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: dynamic_post_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: from
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_mention
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: reaction_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: live_video_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: story
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: share_last_cursor
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: phone_number_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: status_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_visitor_post
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: comments_mirroring_domain
+        description: ""
+        meta:
+          dimension:
+            type: string

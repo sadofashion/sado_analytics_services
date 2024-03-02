@@ -1,0 +1,34 @@
+version: 2
+models:
+  - name: base_5sfashion__wards
+    columns:
+      - name: _id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: district_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

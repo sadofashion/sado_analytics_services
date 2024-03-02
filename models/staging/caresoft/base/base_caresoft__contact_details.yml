@@ -1,0 +1,124 @@
+version: 2
+models:
+  - name: base_caresoft__contact_details
+    columns:
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: phone_no
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: username
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: phone_no2
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: phone_no3
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: gender
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: organization_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: city_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: created_from
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: district_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: role_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: campaign_handler_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: take_phone_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: take_email_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: custom_fields
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: organization
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: psid
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

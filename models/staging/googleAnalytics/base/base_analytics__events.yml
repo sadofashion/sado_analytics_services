@@ -1,0 +1,119 @@
+version: 2
+models:
+  - name: base_analytics__events
+    columns:
+      - name: event_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: event_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: event_timestamp
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: event_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: event_params
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: event_previous_timestamp
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: event_value_in_usd
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: event_bundle_sequence_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: event_server_timestamp_offset
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: client_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: privacy_info
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_properties
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_first_touch_timestamp
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: user_ltv
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: device
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: geo
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: app_info
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: traffic_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: stream_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: platform
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: event_dimensions
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ecommerce
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: items
+        description: ""
+        meta:
+          dimension:
+            type: string

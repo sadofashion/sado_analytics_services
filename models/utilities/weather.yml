@@ -4,39 +4,76 @@ models:
     columns:
       - name: date
         description: ""
+        meta:
+          dimension:
+            type: date
       - name: temperature_2m_max
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: temperature_2m_min
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: temperature_2m_mean
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: apparent_temperature_max
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: apparent_temperature_min
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: apparent_temperature_mean
         description: ""
-      - name: apparent_temperature_mean_10d
-        description: ""
-      - name: temperature_2m_mean_10d
-        description: ""
-      - name: apparent_temperature_mean_15d
-        description: ""
-      - name: temperature_2m_mean_15d
-        description: ""
-      - name: apparent_temperature_mean_30d
-        description: ""
-      - name: temperature_2m_mean_30d
-        description: ""
+        meta:
+          dimension:
+            type: number
       - name: rain_sum
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: wind_speed10m_max
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: lat
         description: ""
+        meta:
+          dimension:
+            type: number
       - name: long
         description: ""
-    description: This model aggregates weather data by date, providing maximum,
-      minimum, and mean temperatures, rain sum, and
-      maximum wind speed for each location. It also calculates rolling averages
-      for temperature and apparent temperature over 10, 15, and 30 days.
+        meta:
+          dimension:
+            type: number
+      - name: rain_pct
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: selling_hour_rain
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: selling_hour_avg_temp
+        description: ""
+        meta:
+          dimension:
+            type: number
+    description: >-
+      This model aggregates weather data by date, providing maximum, minimum,
+      and mean temperatures, rain sum, and maximum wind speed for each location.
+      It also calculates rolling averages for temperature and apparent
+      temperature over 10, 15, and 30 days.

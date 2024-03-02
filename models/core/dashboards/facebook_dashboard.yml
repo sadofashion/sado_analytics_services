@@ -70,21 +70,21 @@ models:
             m_ads_cost_conv:
               type: number
               sql: safe_divide(${m_spend},${m_ads_purchase})
-              label: "Ads Cost/Conv"
+              label: Ads Cost/Conv
               group_label: Ads metrics
               compact: thousands
               round: 1
             m_ads_cost_revenue:
               type: number
               sql: safe_divide(${m_spend},${m_payment_val})
-              label: "Ads Cost/Revenue"
+              label: Ads Cost/Revenue
               group_label: Ads metrics
               format: percent
               round: 1
             m_ads_roas:
               type: number
               sql: safe_divide(${m_payment_val},${m_spend})
-              label: "Ads ROAS"
+              label: Ads ROAS
               group_label: Ads metrics
               round: 2
       - name: clicks
@@ -173,7 +173,9 @@ models:
               round: 1
             m_ads_purchase:
               type: number
-              sql: coalesce( ${m_offline_cv} ,0 ) + coalesce( ${m_online_cv} ,0 ) + coalesce( ${m_mess_cv} ,0 )
+              sql: >-
+                coalesce( ${m_offline_cv} ,0 ) + coalesce( ${m_online_cv} ,0 ) +
+                coalesce( ${m_mess_cv} ,0 )
               label: "#Ads Purchase"
               group_label: Ads metrics
               compact: thousands
@@ -194,7 +196,8 @@ models:
               round: 1
             m_ads_purchase_value:
               type: number
-              sql: coalesce(${m_offline_cv_value},0)+coalesce(${m_online_cv_value},0)+coalesce(${m_mess_cv_value},0)
+              sql: >-
+                coalesce(${m_offline_cv_value},0)+coalesce(${m_online_cv_value},0)+coalesce(${m_mess_cv_value},0)
               label: Ads Purchase Value
               group_label: Ads metrics
               compact: millions
@@ -306,7 +309,7 @@ models:
             m_ads_cost_invoice:
               type: number
               sql: safe_divide(${m_spend},${m_num_invoices})
-              label: "Ads Cost/Invoice"
+              label: Ads Cost/Invoice
               group_label: Sales metrics
               compact: thousands
               round: 0
@@ -521,3 +524,8 @@ models:
               type: sum
               label: No. Stores Days
               group_label: Misc
+      - name: page_type
+        description: ""
+        meta:
+          dimension:
+            type: string

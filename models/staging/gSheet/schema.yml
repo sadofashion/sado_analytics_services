@@ -44,11 +44,6 @@ models:
         meta:
           dimension:
             type: string
-      - name: branch_id
-        description: ""
-        meta:
-          dimension:
-            type: number
       - name: phone
         description: ""
         meta:
@@ -59,12 +54,22 @@ models:
         meta:
           dimension:
             type: string
-      - name: page
+      - name: pic
         description: ""
         meta:
           dimension:
             type: string
-      - name: pic
+      - name: store_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: local_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region_page
         description: ""
         meta:
           dimension:
@@ -81,11 +86,6 @@ models:
         meta:
           dimension:
             type: date
-      - name: page
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: milestones
         description: ""
         meta:
@@ -96,6 +96,16 @@ models:
         meta:
           dimension:
             type: number
+      - name: local_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region_page
+        description: ""
+        meta:
+          dimension:
+            type: string
   - name: stg_gsheet__pancake_tags
     columns:
       - name: tag_value

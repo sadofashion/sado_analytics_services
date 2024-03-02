@@ -1,0 +1,69 @@
+version: 2
+models:
+  - name: base_caresoft__agents
+    columns:
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: username
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: phone_no
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: agent_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: group_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: group_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: role_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: login_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: call_status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

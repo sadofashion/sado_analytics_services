@@ -1,0 +1,44 @@
+version: 2
+models:
+  - name: base_facebookAds__creatives
+    columns:
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ad_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: body
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: image_url
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: thumbnail_url
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: call_to_action_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: title
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: name
+        description: ""
+        meta:
+          dimension:
+            type: string

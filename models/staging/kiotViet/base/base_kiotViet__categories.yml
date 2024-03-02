@@ -1,0 +1,19 @@
+version: 2
+models:
+  - name: base_kiotViet__categories
+    columns:
+      - name: categoryid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: parentid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: categoryname
+        description: ""
+        meta:
+          dimension:
+            type: string

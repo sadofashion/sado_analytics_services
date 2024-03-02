@@ -1,0 +1,49 @@
+version: 2
+models:
+  - name: base_nhanhvn__categories
+    columns:
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: parentid
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: order
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: image
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: content
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

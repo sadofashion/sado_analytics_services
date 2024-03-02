@@ -68,7 +68,16 @@ models:
             hidden: true
       - name: start_date
         description: ""
+        meta:
+          dimension:
+            type: string
       - name: end_date
         description: ""
+        meta:
+          dimension:
+            type: string
       - name: audience
         description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,0 +1,89 @@
+version: 2
+models:
+  - name: base_pancake__conversations
+    columns:
+      - name: conversation_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: inserted_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: customer_fb_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: user_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: message_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: post_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: updated_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: tag_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: tag_value
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: snippet
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ad_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: tag_histories
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -98,4 +98,3 @@ models:
               label: No. Customer converted
               compact: thousands
               round: 2
-            

@@ -45,9 +45,11 @@ models:
               label: Estimated Errors
               round: 0
               group_label: Forecast metrics
-              sql: >- 
-                case when ${m_num_invoices} > ${m_mean_upper_estimated} then ${m_num_invoices} - ${m_mean_upper_estimated} 
-                when ${m_num_invoices} < ${m_mean_lower_estimated} then ${m_mean_lower_estimated} - ${m_num_invoices} else 0 end
+              sql: >-
+                case when ${m_num_invoices} > ${m_mean_upper_estimated} then
+                ${m_num_invoices} - ${m_mean_upper_estimated}  when
+                ${m_num_invoices} < ${m_mean_lower_estimated} then
+                ${m_mean_lower_estimated} - ${m_num_invoices} else 0 end
             m_error_rate:
               type: number
               label: Estimated Errors Rate

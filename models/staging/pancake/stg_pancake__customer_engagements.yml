@@ -6,10 +6,17 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = date(${stg_pancake__customer_engagements.hour})
-          fields: [date, period, period_code]
+          fields:
+            - date
+            - period
+            - period_code
         - join: stg_pancake__pages
-          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__customer_engagements.page_id}
-          fields: [page_id, page_name]
+          sql_on: >-
+            ${stg_pancake__pages.page_id} =
+            ${stg_pancake__customer_engagements.page_id}
+          fields:
+            - page_id
+            - page_name
     columns:
       - name: comment
         description: ""
