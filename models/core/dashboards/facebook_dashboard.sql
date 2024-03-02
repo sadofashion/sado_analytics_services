@@ -127,6 +127,7 @@ SELECT
   ) AS date,
   COALESCE(
     p.page,
+    b.local_page,
     a1.local_page,
     a2.region_page
   ) AS page,
@@ -147,14 +148,16 @@ FROM
   full outer JOIN offline_performance o
   ON o.transaction_date = coalesce(p.date_start,b.date)
   AND (
-    (lower(o.local_page) = lower(COALESCE(p.page,b.local_page)) AND p.page_type = 'local_page')
-    or (lower(o.region_page) = lower(coalesce(p.page,b.region_page)) and p.page_type='region_page')
+    (lower(o.local_page) = lower(p.page) AND p.page_type = 'local_page' )
+    or (lower(o.region_page) = lower(p.page) and p.page_type='region_page')
+    or (lower(o.local_page) = lower(b.local_page) and p.page_type is null)
+    {# or (lower(o.region_page) = lower(b.region_page) and lower(o.region_page) <> lower(o.local_page) and p.page_type is null) #}
   )
   LEFT JOIN asms as a1
   ON lower(COALESCE(
     p.page,
-    o.local_page,
-    b.local_page
+    b.local_page,
+    o.local_page
   )) = lower(a1.local_page) 
-  left join asms as a2 on ( LOWER(COALESCE( p.page, o.region_page, b.region_page )) = LOWER(a2.region_page) )
+  left join asms as a2 on ( LOWER(COALESCE( p.page, b.region_page,o.region_page )) = LOWER(a2.region_page) )
   
