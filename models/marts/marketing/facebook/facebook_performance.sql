@@ -70,7 +70,7 @@ WITH facebook_performance AS (
     campaigns
     ON adsinsights.campaign_id = campaigns.campaign_id 
     where 1=1
-    and campaigns.account_name not in ('Wookids_KT')
+    and campaigns.account_name not in ('Wookids_KT1','Woo kids _ KT1','Woo kids_KT2')
     {% if is_incremental() %}
        and date_start >= date_add(date(_dbt_max_partition), interval -1 day)
     {% endif %}
@@ -78,25 +78,35 @@ WITH facebook_performance AS (
     {{ dbt_utils.group_by(12) }}
 )
 SELECT
-  DISTINCT facebook_performance.*
+  DISTINCT fb.*
 EXCEPT(
     page,
     pic
   ),
   case 
-    when s.new_ads_page = facebook_performance.page then s.new_ads_page
-    when s.old_ads_page = facebook_performance.page then s.old_ads_page
-    else facebook_performance.page end as page,
-    case 
-    when s.new_ads_page = facebook_performance.page then s.new_ads_pic
-    when s.old_ads_page = facebook_performance.page then s.old_ads_pic
-    else facebook_performance.pic end as pic,
+    when s.local_page = fb.page then s.local_page
+    when (s.region_page = fb.page and s.local_page <> fb.page) then fb.page
+    else fb.page end as page,
+  case 
+    when s.local_page = fb.page then 'local_page'
+    when (s.region_page = fb.page and s.local_page <> fb.page) then 'region_page'
+    when fb.page IN (
+        "5SFTHA",
+        "5SFTIE",
+        "5SFTUN",
+        "5SFTRA",
+        "5SFT",
+        "5SFG",
+        "5SF"
+      ) then 'compiled'
+    else 'others' end as page_type,
+  coalesce(s.fb_ads_pic, fb.pic) as pic
   {# COALESCE(
     s.new_ads_pic,
-    facebook_performance.pic
+    fb.pic
   ) AS pic #}
 FROM
-  facebook_performance
+  facebook_performance fb
   LEFT JOIN {{ ref("dim__offline_stores") }}
   s
-  ON (facebook_performance.page = s.old_ads_page or facebook_performance.page = s.new_ads_page )
+  ON (fb.page = s.local_page or (fb.page = s.region_page and fb.page <> s.region_page) )

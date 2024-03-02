@@ -4,7 +4,7 @@ WITH source AS (
     FROM
         {{ source(
             'gSheet',
-            '_ext_asm_list'
+            '_ext_asm_list2'
         ) }}
 )
 SELECT
@@ -12,7 +12,8 @@ SELECT
     store_name,
     phone,
     email,
-    source.page,
+    source.local_page,
+    source.region_page,
     source.pic,
 FROM
     source

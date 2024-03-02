@@ -14,29 +14,33 @@ WITH branches AS (
         and branch_id not in (1000087891)
 ),
 
-old_values as ( 
+asm_list as ( 
 select 
 distinct
-branch_id,
 asm_name,
-fb_ads_page as old_ads_page,
-fb_ads_pic as old_ads_pic,
-from {{ ref("offline_ads_pages") }}
-where dbt_valid_to is not null and branch_id is not null
-qualify row_number() over (partition by branch_id order by dbt_valid_to desc) =1
-),
-
-new_values as ( 
-select 
-distinct
-branch_id,
-asm_name,
-fb_ads_page as new_ads_page,
-fb_ads_pic as new_ads_pic,
-from {{ ref("offline_ads_pages") }}
-where dbt_valid_to is null and branch_id is not null
+store_name,
+local_page,
+region_page,
+pic as fb_ads_pic,
+phone, email
+from {{ ref("stg_gsheet__asms") }}
 )
 
+SELECT
+    asm_list.asm_name,
+    branches.branch_id,
+    branches.branch_name,
+    asm_list.phone,
+    asm_list.email,
+    asm_list.local_page,
+    asm_list.region_page,
+    asm_list.fb_ads_pic,
+FROM
+    asm_list
+    LEFT JOIN  branches
+    ON asm_list.store_name = branches.branch_name
+
+{# 
 select
 distinct
 branches.*,
@@ -47,4 +51,4 @@ new_values.*,
 coalesce(old_values.old_ads_page, new_values.new_ads_page) old_ads_page, 
 coalesce(old_values.old_ads_pic, new_values.new_ads_pic) old_ads_pic, 
 from new_values
-left join old_values on old_values.branch_id = new_values.branch_id) v on branches.branch_id = v.branch_id
+left join old_values on old_values.branch_id = new_values.branch_id) v on branches.branch_id = v.branch_id #}

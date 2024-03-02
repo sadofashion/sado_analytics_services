@@ -21,7 +21,8 @@ WITH facebook_performance AS (
 
   SELECT
     fb.page,
-    date_start,
+    fb.page_type,
+    fb.date_start,
     fb.pic,
     {% for metric in metrics %}
       SUM(fb.{{ metric }}) AS {{ metric }},
@@ -36,39 +37,18 @@ WITH facebook_performance AS (
     date_start >= '2023-11-01'
   {% endif %}
     
-    AND (
-      fb.page IN (
-        SELECT
-          DISTINCT A.new_ads_page
-        FROM
-          {{ ref("dim__offline_stores") }} A
-      )
-      OR fb.page IN (
-        SELECT
-          DISTINCT A.old_ads_page
-        FROM
-          {{ ref("dim__offline_stores") }} A
-      )
-      OR fb.page IN (
-        "5SFTHA",
-        "5SFTIE",
-        "5SFTUN",
-        "5SFTRA",
-        "5SFT",
-        "5SFG",
-        "5SF"
-      )
-    )
+  and fb.page_type in ('local_page','region_page','compiled')
+  and account_name not in ('CĐ WEB')
   GROUP BY
     1,
-    2,3
+    2,3,4
 ),
 facebook_budget AS (
   SELECT
-    budget.page,
+    budget.local_page,
+    budget.region_page,
     budget.date,
     budget.milestone_name,
-    {# budget.pic, #}
     {% for target in targets %}
       SUM(
         daily_{{ target }}
@@ -85,13 +65,13 @@ facebook_budget AS (
   GROUP BY
     1,
     2,
-    3
+    3,4
 ),
 offline_performance AS (
   SELECT
-  case when (r.transaction_date between '2024-01-07' and '2024-01-23') and A.new_ads_page not in ('5S Hà Nội') then A.old_ads_page else A.new_ads_page end as page,
-    {# A.new_ads_page AS page, #}
-    A.new_ads_pic AS pic,
+  asm.local_page, 
+  asm.region_page,
+    asm.fb_ads_pic AS pic,
     DATE(
       r.transaction_date
     ) transaction_date,
@@ -111,8 +91,8 @@ offline_performance AS (
   FROM
     {{ ref("revenue") }}
     r
-    INNER JOIN {{ ref("dim__offline_stores") }} A
-    ON r.branch_id = A.branch_id
+    INNER JOIN {{ ref("dim__offline_stores") }} asm
+    ON r.branch_id = asm.branch_id
   WHERE
        {% if is_incremental() %}
     date(r.transaction_date) >= date_add(date(_dbt_max_partition), interval -3 day)
@@ -120,27 +100,26 @@ offline_performance AS (
     r.transaction_date >= '2023-11-01'
   {% endif %}
     AND r.branch_id NOT IN (1000087891)
-    and A.asm_name is not null
+    and asm.asm_name is not null
   GROUP BY
     1,
     2,
-    3
+    3,4
 ),
 asms AS (
   SELECT
-    DISTINCT A.asm_name,
-    A.new_ads_page AS page,
-    A.new_ads_pic AS pic,
-    A.old_ads_page AS old_page,
-    A.old_ads_pic AS old_pic,
+    DISTINCT asm.asm_name,
+    asm.local_page,
+    asm.region_page,
+    asm.fb_ads_pic,
   FROM
-    {{ ref("dim__offline_stores") }} A
+    {{ ref("dim__offline_stores") }} asm
 )
 SELECT
   DISTINCT 
   p.* EXCEPT(page,date_start,pic),
-  o.* EXCEPT(page,transaction_date,pic),
-  b.* EXCEPT(date,page,milestone_name),
+  o.* EXCEPT(local_page,region_page,transaction_date,pic),
+  b.* EXCEPT(date,local_page,region_page,milestone_name),
   COALESCE(
     p.date_start,
     o.transaction_date,
@@ -148,33 +127,34 @@ SELECT
   ) AS date,
   COALESCE(
     p.page,
-    o.page,
-    b.page
+    a1.local_page,
+    a2.region_page
   ) AS page,
-  coalesce(asms.asm_name,a2.asm_name) asm_name,
+  coalesce(a1.asm_name,a2.asm_name) asm_name,
   COALESCE(
-    asms.pic,
-    a2.pic,
-    o.pic,
-  p.pic
+    a1.fb_ads_pic,
+    a2.fb_ads_pic,
+p.pic
   ) AS pic,
 FROM
   facebook_performance p 
   full outer JOIN facebook_budget b
   ON p.date_start = b.date
   AND (
-    lower(p.page) = lower(b.page)
-  ) 
+    (lower(p.page) = lower(b.local_page) and p.page_type='local_page')
+    or (lower(p.page) = lower(b.region_page) and p.page_type = 'region_page')
+  )
   full outer JOIN offline_performance o
   ON o.transaction_date = coalesce(p.date_start,b.date)
   AND (
-    lower(o.page) = lower(COALESCE(p.page,b.page))
+    (lower(o.local_page) = lower(COALESCE(p.page,b.local_page)) AND p.page_type = 'local_page')
+    or (lower(o.region_page) = lower(coalesce(p.page,b.region_page)) and p.page_type='region_page')
   )
-  LEFT JOIN asms
+  LEFT JOIN asms as a1
   ON lower(COALESCE(
     p.page,
-    o.page,
-    b.page
-  )) = lower(asms.page) 
-  left join asms as a2 on ( LOWER(COALESCE( p.page, o.page, b.page )) = LOWER(a2.old_page) )
+    o.local_page,
+    b.local_page
+  )) = lower(a1.local_page) 
+  left join asms as a2 on ( LOWER(COALESCE( p.page, o.region_page, b.region_page )) = LOWER(a2.region_page) )
   

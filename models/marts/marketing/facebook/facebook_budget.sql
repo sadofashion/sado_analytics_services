@@ -19,13 +19,15 @@ WITH processed AS (
             val_{{ item }} {{ ", " if not loop.last }}
         {% endfor %}),
         {% for item in targets %}
-            safe_divide(val_{{ item }}, date_diff(tb.END, tb.start, DAY) + 1) AS daily_{{ item }},
+            safe_divide(val_{{ item }}, date_diff(tb.end, tb.start, DAY) + 1) AS daily_{{ item }},
         {% endfor %}
 FROM
     (
         SELECT
             branch_id,
             branch,
+            local_page,
+            region_page,
             milestones.*,
         FROM
             {{ ref('stg_gsheet__facebook_budget') }} b,
@@ -53,9 +55,11 @@ WHERE
         {% endif %}
         )
 select final.*,
-case when final.date between '2024-01-07' and '2024-01-23' and asm.new_ads_page<> '5S Hà Nội' then asm.old_ads_page else coalesce(asm.new_ads_page, asm.branch_name) end as page,
+{# case
+when final.date between '2024-01-07' and '2024-01-23' and asm.region_page<> '5S Hà Nội' 
+then asm.region_page else coalesce(asm.new_ads_page, asm.branch_name) end as page, #}
 {# asm.new_ads_pic as pic, #}
 from final
-LEFT JOIN {{ ref('dim__offline_stores') }}
+{# LEFT JOIN {{ ref('dim__offline_stores') }}
     asm
-    ON final.branch_id = asm.branch_id
+    ON final.branch_id = asm.branch_id #}

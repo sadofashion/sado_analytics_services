@@ -1,0 +1,167 @@
+version: 2
+models:
+  - name: sales_forecast
+    description: >-
+      The sales_forecast model combines revenue metrics and forecast data to
+      provide a comprehensive view of past and future sales, including the
+      number of invoices, number of stores, daily average order value, and
+      forecasted values.
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${sales_forecast.date}
+    columns:
+      - name: date
+        data_type: date
+        description: sales date or forecasted value date
+        tests:
+          - not_null
+          - unique
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: num_invoices
+        data_type: float64
+        description: >-
+          No. invoices (actual value for occured dates, forecasted values for
+          upcoming dates)
+        meta:
+          metrics:
+            m_num_invoices:
+              type: sum
+              label: No.Invoices
+              round: 0
+              group_label: Forecast metrics
+            m_revenue:
+              type: number
+              label: Revenue
+              sql: ${m_num_invoices} * ${m_daily_aov}
+              round: 2
+              compact: millions
+              group_label: Forecast metrics
+            m_error:
+              type: number
+              label: Estimated Errors
+              round: 0
+              group_label: Forecast metrics
+              sql: >- 
+                case when ${m_num_invoices} > ${m_mean_upper_estimated} then ${m_num_invoices} - ${m_mean_upper_estimated} 
+                when ${m_num_invoices} < ${m_mean_lower_estimated} then ${m_mean_lower_estimated} - ${m_num_invoices} else 0 end
+            m_error_rate:
+              type: number
+              label: Estimated Errors Rate
+              round: 0
+              group_label: Forecast metrics
+              format: percent
+              sql: safe_divide(${m_error},${m_num_invoices})
+          dimension:
+            type: number
+            hidden: true
+      - name: mean_estimated
+        data_type: float64
+        description: avg of estimated values for no.invoices
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_mean_estimated:
+              type: sum
+              label: Mean Estimated
+              round: 0
+              group_label: Forecast metrics
+            m_revenue_estimated:
+              type: number
+              label: Revenue Estimated
+              sql: ${m_mean_estimated} * ${m_daily_aov}
+              round: 2
+              compact: millions
+              group_label: Forecast metrics
+      - name: mean_lower_estimated
+        data_type: float64
+        description: lower bound of estimation
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_mean_lower_estimated:
+              type: sum
+              label: Mean Lower Estimated
+              round: 0
+              group_label: Forecast metrics
+            m_revenue_lower_estimated:
+              type: number
+              label: Revenue Lower Estimated
+              sql: ${m_mean_lower_estimated} * ${m_daily_aov}
+              round: 2
+              compact: millions
+              group_label: Forecast metrics
+      - name: mean_upper_estimated
+        data_type: float64
+        description: upper bound of estimation
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_mean_upper_estimated:
+              type: sum
+              label: Mean Upper Estimated
+              round: 0
+              group_label: Forecast metrics
+            m_revenue_upper_estimated:
+              type: number
+              label: Revenue Upper Estimated
+              sql: ${m_mean_upper_estimated} * ${m_daily_aov}
+              round: 2
+              compact: millions
+              group_label: Forecast metrics
+      - name: forecasted_value
+        data_type: float64
+        description: forecasted values
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_forecasted_value:
+              type: sum
+              label: Forecasted Value
+              round: 0
+              group_label: Forecast metrics
+            m_revenue_forecasted:
+              type: number
+              label: Revenue Forecasted
+              sql: ${m_forecasted_value} * ${m_daily_aov}
+              round: 2
+              compact: millions
+              group_label: Forecast metrics
+      - name: num_stores
+        data_type: numeric
+        description: no.stores operating
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_stores:
+              type: sum
+              label: Operating days
+              round: 0
+              group_label: Forecast metrics
+      - name: daily_aov
+        data_type: float64
+        description: daily aov for occured dates, 30 days rolling avg for upcomming dates
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_daily_aov:
+              type: average
+              label: Avg AOV
+              round: 1
+              compact: thousands
+              group_label: Forecast metrics

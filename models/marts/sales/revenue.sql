@@ -44,7 +44,8 @@ SELECT
     returns.reference_transaction_id,
     returns.branch_id,
     returns.customer_id,
-    returns.employee_id,- returns.total AS total,
+    returns.employee_id,
+    (- returns.total) AS total,
     returns.total_payment,
     returns.return_discount,
     CAST(

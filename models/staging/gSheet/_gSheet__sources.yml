@@ -6,6 +6,7 @@ sources:
     database: agile-scheme-394814
     tables:
       - name: "_ext_asm_list"
+      - name: "_ext_asm_list2"
       - name: "_ext_nhanhvn_salechannel"
       - name: "_ext_region"
       - name: "facebook_budget"
