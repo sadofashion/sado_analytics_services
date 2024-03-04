@@ -19,17 +19,26 @@ WITH source AS (
 SELECT
   phone,
   {{ dbt_utils.generate_surrogate_key(['phone','SmsId']) }} AS sent_id,
-  case when smstype = 25 and regexp_contains(content,r'^\(.*\)$')
-  then 'CSKH||THONG BAO DON HANG' 
-  when campaign in ('Chiến dịch 02/02/2024','Chiến dịch 01/02/2024') then 'QC||FLASHSALES'
-  else COALESCE(
-    campaign,
-    'QC||SINH NHAT'
-  ) end AS campaign,
+  CASE
+    WHEN smstype = 25
+    AND regexp_contains(
+      content,
+      r'^\(.*\)$'
+    ) THEN 'CSKH||THONG BAO DON HANG'
+    WHEN campaign IN (
+      'Chiến dịch 02/02/2024',
+      'Chiến dịch 01/02/2024'
+    ) THEN 'QC||FLASHSALES'
+    ELSE COALESCE(
+      campaign,
+      'QC||SINH NHAT'
+    )
+  END AS campaign,
   referenceid AS reference_id,
   sellprice AS sms_cost,
   CASE
     sendstatus
+
     {% for key,status in sms_statuses.items() %}
     WHEN {{ key }} THEN "{{status}}"
     {% endfor %}
@@ -43,21 +52,46 @@ SELECT
       )
     ),
     DATE(
-      SPLIT(regexp_extract(campaign, r'\|\|([0-9\-_]+)\|\|'), '_') [offset(0)]
+      regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(0)]
     )
   ) AS sent_time,
   smsid AS sms_id,
   CASE
     smstype
+
     {% for key,type in sms_types.items() %}
     WHEN {{ key }} THEN '{{type}}'
     {% endfor %}
   END AS sms_type,
-  case when campaign in ('Chiến dịch 02/02/2024','Chiến dịch 01/02/2024') then '2024-02-02' else SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(0)] end AS start_date,
-  case when campaign in ('Chiến dịch 02/02/2024','Chiến dịch 01/02/2024') then '2024-02-07' else SPLIT(regexp_extract(campaign, r'\|([0-9\-_]+)\|'), '_') [offset(1)] end AS end_date,
   CASE
-    when regexp_contains(lower(content),r'phong van|chon loc ho so|ung tuyen') then 'TUYEN DUNG'
-    when smstype = 25 and regexp_contains(content,r'^\(.*\)$') then 'THONG BAO DON HANG'
+    WHEN campaign IN (
+      'Chiến dịch 02/02/2024',
+      'Chiến dịch 01/02/2024'
+    ) THEN '2024-02-02'
+    WHEN campaign IN (
+      'KM tháng 3 - 8000 ngày 1',
+      'KM T3 dot 2- 8000'
+    ) THEN '2024-03-01'
+    ELSE regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(0)]
+  END AS start_date,
+  CASE
+    WHEN campaign IN (
+      'Chiến dịch 02/02/2024',
+      'Chiến dịch 01/02/2024'
+    ) THEN '2024-02-07' 
+    WHEN campaign IN (
+      'KM tháng 3 - 8000 ngày 1',
+      'KM T3 dot 2- 8000'
+    ) THEN '2024-03-03'
+    ELSE coalesce(regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(1)],regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(0)])
+  END AS end_date,
+  CASE
+    WHEN regexp_contains(LOWER(content), r'phong van|chon loc ho so|ung tuyen') THEN 'TUYEN DUNG'
+    WHEN smstype = 25
+    AND regexp_contains(
+      content,
+      r'^\(.*\)$'
+    ) THEN 'THONG BAO DON HANG'
     WHEN campaign IS NULL THEN 'SINH NHAT'
     ELSE regexp_extract(
       campaign,

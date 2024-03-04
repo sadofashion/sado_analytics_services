@@ -1,6 +1,6 @@
 {{
   config(
-    tags=['table','dimension','sms']
+    tags=['view','dimension','sms']
     )
 }}
 
