@@ -1,3 +1,9 @@
+{{ config(
+  materialized = 'table',
+  unique_key = ['date'],
+  tags = ['table', 'forecast','dashboard']
+) }}
+
 WITH revenue_metrics AS (
     SELECT
         DATE,
