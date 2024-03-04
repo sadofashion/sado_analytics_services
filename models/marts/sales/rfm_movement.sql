@@ -216,10 +216,10 @@ aggregated_cumulative AS (
             first_purchase,
             MONTH
           ) = start_of_month THEN "Khách mới"
-          WHEN recency > 360 THEN '1 năm chưa quay lại'
-          WHEN recency > 180 THEN '6 tháng chưa quay lại'
-          WHEN recency > 90 THEN '3 tháng chưa quay lại'
-          WHEN recency > 31 THEN '1 tháng chưa quay lại'
+          WHEN recency > 360 THEN '>1Y năm chưa quay lại'
+          WHEN recency > 180 THEN '6T-1Y chưa quay lại'
+          WHEN recency > 90 THEN '3-6T chưa quay lại'
+          WHEN recency > 31 THEN '1-3T chưa quay lại'
           ELSE "Khách quay lại"
         END AS recency_type,
         last_branch.last_purchase_branch,
