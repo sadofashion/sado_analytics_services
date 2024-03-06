@@ -86,6 +86,11 @@ models:
               label: SMS Revenue
               compact: millions
               round: 2
+            m_sms_roi:
+              type: number
+              label: SMS ROI
+              sql: safe_divide(${m_sms_revenue},${m_sms_cost})
+              round: 2
       - name: num_customer_converted
         description: ""
         meta:
@@ -97,4 +102,10 @@ models:
               type: sum
               label: No. Customer converted
               compact: thousands
+              round: 2
+            m_customer_conversion_rate:
+              type: number
+              label: Customer conversion rate
+              sql: safe_divide(${m_customer_converted},${m_customer_sent})
+              format: percent
               round: 2
