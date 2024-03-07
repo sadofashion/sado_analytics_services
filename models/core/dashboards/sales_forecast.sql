@@ -16,6 +16,7 @@ WITH revenue_metrics AS (
         left join {{ ref('dim__offline_stores') }} b on s.branch_id = b.branch_id
     WHERE
         DATE >= '2024-01-01'
+        and date < current_date()
         and b.asm_name is not null
     GROUP BY
         1
