@@ -30,8 +30,9 @@ models:
             and ${dim__offline_stores.local_page} <>
             ${dim__offline_stores.region_page})
           fields:
-            - new_ads_page
-            - new_ads_pic
+            - fb_ads_pic
+            - local_page
+            - region_page
             - asm_name
             - province
             - region

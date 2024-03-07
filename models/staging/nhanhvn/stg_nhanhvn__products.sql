@@ -3,6 +3,12 @@
     tags=['view', 'dimension','nhanhvn']
   )
 }}
+WITH source AS (
+    {{ dbt_utils.deduplicate(relation = source(
+            'nhanhvn',
+            'p_products_*'
+        ), partition_by = 'idNhanh', order_by = "_batched_at desc",) }}
+)
 
 SELECT
     safe_cast(products.idNhanh as int64) AS product_id,
@@ -15,12 +21,8 @@ SELECT
     safe_cast(products.price as int64) price,
     products.status as product_status,
     categories.name as category_name
-    -- coalesce(categories.category_name_level4,categories.category_name_level3,categories.category_name_level2,categories.category_name_level1) as category_name,
-    -- coalesce(categories.category_name_level3,categories.category_name_level2,categories.category_name_level1) as product_type,
-    -- coalesce(categories.category_name_level2,categories.category_name_level1) as sub_productline,
-    -- coalesce(categories.category_name_level1) as productline,
 FROM
-    {{ ref('base_nhanhvn__products') }} products
+    source products
     left join {{ref('base_nhanhvn__categories')}} categories 
     on products.categoryId = categories.id
     -- coalesce(categories.category_id_level4,categories.category_id_level3,categories.category_id_level2,categories.category_id_level1)

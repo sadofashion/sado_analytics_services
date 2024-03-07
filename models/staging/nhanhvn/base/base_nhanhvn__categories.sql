@@ -1,21 +1,8 @@
-WITH source AS (
-    SELECT
-        *,
-        ROW_NUMBER() over(
-            PARTITION BY id
-            ORDER BY
-                _batched_at DESC
-        ) AS rn_
-    FROM
-        {{ source(
-            'nhanhvn',
-            'p_categories_*'
-        ) }}
-)
-SELECT
-    *
-EXCEPT(rn_)
-FROM
-    source
-WHERE
-    rn_ = 1
+{{ dbt_utils.deduplicate(
+    relation = source(
+        'nhanhvn',
+        'p_categories_*'
+    ),
+    partition_by = 'id',
+    order_by = "_batched_at desc",
+) }}

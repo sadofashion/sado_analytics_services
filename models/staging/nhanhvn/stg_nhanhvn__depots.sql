@@ -4,6 +4,17 @@
   )
 }}
 
+WITH source AS (
+  {{ dbt_utils.deduplicate(
+    relation = source(
+        'nhanhvn',
+        'p_stores_*'
+    ),
+    partition_by = 'id',
+    order_by = "_batched_at desc",
+) }}
+)
+
 SELECT
     safe_cast(id as int64) AS depot_id,
     NAME AS depot_name,
@@ -12,4 +23,4 @@ SELECT
     districtName AS district,
     address
 FROM
-    {{ ref('base_nhanhvn__stores') }}
+    source

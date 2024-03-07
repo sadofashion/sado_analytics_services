@@ -45,7 +45,7 @@ SELECT
     ) /(COUNT(product_id) over w1) AS sub_total,
     (COUNT(product_id) over w1) AS order_total_lines,
 FROM
-    {{ ref('stg_nhanhvn__ordersdetails') }}
+    {{ ref('int_nhanhvn__expand_order_details') }}
     orders
     LEFT JOIN {{ ref('stg_nhanhvn__carriers') }}
     carriers
