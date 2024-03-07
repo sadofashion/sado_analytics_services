@@ -106,6 +106,7 @@ SELECT
         )
     END AS traffic_source_name,
     orders.couponCode AS coupon_code,
+    orders.returnFromOrderId as return_from_order_id,
     ARRAY_AGG(
         STRUCT(safe_cast(products.productId AS int64) AS product_id, products.productCode AS product_code, safe_cast(products.price AS int64) AS price, safe_cast(products.quantity AS int64) AS quantity, safe_cast(products.discount AS int64) AS item_discount)
     ) products
@@ -117,4 +118,4 @@ FROM
     ON safe_cast(
         orders.saleChannel AS int64
     ) = salechannels.sale_channel_id 
-    {{ dbt_utils.group_by(36) }}
+    {{ dbt_utils.group_by(37) }}
