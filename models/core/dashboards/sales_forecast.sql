@@ -9,7 +9,8 @@ WITH revenue_metrics AS (
         DATE,
         SUM(num_invoice_transaction_id) AS num_invoices,
         SUM(num_stores) AS num_stores,
-        safe_divide(SUM(num_invoice_total_payment), SUM(num_invoice_transaction_id)) AS daily_aov,
+        safe_divide(SUM(num_invoice_total), SUM(num_invoice_transaction_id)) AS daily_aov,
+        safe_divide(sum(val_total_payment),sum(num_invoice_total)) as retained_pct,
     FROM
         {{ ref('sales_dashboard') }} s 
         left join {{ ref('dim__offline_stores') }} b on s.branch_id = b.branch_id
@@ -41,7 +42,8 @@ daily_forecasted_values AS (
         f.mean_estimated,
         f.mean_lower_estimated,
         f.mean_upper_estimated,
-        f.forecasted_value
+        f.forecasted_value,
+        r.retained_pct,
     FROM
         revenue_metrics r
         LEFT JOIN forecast f
@@ -66,7 +68,10 @@ fureture_values AS (
         mean_estimated,
         mean_lower_estimated,
         mean_upper_estimated,
-        forecasted_value
+        forecasted_value,
+        CAST(
+            NULL AS numeric
+        ) AS retained_pct,
     FROM
         forecast
     WHERE
@@ -75,12 +80,16 @@ fureture_values AS (
 )
 
 select 
-* except(num_stores,daily_aov),
+* except(num_stores,daily_aov,retained_pct),
 coalesce(
     num_stores,
     first_value(num_stores ignore nulls) over(order by date desc rows between current row and 10 following)
 ) num_stores,
 coalesce(daily_aov,
 avg(daily_aov) over (order by unix_date(date) desc range between current row and 30 following )
-) daily_aov
+) daily_aov,
+coalesce(retained_pct,
+avg(retained_pct) over (order by unix_date(date) desc range between current row and 30 following )
+) retained_pct,
+
 from fureture_values

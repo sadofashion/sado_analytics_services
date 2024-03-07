@@ -167,3 +167,16 @@ models:
               round: 1
               compact: thousands
               group_label: Forecast metrics
+      - name: retained_pct
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_retained_pct:
+              type: average
+              label: Avg Retained pct
+              round: 0
+              group_label: Forecast metrics
+              format: percent
