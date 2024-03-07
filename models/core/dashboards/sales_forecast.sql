@@ -76,7 +76,7 @@ fureture_values AS (
     FROM
         forecast
     WHERE
-        date_in_future > CURRENT_DATE()
+        date_in_future >= CURRENT_DATE()
         AND forecast_date = CURRENT_DATE()
 )
 
