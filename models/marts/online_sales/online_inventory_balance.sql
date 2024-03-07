@@ -178,7 +178,7 @@ daily_bills AS (
       END
     ) quantity_out_adjust,
   FROM
-    {{ ref('stg_nhanhvn__bills') }}
+    {{ ref('int_nhanhvn__bills_reference_orders') }}
   WHERE
     bill_date >= '2023-09-20'
   GROUP BY

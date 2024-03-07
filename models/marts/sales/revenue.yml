@@ -40,8 +40,9 @@ models:
         - join: dim__offline_stores
           sql_on: ${dim__offline_stores.branch_id} = ${revenue.branch_id}
           fields:
-            - new_ads_page
-            - new_ads_pic
+            - local_page
+            - region_page
+            - fb_ads_pic
             - asm_name
             - branch_name
             - province

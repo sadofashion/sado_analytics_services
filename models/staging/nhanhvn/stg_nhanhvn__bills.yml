@@ -53,28 +53,138 @@ models:
         meta:
           dimension:
             type: number
-      - name: product_id
-        description: "{{ doc('column__nhanhvn__product_id') }}"
-        meta:
-          dimension:
-            type: number
       - name: discount
         description: "{{ doc('column__nhanhvn__discount') }}"
         meta:
           dimension:
             type: number
-      - name: quantity
-        description: "{{ doc('column__nhanhvn__quantity') }}"
-        meta:
-          dimension:
-            type: number
-      - name: vat
-        description: "{{ doc('column__nhanhvn__vat') }}"
-        meta:
-          dimension:
-            type: number
-      - name: price
+      - name: requirement_bill_id
         description: ""
         meta:
           dimension:
             type: number
+      - name: inventory_check_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sale_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: technical_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: points
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: used_points
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: money
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: sale_bonus
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: money_transfer
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: cash
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: installment_money
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: credit_money
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: money_used_points
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: return_fee
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: description
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: supplier_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: coupon_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: coupon_value
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: customer_money
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: money_return
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: cash_account
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: transfer_account
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: credit_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: installment_account
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: products
+        description: ""
+        meta:
+          dimension:
+            type: string

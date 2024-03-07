@@ -19,7 +19,7 @@ SELECT
   bills.vat,
   ((bills.price - bills.discount) * bills.quantity - COALESCE(bills.vat, 0)) AS item_net_amount,
 FROM
-  {{ ref('stg_nhanhvn__bills') }}
+  {{ ref('int_nhanhvn__bills_reference_orders') }}
   bills
   LEFT JOIN {{ ref('stg_nhanhvn__depots') }}
   depots

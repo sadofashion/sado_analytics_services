@@ -4,6 +4,18 @@
   )
 }}
 
+WITH source as (
+    {{ dbt_utils.deduplicate(
+    relation = source(
+        'nhanhvn',
+        'p_customers_*'
+    ),
+    partition_by = 'id',
+    order_by = "_batched_at desc",
+) }}
+
+)
+
 SELECT
     safe_cast(id as int64) AS customer_id,
     NAME AS customer_name,
@@ -19,4 +31,4 @@ SELECT
     safe_cast(totalBills as int64) AS total_bills,
     DATE(lastBoughtDate) AS last_bought_date,
 FROM
-    {{ ref('base_nhanhvn__customers') }}
+    source
