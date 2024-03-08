@@ -46,6 +46,16 @@ models:
         meta:
           dimension:
             type: string
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region
+        description: ""
+        meta:
+          dimension:
+            type: string
     description: >-
       Danh sách CH offline tồn tại trên kiotviet, map với thông tin page chạy
       ads & người chạy ads tương ứng

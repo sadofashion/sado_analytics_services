@@ -1,5 +1,14 @@
 {{ config(
-  tags = ['view','esms']
+  tags = ['incremental','esms','daily'],
+  materialized ="incremental",
+  unique_key = 'sent_id',
+  on_schema_change = 'sync_all_columns',
+  incremental_strategy = 'merge',
+  partition_by = {
+    "field": "sent_time",
+    "data_type": "date",
+    "granularity": "day"
+  }
 ) }}
 
 {% set sms_types ={ "1": "Tin quảng cáo",
@@ -13,8 +22,17 @@
 "4": "Từ chối",
 "5": "Thành công",
 "7": "Thất bại",} %}
-WITH source AS (
-  {{ dbt_utils.deduplicate(relation = source('esms', 'sms_sent_data'), partition_by = 'smsid,phone', order_by = "_batched_at desc",) }}
+WITH 
+increment as (
+  select * from 
+  {{source('esms', 'sms_sent_data')}}
+  {% if is_incremental() %}
+  where date(_batched_at) >= (select max(_dbt_max_partition) from {{ this }})
+  {% endif %}
+),
+
+source AS (
+  {{ dbt_utils.deduplicate(relation = 'increment', partition_by = 'smsid,phone', order_by = "_batched_at desc",) }}
 )
 SELECT
   phone,
@@ -38,7 +56,6 @@ SELECT
   sellprice AS sms_cost,
   CASE
     sendstatus
-
     {% for key,status in sms_statuses.items() %}
     WHEN {{ key }} THEN "{{status}}"
     {% endfor %}
@@ -72,6 +89,9 @@ SELECT
       'KM tháng 3 - 8000 ngày 1',
       'KM T3 dot 2- 8000'
     ) THEN '2024-03-01'
+    WHEN campaign IN (
+      "QC||2024-02-26-2024-03-03|| CT DON KHO - KH 3 THANG"
+    ) THEN '2024-03-07'
     ELSE regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(0)]
   END AS start_date,
   CASE
@@ -83,6 +103,9 @@ SELECT
       'KM tháng 3 - 8000 ngày 1',
       'KM T3 dot 2- 8000'
     ) THEN '2024-03-03'
+    WHEN campaign IN (
+      "QC||2024-02-26-2024-03-03|| CT DON KHO - KH 3 THANG"
+    ) THEN '2024-03-17'
     ELSE coalesce(regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(1)],regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(0)])
   END AS end_date,
   CASE

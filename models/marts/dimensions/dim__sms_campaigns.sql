@@ -1,6 +1,6 @@
 {{
   config(
-    tags=['view','dimension','sms']
+    tags=['view','dimension','sms','daily']
     )
 }}
 

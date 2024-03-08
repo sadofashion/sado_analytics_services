@@ -32,7 +32,6 @@ models:
         meta:
           dimension:
             type: string
-            hidden: true
       - name: previous_segment
         description: ""
         meta:

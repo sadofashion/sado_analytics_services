@@ -37,7 +37,7 @@ SELECT
   ) AS class_code,
   p.trademarkName AS trademarkName,
   p.isActive AS is_active,
-  p.type,
+  case p.type when 1 then 'Combo' when 2 then 'Hàng hoá' when 3 then 'Dịch vụ' end as type,
   p.attributes,
   C.sub_productline,
   C.category,
