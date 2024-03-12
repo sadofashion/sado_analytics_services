@@ -77,7 +77,8 @@ sources:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
       - name: "p_locations_list_*"
-      - name: "p_products_inventory_*"
+      - name: "p_products_inventory"
+        identifier: "p_products_inventory_*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }

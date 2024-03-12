@@ -87,10 +87,10 @@ coalesce(
     first_value(num_stores ignore nulls) over(order by date desc rows between current row and 10 following)
 ) num_stores,
 coalesce(daily_aov,
-avg(daily_aov) over (order by unix_date(date) desc range between current row and 10 following )
+avg(daily_aov) over (order by unix_date(date) desc range between current row and 7 following )
 ) daily_aov,
 coalesce(retained_pct,
-avg(retained_pct) over (order by unix_date(date) desc range between current row and 10 following )
+avg(retained_pct) over (order by unix_date(date) desc range between current row and 7 following )
 ) retained_pct,
 
 from fureture_values

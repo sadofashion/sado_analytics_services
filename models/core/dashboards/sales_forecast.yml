@@ -57,6 +57,19 @@ models:
               group_label: Forecast metrics
               format: percent
               sql: safe_divide(${m_error},${m_num_invoices})
+            m_forecast_error:
+              type: number
+              label: Forecast Errors
+              round: 0
+              group_label: Forecast metrics
+              sql: abs(${m_forecasted_value} - ${m_num_invoices})
+            m_forecast_error_rate:
+              type: number
+              label: Forecast Errors Rate
+              round: 1
+              group_label: Forecast metrics
+              format: percent
+              sql: safe_divide(${m_forecast_error},${m_num_invoices})
           dimension:
             type: number
             hidden: true

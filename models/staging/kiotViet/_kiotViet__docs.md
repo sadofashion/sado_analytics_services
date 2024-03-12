@@ -1,3 +1,23 @@
+{% docs column__kiotviet__on_hand %}
+Number of items on storage
+{% enddocs %}
+
+{% docs column__kiotviet__reserved %}
+{% enddocs %}
+
+{% docs column__kiotviet__actual_reserved %}
+{% enddocs %}
+
+{% docs column__kiotviet__max_quantity %}
+{% enddocs %}
+
+{% docs column__kiotviet__min_quantity %}
+{% enddocs %}
+
+{% docs column__kiotviet___batched_at %}
+lastest sync to datawarehouse
+{% enddocs %}
+
 {% docs column__kiotviet__address %}
 
 {% enddocs %}

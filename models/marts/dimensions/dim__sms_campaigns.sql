@@ -11,5 +11,3 @@ SELECT
     audience
 FROM
     {{ ref('stg_esms__sent_data') }}
-{# WHERE
-    campaign LIKE 'QC%' #}

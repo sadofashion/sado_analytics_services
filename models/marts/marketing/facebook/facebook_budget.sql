@@ -11,7 +11,6 @@
 
 {% set targets = ["budget", "sales_target", "traffic_target",'aov'] %}
 WITH processed AS (
-
     SELECT
         *
     EXCEPT
@@ -51,15 +50,9 @@ WHERE
     C.date >= processed.start
     AND C.date <= processed.end {# {{dbt_utils.group_by(14)}} #}
         {% if is_incremental() %}
-          and processed.start >=  date(_dbt_max_partition)
+          and processed.start >=  date_trunc(date(_dbt_max_partition),month)
         {% endif %}
         )
+
 select final.*,
-{# case
-when final.date between '2024-01-07' and '2024-01-23' and asm.region_page<> '5S Hà Nội' 
-then asm.region_page else coalesce(asm.new_ads_page, asm.branch_name) end as page, #}
-{# asm.new_ads_pic as pic, #}
 from final
-{# LEFT JOIN {{ ref('dim__offline_stores') }}
-    asm
-    ON final.branch_id = asm.branch_id #}
