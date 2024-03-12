@@ -67,14 +67,14 @@ WHERE
 )
 SELECT
     formated.*,
-    branch.branch_id,
-    branch.local_page,
-    branch.region_page
+    {# branch.branch_id, #}
+    {# branch.local_page, #}
+    {# branch.region_page #}
     {# asm.new_ads_page as page,
     asm.new_ads_pic as pic, #}
 FROM
     formated
-    LEFT JOIN {{ ref('dim__offline_stores') }}
-    branch
-    ON lower(formated.branch) = lower(branch.branch_name)
+    {# LEFT JOIN {{ ref('dim__offline_stores') }} #}
+    {# branch #}
+    {# ON lower(formated.branch) = lower(branch.branch_name) #}
     

@@ -23,10 +23,10 @@ WITH processed AS (
 FROM
     (
         SELECT
-            branch_id,
+            {# branch_id, #}
             branch,
-            local_page,
-            region_page,
+            {# local_page, #}
+            {# region_page, #}
             milestones.*,
         FROM
             {{ ref('stg_gsheet__facebook_budget') }} b,
@@ -55,4 +55,9 @@ WHERE
         )
 
 select final.*,
+branch.branch_id,
+branch.local_page,
+branch.region_page,
 from final
+left join {{ ref('dim__branches') }} branch
+on lower(final.branch) = lower(branch.branch_name)

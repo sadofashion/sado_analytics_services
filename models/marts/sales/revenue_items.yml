@@ -17,8 +17,8 @@ models:
             - region
             - province
             - branch_id
-        - join: dim__offline_stores
-          sql_on: ${dim__offline_stores.branch_id} = ${revenue_items.branch_id}
+        - join: dim__branches
+          sql_on: ${dim__branches.branch_id} = ${revenue_items.branch_id}
           fields:
             - local_page
             - region_page

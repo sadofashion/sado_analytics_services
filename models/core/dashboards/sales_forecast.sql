@@ -13,7 +13,7 @@ WITH revenue_metrics AS (
         safe_divide(sum(val_total_payment),sum(num_invoice_total)) as retained_pct,
     FROM
         {{ ref('sales_dashboard') }} s 
-        left join {{ ref('dim__offline_stores') }} b on s.branch_id = b.branch_id
+        left join {{ ref('dim__branches') }} b on s.branch_id = b.branch_id
     WHERE
         DATE >= '2024-01-01'
         and date < current_date()

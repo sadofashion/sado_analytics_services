@@ -7,13 +7,36 @@ WITH source AS (
         partition_by = 'id',
         order_by = "_batched_at desc",
     ) }}
+),
+salechannels AS (
+    SELECT
+        *
+    FROM
+        unnest([
+            struct<sale_channel_id NUMERIC, sale_channel string> 
+            (1, 'Admin'), 
+            (2, 'Website'), 
+            (10, 'API'), 
+            (20, 'Facebook'), 
+            (21, 'Instagram'), 
+            (41, 'Lazada.vn'), 
+            (42, 'Shopee.vn'), 
+            (43, 'Sendo.vn'), 
+            (45, 'Tiki.vn'), 
+            (46, 'Zalo Shop'), 
+            (47, '1Landing.vn'), 
+            (48, 'Tiktok Shop'), 
+            (49, 'Zalo OA'), 
+            (50, 'Shopee Chat'), 
+            (51, 'Lazada Chat')
+        ])
 )
 SELECT
     safe_cast(
         orders.id AS int64
     ) AS order_id,
     orders.shopOrderId AS shop_order_id,
-    salechannels.sale_channel,
+    farm_fingerprint(salechannels.sale_channel) saleschannel_id,
     orders.merchantTrackingNumber AS tracking_number,
     safe_cast(
         orders.depotId AS int64
@@ -92,7 +115,7 @@ SELECT
     safe_cast(
         orders.calcTotalMoney AS int64
     ) AS receivables,
-    CASE
+    farm_fingerprint(CASE
         WHEN COALESCE(
             orders.trafficSourceName,
             salechannels.sale_channel
@@ -104,18 +127,15 @@ SELECT
             orders.trafficSourceName,
             salechannels.sale_channel
         )
-    END AS traffic_source_name,
+    END) AS traffic_source_id,
     orders.couponCode AS coupon_code,
-    orders.returnFromOrderId as return_from_order_id,
+    orders.returnFromOrderId AS return_from_order_id,
     ARRAY_AGG(
         STRUCT(safe_cast(products.productId AS int64) AS product_id, products.productCode AS product_code, safe_cast(products.price AS int64) AS price, safe_cast(products.quantity AS int64) AS quantity, safe_cast(products.discount AS int64) AS item_discount)
     ) products
 FROM
     source orders,
     unnest(products) products
-    LEFT JOIN {{ ref('stg_gsheet__nhanhvnsalechannels') }}
-    salechannels
-    ON safe_cast(
-        orders.saleChannel AS int64
-    ) = salechannels.sale_channel_id 
+    LEFT JOIN salechannels
+    ON orders.saleChannel = salechannels.sale_channel_id 
     {{ dbt_utils.group_by(37) }}

@@ -188,3 +188,8 @@ models:
         meta:
           dimension:
             type: string
+      - name: return_from_order_id
+        description: ""
+        meta:
+          dimension:
+            type: string

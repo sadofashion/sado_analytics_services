@@ -5,9 +5,9 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = ${sales_dashboard.date}
-        - join: dim__offline_stores
+        - join: dim__branches
           sql_on: |
-            ${dim__offline_stores.branch_id} = ${sales_dashboard.branch_id}
+            ${dim__branches.branch_id} = ${sales_dashboard.branch_id}
           fields:
             - local_page
             - fb_ads_pic

@@ -1,6 +1,6 @@
 {{
   config(
-    tags=['table','dimension','sdc']
+    tags=['table','dimension']
     )
 }}
 
@@ -22,8 +22,7 @@ select
     local_page,
     region_page,
     pic as fb_ads_pic,
-    phone, 
-    email,
+    phone, email
 from {{ ref("stg_gsheet__asms") }}
 )
 
@@ -42,3 +41,16 @@ FROM
     asm_list
     LEFT JOIN  branches
     ON asm_list.store_name = branches.branch_name
+union all 
+select 
+    "Online" as asm_name,
+    channel_id as branch_id,
+    channel as branch_name,
+    cast(null as string) as phone,
+    cast(null as string) as phone,
+    cast(null as string) as local_page,
+    cast(null as string) as region_page,
+    cast(null as string) as fb_ads_pic,
+    cast(null as string) as province,
+    cast(null as string) as region,
+    from {{ ref("stg_nhanhvn__sales_channels") }}

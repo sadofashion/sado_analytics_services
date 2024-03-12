@@ -1,75 +1,61 @@
 version: 2
 models:
-  - name: stg_facebookads__campaigns
-    description: ""
+  - name: dim__branches
     columns:
-      - name: account_id
+      - name: branch_id
         description: ""
         meta:
           dimension:
             type: number
-      - name: account_name
+            hidden: true
+        tests:
+          - unique
+      - name: branch_name
         description: ""
         meta:
           dimension:
             type: string
-      - name: campaign_name
+      - name: email
         description: ""
         meta:
           dimension:
             type: string
-      - name: campaign_start_date
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: campaign_stop_date
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: campaign_id
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: big_campaign
+            hidden: true
+      - name: asm_name
         description: ""
         meta:
           dimension:
             type: string
-      - name: content_group
+      - name: phone
         description: ""
         meta:
           dimension:
             type: string
-      - name: pic
+      - name: local_page
         description: ""
         meta:
           dimension:
             type: string
-      - name: promoted_productline
+      - name: region_page
         description: ""
         meta:
           dimension:
             type: string
-      - name: page
+      - name: fb_ads_pic
         description: ""
         meta:
           dimension:
             type: string
-      - name: media_type
+      - name: province
         description: ""
         meta:
           dimension:
             type: string
-      - name: funnel
+      - name: region
         description: ""
         meta:
           dimension:
             type: string
-      - name: ad_type
-        description: ""
-        meta:
-          dimension:
-            type: string
+    description: >-
+      Danh sách CH offline tồn tại trên kiotviet, map với thông tin page chạy
+      ads & người chạy ads tương ứng

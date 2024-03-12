@@ -22,13 +22,13 @@ models:
             - month_name
             - period_code
             - no_days
-        - join: dim__offline_stores
+        - join: dim__branches
           sql_on: >
-            (${dim__offline_stores.local_page} = ${facebook_dashboard.page}) 
+            (${dim__branches.local_page} = ${facebook_dashboard.page}) 
 
-            or (${dim__offline_stores.region_page} = ${facebook_dashboard.page}
-            and ${dim__offline_stores.local_page} <>
-            ${dim__offline_stores.region_page})
+            or (${dim__branches.region_page} = ${facebook_dashboard.page}
+            and ${dim__branches.local_page} <>
+            ${dim__branches.region_page})
           fields:
             - fb_ads_pic
             - local_page

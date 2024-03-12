@@ -1,0 +1,54 @@
+version: 2
+models:
+  - name: stg_kiotviet__inventories
+    columns:
+      - name: branch_id
+        description: "{{ doc('column__kiotviet__branch_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: product_code
+        description: "{{ doc('column__kiotviet__product_code') }}"
+        meta:
+          dimension:
+            type: string
+      - name: product_id
+        description: "{{ doc('column__kiotviet__product_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: product_name
+        description: "{{ doc('column__kiotviet__product_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: on_hand
+        description: "{{ doc('column__kiotviet__on_hand') }}"
+        meta:
+          dimension:
+            type: number
+      - name: reserved
+        description: "{{ doc('column__kiotviet__reserved') }}"
+        meta:
+          dimension:
+            type: number
+      - name: actual_reserved
+        description: "{{ doc('column__kiotviet__actual_reserved') }}"
+        meta:
+          dimension:
+            type: number
+      - name: max_quantity
+        description: "{{ doc('column__kiotviet__max_quantity') }}"
+        meta:
+          dimension:
+            type: number
+      - name: min_quantity
+        description: "{{ doc('column__kiotviet__min_quantity') }}"
+        meta:
+          dimension:
+            type: number
+      - name: _batched_at
+        description: "{{ doc('column__kiotviet___batched_at') }}"
+        meta:
+          dimension:
+            type: timestamp

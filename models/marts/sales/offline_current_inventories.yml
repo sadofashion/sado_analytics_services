@@ -1,0 +1,54 @@
+version: 2
+models:
+  - name: offline_current_inventories
+    columns:
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: product_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: product_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: on_hand
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: reserved
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: actual_reserved
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: max_quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: min_quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
