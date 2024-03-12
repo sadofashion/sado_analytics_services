@@ -1,0 +1,55 @@
+version: 2
+models:
+  - name: stg_nhanhvn__products
+    description: ""
+    columns:
+      - name: product_id
+        description: "{{ doc('column__nhanhvn__product_id') }}"
+        meta:
+          dimension:
+            type: number
+      - name: type_name
+        description: "{{ doc('column__nhanhvn__type_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: avg_cost
+        description: "{{ doc('column__nhanhvn__avg_cost') }}"
+        meta:
+          dimension:
+            type: number
+      - name: product_code
+        description: "{{ doc('column__nhanhvn__product_code') }}"
+        meta:
+          dimension:
+            type: string
+      - name: class_code
+        description: Gộp mã SP theo màu & size
+        meta:
+          dimension:
+            type: string
+      - name: barcode
+        description: "{{ doc('column__nhanhvn__barcode') }}"
+        meta:
+          dimension:
+            type: string
+      - name: product_name
+        description: "{{ doc('column__nhanhvn__product_name') }}"
+        meta:
+          dimension:
+            type: string
+      - name: price
+        description: "{{ doc('column__nhanhvn__price') }}"
+        meta:
+          dimension:
+            type: number
+      - name: product_status
+        description: "{{ doc('column__nhanhvn__product_status') }}"
+        meta:
+          dimension:
+            type: string
+      - name: category_name
+        description: ""
+        meta:
+          dimension:
+            type: string
