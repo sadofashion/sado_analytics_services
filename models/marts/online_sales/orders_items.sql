@@ -29,6 +29,7 @@ SELECT
     orders.created_date,
     orders.product_id,
     carriers.service_name,
+    orders.delivery_date,
     orders.price,
     orders.quantity,
     orders.ship_address,
