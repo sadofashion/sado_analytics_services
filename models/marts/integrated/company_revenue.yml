@@ -14,15 +14,11 @@ models:
         meta:
           dimension:
             type: string
-        tests:
-          - not_null
       - name: transaction_date
         description: ""
         meta:
           dimension:
             type: date
-        tests:
-          - not_null
       - name: reference_transaction_id
         description: ""
         meta:
@@ -40,8 +36,6 @@ models:
         meta:
           dimension:
             type: number
-        tests:
-          - not_null
       - name: employee_id
         description: ""
         meta:

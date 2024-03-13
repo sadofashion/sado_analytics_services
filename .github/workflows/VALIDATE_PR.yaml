@@ -28,9 +28,13 @@ jobs:
           pip install dbt-core==1.6.6 dbt-bigquery==1.6.4
           dbt deps
 
-      - name: Pull request flow
+      - name: Pull request run
         id: pull_request_flow
         if: github.event_name == 'pull_request'
         run: |
           dbt run --profiles-dir $PWD --project-dir $PWD --select state:modified --defer --state prod --target dev
+      - name: Pull request test
+        id: pull_request_test
+        if: github.event_name == 'pull_request'
+        run: |
           dbt test --profiles-dir $PWD --project-dir $PWD --select state:modified --defer --state prod --target dev

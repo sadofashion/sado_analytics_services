@@ -78,7 +78,7 @@ nhanhvn_rev as (
     select 
     order_id as transaction_id,
     shop_order_id as transaction_code,
-    delivery_date as transaction_date,
+    coalesce(delivery_date,send_carrier_date,date(created_date)) as transaction_date,
     return_from_order_id as reference_transaction_id,
     traffic_source_id as branch_id,
     customer_id as customer_id,
@@ -89,7 +89,7 @@ nhanhvn_rev as (
     safe_divide(order_discount,order_discount+receivables) as discount_ratio,
     return_fee,
     case order_type when 'Giao hàng tại nhà' then 'invoice' when 'Khách trả lại hàng' then 'return' end as transaction_type,
-    greatest(created_date, delivery_date, send_carrier_date) as modified_date,
+    greatest(date(created_date), delivery_date, send_carrier_date) as modified_date,
     'nhanhvn' as source,
     from {{ ref("stg_nhanhvn__ordersdetails") }}
     where 1=1
@@ -97,7 +97,8 @@ nhanhvn_rev as (
       and greatest(date(created_date), delivery_date, send_carrier_date) >= date_add(date(_dbt_max_partition), interval -2 day)
     {% endif %}
     and order_status IN (
-        {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%}
+        {# {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%} #}
+        "Thành công"
     )
 )
 select 

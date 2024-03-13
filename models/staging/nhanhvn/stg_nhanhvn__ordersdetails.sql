@@ -12,8 +12,10 @@
 WITH source AS (
     select * from 
     {{ source('nhanhvn', 'p_orders_*') }}
+    where 1=1
+    and createdDateTime is not null
     {% if is_incremental() %}
-    where date(_batched_at) >= date(_dbt_max_partition)
+    and date(_batched_at) >= date(_dbt_max_partition)
     {% endif %}
 ),
 
