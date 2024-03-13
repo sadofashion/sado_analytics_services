@@ -22,7 +22,7 @@ WITH source AS (
     FROM
         {{ source(
             'kiotViet',
-            'p_purchaseorders_list_*'
+            'p_purchaseorders_list'
         ) }}
     {% if is_incremental() %}
       where date(_TABLE_SUFFIX) >= date(_dbt_max_partition)
@@ -35,7 +35,7 @@ WITH source AS (
     FROM
         {{ source(
             'kiotViet',
-            'p_purchaseorders_list2_*'
+            'p_purchaseorders_list2'
         ) }}
     {% if is_incremental() %}
       where date(_TABLE_SUFFIX) >= date(_dbt_max_partition)

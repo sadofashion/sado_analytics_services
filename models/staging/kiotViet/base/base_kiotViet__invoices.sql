@@ -21,7 +21,7 @@ WITH source AS (
     FROM
         {{ source(
             'kiotViet',
-            'p_invoices_list_*'
+            'p_invoices_list'
         ) }} invoice1
         {% if is_incremental() %}
           where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
@@ -33,14 +33,14 @@ WITH source AS (
     invoice_details as invoiceDetails
     from {{ source(
             'kiotViet',
-            'p_invoices_list2_*'
+            'p_invoices_list2'
         ) }} 
         {% if is_incremental() %}
           where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
         {% endif %}
 
     UNION ALL
-    
+
     SELECT
         * except(invoiceDelivery,invoiceDetails),
         invoiceDetails

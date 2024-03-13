@@ -18,7 +18,7 @@ WITH source AS (
     FROM
         {{ source(
             'kiotViet',
-            'p_customers_list_*'
+            'p_customers_list'
         ) }}
         {% if is_incremental() %}
           where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)

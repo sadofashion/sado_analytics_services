@@ -18,7 +18,7 @@ WITH source AS (
     FROM
         {{ source(
             'kiotViet',
-            'p_returns_list_*'
+            'p_returns_list'
         ) }}
 
     {% if is_incremental() %}
@@ -34,7 +34,7 @@ WITH source AS (
     FROM
         {{ source(
             'kiotViet',
-            'p_returns_list2_*'
+            'p_returns_list2'
         ) }}
 
     {% if is_incremental() %}
