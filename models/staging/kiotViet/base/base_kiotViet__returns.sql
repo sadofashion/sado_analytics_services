@@ -1,4 +1,16 @@
+{{ config(
+    materialized = 'incremental',
+    unique_key = 'id',
+    on_schema_change = 'sync_all_columns',
+    partition_by ={ "field": "createdDate",
+    "data_type": "timestamp",
+    "granularity": "day" },
+    incremental_strategy = 'merge',
+    tags = ['incremental', 'daily','kiotviet']
+) }}
+
 WITH source AS (
+
     SELECT
         *
     EXCEPT(returnDetails),
@@ -8,7 +20,13 @@ WITH source AS (
             'kiotViet',
             'p_returns_list_*'
         ) }}
+
+    {% if is_incremental() %}
+    where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
+    {% endif %}
+
     UNION ALL
+
     SELECT
         *
     EXCEPT(return_details),
@@ -18,6 +36,10 @@ WITH source AS (
             'kiotViet',
             'p_returns_list2_*'
         ) }}
+
+    {% if is_incremental() %}
+    where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
+    {% endif %}
 ),
 raw_ AS (
     {{ dbt_utils.deduplicate(

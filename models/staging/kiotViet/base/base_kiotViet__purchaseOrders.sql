@@ -1,3 +1,19 @@
+{{
+  config(
+    materialized = 'incremental',
+    unique_key = 'id',
+    on_schema_change = 'sync_all_columns',
+    partition_by = {
+      "field": "createdDate",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+    incremental_strategy = 'merge',
+    tags = ['incremental', 'daily','kiotviet']
+    )
+}}
+
+
 WITH source AS (
     SELECT
         *
@@ -8,6 +24,9 @@ WITH source AS (
             'kiotViet',
             'p_purchaseorders_list_*'
         ) }}
+    {% if is_incremental() %}
+      where date(_TABLE_SUFFIX) >= date(_dbt_max_partition)
+    {% endif %}
     UNION ALL
     SELECT
         *
@@ -18,6 +37,9 @@ WITH source AS (
             'kiotViet',
             'p_purchaseorders_list2_*'
         ) }}
+    {% if is_incremental() %}
+      where date(_TABLE_SUFFIX) >= date(_dbt_max_partition)
+    {% endif %}
 ),
 raw_ AS (
     {{ dbt_utils.deduplicate(
