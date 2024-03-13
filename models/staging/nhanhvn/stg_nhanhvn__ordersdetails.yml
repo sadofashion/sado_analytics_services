@@ -11,12 +11,6 @@ models:
             hidden: true
         tests:
           - unique
-      - name: sale_channel
-        description: "{{ doc('column__nhanhvn__sale_channel') }}"
-        meta:
-          dimension:
-            type: string
-            hidden: true
       - name: depot_name
         description: "{{ doc('column__nhanhvn__depot_name') }}"
         meta:
@@ -67,12 +61,6 @@ models:
             hidden: true
       - name: order_type
         description: "{{ doc('column__nhanhvn__order_type') }}"
-        meta:
-          dimension:
-            type: string
-            hidden: true
-      - name: traffic_source_name
-        description: "{{ doc('column__nhanhvn__traffic_source_name') }}"
         meta:
           dimension:
             type: string
@@ -233,3 +221,13 @@ models:
           dimension:
             type: string
             hidden: true
+      - name: sales_channel_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: traffic_source_id
+        description: ""
+        meta:
+          dimension:
+            type: number

@@ -26,9 +26,8 @@ models:
           sql_on: >
             (${dim__branches.local_page} = ${facebook_dashboard.page}) 
 
-            or (${dim__branches.region_page} = ${facebook_dashboard.page}
-            and ${dim__branches.local_page} <>
-            ${dim__branches.region_page})
+            or (${dim__branches.region_page} = ${facebook_dashboard.page} and
+            ${dim__branches.local_page} <> ${dim__branches.region_page})
           fields:
             - fb_ads_pic
             - local_page

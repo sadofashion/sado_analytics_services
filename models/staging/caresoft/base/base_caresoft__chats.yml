@@ -2,11 +2,6 @@ version: 2
 models:
   - name: base_caresoft__chats
     columns:
-      - name: _dbt_source_relation
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: ticket_id
         description: ""
         meta:

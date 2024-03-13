@@ -144,7 +144,9 @@ models:
             d_recency_type:
               type: string
               label: Recency Type (modified)
-              sql: case when ${recency_type} = 'Khách mới' then ${recency_type} else 'Khách quay lại' end
+              sql: >-
+                case when ${recency_type} = 'Khách mới' then ${recency_type}
+                else 'Khách quay lại' end
       - name: previous_segment
         description: ""
         meta:

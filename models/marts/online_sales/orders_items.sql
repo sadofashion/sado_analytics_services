@@ -30,7 +30,7 @@ SELECT
         orders.created_by_id,
         orders.sale_id
     ) AS created_by_id,
-    orders.traffic_source_name,
+    orders.traffic_source_id,
     orders.order_type,
     orders.order_status,
     orders.created_date,
