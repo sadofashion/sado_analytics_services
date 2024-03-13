@@ -5,85 +5,106 @@ sources:
     description: "data pulled from kiotviet via API & Webhook"
     database: agile-scheme-394814
     tables:
-      - name: "p_products_list_*"
+      - name: "p_products_list"
+        identifier: "p_products_list__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_branches_list_*"
-      - name: "p_orders_list_*"
+      - name: "p_branches_list"
+        identifier: "p_branches_list__*"
+      - name: "p_orders_list"
+        identifier: "p_orders_list__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_pricebooks_branches_*"
+      - name: "p_pricebooks_branches"
+        identifier: "p_pricebooks_branches__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_surcharges_list_*"
-      - name: "p_pricebooks_users_*"
+      - name: "p_surcharges_list"
+        identifier: "p_surcharges_list__*"
+      - name: "p_pricebooks_users"
+        identifier: "p_pricebooks_users__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_users_list_*"
-      - name: "p_categories_list_*"
-      - name: "p_purchaseorders_list_*"
+      - name: "p_users_list"
+        identifier: "p_users_list__*"
+      - name: "p_categories_list"
+        identifier: "p_categories_list__*"
+      - name: "p_purchaseorders_list"
+        identifier: "p_purchaseorders_list__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_purchaseorders_list2_*"
+      - name: "p_purchaseorders_list2"
+        identifier: "p_purchaseorders_list2__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_customersGroups_list_*"
+      - name: "p_customersGroups_list"
+        identifier: "p_customersGroups_list__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_pricebooks_customer_groups_*"
+      - name: "p_pricebooks_customer_groups"
+        identifier: "p_pricebooks_customer_groups__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_invoices_list_*"
+      - name: "p_invoices_list"
+        identifier: "p_invoices_list__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_invoices_list2_*"
+      - name: "p_invoices_list2"
+        identifier: "p_invoices_list2__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_returns_list_*"
+      - name: "p_returns_list"
+        identifier: "p_returns_list__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_returns_list2_*"
+      - name: "p_returns_list2"
+        identifier: "p_returns_list2__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_bankAccounts_list_*"
-      - name: "p_saleschannels_list_*"
-      - name: "p_customers_list_*"
+      - name: "p_bankAccounts_list"
+        identifier: "p_bankAccounts_list__*"
+      - name: "p_saleschannels_list"
+        identifier: "p_saleschannels_list__*"
+      - name: "p_customers_list"
+        identifier: "p_customers_list__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_locations_list_*"
+      - name: "p_locations_list"
+        identifier: "p_locations_list__*"
       - name: "p_products_inventory"
-        identifier: "p_products_inventory_*"
+        identifier: "p_products_inventory__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: "p_pricebooks_list_*"
+      - name: "p_pricebooks_list"
+        identifier: "p_pricebooks_list__*"
         loaded_at_field: _batched_at
         freshness:
           warn_after: { count: 12, period: day }

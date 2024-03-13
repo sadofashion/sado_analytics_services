@@ -2,6 +2,12 @@ version: 2
 models:
   - name: orders_items
     description: ""
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - order_id
+            - product_id
+            - price
     columns:
       - name: order_id
         description: "{{ doc('column__nhanhvn__order_id') }}"

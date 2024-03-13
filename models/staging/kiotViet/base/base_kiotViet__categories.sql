@@ -2,7 +2,7 @@ WITH source AS (
 
     {{ dbt_utils.deduplicate(relation = source(
             'kiotViet',
-            'p_categories_list_*'
+            'p_categories_list'
         ), partition_by = 'categoryId', order_by = "modifiedDate DESC,_batched_at desc",) }}
 )
 SELECT

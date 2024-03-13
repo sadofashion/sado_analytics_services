@@ -101,12 +101,8 @@ EXCEPT(
       ) then 'compiled'
     else 'others' end as page_type,
   coalesce(s.fb_ads_pic, fb.pic) as pic
-  {# COALESCE(
-    s.new_ads_pic,
-    fb.pic
-  ) AS pic #}
 FROM
   facebook_performance fb
-  LEFT JOIN {{ ref("dim__offline_stores") }}
+  LEFT JOIN {{ ref("dim__branches") }}
   s
-  ON (fb.page = s.local_page or (fb.page = s.region_page and fb.page <> s.region_page) )
+  ON (fb.page = s.local_page or (fb.page = s.region_page and fb.page <> s.region_page) ) and s.asm_name not in ('Online')

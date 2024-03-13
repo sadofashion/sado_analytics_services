@@ -30,7 +30,7 @@ WITH revenue AS (
         AND C.contact_number IS NOT NULL
 
 {% if is_incremental() %}
-AND DATE(r.transaction_date) >= date_add(DATE(_dbt_max_partition), INTERVAL -7 DAY)
+AND DATE(r.transaction_date) >= date_add(DATE(_dbt_max_partition), INTERVAL -15 DAY)
 {% endif %}
 GROUP BY
     1,

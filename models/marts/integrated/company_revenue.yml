@@ -1,75 +1,90 @@
 version: 2
 models:
-  - name: stg_facebookads__campaigns
-    description: ""
+  - name: company_revenue
     columns:
-      - name: account_id
+      - name: transaction_id
         description: ""
         meta:
           dimension:
             type: number
-      - name: account_name
+        tests:
+          - not_null
+      - name: transaction_code
         description: ""
         meta:
           dimension:
             type: string
-      - name: campaign_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: campaign_start_date
+      - name: transaction_date
         description: ""
         meta:
           dimension:
             type: date
-      - name: campaign_stop_date
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: campaign_id
+      - name: reference_transaction_id
         description: ""
         meta:
           dimension:
             type: number
-      - name: big_campaign
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+        tests:
+          - not_null
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: employee_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: discount_ratio
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: return_fee
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: transaction_type
         description: ""
         meta:
           dimension:
             type: string
-      - name: content_group
+      - name: modified_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: source
         description: ""
         meta:
           dimension:
             type: string
-      - name: pic
+      - name: transaction_source_id
         description: ""
         meta:
           dimension:
             type: string
-      - name: promoted_productline
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: page
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: media_type
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: funnel
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: ad_type
-        description: ""
-        meta:
-          dimension:
-            type: string
+        tests:
+          - unique

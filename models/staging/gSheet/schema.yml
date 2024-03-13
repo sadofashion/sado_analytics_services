@@ -91,21 +91,6 @@ models:
         meta:
           dimension:
             type: string
-      - name: branch_id
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: local_page
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: region_page
-        description: ""
-        meta:
-          dimension:
-            type: string
   - name: stg_gsheet__pancake_tags
     columns:
       - name: tag_value

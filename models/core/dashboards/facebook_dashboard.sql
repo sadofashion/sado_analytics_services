@@ -4,7 +4,7 @@
   'data_type': 'date',
   'granularity': 'day' },
   incremental_strategy = 'merge',
-  unique_key = ['date','page'],
+  unique_key = ['date','page','pic'],
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'fact','dashboard']
 ) }}
@@ -91,7 +91,7 @@ offline_performance AS (
   FROM
     {{ ref("revenue") }}
     r
-    INNER JOIN {{ ref("dim__offline_stores") }} asm
+    INNER JOIN {{ ref("dim__branches") }} asm
     ON r.branch_id = asm.branch_id
   WHERE
        {% if is_incremental() %}
@@ -113,8 +113,10 @@ asms AS (
     asm.region_page,
     asm.fb_ads_pic,
   FROM
-    {{ ref("dim__offline_stores") }} asm
+    {{ ref("dim__branches") }} asm
+    where asm.asm_name is not null and asm.asm_name not in ('Online')
 )
+
 SELECT
   DISTINCT 
   p.* EXCEPT(page,date_start,pic),
@@ -151,7 +153,6 @@ FROM
     (lower(o.local_page) = lower(p.page) AND p.page_type = 'local_page' )
     or (lower(o.region_page) = lower(p.page) and p.page_type='region_page')
     or (lower(o.local_page) = lower(b.local_page) and p.page_type is null)
-    {# or (lower(o.region_page) = lower(b.region_page) and lower(o.region_page) <> lower(o.local_page) and p.page_type is null) #}
   )
   LEFT JOIN asms as a1
   ON lower(COALESCE(

@@ -1,0 +1,16 @@
+version: 2
+models:
+  - name: stg_nhanhvn__sales_channels
+    columns:
+      - name: channel
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: channel_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
