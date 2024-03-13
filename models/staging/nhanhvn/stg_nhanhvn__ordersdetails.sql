@@ -19,7 +19,7 @@ WITH source AS (
 
 deduplicate as (
     {{ dbt_utils.deduplicate(
-        relation = 'source'
+        relation = 'source',
         partition_by = 'id',
         order_by = "_batched_at desc",
     ) }}
@@ -27,7 +27,7 @@ deduplicate as (
 
 deleted_orders as (
     {{dbt_utils.deduplicate(
-    relation=source('nhanhvn','p_webhook_orderDeleted'),
+    relation=source('nhanhvn','p_webhook_orderDelete'),
     partition_by='orderId',
     order_by='orderId desc'
 )}}
