@@ -23,7 +23,7 @@ deduplicate as (
         partition_by = 'id',
         order_by = "_batched_at desc",
     ) }}
-)
+),
 
 deleted_orders as (
     {{dbt_utils.deduplicate(
