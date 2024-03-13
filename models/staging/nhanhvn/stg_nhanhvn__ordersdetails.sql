@@ -1,13 +1,30 @@
+{{
+  config(
+    materialized = 'incremental',
+    partition_by = {"field": "created_date", "data_type": "date", "granularity": "day"},
+    incremental_strategy = 'merge',
+    unique_key = 'order_id',
+    on_schema_change = 'sync_all_columns',
+    tags = ['incremental', 'daily','nhanhvn']
+    )
+}}
+
 WITH source AS (
+    select * from 
+    {{ source('nhanhvn', 'p_orders_*') }}
+    {% if is_incremental() %}
+    where date(_batched_at) >= date(_dbt_max_partition)
+    {% endif %}
+),
+
+deduplicate as (
     {{ dbt_utils.deduplicate(
-        relation = source(
-            'nhanhvn',
-            'p_orders_*'
-        ),
+        relation = 'source'
         partition_by = 'id',
         order_by = "_batched_at desc",
     ) }}
-),
+)
+
 deleted_orders as (
     {{dbt_utils.deduplicate(
     relation=source('nhanhvn','p_webhook_orderDeleted'),

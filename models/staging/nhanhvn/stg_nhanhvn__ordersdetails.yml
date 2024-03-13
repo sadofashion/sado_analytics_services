@@ -8,188 +8,228 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
+        tests:
+          - unique
       - name: sale_channel
         description: "{{ doc('column__nhanhvn__sale_channel') }}"
         meta:
           dimension:
             type: string
+            hidden: true
       - name: depot_name
         description: "{{ doc('column__nhanhvn__depot_name') }}"
         meta:
           dimension:
             type: string
+            hidden: true
       - name: customer_id
         description: "{{ doc('column__nhanhvn__customer_id') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: created_by_id
         description: "{{ doc('column__nhanhvn__created_by_id') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: sale_id
         description: "{{ doc('column__nhanhvn__sale_id') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: created_date
         description: "{{ doc('column__nhanhvn__created_date') }}"
         meta:
           dimension:
             type: timestamp
+            hidden: true
       - name: delivery_date
         description: "{{ doc('column__nhanhvn__delivery_date') }}"
         meta:
           dimension:
             type: date
+            hidden: true
       - name: send_carrier_date
         description: "{{ doc('column__nhanhvn__send_carrier_date') }}"
         meta:
           dimension:
             type: date
+            hidden: true
       - name: order_status
         description: "{{ doc('column__nhanhvn__order_status') }}"
         meta:
           dimension:
             type: string
+            hidden: true
       - name: order_type
         description: "{{ doc('column__nhanhvn__order_type') }}"
         meta:
           dimension:
             type: string
+            hidden: true
       - name: traffic_source_name
         description: "{{ doc('column__nhanhvn__traffic_source_name') }}"
         meta:
           dimension:
             type: string
+            hidden: true
       - name: carrier_id
         description: "{{ doc('column__nhanhvn__carrier_id') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: service_id
         description: "{{ doc('column__nhanhvn__service_id') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: order_discount
         description: "{{ doc('column__nhanhvn__discount') }}, trên toàn bộ đơn"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: money_deposit
         description: "{{ doc('column__nhanhvn__money_deposit') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: money_transfer
         description: "{{ doc('column__nhanhvn__money_transfer') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: money_used_points
         description: "{{ doc('column__nhanhvn__money_used_points') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: ship_fee
         description: "{{ doc('column__nhanhvn__ship_fee') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: cod_fee
         description: "{{ doc('column__nhanhvn__cod_fee') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: customer_ship_fee
         description: "{{ doc('column__nhanhvn__customer_ship_fee') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: return_fee
         description: "{{ doc('column__nhanhvn__return_fee') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: overweight_fee
         description: "{{ doc('column__nhanhvn__overweight_fee') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: description
         description: "{{ doc('column__nhanhvn__description') }}"
         meta:
           dimension:
             type: string
+            hidden: true
       - name: ship_address
         description: "{{ doc('column__nhanhvn__ship_address') }}"
         meta:
           dimension:
             type: string
+            hidden: true
       - name: receivables
         description: "{{ doc('column__nhanhvn__receivables') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: coupon_code
         description: "{{ doc('column__nhanhvn__coupon_code') }}"
         meta:
           dimension:
             type: string
+            hidden: true
       - name: shop_order_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: tracking_number
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: depot_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: deposit_account
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: transfer_account
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: used_points
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: carrier_code
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: declared_fee
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: customer_contact_number
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: products
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: return_from_order_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
