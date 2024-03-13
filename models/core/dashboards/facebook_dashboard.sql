@@ -4,7 +4,7 @@
   'data_type': 'date',
   'granularity': 'day' },
   incremental_strategy = 'merge',
-  unique_key = ['date','page'],
+  unique_key = ['date','page','pic'],
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'fact','dashboard']
 ) }}
@@ -116,6 +116,7 @@ asms AS (
     {{ ref("dim__branches") }} asm
     where asm.asm_name is not null and asm.asm_name not in ('Online')
 )
+
 SELECT
   DISTINCT 
   p.* EXCEPT(page,date_start,pic),

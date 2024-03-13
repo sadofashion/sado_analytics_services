@@ -48,7 +48,7 @@ salechannels AS (
 SELECT
     safe_cast(orders.id AS int64) AS order_id,
     orders.shopOrderId AS shop_order_id,
-    farm_fingerprint(salechannels.sale_channel) saleschannel_id,
+    farm_fingerprint(salechannels.sale_channel) sales_channel_id,
     orders.merchantTrackingNumber AS tracking_number,
     safe_cast(orders.depotId AS int64) AS depot_id,
     orders.depotName AS depot_name,
@@ -98,7 +98,7 @@ SELECT
             )
     ) products
 FROM
-    source orders,
+    deduplicate orders,
     unnest(products) products
     LEFT JOIN salechannels
     ON orders.saleChannel = salechannels.sale_channel_id 

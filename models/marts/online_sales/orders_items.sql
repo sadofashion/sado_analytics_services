@@ -1,5 +1,12 @@
 {{ config(
-    tags = ['table', 'fact','nhanhvn']
+    tags = ['incremental', 'fact','nhanhvn'],
+    materialized = 'incremental',
+    partition_by ={ 'field': 'created_date',
+    'data_type': 'datetime',
+    'granularity': 'day' },
+    incremental_strategy = 'merge',
+    unique_key = ['order_id','product_id','price'],
+    on_schema_change = 'sync_all_columns'
 ) }}
 
 {%set order_statuses = ['Mới',
@@ -16,7 +23,7 @@
 
 SELECT
     orders.order_id,
-    orders.sale_channel,
+    orders.sales_channel_id,
     orders.depot_name,
     orders.customer_id,
     COALESCE(

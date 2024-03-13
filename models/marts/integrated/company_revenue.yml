@@ -1,0 +1,96 @@
+version: 2
+models:
+  - name: company_revenue
+    columns:
+      - name: transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+        tests:
+          - not_null
+      - name: transaction_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+        tests:
+          - not_null
+      - name: transaction_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+        tests:
+          - not_null
+      - name: reference_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+        tests:
+          - not_null
+      - name: customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+        tests:
+          - not_null
+      - name: employee_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: discount_ratio
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: return_fee
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: transaction_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: modified_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+      - name: source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: transaction_source_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        tests:
+          - unique

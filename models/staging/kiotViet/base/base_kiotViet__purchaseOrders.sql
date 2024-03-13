@@ -25,9 +25,11 @@ WITH source AS (
             'p_purchaseorders_list'
         ) }}
     {% if is_incremental() %}
-      where date(_TABLE_SUFFIX) >= date(_dbt_max_partition)
+      where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
     {% endif %}
+
     UNION ALL
+
     SELECT
         *
     EXCEPT(purchaseOrder_details),
@@ -38,7 +40,7 @@ WITH source AS (
             'p_purchaseorders_list2'
         ) }}
     {% if is_incremental() %}
-      where date(_TABLE_SUFFIX) >= date(_dbt_max_partition)
+      where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
     {% endif %}
 ),
 raw_ AS (
