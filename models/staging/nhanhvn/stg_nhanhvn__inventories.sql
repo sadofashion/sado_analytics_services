@@ -65,7 +65,7 @@ FROM
 WHERE
     depots.remain <> 0
     {% if is_incremental() %}
-      date(TIMESTAMP(datetime_add(_batched_at, INTERVAL 7 HOUR))) >= date(_dbt_max_partition)
+      and date(TIMESTAMP(datetime_add(_batched_at, INTERVAL 7 HOUR))) >= date(_dbt_max_partition)
     {% endif %}
 )
 SELECT
