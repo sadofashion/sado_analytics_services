@@ -46,7 +46,7 @@ FROM
 WHERE
     invoices.transaction_status = 'Hoàn thành'
     {% if is_incremental() %}
-      and date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_add(date(_dbt_max_partition), interval -2 day)
+      and date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_add(date(_dbt_max_partition), interval -1 day)
     {% endif %}
 UNION ALL
 SELECT
@@ -71,7 +71,7 @@ FROM
 WHERE
     returns.transaction_status = 'Đã trả'
     {% if is_incremental() %}
-      and date(coalesce(returns.modified_date, returns.transaction_date)) >= date_add(date(_dbt_max_partition), interval -2 day)
+      and date(coalesce(returns.modified_date, returns.transaction_date)) >= date_add(date(_dbt_max_partition), interval -1 day)
     {% endif %}
     ),
 nhanhvn_rev as (
@@ -94,7 +94,7 @@ nhanhvn_rev as (
     from {{ ref("stg_nhanhvn__ordersdetails") }}
     where 1=1
     {% if is_incremental() %}
-      and coalesce(delivery_date, send_carrier_date,date(created_date)) >= date_add(date(_dbt_max_partition), interval -7 day)
+      and coalesce(delivery_date, send_carrier_date,date(created_date)) >= date_add(date(_dbt_max_partition), interval -1 day)
     {% endif %}
     and order_status IN (
         {# {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%} #}
