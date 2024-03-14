@@ -11,7 +11,7 @@
 
 WITH source AS (
     select * from 
-    {{ source('nhanhvn', 'p_orders_*') }}
+    {{ source('nhanhvn', 'p_orders') }}
     where 1=1
     and createdDateTime is not null
     {% if is_incremental() %}

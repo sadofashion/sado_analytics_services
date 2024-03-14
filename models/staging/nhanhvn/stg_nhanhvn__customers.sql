@@ -5,15 +5,20 @@
 }}
 
 WITH source as (
-    {{ dbt_utils.deduplicate(
-    relation = source(
+    select * 
+    from {{source(
         'nhanhvn',
         'p_customers_*'
-    ),
+    )}}
+
+),
+
+deduplicate as (
+{{ dbt_utils.deduplicate(
+    relation = ,
     partition_by = 'id',
     order_by = "_batched_at desc",
 ) }}
-
 )
 
 SELECT

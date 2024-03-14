@@ -26,7 +26,7 @@
 WITH source AS (
     {{ dbt_utils.deduplicate(relation = source(
             'nhanhvn',
-            'p_products_*'
+            'p_products'
         ), partition_by = 'idNhanh', order_by = "_batched_at desc",) }}
 )
 

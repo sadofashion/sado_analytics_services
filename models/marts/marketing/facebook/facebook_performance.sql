@@ -70,7 +70,7 @@ WITH facebook_performance AS (
     campaigns
     ON adsinsights.campaign_id = campaigns.campaign_id 
     where 1=1
-    and campaigns.account_name not in ('Wookids_KT1','Woo kids _ KT1','Woo kids_KT2')
+    and campaigns.account_name not in ('Wookids_KT1','Woo kids _ KT1','Woo kids_KT2','Woo kids_KT3')
     {% if is_incremental() %}
        and date_start >= date_add(date(_dbt_max_partition), interval -1 day)
     {% endif %}
