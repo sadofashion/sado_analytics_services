@@ -5,7 +5,7 @@
     on_schema_change = 'sync_all_columns',
     tags = ['incremental', 'daily','nhanhvn','dimension'],
     incremental_strategy = 'merge',
-    partition_by ={ "field": "date",
+    partition_by ={ "field": "last_bought_date",
     "data_type": "timestamp",
     "granularity": "day" }
     )
