@@ -31,6 +31,9 @@ WITH source AS (
             'kiotViet',
             'p_webhook_customer_update'
         ) }}
+        {% if is_incremental() %}
+          where date(_batched_at) >= date(_dbt_max_partition)
+        {% endif %}
 ),
 raw_ AS (
     {{ dbt_utils.deduplicate(relation = 'source', partition_by = 'id', order_by = "_batched_at desc",) }}
