@@ -89,12 +89,12 @@ nhanhvn_rev as (
     safe_divide(order_discount,order_discount+receivables) as discount_ratio,
     return_fee,
     case order_type when 'Giao hàng tại nhà' then 'invoice' when 'Khách trả lại hàng' then 'return' end as transaction_type,
-    greatest(date(created_date), delivery_date, send_carrier_date) as modified_date,
+    coalesce(delivery_date, send_carrier_date,date(created_date)) as modified_date,
     'nhanhvn' as source,
     from {{ ref("stg_nhanhvn__ordersdetails") }}
     where 1=1
     {% if is_incremental() %}
-      and greatest(date(created_date), delivery_date, send_carrier_date) >= date_add(date(_dbt_max_partition), interval -2 day)
+      and coalesce(delivery_date, send_carrier_date,date(created_date)) >= date_add(date(_dbt_max_partition), interval -7 day)
     {% endif %}
     and order_status IN (
         {# {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%} #}
