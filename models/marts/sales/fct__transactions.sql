@@ -9,20 +9,6 @@
     tags = ['incremental', 'hourly','fact','kiotviet','nhanhvn']
 ) }}
 
-{%set order_statuses = [
-        'Mới',
-        'Chờ xác nhận',
-        'Đang xác nhận',
-        'Đã xác nhận',
-        'Đổi kho hàng',
-        'Đang đóng gói',
-        'Đã đóng gói',
-        'Chờ thu gom',
-        'Đang chuyển',
-        'Thành công'
-        ]%}
-
-
 with kiotviet_rev as (
     SELECT
     invoices.transaction_id,
@@ -88,7 +74,7 @@ nhanhvn_rev as (
     order_discount as discount,
     safe_divide(order_discount,order_discount+receivables) as discount_ratio,
     return_fee,
-    case order_type when 'Giao hàng tại nhà' then 'invoice' when 'Khách trả lại hàng' then 'return' end as transaction_type,
+    case order_type when 'Giao hàng tận nhà' then 'invoice' when 'Khách trả lại hàng' then 'return' end as transaction_type,
     coalesce(delivery_date, send_carrier_date,date(created_date)) as modified_date,
     'nhanhvn' as source,
     from {{ ref("stg_nhanhvn__ordersdetails") }}
@@ -100,6 +86,7 @@ nhanhvn_rev as (
         {# {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%} #}
         "Thành công"
     )
+    and order_type is not null
 )
 select 
     kiotviet_rev.*,

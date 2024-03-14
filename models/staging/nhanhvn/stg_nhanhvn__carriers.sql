@@ -6,7 +6,7 @@ WITH source AS (
   {{ dbt_utils.deduplicate(
     relation = source(
       'nhanhvn',
-      'p_carriers_*'
+      'p_carriers'
     ),
     partition_by = 'id',
     order_by = "_batched_at desc",
