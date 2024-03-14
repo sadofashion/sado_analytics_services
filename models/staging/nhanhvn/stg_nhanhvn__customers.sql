@@ -1,21 +1,31 @@
 {{
   config(
-    tags=['view', 'dimension','nhanhvn']
-  )
+    materialized = 'incremental',
+    unique_key = 'customer_id',
+    on_schema_change = 'sync_all_columns',
+    tags = ['incremental', 'daily','nhanhvn','dimension'],
+    incremental_strategy = 'merge',
+    partition_by ={ "field": "date",
+    "data_type": "timestamp",
+    "granularity": "day" }
+    )
 }}
 
 WITH source as (
     select * 
     from {{source(
         'nhanhvn',
-        'p_customers_*'
+        'p_customers'
     )}}
-
+    where 1=1
+    {% if is_incremental() %}
+      and parse_date('%Y%m%d', _TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -2 day)
+    {% endif %}
 ),
 
 deduplicate as (
 {{ dbt_utils.deduplicate(
-    relation = ,
+    relation = 'source',
     partition_by = 'id',
     order_by = "_batched_at desc",
 ) }}
@@ -36,4 +46,4 @@ SELECT
     safe_cast(totalBills as int64) AS total_bills,
     DATE(lastBoughtDate) AS last_bought_date,
 FROM
-    source
+    deduplicate
