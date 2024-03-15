@@ -5,7 +5,7 @@
     incremental_strategy = 'merge',
     unique_key = 'order_id',
     on_schema_change = 'sync_all_columns',
-    tags = ['incremental', 'daily','nhanhvn']
+    tags = ['incremental', 'hourly','nhanhvn']
     )
 }}
 

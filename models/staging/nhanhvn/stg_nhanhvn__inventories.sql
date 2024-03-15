@@ -2,7 +2,7 @@
     materialized = 'incremental',
     unique_key = ['product_id','depot_id'],
     on_schema_change = 'sync_all_columns',
-    tags = ['incremental', 'daily','nhanhvn'],
+    tags = ['incremental', 'hourly','nhanhvn'],
     incremental_strategy = 'insert_overwrite',
     partition_by ={ "field": "updated_at",
     "data_type": "timestamp",
