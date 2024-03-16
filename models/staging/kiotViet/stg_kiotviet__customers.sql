@@ -15,7 +15,7 @@ WITH staging AS (
                 C.birthDate
         ) AS birth_month,
         C.birthDate AS birth_date,
-        C.contactNumber AS contact_number,
+        regexp_replace(C.contactNumber,r'\W','') AS contact_number,
         C.branchId AS branch_id,
         C.TYPE AS customer_type,
         C.groups AS customer_groups,
@@ -25,7 +25,8 @@ WITH staging AS (
         C.totalRevenue AS total_revenue,
         C.rewardPoint AS rewardpoint,
         C.createdDate AS created_date,
-        B.branchName as branch_name
+        B.branchName as branch_name,
+        C.modifieddate as modified_date,
     FROM
         {{ ref('base_kiotViet__customers') }} C
     left join  {{ref('base_kiotViet__branches')}} B on C.branchId = B.id
@@ -36,7 +37,14 @@ SELECT
     staging.gender,
     staging.birth_month,
     staging.birth_date,
-    staging.contact_number,
+    case 
+        when 
+            length(staging.contact_number) = 9 
+            and regexp_contains(staging.contact_number,r'^[1-9]') 
+            then concat('0',staging.contact_number) 
+        else 
+            regexp_replace(staging.contact_number,r'^(84|840)','0') 
+        end as contact_number,
     staging.branch_id,
     staging.customer_type,
     staging.customer_groups,
@@ -47,8 +55,9 @@ SELECT
     staging.rewardpoint,
     staging.created_date,
     staging.branch_name,
+    staging.modified_date,
     CASE
         WHEN DATE_TRUNC(DATE(staging.created_date), MONTH) < DATE_TRUNC(CURRENT_DATE(), MONTH) THEN 'old'
         ELSE 'new'END AS customer_recency_group,
-        FROM
-            staging
+    FROM
+        staging

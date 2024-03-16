@@ -39,8 +39,8 @@ SELECT
   email AS email,
   mobile AS contact_number,
   CASE
-    WHEN gender = '1' THEN 'm'
-    WHEN gender = '2' THEN 'f'
+    WHEN gender = '1' THEN true
+    WHEN gender = '2' THEN false
   END AS gender,
   address,
   birthday,
