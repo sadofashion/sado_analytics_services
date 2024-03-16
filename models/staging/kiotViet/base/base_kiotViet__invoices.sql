@@ -9,7 +9,7 @@
       "granularity": "day"
     },
     incremental_strategy = 'merge',
-    tags = ['incremental', 'daily','kiotviet']
+    tags = ['incremental', 'hourly','kiotviet']
     )
 }}
 
