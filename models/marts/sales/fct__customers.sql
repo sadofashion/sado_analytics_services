@@ -7,7 +7,6 @@
 
 with kiotviet_cus as (
     select 
-    branch_id as establised_branch_id,
     customer_id as kiotviet_customer_id,
     contact_number, 
     customer_name,
@@ -16,13 +15,12 @@ with kiotviet_cus as (
     birth_month,
     date(created_date) created_date,
     date(modified_date) as last_modified_date,
-    customer_groups, 
-    customer_recency_group
     from {{ ref('stg_kiotviet__customers') }}
     where regexp_contains(contact_number, r'^0\d{9}$')
     {% if is_incremental() %}
      and modified_date >= date(_dbt_max_partition)
     {% endif %}
+    qualify ROW_NUMBER() over( PARTITION BY contact_number ORDER BY modified_date DESC) = 1
 ),
 nhanhvn_cus as (
     select
@@ -40,6 +38,7 @@ nhanhvn_cus as (
     {% if is_incremental() %}
       and date(last_bought_date) >= date(_dbt_max_partition)
     {% endif %}
+    qualify ROW_NUMBER() over( PARTITION BY contact_number ORDER BY last_bought_date DESC) = 1
 )
 
     select 
@@ -53,7 +52,7 @@ coalesce(k.birth_date,date(n.birthday)) birth_date,
 coalesce(k.birth_month,extract(month from date(n.birthday))) birth_month,
 date_diff(current_date(),coalesce(k.birth_date,date(n.birthday)),day) as age,
 coalesce(k.created_date,n.first_purchase_date) created_date,
-coalesce(k.last_modified_date,n.last_modified_date) as last_modified_date,
+greatest(k.last_modified_date,n.last_modified_date) as last_modified_date,
 n.address,
 from kiotviet_cus k 
 full outer join nhanhvn_cus n on k.contact_number = n.contact_number
