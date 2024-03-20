@@ -9,93 +9,162 @@
     tags = ['incremental', 'hourly','fact','kiotviet','nhanhvn']
 ) }}
 
-with kiotviet_rev as (
+WITH customer_id_converter AS (
+
     SELECT
-    invoices.transaction_id,
-    invoices.transaction_code,
-    date(invoices.transaction_date) transaction_date,
-    CAST(NULL AS int64) AS reference_transaction_id,
-    invoices.branch_id,
-    invoices.customer_id,
-    invoices.employee_id,
-    invoices.total,
-    invoices.total_payment,
-    invoices.discount,
-    invoices.discount_ratio,
-    CAST(NULL AS int64) AS return_fee,
-    invoices.transaction_type,
-    date(coalesce(invoices.modified_date, invoices.transaction_date)) as modified_date,
-    'kiotviet' as source,
-FROM
-    {{ ref('stg_kiotviet__invoices') }}
-    invoices
-WHERE
-    invoices.transaction_status = 'Hoàn thành'
-    {% if is_incremental() %}
-      and date(coalesce(invoices.modified_date, invoices.transaction_date)) >= date_add(date(_dbt_max_partition), interval -1 day)
-    {% endif %}
+        kiotviet_customer_id,
+        nhanhvn_customer_id
+    FROM
+        {{ ref("fct__customers") }}
+    WHERE
+        kiotviet_customer_id IS NOT NULL
+        AND nhanhvn_customer_id IS NOT NULL
+),
+kiotviet_rev AS (
+    SELECT
+        invoices.transaction_id,
+        invoices.transaction_code,
+        DATE(
+            invoices.transaction_date
+        ) transaction_date,
+        CAST(
+            NULL AS int64
+        ) AS reference_transaction_id,
+        invoices.branch_id,
+        invoices.customer_id,
+        invoices.employee_id,
+        invoices.total,
+        invoices.total_payment,
+        invoices.discount,
+        invoices.discount_ratio,
+        CAST(
+            NULL AS int64
+        ) AS return_fee,
+        invoices.transaction_type,
+        DATE(
+            COALESCE(
+                invoices.modified_date,
+                invoices.transaction_date
+            )
+        ) AS modified_date,
+        'kiotviet' AS source,
+    FROM
+        {{ ref('stg_kiotviet__invoices') }}
+        invoices
+    WHERE
+        invoices.transaction_status = 'Hoàn thành'
+
+{% if is_incremental() %}
+AND DATE(
+    COALESCE(
+        invoices.modified_date,
+        invoices.transaction_date
+    )
+) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+{% endif %}
 UNION ALL
 SELECT
     returns.transaction_id,
     returns.transaction_code,
-    date(returns.transaction_date) transaction_date,
+    DATE(
+        returns.transaction_date
+    ) transaction_date,
     returns.reference_transaction_id,
     returns.branch_id,
     returns.customer_id,
     returns.employee_id,
-    (- returns.total) AS total,
+    (
+        - returns.total
+    ) AS total,
     returns.total_payment,
     returns.return_discount,
-    CAST( NULL AS float64 ) discount_ratio,
+    CAST(
+        NULL AS float64
+    ) discount_ratio,
     returns.return_fee,
     returns.transaction_type,
-    date( coalesce(returns.modified_date, returns.transaction_date)) as modified_date,
-    'kiotviet' as source,
+    DATE(
+        COALESCE(
+            returns.modified_date,
+            returns.transaction_date
+        )
+    ) AS modified_date,
+    'kiotviet' AS source,
 FROM
     {{ ref('stg_kiotviet__returns') }}
     returns
 WHERE
     returns.transaction_status = 'Đã trả'
-    {% if is_incremental() %}
-      and date(coalesce(returns.modified_date, returns.transaction_date)) >= date_add(date(_dbt_max_partition), interval -1 day)
-    {% endif %}
-    ),
-nhanhvn_rev as (
-    select 
-    order_id as transaction_id,
-    shop_order_id as transaction_code,
-    coalesce(delivery_date,send_carrier_date,date(created_date)) as transaction_date,
-    return_from_order_id as reference_transaction_id,
-    traffic_source_id as branch_id,
-    customer_id as customer_id,
-    created_by_id as employee_id,
-    receivables as total,
-    (receivables+money_transfer-customer_ship_fee) as total_payment,
-    order_discount as discount,
-    safe_divide(order_discount,order_discount+receivables) as discount_ratio,
-    return_fee,
-    case order_type when 'Giao hàng tận nhà' then 'invoice' when 'Khách trả lại hàng' then 'return' end as transaction_type,
-    coalesce(delivery_date, send_carrier_date,date(created_date)) as modified_date,
-    'nhanhvn' as source,
-    from {{ ref("stg_nhanhvn__ordersdetails") }}
-    where 1=1
-    {% if is_incremental() %}
-      and coalesce(delivery_date, send_carrier_date,date(created_date)) >= date_add(date(_dbt_max_partition), interval -1 day)
-    {% endif %}
-    and order_status IN (
-        {# {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%} #}
-        "Thành công"
+
+{% if is_incremental() %}
+AND DATE(
+    COALESCE(
+        returns.modified_date,
+        returns.transaction_date
     )
-    and order_type is not null
+) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+{% endif %}),
+nhanhvn_rev AS (
+    SELECT
+        order_id AS transaction_id,
+        shop_order_id AS transaction_code,
+        COALESCE(delivery_date, send_carrier_date, DATE(created_date)) AS transaction_date,
+        return_from_order_id AS reference_transaction_id,
+        traffic_source_id AS branch_id,
+        COALESCE(
+            customer_id_converter.kiotviet_customer_id,
+            customer_id
+        ) AS customer_id,
+        created_by_id AS employee_id,
+        receivables AS total,
+        (
+            receivables + money_transfer - customer_ship_fee
+        ) AS total_payment,
+        order_discount AS discount,
+        safe_divide(
+            order_discount,
+            order_discount + receivables
+        ) AS discount_ratio,
+        return_fee,
+        CASE
+            order_type
+            WHEN 'Giao hàng tận nhà' THEN 'invoice'
+            WHEN 'Khách trả lại hàng' THEN 'return'
+        END AS transaction_type,
+        COALESCE(
+            delivery_date,
+            send_carrier_date,
+            DATE(created_date)
+        ) AS modified_date,
+        'nhanhvn' AS source,
+    FROM
+        {{ ref("stg_nhanhvn__ordersdetails") }} orders
+        LEFT JOIN customer_id_converter
+        ON orders.customer_id = customer_id_converter.nhanhvn_customer_id
+    WHERE
+        1 = 1
+
+{% if is_incremental() %}
+AND COALESCE(
+    delivery_date,
+    send_carrier_date,
+    DATE(created_date)
+) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+{% endif %}
+AND order_status IN (
+    {# {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%} #}
+    "Thành công"
 )
-select 
+AND order_type IS NOT NULL
+)
+SELECT
     kiotviet_rev.*,
-    {{dbt_utils.generate_surrogate_key(['transaction_id','source'])}} as transaction_source_id
-from kiotviet_rev
-
-union ALL
-
-select 
+    {{ dbt_utils.generate_surrogate_key(['transaction_id','source']) }} AS transaction_source_id
+FROM
+    kiotviet_rev
+UNION ALL
+SELECT
     nhanhvn_rev.*,
-    {{dbt_utils.generate_surrogate_key(['transaction_id','source'])}} as transaction_source_id
-from nhanhvn_rev
+    {{ dbt_utils.generate_surrogate_key(['transaction_id','source']) }} AS transaction_source_id
+FROM
+    nhanhvn_rev
