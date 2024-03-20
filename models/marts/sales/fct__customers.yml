@@ -1,0 +1,110 @@
+version: 2
+models:
+  - name: fct__customers
+    columns:
+      - name: contact_number
+        description: customer phone number
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        tests:
+          - not_null
+          - unique
+        data_type: STRING
+      - name: universal_customer_id
+        description: universal customer id use between systems
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        tests:
+          - not_null
+          - unique
+        data_type: NUMERIC
+      - name: kiotviet_customer_id
+        description: This is the unique identifier for each customer in the KiotViet system
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: NUMERIC
+      - name: nhanhvn_customer_id
+        description: This is the unique identifier for each customer in the Nhanh.vn system
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: customer_name
+        description: "This field represents the name of the customer. It is a
+          combination of the customer's first and last name. This information is
+          collected from two sources: KiotViet and Nhanh.vn. In case of
+          discrepancies, the most recent data is used."
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: gender
+        description: This column represents the gender of the customer. It is a boolean
+          value, where 'True' indicates male and 'False' indicates female
+        meta:
+          dimension:
+            type: boolean
+            hidden: true
+        data_type: BOOLEAN
+      - name: birth_date
+        description: This column represents the birth date of the customer. The date is
+          formatted as YYYY-MM-DD.
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: birth_month
+        description: This column represents the month of birth of the customer. This
+          information is useful for understanding customer demographics and can
+          be used for targeted marketing campaigns, such as birthday promotions.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: age
+        description: This field represents the age of the customer. This information can
+          be useful for understanding the age demographics of our customer base.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: created_date
+        description: This column represents the date when the customer was first created
+          or registered in the system.
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: last_modified_date
+        description: This column represents the most recent date when the customer's
+          information was updated.
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: address
+        description: This field contains the customer's address, useful for
+          understanding the geographical distribution of customers, which can be
+          used for targeted marketing and sales strategies.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+    description: The model is designed to provide a unified view of the customer,
+      regardless of the source of the data. The universal_customer_id field is a
+      unique identifier for each customer, created by coalescing the
+      kiotviet_customer_id and nhanhvn_customer_id. This model is particularly
+      useful for business users who need to analyze customer data across
+      multiple platforms.
