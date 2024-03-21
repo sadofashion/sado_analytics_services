@@ -10,16 +10,11 @@
 ) }}
 
 WITH revenue AS (
-
     SELECT
         r.customer_id,
         C.contact_number,
-        DATE(
-            r.transaction_date
-        ) transaction_date,
-        SUM(
-            r.total
-        ) total,
+        DATE(r.transaction_date) transaction_date,
+        SUM(r.total) total,
     FROM
         {{ ref('revenue') }}
         r
@@ -28,14 +23,11 @@ WITH revenue AS (
     WHERE
         r.transaction_type = 'invoice'
         AND C.contact_number IS NOT NULL
-
-{% if is_incremental() %}
-AND DATE(r.transaction_date) >= date_add(DATE(_dbt_max_partition), INTERVAL -15 DAY)
-{% endif %}
-GROUP BY
-    1,
-    2,
-    3),
+        {% if is_incremental() %}
+        AND DATE(r.transaction_date) >= date_add(DATE(_dbt_max_partition), INTERVAL -15 DAY)
+        {% endif %}
+{{dbt_utils.group_by(3)}}
+    ),
     sms_data AS (
         SELECT
             *
@@ -44,15 +36,11 @@ GROUP BY
             sms
         WHERE
             sms.sent_time IS NOT NULL
-            {# AND sms.campaign LIKE 'QC%' #}
             AND sent_status = 'Thành công'
             and (audience not in ('TUYEN DUNG','THONG BAO DON HANG') or audience is null)
-
-{% if is_incremental() %}
-AND DATE(
-    sms.sent_time
-) >= date_add(DATE(_dbt_max_partition), INTERVAL -7 DAY)
-{% endif %}
+        {% if is_incremental() %}
+        AND DATE(sms.sent_time) >= date_add(DATE(_dbt_max_partition), INTERVAL -7 DAY)
+        {% endif %}
 )
 SELECT
     sms.* except(start_date, end_date,audience),
