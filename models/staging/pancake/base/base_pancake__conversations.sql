@@ -26,3 +26,4 @@ FROM
     left join unnest(tags) tags
     left join unnest(customers) customers
     left join unnest(ads) ads
+    where (source.last_sent_by.name) like '%5S%' 

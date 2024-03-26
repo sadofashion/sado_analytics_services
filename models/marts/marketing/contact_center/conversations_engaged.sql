@@ -8,7 +8,7 @@
     unique_key = ['conversation_id'],
     incremental_strategy = 'merge',
     on_schema_change = 'sync_all_columns',
-    tags = ['pancake','fact','incremental']
+    tags = ['pancake','fact','incremental','daily']
 ) }}
 
 {% set tag_fields ={ 
@@ -50,9 +50,9 @@ raw_ AS (
         conversations
         LEFT JOIN tags
         ON conversations.tag_id = tags.tag_id
-    
+    WHERE 1=1
 {% if is_incremental() %}
-WHERE (
+ and (
     DATE(conversations.updated_at) > date_sub(DATE(_dbt_max_partition), interval 3 day) 
 )
 {% endif %}
