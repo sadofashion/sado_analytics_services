@@ -1,9 +1,9 @@
-name: 'sado_analytics_services'
-version: '1.0.0'
+name: "sado_analytics_services"
+version: "1.0.0"
 config-version: 2
 
 require-dbt-version: ">=1.6.0"
-profile: 'sado_analytics_services'
+profile: "sado_analytics_services"
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -12,7 +12,7 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-clean-targets:        
+clean-targets:
   - "target"
   - "dbt_packages"
 
@@ -41,31 +41,41 @@ models:
     core:
       +materialized: table
       +schema: core
-
-    elementary:
-      +schema: "elementary"
-      +enabled: "false"
+  ga4:
+    staging:
+      base:
+        base_ga4__events:
+          +full_refresh: false
+    marts:
+      core:
+        +schema: marketing
 
 vars:
-    "dbt_date:time_zone": "Asia/Saigon"
-    dbt_project_evaluator:
-      documentation_coverage_target: 75
-      test_coverage_target: 75
-      models_fanout_threshold: 10
-      model_types: ['base','staging', 'intermediate', 'marts', 'core', 'utils']
-      staging_folder_name: staging
-      staging_prefixes: ['stg_']
-      base_folder_name: base
-      base_prefixes: ['base_']
-      intermediate_folder_name: intermediate
-      intermediate_prefixes: ['int_']
-      marts_folder_name: marts
-      marts_prefixes: ['','fct_','dim_']
-      core_folder_name: core
-      core_prefixes: ['']
-      utils_folder_name: utilities
-      utils_prefixes: ['']
-
-dispatch:
-  - macro_namespace: dbt
-    search_order: ['dbt_project_evaluator', 'dbt']
+  "dbt_date.time_zone": "Asia/Saigon"
+  ga4:
+    source_project: "agile-scheme-394814"
+    property_ids: [336884118]
+    start_date: "20231001"
+    static_incremental_days: 2
+    query_parameter_exclusions: ["gclid", "fbclid", "_ga"]
+    query_parameter_extraction: ["gclid", "fbclid", "keyword"]
+    conversion_events: ["purchase", "message", "call", "generate_lead", "store_visit"]
+    user_properties:
+      - user_property_name: "phone"
+        value_type: "string_value"
+      - user_property_name: "address"
+        value_type: "string_value"
+      - user_property_name: "email"
+        value_type: "string_value"
+      - user_property_name: "name"
+        value_type: "string_value"
+    derived_user_properties:
+      - event_parameter: "page_location"
+        user_property_name: "most_recent_page_location"
+        value_type: "string_value"
+      - event_parameter: "store"
+        user_property_name: "visited_branch"
+        value_type: "string_value"
+      - event_parameter: "location"
+        user_property_name: "searched_branch"
+        value_type: "string_value"
