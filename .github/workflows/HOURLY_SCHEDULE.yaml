@@ -31,5 +31,5 @@ jobs:
       - name: Schedule flow at every 2 hours
         id: schedule_flow_2h
         run: |
-          dbt run --profiles-dir $PWD --project-dir $PWD --exclude config.materialized:view config.tags:daily config.tags:inactive --select config.tags:fact config.tags:incremental config.tags:dashboard
+          dbt run --profiles-dir $PWD --project-dir $PWD --exclude ga4 config.materialized:view config.tags:daily config.tags:inactive --select config.tags:fact config.tags:incremental config.tags:dashboard
           dbt snapshot --profiles-dir $PWD --project-dir $PWD
