@@ -8,7 +8,7 @@ sado_analytics_services:
       location: US
       method: service-account
       priority: interactive
-      project: agile-scheme-394814
+      project: "{{env_var('GCP_PROJECT')}}"
       threads: 4
       type: bigquery
     prod:
@@ -19,7 +19,7 @@ sado_analytics_services:
       location: US
       method: service-account
       priority: interactive
-      project: agile-scheme-394814
+      project: "{{env_var('GCP_PROJECT')}}"
       threads: 4
       type: bigquery
   target: prod
