@@ -26,6 +26,8 @@ models:
             - product_name
             - product_line
             - product_group
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__revenue_items.transaction_date}
     columns:
       - name: branch_id
         description: >-
@@ -119,6 +121,13 @@ models:
               round: 2
               filters:
                 - transaction_type: return
+            m_units_returned_pct:
+              type: number
+              label: Units Returned Pct
+              sql: safe_divide(${m_units_returned} , ${m_units_sold})
+              format: percent
+              round: 2
+              group_label: Sales Metrics
         data_type: NUMERIC
       - name: discount
         description: >-
