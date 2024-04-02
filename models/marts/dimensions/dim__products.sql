@@ -1,3 +1,9 @@
+{{
+  config(
+    tags=['table','dimension']
+    )
+}}
+
 WITH kiotviet_products AS (
     SELECT
         kiot.product_name,
