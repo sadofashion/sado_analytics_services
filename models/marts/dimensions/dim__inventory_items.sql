@@ -6,16 +6,19 @@
 
 WITH kiotviet_products AS (
     SELECT
+        kiot.product_id AS kiotviet_product_id,
         kiot.product_name,
         kiot.product_code,
+
         kiot.class_code,
         kiot.class_name,
+
+        kiot.category,
         kiot.sub_productline,
         kiot.productline,
         kiot.product_group,
+
         kiot.ads_product_mapping,
-        kiot.category,
-        kiot.product_id AS kiotviet_product_id
     FROM
         {{ ref("stg_kiotviet__products") }}
         kiot
@@ -29,6 +32,7 @@ nhanhvn__products AS (
         product_name,
         product_code,
         class_code,
+        
         category_name,
     FROM
         {{ ref("stg_nhanhvn__products") }}

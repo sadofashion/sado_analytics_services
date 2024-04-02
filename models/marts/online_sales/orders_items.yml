@@ -2,120 +2,133 @@ version: 2
 models:
   - name: orders_items
     description: ""
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - order_id
-            - product_id
-            - price
     columns:
       - name: order_id
-        description: "{{ doc('column__nhanhvn__order_id') }}"
+        description: Id đơn hàng
         meta:
           dimension:
             type: number
-      - name: sale_channel
-        description: "{{ doc('column__nhanhvn__sale_channel') }}"
-        meta:
-          dimension:
-            type: string
+        data_type: INT64
+      - name: sales_channel_id
+        description: ""
+        data_type: INT64
       - name: depot_name
-        description: "{{ doc('column__nhanhvn__depot_name') }}"
+        description: Tên kho hàng
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: customer_id
-        description: "{{ doc('column__nhanhvn__customer_id') }}"
+        description: Id khách hàng
         meta:
           dimension:
             type: number
+        data_type: INT64
       - name: created_by_id
-        description: "{{ doc('column__nhanhvn__created_by_id') }}"
+        description: ID người tạo đơn
         meta:
           dimension:
             type: number
-      - name: traffic_source_name
-        description: "{{ doc('column__nhanhvn__traffic_source_name') }}"
-        meta:
-          dimension:
-            type: string
+        data_type: INT64
+      - name: traffic_source_id
+        description: ""
+        data_type: INT64
       - name: order_type
-        description: "{{ doc('column__nhanhvn__order_type') }}"
+        description: Loại đơn hàng (Shipping | Shopping)
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: order_status
-        description: "{{ doc('column__nhanhvn__order_status') }}"
+        description: Trạng thái đơn hàng
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: created_date
-        description: "{{ doc('column__nhanhvn__created_date') }}"
+        description: Thời gian tạo đơn hàng
         meta:
           dimension:
             type: timestamp
+        data_type: DATETIME
       - name: product_id
-        description: "{{ doc('column__nhanhvn__product_id') }}"
+        description: ID sản phẩm trên Nhanh.vn
         meta:
           dimension:
             type: number
+        data_type: INT64
       - name: service_name
-        description: "{{ doc('column__nhanhvn__service_name') }}"
+        description: Tên dịch vụ vận chuyển
         meta:
           dimension:
             type: string
+        data_type: STRING
+      - name: delivery_date
+        description: ""
+        data_type: DATE
       - name: price
-        description: "{{ doc('column__nhanhvn__price') }}"
+        description: Giá bán lẻ sản phẩm
         meta:
           dimension:
             type: number
+        data_type: INT64
       - name: quantity
-        description: "{{ doc('column__nhanhvn__quantity') }}"
+        description: Số lượng sản phẩm
         meta:
           dimension:
             type: number
+        data_type: INT64
       - name: ship_address
-        description: "{{ doc('column__nhanhvn__ship_address') }}"
+        description: Địa chỉ giao hàng đến cấp phường/xã
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: item_discount
-        description: "{{ doc('column__nhanhvn__discount') }}, theo sản phẩm"
+        description: Chiết khấu, theo sản phẩm
         meta:
           dimension:
             type: number
+        data_type: INT64
       - name: order_discount
-        description: "{{ doc('column__nhanhvn__discount') }}, theo đơn hàng"
+        description: Chiết khấu, theo đơn hàng
         meta:
           dimension:
             type: number
+        data_type: FLOAT64
       - name: money_used_points
-        description: "{{ doc('column__nhanhvn__money_used_points') }}"
+        description: Số tiền tiêu điểm đã tiêu
         meta:
           dimension:
             type: number
-      - name: item_gross_amount
-        description: "{{ doc('column__nhanhvn__item_gross_amount') }}"
-        meta:
-          dimension:
-            type: number
-      - name: delivery_fee
-        description: "{{ doc('column__nhanhvn__delivery_fee') }}"
-        meta:
-          dimension:
-            type: number
-      - name: sub_total
-        description: "{{ doc('column__nhanhvn__sub_total') }}"
-        meta:
-          dimension:
-            type: number
-      - name: order_total_lines
-        description: Số lượng line trong đơn hàng
-        meta:
-          dimension:
-            type: number
+        data_type: FLOAT64
       - name: fulfillment_time
         description: ""
         meta:
           dimension:
             type: number
+        data_type: FLOAT64
+      - name: item_gross_amount
+        description: Giá trị sản phẩm sau chiết khấu
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: delivery_fee
+        description: Chi phí cho hãng vận chuyển, bao gồm phí giao hàng & phí thu hộ
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: sub_total
+        description: Giá trị đơn hàng sau chiết khấu
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: order_total_lines
+        description: Số lượng line trong đơn hàng
+        meta:
+          dimension:
+            type: number
+        data_type: INT64

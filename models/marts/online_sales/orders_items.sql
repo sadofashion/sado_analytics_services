@@ -35,6 +35,7 @@ SELECT
     orders.order_status,
     orders.created_date,
     orders.product_id,
+    orders.product_code,
     carriers.service_name,
     orders.delivery_date,
     orders.price,
