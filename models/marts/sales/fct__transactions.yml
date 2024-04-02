@@ -1,22 +1,18 @@
 version: 2
 models:
   - name: fct__transactions
-    description: "The 'company_revenue' model is a comprehensive view of the
+    description: "The 'fct__transactions' model is a comprehensive view of the
       company's transactions, combining data from two sources: 'kiotviet' and
-      'nhanhvn'. It includes details about each transaction such as the
-      transaction ID, code, date, reference transaction ID, branch ID, customer
-      ID, employee ID, total amount, total payment, discount, discount ratio,
-      return fee, transaction type, modified date, source, and transaction
-      source ID. The model is designed to provide a holistic view of the
+      'nhanhvn'. The model is designed to provide a holistic view of the
       company's revenue, taking into account both invoices and returns. It is
       particularly useful for business users who need to analyze revenue trends,
       customer behavior, and transaction patterns."
     meta:
       joins:
         - join: calendar
-          sql_on: ${calendar.date} = ${company_revenue.transaction_date}
+          sql_on: ${calendar.date} = ${fct__transactions.transaction_date}
         - join: dim__branches
-          sql_on: ${dim__branches.branch_id} = ${company_revenue.branch_id}
+          sql_on: ${dim__branches.branch_id} = ${fct__transactions.branch_id}
     columns:
       - name: transaction_id
         description:
@@ -73,7 +69,7 @@ models:
             hidden: true
           metrics:
             m_working_days:
-              sql: count(distinct concat(${transaction_date}, ${branch_id}))
+              sql: count(distinct (${transaction_date}||${branch_id}))
               label: Working Days
               round: 0
               group_label: Working Days
@@ -88,6 +84,25 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_active_customers:
+              type: count_distinct
+              label: Active Customers
+              round: 0
+              group_label: Customers
+            m_customers_psd:
+              type: number
+              sql: safe_divide(${m_active_customers},${m_working_days})
+              label: Customers per day
+              round: 1
+              group_label: Customers
+            m_revenue_per_customer:
+              type: number
+              sql: safe_divide(${m_total_payment},${m_active_customers})
+              label: Revenue per customer
+              round: 1
+              compact: thousands
+              group_label: Sales Metrics
         data_type: BIGNUMERIC
       - name: employee_id
         description:
@@ -108,11 +123,11 @@ models:
             type: number
             hidden: true
           metrics:
-            m_total_revenue:
+            m_total_value:
               type: sum
               compact: millions
               round: 1
-              label: Total Revenue
+              label: Total Booked Revenue
               group_label: Revenue Metrics
             m_total_returned:
               type: sum
@@ -171,6 +186,13 @@ models:
               group_label: Revenue Metrics
               filters:
                 - transaction_type: invoice
+            m_revenue_psd:
+              type: number
+              sql: safe_divide(${m_total_payment} , ${m_working_days})
+              compact: millions
+              round: 1
+              label: Revenue Per Day
+              group_label: Revenue Metrics
         data_type: FLOAT64
       - name: discount
         description:
@@ -288,11 +310,32 @@ models:
               type: count_distinct
               group_label: Sales Metrics
               round: 0
+              filters:
+                - transaction_type: invoice
+            m_num_invoices_psd:
+              type: number
+              sql: safe_divide(${m_num_invoices} , ${m_working_days})
+              round: 0
+              label: No. Invoices Per Day
+              group_label: Sales Metrics
+              filters:
+                - transaction_type: invoice
             m_num_returns:
               label: No. Returns
               type: count_distinct
               group_label: Sales Metrics
               round: 0
+              filters:
+                - transaction_type: return
+            m_return_rate:
+              type: number
+              label: Return Rate
+              group_label: Sales Metrics
+              sql: safe_divide(${m_num_returns},${m_num_invoices})
+              format: percent
+              round: 1
+              filters:
+                - transaction_type: return
         tests:
           - unique
         data_type: STRING

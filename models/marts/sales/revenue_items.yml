@@ -28,9 +28,7 @@ models:
             - province
             - region
         - join: stg_kiotviet__customers
-          sql_on: >-
-            ${stg_kiotviet__customers.customer_id} =
-            ${revenue_items.customer_id}
+          sql_on: ${stg_kiotviet__customers.customer_id} = ${revenue_items.customer_id}
           fields:
             - customer_id
             - customer_group
@@ -62,58 +60,80 @@ models:
           dimension:
             type: number
             hidden: true
+        data_type: BIGNUMERIC
       - name: transaction_code
         description: ""
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: reference_transaction_id
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: NUMERIC
       - name: transaction_date
         description: ""
         meta:
           dimension:
             type: timestamp
             hidden: true
+        data_type: TIMESTAMP
       - name: transaction_status
         description: ""
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: branch_id
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: NUMERIC
       - name: employee_id
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: BIGNUMERIC
       - name: customer_id
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: BIGNUMERIC
       - name: product_id
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: BIGNUMERIC
       - name: product_code
         description: ""
         meta:
           dimension:
             type: string
             hidden: true
+        data_type: STRING
+      - name: price
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: transaction_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
       - name: quantity
         description: ""
         meta:
@@ -147,6 +167,7 @@ models:
         meta:
           dimension:
             type: number
+        data_type: FLOAT64
       - name: discount
         description: ""
         meta:
@@ -161,6 +182,7 @@ models:
               round: 1
           dimension:
             type: number
+        data_type: FLOAT64
       - name: subtotal
         description: ""
         meta:
@@ -169,7 +191,7 @@ models:
               type: sum
               label: Item Value
               group_label: Sales Metrics
-              compact: billions
+              compact: millions
               round: 1
               filters:
                 - transaction_type: invoice

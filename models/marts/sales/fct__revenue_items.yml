@@ -1,0 +1,263 @@
+version: 2
+models:
+  - name: fct__revenue_items
+    meta:
+      joins:
+        - join: dim__branches
+          sql_on: ${dim__branches.branch_id} = ${fct__revenue_items.branch_id}
+          fields:
+            - asm_name
+            - branch_name
+            - branch_id
+            - fb_ads_pic
+            - local_page
+            - province
+            - region_page
+            - region
+        - join: dim__inventory_items
+          sql_on: >-
+            ${dim__inventory_items.product_code} =
+            ${fct__revenue_items.product_code}
+          fields:
+            - ads_product_mapping
+            - category
+            - class_name
+            - sub_productline
+            - product_name
+            - product_line
+            - product_group
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__revenue_items.transaction_date}
+    columns:
+      - name: branch_id
+        description: >-
+          This is a numeric identifier that represents the specific branch where
+          the transaction took place. It is crucial for understanding the
+          performance of different branches and identifying areas for
+          improvement.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: NUMERIC
+      - name: customer_id
+        description: >-
+          This is a big numeric identifier that represents a unique customer.
+          Can be useful for customer segmentation and personalized marketing.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: BIGNUMERIC
+      - name: product_code
+        description: >-
+          This is a string identifier that represents a unique product. It is
+          used to track the sales performance of individual products, which can
+          be useful for inventory management and sales forecasting.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: transaction_date
+        description: >-
+          This column represents the date when the transaction occurred. This
+          information can be useful for analyzing sales trends over time or
+          comparing sales performance across different periods.
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: transaction_type
+        description: >-
+          This column indicates the type of transaction that took place. This
+          information can be useful for understanding the nature of transactions
+          and identifying patterns in sales and returns.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: transaction_source
+        description: This column identifies the source of the transaction
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: price
+        description: >-
+          The 'price' column represents the original price of the product sold
+          in a transaction. This is the price before any discounts are applied.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: FLOAT64
+      - name: quantity
+        description: >-
+          The 'quantity' column indicates the number of units of a product sold
+          in a single transaction. This can be used to understand the volume of
+          products sold.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_units_sold:
+              type: sum
+              label: Units Sold
+              group_label: Sales Metrics
+              compact: thousands
+              round: 2
+              filters:
+                - transaction_type: invoice
+            m_units_returned:
+              type: sum
+              label: Units Returned
+              group_label: Sales Metrics
+              compact: thousands
+              round: 2
+              filters:
+                - transaction_type: return
+            m_units_returned_pct:
+              type: number
+              label: Units Returned Pct
+              sql: safe_divide(${m_units_returned} , ${m_units_sold})
+              format: percent
+              round: 2
+              group_label: Sales Metrics
+        data_type: NUMERIC
+      - name: discount
+        description: >-
+          The 'discount' column shows the total discount applied to the product
+          in a transaction. This is useful for understanding the promotional
+          activities and their impact on sales.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_dct_value:
+              type: sum
+              label: Total Discount Value
+              group_label: Sales Metrics
+              compact: millions
+              round: 1
+              filters:
+                - transaction_type: invoice
+            m_avg_dct_per_item:
+              type: number
+              label: Avg Discount per Unit
+              sql: safe_divide(${m_total_dct_value} , ${m_units_sold})
+              compact: thousands
+              round: 0
+              group_label: Sales Metrics
+              filters:
+                - transaction_type: invoice
+            m_avg_dct_pct:
+              type: number
+              label: Avg Discount Pct
+              sql: safe_divide(${m_total_dct_value} , ${m_total_sold_value})
+              format: percent
+              round: 2
+              group_label: Sales Metrics
+              filters:
+                - transaction_type: invoice
+        data_type: FLOAT64
+      - name: subtotal
+        description: >-
+          The 'subtotal' column represents the total amount of revenue generated
+          from a particular transaction after discounts are applied. This
+          information is crucial for understanding the gross revenue generated
+          from each transaction.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_sold_value:
+              type: sum
+              label: Total Sold Value (after item discount)
+              group_label: Sales Metrics
+              compact: millions
+              round: 1
+              filters:
+                - transaction_type: invoice
+            m_total_retuned_value:
+              type: sum
+              label: Total Sold Value (after item discount)
+              group_label: Sales Metrics
+              compact: millions
+              round: 1
+              filters:
+                - transaction_type: return
+            m_avg_sold_price:
+              type: number
+              label: Avg Sold Price
+              sql: safe_divide(${m_total_sold_value} , ${m_units_sold})
+              compact: thousands
+              round: 2
+              group_label: Sales Metrics
+              filters:
+                - transaction_type: invoice
+        data_type: FLOAT64
+      - name: num_transactions
+        description: >-
+          This column represents the total number of unique transactions made by
+          a customer for a specific product on a particular date.
+        data_type: INT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_invoices:
+              type: sum
+              label: Num Invoices
+              group_label: Sales Metrics
+              compact: thousands
+              round: 1
+              filters:
+                - transaction_type: invoice
+            m_num_returns:
+              type: sum
+              label: Num Returns
+              group_label: Sales Metrics
+              compact: thousands
+              round: 1
+              filters:
+                - transaction_type: return
+            m_items_per_invoice:
+              type: number
+              label: Items per Invoice
+              sql: safe_divide(${m_units_sold} , ${m_num_invoices})
+              compact: thousands
+              round: 1
+              group_label: Sales Metrics
+              filters:
+                - transaction_type: invoice
+            m_items_per_return:
+              type: number
+              label: Items per Return
+              sql: safe_divide(${m_units_returned} , ${m_num_returns})
+              compact: thousands
+              round: 1
+              group_label: Sales Metrics
+              filters:
+                - transaction_type: return
+            m_item_dct_per_invoice:
+              type: number
+              label: Item Discount per Invoice
+              sql: safe_divide(${m_total_dct_value} , ${m_num_invoices})
+              compact: thousands
+              round: 1
+              group_label: Sales Metrics
+              filters:
+                - transaction_type: invoice
+            
+    description: >-
+      The fct__revenue_items model merges transaction data from the kiotviet and
+      nhanhvn sources, providing details such as branch, customer, product,
+      transaction date, type, source, price, quantity, discount, and subtotal.
