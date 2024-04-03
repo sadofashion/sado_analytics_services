@@ -7,8 +7,6 @@ sources:
     tables:
       - name: "_ext_asm_list"
       - name: "_ext_asm_list2"
-      - name: "_ext_nhanhvn_salechannel"
-      - name: "_ext_region"
       - name: "facebook_budget"
         identifier: "_ext_facebook_budget__*"
       - name: "_ext_pancake_tags"
