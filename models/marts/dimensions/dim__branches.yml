@@ -58,11 +58,36 @@ models:
         meta:
           dimension:
             type: string
+          additional_dimensions:
+            d_province:
+              type: string
+              sql: case when ${province} is null then 'Chưa phân loại' else ${province} end
+              label: Province group
         data_type: STRING
       - name: region
         description: ""
         meta:
           dimension:
             type: string
+          additional_dimensions:
+            d_region:
+              type: string
+              sql: case when ${region} is null then 'Chưa phân loại' else ${region} end
+              label: Region group
         data_type: STRING
+      - name: channel
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: opening_day
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: close_date
+        description: ""
+        meta:
+          dimension:
+            type: date
     description: Tổng hợp CH Online & Offline

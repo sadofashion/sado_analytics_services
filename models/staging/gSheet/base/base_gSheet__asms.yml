@@ -37,3 +37,23 @@ models:
         meta:
           dimension:
             type: string
+      - name: opening_day
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: close_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region
+        description: ""
+        meta:
+          dimension:
+            type: string

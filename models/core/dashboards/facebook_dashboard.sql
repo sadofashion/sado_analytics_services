@@ -61,6 +61,8 @@ facebook_budget AS (
     budget.date <= CURRENT_DATE()
     {% if is_incremental() %}
     and budget.date >= date_add(date(_dbt_max_partition), interval -3 day)
+    {% else %}
+    and budget.date >= '2023-11-01'
   {% endif %}
   GROUP BY
     1,

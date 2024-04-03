@@ -74,6 +74,26 @@ models:
         meta:
           dimension:
             type: string
+      - name: opening_day
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: close_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: region
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
   - name: stg_gsheet__facebook_budget
     columns:
       - name: branch

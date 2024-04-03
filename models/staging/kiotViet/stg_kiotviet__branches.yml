@@ -43,13 +43,3 @@ models:
         meta:
           dimension:
             type: timestamp
-      - name: region
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: province
-        description: ""
-        meta:
-          dimension:
-            type: string
