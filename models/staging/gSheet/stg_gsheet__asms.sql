@@ -21,20 +21,10 @@
         local_page,
         region_page,
         pic,
+        opening_day,
+        close_date,
+        region,
+        province,
 
     FROM
         {{ ref('base_gSheet__asms') }}
-{# )
-SELECT
-    asm_list.asm_name,
-    branches.branch_id,
-    asm_list.phone,
-    asm_list.email,
-    asm_list.local_page,
-    asm_list.region_page,
-    asm_list.pic,
-FROM
-    asm_list
-    LEFT JOIN {{ ref('stg_kiotviet__branches') }}
-    branches
-    ON asm_list.store_name = branches.branch_name #}

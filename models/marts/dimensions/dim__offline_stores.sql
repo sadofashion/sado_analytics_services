@@ -24,6 +24,8 @@ select
     pic as fb_ads_pic,
     phone, 
     email,
+    province,
+    region,
 from {{ ref("stg_gsheet__asms") }}
 )
 
@@ -36,8 +38,8 @@ SELECT
     asm_list.local_page,
     asm_list.region_page,
     asm_list.fb_ads_pic,
-    branches.province,
-    branches.region,
+    asm_list.province,
+    asm_list.region,
 FROM
     asm_list
     LEFT JOIN  branches
