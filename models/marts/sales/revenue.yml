@@ -6,13 +6,6 @@ models:
       terminated transaction
     meta:
       joins:
-        - join: stg_kiotviet__branches
-          sql_on: ${stg_kiotviet__branches.branch_id} = ${revenue.branch_id}
-          fields:
-            - branch_name
-            - region
-            - province
-            - branch_id
         - join: rfm_movement
           sql_on: >-
             ${rfm_movement.customer_id} = ${revenue.customer_id} and
@@ -39,14 +32,6 @@ models:
           sql_on: ${calendar.date} = date(revenue.transaction_date)
         - join: dim__branches
           sql_on: ${dim__branches.branch_id} = ${revenue.branch_id}
-          fields:
-            - local_page
-            - region_page
-            - fb_ads_pic
-            - asm_name
-            - branch_name
-            - province
-            - region
     columns:
       - name: transaction_id
         description: ""

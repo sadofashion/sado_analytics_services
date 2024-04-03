@@ -10,13 +10,6 @@ models:
             - price
     meta:
       joins:
-        - join: stg_kiotviet__branches
-          sql_on: ${stg_kiotviet__branches.branch_id} = ${revenue_items.branch_id}
-          fields:
-            - branch_name
-            - region
-            - province
-            - branch_id
         - join: dim__branches
           sql_on: ${dim__branches.branch_id} = ${revenue_items.branch_id}
           fields:

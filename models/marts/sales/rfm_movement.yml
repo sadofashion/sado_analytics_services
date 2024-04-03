@@ -19,14 +19,8 @@ models:
             - customer_groups
             - customer_type
             - branch_name
-        - join: stg_kiotviet__branches
-          alias: last_branch
-          sql_on: ${rfm_movement.last_purchase_branch} = ${last_branch.branch_id}
-          fields:
-            - branch_id
-            - branch_name
-            - province
-            - region
+        - join: dim__branches
+          sql_on: ${rfm_movement.last_purchase_branch} = ${dim__branches.branch_id}
     columns:
       - name: customer_id
         description: ""
