@@ -69,7 +69,8 @@ models:
             hidden: true
           metrics:
             m_working_days:
-              sql: count(distinct (${transaction_date}||${branch_id}))
+              type: count_distinct
+              sql:  (${transaction_date}||${branch_id})
               label: Working Days
               round: 0
               group_label: Working Days
@@ -216,13 +217,11 @@ models:
                 - transaction_type: invoice
             m_discount_pct:
               type: number
-              format: percent
-              round: 1
+              sql: safe_divide(${m_total_discount},${m_invoice_value}+${m_total_discount})
               label: Discount Pct
               group_label: Revenue Metrics
-              sql: safe_divide(${m_total_discount},${m_invoice_value}+${m_total_discount})
-              filters:
-                - transaction_type: invoice
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: discount_ratio
         description:
@@ -318,8 +317,6 @@ models:
               round: 0
               label: No. Invoices Per Day
               group_label: Sales Metrics
-              filters:
-                - transaction_type: invoice
             m_num_returns:
               label: No. Returns
               type: count_distinct
@@ -334,8 +331,6 @@ models:
               sql: safe_divide(${m_num_returns},${m_num_invoices})
               format: percent
               round: 1
-              filters:
-                - transaction_type: return
         tests:
           - unique
         data_type: STRING

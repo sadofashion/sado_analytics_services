@@ -154,8 +154,6 @@ models:
               compact: thousands
               round: 0
               group_label: Sales Metrics
-              filters:
-                - transaction_type: invoice
             m_avg_dct_pct:
               type: number
               label: Avg Discount Pct
@@ -163,8 +161,6 @@ models:
               format: percent
               round: 2
               group_label: Sales Metrics
-              filters:
-                - transaction_type: invoice
         data_type: FLOAT64
       - name: subtotal
         description: >-
@@ -200,8 +196,6 @@ models:
               compact: thousands
               round: 2
               group_label: Sales Metrics
-              filters:
-                - transaction_type: invoice
         data_type: FLOAT64
       - name: num_transactions
         description: >-
@@ -236,8 +230,6 @@ models:
               compact: thousands
               round: 1
               group_label: Sales Metrics
-              filters:
-                - transaction_type: invoice
             m_items_per_return:
               type: number
               label: Items per Return
@@ -245,8 +237,6 @@ models:
               compact: thousands
               round: 1
               group_label: Sales Metrics
-              filters:
-                - transaction_type: return
             m_item_dct_per_invoice:
               type: number
               label: Item Discount per Invoice
@@ -254,8 +244,6 @@ models:
               compact: thousands
               round: 1
               group_label: Sales Metrics
-              filters:
-                - transaction_type: invoice
             
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and

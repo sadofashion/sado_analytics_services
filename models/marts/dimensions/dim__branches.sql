@@ -32,6 +32,7 @@ from {{ ref("stg_gsheet__asms") }}
 SELECT
     branches.branch_id,
     branches.branch_name,
+    case when asm_list.asm_name is null then 'Kho & CH khác Kiotviet' else asm_list.asm_name end as channel,
 
     asm_list.asm_name,
     asm_list.phone,
@@ -54,6 +55,7 @@ union all
 select 
     channel_id as branch_id,
     channel as branch_name,
+    "Online & Ecom" as channel,
 
     "Online" as asm_name,
     cast(null as string) as phone,
