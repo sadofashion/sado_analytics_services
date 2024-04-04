@@ -41,20 +41,24 @@ nhanhvn__products AS (
         productline,
         ads_product_mapping
     FROM
-        {{ ref("stg_nhanhvn__products") }}
+        (
+            {{ dbt_utils.deduplicate(relation=ref("stg_nhanhvn__products"),
+                partition_by = 'product_code',
+                order_by = 'product_id desc') }}
+        )
     WHERE 1=1
         {# and type_name NOT IN ('Combo') #}
 )
 SELECT
-    COALESCE(
+    coalesce(
         p1.product_code,
         p2.product_code
     ) AS product_code,
-    COALESCE(
+    coalesce(
         p1.product_name,
         p2.product_name
     ) AS product_name,
-    COALESCE(
+    coalesce(
         p1.class_code,
         p2.class_code
     ) AS class_code,
@@ -66,7 +70,7 @@ SELECT
     ELSE 'Quanh năm' END AS product_group,
     {# p1.product_group, #}
     coalesce(p1.ads_product_mapping,p2.ads_product_mapping) as ads_product_mapping,
-    COALESCE(
+    coalesce(
         p1.category,
         p2.category_name
     ) AS category,
