@@ -5,27 +5,12 @@ models:
       joins:
         - join: dim__branches
           sql_on: ${dim__branches.branch_id} = ${fct__revenue_items.branch_id}
-          fields:
-            - asm_name
-            - branch_name
-            - branch_id
-            - fb_ads_pic
-            - local_page
-            - province
-            - region_page
-            - region
+  
         - join: dim__inventory_items
           sql_on: >-
             ${dim__inventory_items.product_code} =
             ${fct__revenue_items.product_code}
-          fields:
-            - ads_product_mapping
-            - category
-            - class_name
-            - sub_productline
-            - product_name
-            - product_line
-            - product_group
+  
         - join: calendar
           sql_on: ${calendar.date} = ${fct__revenue_items.transaction_date}
     columns:
@@ -175,7 +160,7 @@ models:
           metrics:
             m_total_sold_value:
               type: sum
-              label: Total Sold Value (after item discount)
+              label: Total Sold Value
               group_label: Sales Metrics
               compact: millions
               round: 1
@@ -183,7 +168,7 @@ models:
                 - transaction_type: invoice
             m_total_retuned_value:
               type: sum
-              label: Total Sold Value (after item discount)
+              label: Total Returned Value
               group_label: Sales Metrics
               compact: millions
               round: 1

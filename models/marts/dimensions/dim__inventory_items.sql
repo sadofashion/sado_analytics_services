@@ -4,6 +4,10 @@
     )
 }}
 
+{%set nhanh_categoy_mapping = {
+
+}%}
+
 WITH kiotviet_products AS (
     SELECT
         kiot.product_id AS kiotviet_product_id,
@@ -23,8 +27,8 @@ WITH kiotviet_products AS (
         {{ ref("stg_kiotviet__products") }}
         kiot
     WHERE
-        kiot.productline NOT IN ('NGUYÊN PHỤ LIỆU')
-        AND kiot.type NOT IN ('Combo')
+        kiot.productline NOT IN ('NGUYÊN PHỤ LIỆU','NPL 2023','DANH MỤC VẬN CHUYỂN','VẬT TƯ - QUÀ TẶNG')
+        {# AND kiot.type NOT IN ('Combo') #}
 ),
 nhanhvn__products AS (
     SELECT
@@ -32,12 +36,11 @@ nhanhvn__products AS (
         product_name,
         product_code,
         class_code,
-        
         category_name,
     FROM
         {{ ref("stg_nhanhvn__products") }}
-    WHERE
-        type_name NOT IN ('Combo')
+    WHERE 1=1
+        {# and type_name NOT IN ('Combo') #}
 )
 SELECT
     COALESCE(
@@ -53,10 +56,13 @@ SELECT
         p2.class_code
     ) AS class_code,
     p1.class_name,
-    p1.sub_productline,
-    p1.productline,
-    p1.product_group,
-    p1.ads_product_mapping,
+    coalesce(p1.sub_productline,p2.sub_productline) as sub_productline,
+    coalesce(p1.productline,p2.productline) as productline,
+    CASE WHEN regexp_contains(lower(coalesce(p1.productline,p2.productline)),r'thu đông') THEN 'Hàng đông'
+    WHEN regexp_contains(lower(coalesce(p1.productline,p2.productline)),r'xuân hè') THEN 'Hàng hè'
+    ELSE 'Quanh năm' END AS product_group,
+    {# p1.product_group, #}
+    coalesce(p1.ads_product_mapping,p2.ads_product_mapping) as ads_product_mapping,
     COALESCE(
         p1.category,
         p2.category_name
@@ -67,3 +73,9 @@ FROM
     kiotviet_products p1 
     full OUTER JOIN nhanhvn__products p2
     ON p1.product_code = p2.product_code
+    where length(COALESCE(
+        p1.product_code,
+        p2.product_code
+    )) >=8
+    and (p1.productline not in ('ĐỒNG PHỤC') or p1.productline is null)
+    

@@ -10,6 +10,9 @@ models:
             type: string
             hidden: true
         data_type: STRING
+        tests:
+          - unique
+          - not_null
       - name: product_name
         description: This is the name of the product as it appears in the inventory. It
           is used for easy identification of products and is usually descriptive

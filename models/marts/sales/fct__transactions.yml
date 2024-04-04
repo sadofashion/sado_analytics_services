@@ -194,6 +194,29 @@ models:
               round: 1
               label: Revenue Per Day
               group_label: Revenue Metrics
+            m_online_revenue:
+              type: sum
+              compact: millions
+              round: 1
+              label: Online Revenue
+              group_label: Revenue Metrics
+              filters:
+                - dim__branches.channel: 'Online & Ecom'
+            m_offline_revenue:
+              type: sum
+              compact: millions
+              round: 1
+              label: Offline Revenue
+              group_label: Revenue Metrics
+              filters:
+                - dim__branches.channel: 'Offline'
+            m_online_attribution_pct:
+              type: number
+              format: percent
+              round: 2
+              label: Online Attribution Pct
+              group_label: Revenue Metrics
+              sql: safe_divide(${m_online_revenue}, ${m_total_payment})
         data_type: FLOAT64
       - name: discount
         description:
