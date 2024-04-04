@@ -5,16 +5,21 @@ WITH date_spine AS (
         end_date = "date_add( current_date() , interval 6 month)"
     ) }}
 ),
-_milestone as (
-    select 
-    milestones.*
-    from {{ref("stg_gsheet__facebook_budget")}}, unnest(milestones) milestones
-)
-
-
-    SELECT distinct
-        DATE(date_day) AS date,
-        extract(day from date_day) as day_of_month,
+_milestone AS (
+    SELECT
+        milestones.*
+    FROM
+        {{ ref("stg_gsheet__facebook_budget") }},
+        unnest(milestones) milestones
+),
+calendar AS (
+    SELECT
+        DISTINCT DATE(date_day) AS date,
+        EXTRACT(
+            DAY
+            FROM
+                date_day
+        ) AS day_of_month,
         format_date(
             '%A',
             date_day
@@ -38,9 +43,52 @@ _milestone as (
             YEAR
             FROM
                 date_day
-        ) AS year,
-        b.milestone_name as period,
-        concat(format_date('%Y.%m',date_day),'T',regexp_extract(b.milestone_name,r'Tuần (\d+)')) as period_code
+        ) AS YEAR,
     FROM
-        date_spine d
-        left join _milestone b on date(d.date_day) >= b.start and date(d.date_day) <= b.end
+        date_spine
+),
+calendar_fmt AS (
+    SELECT
+        *,
+        "Tuần " || DENSE_RANK() over (
+            PARTITION BY start_of_month
+            ORDER BY
+                GREATEST(
+                    start_of_month,
+                    start_of_week
+                ) ASC
+        ) || ' (' || format_date("%d/%m", GREATEST(start_of_month, start_of_week)) || ' - ' || format_date("%d/%m", LEAST(end_of_week, end_of_month)) || ')' AS period,
+        format_date(
+            "%Y.%mT",
+            DATE
+        ) || DENSE_RANK() over (
+            PARTITION BY start_of_month
+            ORDER BY
+                GREATEST(
+                    start_of_month,
+                    start_of_week
+                ) ASC
+        ) AS period_code
+    FROM
+        calendar
+)
+SELECT
+    distinct
+    d.*
+EXCEPT(
+        period,
+        period_code
+    ),
+    COALESCE(
+        b.milestone_name,
+        d.period
+    ) AS period,
+    COALESCE(
+        CONCAT(format_date('%Y.%m', d.date), 'T', regexp_extract(b.milestone_name, r'Tuần (\d+)')),
+        d.period_code
+    ) AS period_code
+FROM
+    calendar_fmt d
+    LEFT JOIN _milestone b
+    ON d.date >= b.start
+    and d.date <= b.end

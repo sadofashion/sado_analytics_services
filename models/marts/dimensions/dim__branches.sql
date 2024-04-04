@@ -32,7 +32,7 @@ from {{ ref("stg_gsheet__asms") }}
 SELECT
     branches.branch_id,
     branches.branch_name,
-    case when asm_list.asm_name is null then 'Kho & CH khác Kiotviet' else asm_list.asm_name end as channel,
+    case when asm_list.asm_name is null then 'Kho & CH khác Kiotviet' else 'Offline' end as channel,
 
     asm_list.asm_name,
     asm_list.phone,
