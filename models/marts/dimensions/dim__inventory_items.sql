@@ -37,6 +37,9 @@ nhanhvn__products AS (
         product_code,
         class_code,
         category_name,
+        sub_productline,
+        productline,
+        ads_product_mapping
     FROM
         {{ ref("stg_nhanhvn__products") }}
     WHERE 1=1
