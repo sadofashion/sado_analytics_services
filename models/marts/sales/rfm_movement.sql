@@ -3,7 +3,7 @@
   partition_by ={ 'field': 'start_of_month',
   'data_type': 'date',
   'granularity': 'month' },
-  incremental_strategy = 'merge',
+  incremental_strategy = 'insert_overwrite',
   unique_key = ['customer_id', 'start_of_month'],
   on_schema_change = 'sync_all_columns',
   tags = ['incremental','table', 'fact', 'kiotviet','daily']
