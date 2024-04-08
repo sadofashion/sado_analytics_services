@@ -8,7 +8,7 @@
       "data_type": "timestamp",
       "granularity": "day"
     },
-    incremental_strategy = 'merge',
+    incremental_strategy = 'insert_overwrite',
     tags = ['incremental', 'hourly','kiotviet']
     )
 }}

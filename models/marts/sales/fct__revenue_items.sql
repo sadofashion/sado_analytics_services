@@ -75,7 +75,7 @@ nhanhvn_details AS (
         {% if is_incremental() %}
           and delivery_date in (
             select distinct delivery_date from {{ ref("orders_items") }} 
-            where delivery_date >= date(_dbt_max_partition)
+            where created_date >= date(_dbt_max_partition)
             )
         {% endif %}
     {{dbt_utils.group_by(7)}}
