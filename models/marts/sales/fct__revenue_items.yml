@@ -94,16 +94,14 @@ models:
               type: sum
               label: Units Sold
               group_label: Sales Metrics
-              compact: thousands
-              round: 2
+              round: 0
               filters:
                 - transaction_type: invoice
             m_units_returned:
               type: sum
               label: Units Returned
               group_label: Sales Metrics
-              compact: thousands
-              round: 2
+              round: 0
               filters:
                 - transaction_type: return
             m_units_returned_pct:
@@ -212,14 +210,12 @@ models:
               type: number
               label: Items per Invoice
               sql: safe_divide(${m_units_sold} , ${m_num_invoices})
-              compact: thousands
               round: 1
               group_label: Sales Metrics
             m_items_per_return:
               type: number
               label: Items per Return
               sql: safe_divide(${m_units_returned} , ${m_num_returns})
-              compact: thousands
               round: 1
               group_label: Sales Metrics
             m_item_dct_per_invoice:

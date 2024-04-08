@@ -41,7 +41,11 @@ kiotviet_details AS (
         {{ ref('revenue_items') }}
         where 1=1
         {% if is_incremental() %}
-          and date(transaction_date) >= date(_dbt_max_partition)
+          and date(transaction_date) in (
+            select distinct date(transaction_date) 
+            from {{ ref('revenue_items') }} 
+            where date(transaction_date) >= date(_dbt_max_partition)
+            )
         {% endif %}
     {{dbt_utils.group_by(7)}}
 ),
@@ -69,7 +73,10 @@ nhanhvn_details AS (
         left join customer_id_converter on s.customer_id = customer_id_converter.nhanhvn_customer_id
         where s.order_status IN ("Thành công")
         {% if is_incremental() %}
-          and delivery_date >= date(_dbt_max_partition)
+          and delivery_date in (
+            select distinct delivery_date from {{ ref("orders_items") }} 
+            where delivery_date >= date(_dbt_max_partition)
+            )
         {% endif %}
     {{dbt_utils.group_by(7)}}
 )

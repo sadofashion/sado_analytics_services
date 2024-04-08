@@ -8,7 +8,6 @@ models:
         meta:
           dimension:
             type: string
-            hidden: true
         data_type: STRING
         tests:
           - not_null
@@ -19,7 +18,6 @@ models:
         meta:
           dimension:
             type: string
-            hidden: true
         data_type: STRING
       - name: class_code
         description: This is a code that categorizes products into different classes. It
@@ -46,7 +44,6 @@ models:
         meta:
           dimension:
             type: string
-            hidden: true
         data_type: STRING
       - name: productline
         description: This column represents the main product line or category. It is a
