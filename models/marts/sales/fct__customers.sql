@@ -1,7 +1,7 @@
 {{
   config(
     materialized = 'table',
-    tags = ['table', 'daily','fact','kiotviet','nhanhvn']
+    tags = ['table', 'daily','dimension','kiotviet','nhanhvn']
     )
 }}
 
