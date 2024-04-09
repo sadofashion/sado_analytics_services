@@ -2,7 +2,7 @@
   config(
     materialized = 'incremental',
     partition_by = {"field": "created_date", "data_type": "datetime", "granularity": "day"},
-    incremental_strategy = 'merge',
+    incremental_strategy = 'insert_overwrite',
     unique_key = 'order_id',
     on_schema_change = 'sync_all_columns',
     tags = ['incremental', 'hourly','nhanhvn']
@@ -15,7 +15,13 @@ WITH source AS (
     where 1=1
     and createdDateTime is not null
     {% if is_incremental() %}
-    and date(_batched_at) >= date(_dbt_max_partition)
+    where date(create_date) in (
+        select 
+        distinct date(createdDate) 
+        from {{ source('nhanhvn', 'p_orders') }} 
+    where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
+        )
+        and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -7 day)
     {% endif %}
 ),
 

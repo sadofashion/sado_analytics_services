@@ -19,7 +19,24 @@
         'Chờ thu gom',
         'Đang chuyển',
         'Thành công']%}
+with orders as (
+    SELECT
+    orders.* except(products),
+    products.product_id,
+    products.product_code,
+    products.price,
+    sum(products.quantity) quantity,
+    sum(products.item_discount) item_discount,
+FROM
+    {{ ref('stg_nhanhvn__ordersdetails') }}
+    orders,
+    unnest(products) products
+    {% if is_incremental() %}
+      where date(created_date) >= date(_dbt_max_partition)
+    {% endif %}
+    {{dbt_utils.group_by(40)}}
 
+)
 
 SELECT
     orders.order_id,
@@ -54,7 +71,6 @@ SELECT
     ) /(COUNT(product_id) over w1) AS sub_total,
     (COUNT(product_id) over w1) AS order_total_lines,
 FROM
-    {{ ref('int_nhanhvn__expand_order_details') }}
     orders
     LEFT JOIN {{ ref('stg_nhanhvn__carriers') }}
     carriers
