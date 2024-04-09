@@ -24,7 +24,7 @@ WITH source AS (
             'p_invoices_list'
         ) }} invoice1
         {% if is_incremental() %}
-          where date(create_date) in (select distinct date(createdDate) from {{ source(
+          where date(createdDate) in (select distinct date(createdDate) from {{ source(
             'kiotViet',
             'p_invoices_list'
         ) }} where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
@@ -41,7 +41,7 @@ WITH source AS (
             'p_invoices_list2'
         ) }} 
         {% if is_incremental() %}
-          where date(create_date) in (select distinct date(createdDate) from {{ source(
+          where date(createdDate) in (select distinct date(createdDate) from {{ source(
             'kiotViet',
             'p_invoices_list2'
         ) }} where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)

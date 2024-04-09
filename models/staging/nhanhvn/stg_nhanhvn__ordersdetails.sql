@@ -15,11 +15,10 @@ WITH source AS (
     where 1=1
     and createdDateTime is not null
     {% if is_incremental() %}
-    where date(create_date) in (
-        select 
-        distinct date(createdDate) 
+    and date(createdDateTime) in (
+        select distinct date(createdDateTime) 
         from {{ source('nhanhvn', 'p_orders') }} 
-    where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
+        where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
         )
         and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -7 day)
     {% endif %}
