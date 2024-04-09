@@ -4,10 +4,6 @@
     )
 }}
 
-{%set nhanh_categoy_mapping = {
-
-}%}
-
 WITH kiotviet_products AS (
     SELECT
         kiot.product_id AS kiotviet_product_id,
@@ -67,7 +63,8 @@ SELECT
     coalesce(p1.productline,p2.productline) as productline,
     CASE WHEN regexp_contains(lower(coalesce(p1.productline,p2.productline)),r'thu đông') THEN 'Hàng đông'
     WHEN regexp_contains(lower(coalesce(p1.productline,p2.productline)),r'xuân hè') THEN 'Hàng hè'
-    ELSE 'Quanh năm' END AS product_group,
+    when coalesce(p1.productline,p2.productline) is not null then 'Quanh năm' 
+    else 'Chưa phân loại' END AS product_group,
     {# p1.product_group, #}
     coalesce(p1.ads_product_mapping,p2.ads_product_mapping) as ads_product_mapping,
     coalesce(

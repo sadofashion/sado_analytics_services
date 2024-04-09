@@ -8,9 +8,11 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
         tests:
           - not_null
+          - unique
       - name: product_name
         description: This is the name of the product as it appears in the inventory. It
           is used for easy identification of products and is usually descriptive
@@ -36,6 +38,7 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: sub_productline
         description: This column represents the subcategory within a product line. It
@@ -44,6 +47,12 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_sub_product_line:
+              label: Sub Productline
+              type: string
+              sql: coalesce(${TABLE}.sub_productline, 'Chưa phân loại')
         data_type: STRING
       - name: productline
         description: This column represents the main product line or category. It is a
@@ -53,6 +62,12 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_productline:
+              label: Productline
+              type: string
+              sql: coalesce(${TABLE}.productline, 'Chưa phân loại')
         data_type: STRING
       - name: product_group
         description: This column represents the group to which the product belongs. It
@@ -62,6 +77,12 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_product_group:
+              label: Product group
+              type: string
+              sql: coalesce(${TABLE}.product_group, 'Chưa phân loại')
         data_type: STRING
       - name: ads_product_mapping
         description: This column contains the mapping of the product with the
@@ -71,6 +92,12 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_ads_product_mapping:
+              label: Product group
+              type: string
+              sql: coalesce(${TABLE}.product_group, 'Chưa phân loại')
         data_type: STRING
       - name: category
         description: This column represents the category of the product. The category
@@ -78,6 +105,7 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: kiotviet_product_id
         description: "This is a unique identifier for each product in the KiotViet system. "
