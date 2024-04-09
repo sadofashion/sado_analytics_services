@@ -5,12 +5,10 @@ models:
       joins:
         - join: dim__branches
           sql_on: ${dim__branches.branch_id} = ${fct__revenue_items.branch_id}
-  
         - join: dim__inventory_items
           sql_on: >-
             ${dim__inventory_items.product_code} =
             ${fct__revenue_items.product_code}
-  
         - join: calendar
           sql_on: ${calendar.date} = ${fct__revenue_items.transaction_date}
     columns:
@@ -140,7 +138,7 @@ models:
             m_avg_dct_pct:
               type: number
               label: Avg Discount Pct
-              sql: safe_divide(${m_total_dct_value} , ${m_total_sold_value})
+              sql: safe_divide(${m_total_dct_value} , ${m_total_sold_value}+ ${m_total_dct_value})
               format: percent
               round: 2
               group_label: Sales Metrics
@@ -225,7 +223,30 @@ models:
               compact: thousands
               round: 1
               group_label: Sales Metrics
-            
+      - name: gift_qty
+        description: >-
+          This field is useful for understanding the total qty of gifts or
+          promotional items given to customers.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_gift_amount:
+              type: sum
+              label: Gift Quantity
+              group_label: Sales Metrics
+              round: 1
+              filters:
+                - transaction_type: invoice
+            m_gift_pct:
+              type: number
+              label: Gift Pct
+              group_label: Sales Metrics
+              sql: safe_divide(${m_gift_amount} , ${m_units_sold})
+              format: percent
+              round: 1
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and
       nhanhvn sources, providing details such as branch, customer, product,

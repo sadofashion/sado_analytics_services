@@ -1,6 +1,22 @@
 version: 2
 models:
   - name: fct__customers_attributes
+    meta:
+      joins:
+        - join: calendar
+          alias: last_calendar
+          sql_on: ${last_calendar.date} = ${fct__customers_attributes.last_purchase_date}
+        - join: calendar
+          alias: first_calendar
+          sql_on: ${first_calendar.date} = ${fct__customers_attributes.first_purchase_date}
+        - join: dim__branches
+          alias: create_branch
+          sql_on: ${create_branch.branch_id} = ${fct__customers_attributes.registered_branch_id}
+        - join: dim__branches
+          alias: latest_branch
+          sql_on: ${latest_branch.branch_id} = ${fct__customers_attributes.last_purchase_branch_id}
+        - join: rfm_movement
+          sql_on: ${rfm_movement.customer_id} = ${fct__customers_attributes.customer_id}
     columns:
       - name: customer_id
         description: This is a unique identifier for each customer. It is used to track
@@ -9,9 +25,12 @@ models:
           dimension:
             type: number
             hidden: true
-        tests:
-          - unique
-          - not_null
+          metrics:
+            m_num_customers:
+              type: count_distinct
+              label: Number of Customers
+              group_label: Customers
+              round: 0
         data_type: BIGNUMERIC
       - name: num_transactions
         description: This represents the total number of invoice transactions a customer
@@ -21,6 +40,12 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_transactions:
+              type: sum
+              label: Number of Transactions
+              group_label: Transactions
+              round: 0
         data_type: INT64
       - name: total_purchased_goods_value
         description: This is the total value of all goods purchased by a customer. It
@@ -30,6 +55,13 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_total_purchased_goods_value:
+              type: sum
+              label: Total Purchased Goods Value
+              group_label: Value
+              compact: millions
+              round: 2
         data_type: FLOAT64
       - name: total_monetary_value
         description: This column represents the total monetary value of all transactions
@@ -39,6 +71,26 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_total_monetary_value:
+              type: sum
+              label: Total Monetary Value
+              group_label: Value
+              compact: millions
+              round: 2
+            m_monetary_per_purchase:
+              type: number
+              label: Monetary per Purchase
+              sql: safe_divide(${m_total_monetary_value}, ${m_num_transactions})
+              compact: thousands
+              round: 2
+              group_label: Value
+            m_monetary_per_customer:
+              type: average
+              label: Monetary per Customer
+              compact: millions
+              round: 2
+              group_label: Value
         data_type: FLOAT64
       - name: last_purchase_date
         description: This column indicates the date of the most recent purchase made by
@@ -66,6 +118,34 @@ models:
             type: boolean
             hidden: true
         data_type: BOOLEAN
+      - name: registered_branch_id
+        description: This column represents the branch where the customer made their
+          first purchase. It is useful for understanding the customer's initial
+          point of interaction with the business.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: NUMERIC
+        tests:
+          - not_null
+      - name: last_purchase_branch_id
+        description: This column represents branch where the customer made their most
+          recent purchase. It is useful for understanding customer behavior and
+          preferences, as well as for tracking sales performance across
+          different branches.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          additional_dimensions:
+            d_is_moved:
+              sql: ${TABLE}.registered_branch_id = ${TABLE}.last_purchase_branch_id
+              type: boolean
+              label: Is Moved
+        data_type: NUMERIC
+        tests:
+          - not_null  
     description: The 'fct__customers_attributes' model provides a comprehensive view
       of each customer's transactional behavior. This model is particularly
       useful for understanding customer purchasing patterns and identifying

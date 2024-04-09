@@ -95,9 +95,9 @@ models:
             hidden: true
           additional_dimensions:
             d_ads_product_mapping:
-              label: Product group
+              label: ads product mapping
               type: string
-              sql: coalesce(${TABLE}.product_group, 'Chưa phân loại')
+              sql: coalesce(${TABLE}.ads_product_mapping, 'Chưa phân loại')
         data_type: STRING
       - name: category
         description: This column represents the category of the product. The category

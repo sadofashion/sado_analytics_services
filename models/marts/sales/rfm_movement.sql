@@ -45,7 +45,7 @@ source AS (
       END
     ) num_transactions,
   FROM
-    {{ ref('revenue') }}
+    {{ ref('fct__transactions') }}
   WHERE
     customer_id IS NOT NULL
     {# and total <> 0 #}

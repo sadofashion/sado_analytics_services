@@ -34,7 +34,8 @@ kiotviet_details AS (
 
         price AS price,
         sum(quantity) AS quantity,
-        sum(discount) AS discount,
+        sum(discount) as discount,
+        sum(case when subtotal= 0 then quantity end) as gift_qty,
         sum(subtotal) subtotal,
         count(distinct transaction_id) as num_transactions,
     FROM
@@ -66,7 +67,8 @@ nhanhvn_details AS (
         price AS price,
         sum(quantity) AS quantity,
         sum(item_discount) as discount,
-        sum(sub_total) as subtotal,
+        sum(case when item_gross_amount= 0 then quantity end) as gift_qty,
+        sum(item_gross_amount) as subtotal,
         count(distinct order_id) as num_transactions,
     FROM
         {{ ref("orders_items") }} s 

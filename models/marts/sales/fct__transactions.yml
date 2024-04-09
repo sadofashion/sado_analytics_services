@@ -99,7 +99,7 @@ models:
               group_label: Customers
             m_revenue_per_customer:
               type: number
-              sql: safe_divide(${m_total_payment},${m_active_customers})
+              sql: safe_divide(${m_customer_total_payment},${m_active_customers})
               label: Revenue per customer
               round: 1
               compact: thousands
@@ -171,6 +171,14 @@ models:
               round: 1
               label: Total Collected Revenue
               group_label: Revenue Metrics
+            m_customer_total_payment:
+              type: sum
+              compact: millions
+              round: 1
+              label: Total Collected Revenue
+              group_label: Revenue Metrics
+              filters:
+                - customer_id: "!null"
             m_returned_value:
               type: sum
               compact: millions
