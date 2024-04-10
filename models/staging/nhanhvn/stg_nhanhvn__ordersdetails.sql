@@ -20,7 +20,7 @@ WITH source AS (
         from {{ source('nhanhvn', 'p_orders') }} 
         where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
         )
-        and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -7 day)
+    and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -7 day)
     {% endif %}
 ),
 
@@ -95,6 +95,7 @@ SELECT
     ) AS traffic_source_id,
     orders.couponCode AS coupon_code,
     safe_cast(orders.returnFromOrderId AS int64) return_from_order_id,
+    _batched_at as last_sync,
     ARRAY_AGG(
         STRUCT(
             safe_cast(products.productId AS int64) AS product_id, 
@@ -112,4 +113,4 @@ FROM
     left join deleted_orders
     on orders.id = deleted_orders.orderId
     where deleted_orders.orderId is null
-{{ dbt_utils.group_by(37) }}
+{{ dbt_utils.group_by(38) }}

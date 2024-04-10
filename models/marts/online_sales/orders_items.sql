@@ -32,9 +32,9 @@ FROM
     orders,
     unnest(products) products
     {% if is_incremental() %}
-      where date(created_date) >= date(_dbt_max_partition)
+      where date(last_sync) >= date(_dbt_max_partition)
     {% endif %}
-    {{dbt_utils.group_by(40)}}
+    {{dbt_utils.group_by(41)}}
 
 )
 
@@ -59,6 +59,7 @@ SELECT
     orders.quantity,
     orders.ship_address,
     orders.item_discount,
+    orders.last_sync,
     orders.order_discount /(COUNT(product_id) over w1) order_discount,
     orders.money_used_points /(COUNT(product_id) over w1) AS money_used_points,
     date_diff(orders.delivery_date, DATE(orders.created_date), DAY) /(COUNT(product_id) over w1) AS fulfillment_time,

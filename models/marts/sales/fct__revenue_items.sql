@@ -45,7 +45,7 @@ kiotviet_details AS (
           and date(transaction_date) in (
             select distinct date(transaction_date) 
             from {{ ref('revenue_items') }} 
-            where date(transaction_date) >= date(_dbt_max_partition)
+            where date(modified_date) >= date(_dbt_max_partition)
             )
         {% endif %}
     {{dbt_utils.group_by(7)}}
@@ -77,7 +77,7 @@ nhanhvn_details AS (
         {% if is_incremental() %}
           and delivery_date in (
             select distinct delivery_date from {{ ref("orders_items") }} 
-            where created_date >= date(_dbt_max_partition)
+            where date(last_sync) >= date(_dbt_max_partition)
             )
         {% endif %}
     {{dbt_utils.group_by(7)}}

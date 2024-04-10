@@ -24,6 +24,7 @@ SELECT
     invoices.product_code,
     invoices.price,
     invoices.transaction_type,
+    invoices.modified_date,
     sum(invoices.quantity) quantity,
     avg(COALESCE(
         invoices.discount_ratio,
@@ -44,7 +45,7 @@ WHERE
 {% if is_incremental() %}
 AND date(invoices.transaction_date) >= date_add(DATE(_dbt_max_partition), interval -1 day)
 {% endif %}
-{{dbt_utils.group_by(12)}}
+{{dbt_utils.group_by(13)}}
 
 UNION ALL
 
@@ -61,6 +62,7 @@ SELECT
     returns.product_code,
     returns.price,
     returns.transaction_type,
+    returns.modified_date,
     sum(returns.quantity) quantity, 
     CAST(
         NULL AS float64
@@ -78,4 +80,4 @@ WHERE
 {% if is_incremental() %}
 AND date(returns.transaction_date) >= date_add(DATE(_dbt_max_partition), interval -1 day)
 {% endif %}
-{{dbt_utils.group_by(12)}}
+{{dbt_utils.group_by(13)}}

@@ -55,12 +55,14 @@ kiotviet_rev AS (
         invoices.transaction_status = 'Hoàn thành'
 
 {% if is_incremental() %}
-AND DATE(
-    COALESCE(
-        invoices.modified_date,
-        invoices.transaction_date
-    )
-) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+{# AND date(invoices.transaction_date )in (
+    select 
+    distinct DATE(invoices.transaction_date) 
+    from {{ ref('stg_kiotviet__invoices') }} 
+    where DATE(invoices.modified_date)  >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+) #}
+and date(coalesce(invoices.modified_date,invoices.transaction_date)) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+
 {% endif %}
 UNION ALL
 SELECT
@@ -97,12 +99,13 @@ WHERE
     returns.transaction_status = 'Đã trả'
 
 {% if is_incremental() %}
-AND DATE(
-    COALESCE(
-        returns.modified_date,
-        returns.transaction_date
-    )
-) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+and date(coalesce(returns.modified_date,returns.transaction_date)) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+{# AND date(returns.transaction_date )in (
+    select 
+    distinct DATE(returns.transaction_date) 
+    from {{ ref('stg_kiotviet__returns') }} 
+    where DATE(returns.modified_date)  >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+) #}
 {% endif %}),
 nhanhvn_rev AS (
     SELECT
@@ -143,13 +146,8 @@ nhanhvn_rev AS (
         ON orders.customer_id = customer_id_converter.nhanhvn_customer_id
     WHERE
         1 = 1
-
 {% if is_incremental() %}
-AND COALESCE(
-    delivery_date,
-    send_carrier_date,
-    DATE(created_date)
-) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+AND date(last_sync) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
 {% endif %}
 AND order_status IN (
     {# {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%} #}
