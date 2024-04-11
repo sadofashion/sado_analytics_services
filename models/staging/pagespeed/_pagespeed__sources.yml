@@ -1,0 +1,8 @@
+version: 1
+sources:
+  - name: pagespeed
+    schema: PageSpeedInsights
+    description: "data pulled from nhanhvn via API & Webhook"
+    tables:
+      - name: "pagespeed"
+        identifier: "PageSpeedInsights"

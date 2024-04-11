@@ -1,0 +1,95 @@
+version: 2
+models:
+  - name: fct__pages
+    columns:
+      - name: event_date_dt
+        description: ""
+        meta:
+          dimension:
+            type: date
+        data_type: DATE
+      - name: stream_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: page_location
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: page_views
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: distinct_client_keys
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: new_client_keys
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: entrances
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: total_engagement_time_msec
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: avg_engagement_time_denominator
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: purchase_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: message_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: call_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: generate_lead_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: store_visit_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: scroll_events
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+    description: ""

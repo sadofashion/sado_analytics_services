@@ -1,0 +1,181 @@
+version: 2
+models:
+  - name: stg_pagespeed__metrics
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${stg_pagespeed__metrics.analysis_date}
+    description: >-
+      The model extracts various metrics related to page loading experience such
+      as cumulative layout shift score, experimental time to first byte, first
+      contentful paint, first input delay, interaction to next paint, and
+      largest contentful paint.
+    columns:
+      - name: url
+        description: represents the URL of the webpage
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: strategy
+        description: represents the strategy used for the analysis (mobile | desktop)
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: analysis_date
+        description: The date when the analysis was performed
+        data_type: DATE
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: overall_speed_category
+        description: >-
+          the overall speed category of the webpage as determined by Google's
+          PageSpeed Insights. The speed category can be 'FAST', 'AVERAGE', or
+          'SLOW'.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: accessibility_score
+        description: >-
+          the accessibility score of a webpage as determined by Google's
+          Lighthouse tool. This score is a measure of how accessible the webpage
+          is to all users, including those with disabilities
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_accessibility_score:
+              type: number
+              sql: avg(${accessibility_score}*100)
+              label: Accessibility Score
+              group_label: Scores
+              round: 1
+        data_type: FLOAT64
+      - name: best_practices_score
+        description: >-
+          the score for best practices as calculated by the Lighthouse tool. The
+          score is a measure of how well the webpage adheres to best practices
+          for web development, including aspects like HTTPS usage, correct image
+          aspect ratios, and usage of modern JavaScript features.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_best_practices_score:
+              type: number
+              sql: avg(${best_practices_score}*100)
+              label: Best Practices Score
+              group_label: Scores
+              round: 1
+        data_type: FLOAT64
+      - name: performance_score
+        description: >-
+          performance score of a webpage as calculated by Google's Lighthouse
+          tool. This score is a measure of the page's performance, derived from
+          a variety of metrics including load time and responsiveness.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_performance_score:
+              type: number
+              sql: avg(${performance_score}*100)
+              label: Performance Score
+              group_label: Scores
+              round: 1
+        data_type: FLOAT64
+      - name: pwa_score
+        description: >-
+          Progressive Web App (PWA) score of the webpage, derived from the
+          Lighthouse audit of the webpage and indicates how well the webpage
+          meets the standard of a Progressive Web App
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_pwa_score:
+              type: number
+              sql: avg(${pwa_score}*100)
+              label: PWA Score
+              group_label: Scores
+              round: 1
+        data_type: FLOAT64
+      - name: seo_score
+        description: >-
+          Search Engine Optimization score for a given URL, determined by
+          Google's Lighthouse tool. The SEO score is a measure of how well the
+          website is optimized for search engines.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_seo_score:
+              type: number
+              sql: avg(${seo_score}*100)
+              label: SEO Score
+              group_label: Scores
+              round: 1
+        data_type: FLOAT64
+      - name: metric_name
+        description: website performance metric names
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: metric_category
+        description: category of the performance metric result (FAST | AVERAGE | SLOW)
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: metric_percentile_value
+        description: represents the percentile value of the specific metric being analyzed
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_metric_percentile_value:
+              type: number
+              sql: avg(${metric_percentile_value}*100)
+              label: Metric Percentile Value
+              group_label: Scores
+              round: 1
+      - name: metric_range
+        description: represents the range of the metric distribution
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: range_proportion
+        description: represents the proportion of the metric range
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_range_proportion:
+              type: number
+              sql: avg(${range_proportion}*100)
+              label: Range Proportion
+              group_label: Scores
+              round: 1
+      - name: range_distribution_category
+        description: >-
+          categorizes the distribution of the metric range into 'FAST',
+          'AVERAGE', or 'SLOW'
+        meta:
+          dimension:
+            type: string
+        data_type: STRING

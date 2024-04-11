@@ -8,13 +8,6 @@ models:
           sql_on: ${dim__offline_stores.branch_id} =${facebook_budget.branch_id}
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_budget.date}
-          fields:
-            - date
-            - period
-            - year_month
-            - month_name
-            - no_days
-            - period_code
     columns:
       - name: branch_id
         description: ""

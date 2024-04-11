@@ -1,0 +1,101 @@
+version: 2
+models:
+  - name: fct__sessions
+    columns:
+      - name: client_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: stream_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_start_timestamp
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: session_start_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+        data_type: DATE
+      - name: count_pageviews
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: sum_event_value_in_usd
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: is_session_engaged
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: sum_engaged_time_msec
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: session_number
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: count_purchase
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: count_message
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: count_call
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: count_generate_lead
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: count_store_visit
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+    description: ""

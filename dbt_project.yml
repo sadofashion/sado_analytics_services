@@ -20,6 +20,8 @@ models:
   sado_analytics_services:
     staging:
       +materialized: view
+      caresoft:
+        +enabled: false
     intermediate:
       +materialized: ephemeral
       +docs:
@@ -36,7 +38,7 @@ models:
         +schema: online_sales
     utilities:
       +materialized: view
-      +docs:
+      docs:
         show: false #hide ultitlities
     core:
       +materialized: table

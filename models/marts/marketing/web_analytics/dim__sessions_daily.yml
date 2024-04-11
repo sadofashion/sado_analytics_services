@@ -1,0 +1,299 @@
+version: 2
+models:
+  - name: dim__sessions_daily
+    columns:
+      - name: stream_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_partition_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_partition_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+        data_type: DATE
+      - name: session_partition_start_timestamp
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: landing_page_path
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: landing_page_location
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: landing_page_hostname
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: referrer
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: geo_continent
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: geo_country
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: geo_region
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: geo_city
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: geo_sub_continent
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: geo_metro
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: platform
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_mobile_brand_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_mobile_model_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_mobile_marketing_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_mobile_os_hardware_model
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_operating_system
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_operating_system_version
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_vendor_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_advertising_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_language
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_is_limited_ad_tracking
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_time_zone_offset_seconds
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: device_browser
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_web_info_browser
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_web_info_browser_version
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_web_info_hostname
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: user_campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: user_medium
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: user_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_medium
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_content
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_term
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_default_channel_grouping
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: session_source_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_non_direct_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_non_direct_medium
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_non_direct_campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_non_direct_content
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_non_direct_term
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_non_direct_default_channel_grouping
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_non_direct_source_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+    description: ""
