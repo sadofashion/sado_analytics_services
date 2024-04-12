@@ -49,20 +49,6 @@ WITH source AS (
         and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -7 day)
 
         {% endif %}
-
-    UNION ALL
-
-    SELECT
-        * except(invoiceDelivery,invoiceDetails),
-        invoiceDetails
-    FROM
-        {{ source(
-            'kiotViet',
-            'p_webhook_invoice_update'
-        ) }}
-        {% if is_incremental() %}
-          where date(_batched_at) >= date(_dbt_max_partition)
-        {% endif %}
 ),
 raw_ AS (
     {{ dbt_utils.deduplicate(relation = 'source', partition_by = 'id', order_by = "_batched_at desc",) }}
