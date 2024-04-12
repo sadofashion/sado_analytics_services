@@ -3,7 +3,6 @@ version: 2
 sources:
   - name: googleads
     description: "Google Ads data export"
-    database: agile-scheme-394814
     schema: GoogleAds
     tables:
       - name: account_conversion_stats

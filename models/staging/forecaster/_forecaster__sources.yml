@@ -3,7 +3,6 @@ version: 2
 sources:
   - name: forecaster
     description: "Forecasting models daily results"
-    database: agile-scheme-394814
     schema: AutoForecaster
     tables:
       - name: forecast

@@ -3,7 +3,6 @@ sources:
   - name: kiotViet
     schema: KiotViet
     description: "data pulled from kiotviet via API & Webhook"
-    database: agile-scheme-394814
     tables:
       - name: "p_products_list"
         identifier: "p_products_list__*"

@@ -13,3 +13,4 @@ SELECT
   is_show_on_website,
 FROM
     {{ ref('base_5sfashion__categories') }}
+where category_id is not null
