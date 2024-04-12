@@ -1,6 +1,16 @@
 version: 2
 models:
   - name: fct__items_performance
+    meta:
+      joins:
+        - join: dim__web_items
+          sql_on: ${dim__web_items.item_key} = ${fct__items_performance.item_key}
+        - join: dim__sessions
+          sql_on: ${dim__sessions.session_key} = ${fct__items_performance.session_key}
+        - join: dim__client_keys
+          sql_on: ${dim__client_keys.client_key} = ${fct__items_performance.client_key}
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__items_performance.event_date_dt}
     columns:
       - name: item_id
         description: ""
@@ -74,6 +84,11 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            total_purchase_quantity:
+              type: sum
+              label: "Total Purchase Quantity"
+              round: 0
         data_type: INT64
       - name: avg_purchase_price
         description: average price at which a particular item was purchased
@@ -81,6 +96,12 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            avg_purchase_price:
+              type: average
+              label: "Average Purchase Price"
+              compact: thousands
+              round: 2
         data_type: FLOAT64
       - name: num_view_item
         description: the count of unique view events for each item
@@ -88,6 +109,11 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            num_view_item:
+              type: sum
+              label: "# View Items"
+              compact: thousands
         data_type: INT64
       - name: total_view_item_quantity
         description: ""
@@ -102,6 +128,12 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            avg_view_item_price:
+              type: average
+              label: "Average View Item Price"
+              compact: thousands
+              round: 2
         data_type: FLOAT64
       - name: num_add_to_cart
         description: count of unique events where an item was added to the cart

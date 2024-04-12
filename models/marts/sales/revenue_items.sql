@@ -43,7 +43,13 @@ WHERE
     invoices.transaction_status = 'Hoàn thành'
     AND invoices.quantity <> 0
 {% if is_incremental() %}
-AND date(invoices.transaction_date) >= date_add(DATE(_dbt_max_partition), interval -1 day)
+    AND date(invoices.transaction_date) in (
+        select
+        date(transaction_date) 
+        from {{ ref('stg_kiotviet__invoicedetails') }}
+        where date(coalesce(modified_date,transaction_date)) >= date_add(current_date, interval -1 day)
+    )
+    {# and date(coalesce(invoices.modified_date,invoices.transaction_date)) >= date_add(current_date, interval -3 day) #}
 {% endif %}
 {{dbt_utils.group_by(13)}}
 
@@ -76,8 +82,13 @@ FROM
     returns
 WHERE
     returns.transaction_status = 'Đã trả'
-
 {% if is_incremental() %}
-AND date(returns.transaction_date) >= date_add(DATE(_dbt_max_partition), interval -1 day)
+AND date(returns.transaction_date) in (
+        select 
+        date(transaction_date) 
+        from {{ ref('stg_kiotviet__invoicedetails') }}
+        where date(coalesce(modified_date,transaction_date)) >= date_add(current_date, interval -1 day)
+    )
+{# and date(coalesce(returns.modified_date,returns.transaction_date)) >= date_add(current_date, interval -3 day) #}
 {% endif %}
 {{dbt_utils.group_by(13)}}
