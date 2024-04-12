@@ -1,0 +1,156 @@
+version: 2
+models:
+  - name: fct__items_performance
+    columns:
+      - name: item_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: client_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: session_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: event_date_dt
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: item_variant
+        description: The variant of the item in the format Color | Size
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: coupon
+        description: The coupon code that was used during the purchase
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: promotion_name
+        description: The name of the promotion applied to the item
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: payment_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: delivery_method
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: num_purchase
+        description: This column represents the count of unique purchases made for a
+          particular item
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: total_purchase_quantity
+        description: total quantity of a particular item purchased
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: avg_purchase_price
+        description: average price at which a particular item was purchased
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: FLOAT64
+      - name: num_view_item
+        description: the count of unique view events for each item
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: total_view_item_quantity
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: avg_view_item_price
+        description: average price of the viewed items
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: FLOAT64
+      - name: num_add_to_cart
+        description: count of unique events where an item was added to the cart
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: total_add_to_cart_quantity
+        description: total quantity of items that were added to the cart
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: avg_add_to_cart_price
+        description: average price of items that were added to the cart
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: FLOAT64
+      - name: num_orders
+        description: total number of unique orders placed
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: total_item_revenue
+        description: total revenue generated from the sale of items
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: FLOAT64
+      - name: total_shipping
+        description: total shipping cost for all the items
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: total_tax
+        description: total tax amount for all transactions associated with a specific item
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+    description: The fct__items_performance model provides a detailed view of the
+      performance of items in the e-commerce store.

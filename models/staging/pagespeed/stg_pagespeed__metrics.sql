@@ -46,11 +46,8 @@ preprocess AS (
         *
     FROM
         source unpivot(
-            metrics FOR metric_name IN ({% for metric in metrics %}
-                {{ metric }}
-                {{ ',' if not loop.last }}
-            {% endfor %})
-        )
+            metrics FOR metric_name IN ({{ metrics | join(',') }})
+            )
 )
 SELECT
     * EXCEPT(distributions,metrics),

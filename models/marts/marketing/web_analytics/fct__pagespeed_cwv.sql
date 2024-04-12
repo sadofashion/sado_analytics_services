@@ -21,9 +21,7 @@ avg(proportion_{{ metric | lower() }}) as proportion_{{ metric | lower() }},
 
 from {{ ref('stg_pagespeed__metrics') }}
 PIVOT (avg(metric_percentile_value) as percentile, avg(range_proportion) as proportion FOR metric_name IN (
-    {%for metric in metrics%} 
-    '{{ metric }}' as  {{ metric | lower() }} {{ ',' if not loop.last }}
-    {% endfor %}
+    '{{metrics | join("','")}}'
 ))
 
 {{dbt_utils.group_by(5)}}

@@ -409,23 +409,27 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: address
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: email
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: name
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
     description: ""

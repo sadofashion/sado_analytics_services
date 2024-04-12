@@ -33,11 +33,7 @@ FROM
             unnest(milestones) milestones
     ) 
     pivot (
-    SUM(VALUE) AS val for budget_type IN (
-        {% for item in targets %}
-            '{{item}}' {{ ", " if not loop.last }}
-        {% endfor %}
-    )
+    SUM(VALUE) AS val for budget_type IN ('{{targets|join("','")}}')
     ) AS tb
 ),
 final as (SELECT

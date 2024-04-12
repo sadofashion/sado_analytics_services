@@ -59,7 +59,7 @@ vars:
     is_user_id_implemented: false
     property_ids: [336884118]
     start_date: "20231001"
-    static_incremental_days: 2
+    static_incremental_days: 1
     query_parameter_exclusions: ["gclid", "fbclid", "_ga"]
     query_parameter_extraction: ["gclid", "fbclid", "keyword"]
     conversion_events: ["purchase", "message", "call", "generate_lead", "store_visit"]

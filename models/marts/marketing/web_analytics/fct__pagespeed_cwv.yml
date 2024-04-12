@@ -1,12 +1,17 @@
 version: 2
 models:
   - name: fct__pagespeed_cwv
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__pagespeed_cwv.analysis_date}
     columns:
       - name: analysis_date
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
         data_type: DATE
       - name: url
         description: ""
@@ -37,71 +42,155 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_percentile_cumulative_layout_shift_score:
+              type: average
+              label: Cumulative layout shift Percentile
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: proportion_cumulative_layout_shift_score
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_proportion_cumulative_layout_shift_score:
+              type: sum
+              label: Cumulative layout shift Proportion
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: percentile_experimental_time_to_first_byte
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_percentile_experimental_time_to_first_byte:
+              type: average
+              label: Experimental time to first byte Percentile
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: proportion_experimental_time_to_first_byte
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_proportion_experimental_time_to_first_byte:
+              type: sum
+              label: Experimental time to first byte Proportion
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: percentile_first_contentful_paint_ms
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_percentile_first_contentful_paint_ms:
+              type: average
+              label: First contentful paint Percentile
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: proportion_first_contentful_paint_ms
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_proportion_first_contentful_paint_ms:
+              type: sum
+              label: First contentful paint Proportion
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: percentile_first_input_delay_ms
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_percentile_first_input_delay_ms:
+              type: average
+              label: First input delay Percentile
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: proportion_first_input_delay_ms
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_proportion_first_input_delay_ms:
+              type: sum
+              label: First input delay Proportion
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: percentile_interaction_to_next_paint
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_percentile_interaction_to_next_paint:
+              type: average
+              label: Interaction to next paint Percentile
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: proportion_interaction_to_next_paint
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_proportion_interaction_to_next_paint:
+              type: sum
+              label: Interaction to next paint Proportion
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: percentile_largest_contentful_paint_ms
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_percentile_largest_contentful_paint_ms:
+              type: average
+              label: Largest contentful paint Percentile
+              format: percent
+              round: 1
         data_type: FLOAT64
       - name: proportion_largest_contentful_paint_ms
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_proportion_largest_contentful_paint_ms:
+              type: sum
+              label: Largest contentful paint Proportion
+              format: percent
+              round: 1
         data_type: FLOAT64
     description: ""

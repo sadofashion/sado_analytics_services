@@ -1,54 +1,73 @@
 version: 2
 models:
   - name: fct__sessions
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__sessions.session_start_date}
+        - join: dim__sessions
+          sql_on: ${dim__sessions.session_key} = ${fct__sessions.session_key}
     columns:
       - name: client_key
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_key
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: stream_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: user_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_start_timestamp
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: session_start_date
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
         data_type: DATE
       - name: count_pageviews
         description: ""
         meta:
           dimension:
             type: number
+          metrics:
+            m_pageviews:
+              type: sum
+              label: "# Page Views"
+              group_label: Sessions
+              compact: thousands
         data_type: INT64
       - name: sum_event_value_in_usd
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: FLOAT64
       - name: is_session_engaged
         description: ""
