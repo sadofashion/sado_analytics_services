@@ -1,101 +1,240 @@
 version: 2
 models:
   - name: fct__client_keys
+    meta:
+      joins:
+        - join: calendar
+          alias: first_seen
+          sql_on: ${first_seen.date} = ${fct__client_keys.first_seen_date}
+        - join: calendar
+          alias: last_seen
+          sql_on: ${last_seen.date} = ${fct__client_keys.last_seen_date}
+        - join: dim__sessions
+          sql_on: ${dim__sessions.session_key} = ${fct__client_keys.stream_id}
+        - join: dim__client_keys
+          sql_on: ${dim__client_keys.client_key} = ${fct__client_keys.client_key}
     columns:
       - name: client_key
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
+          metrics:
+            m_num_users:
+              type: count_distinct
+              label: "# Users"
+              compact: thousands
+            m_num_purchased_users:
+              type: count_distinct
+              label: "# Purchased Users"
+              compact: thousands
+              filters:
+                - count_purchases: ">0"
+            m_user_conversion_rate:
+              type: number
+              sql: safe_divide(${m_num_purchased_users}, ${m_num_users})
+              label: User Conversion Rate
+              compact: percentage
         data_type: STRING
       - name: stream_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: first_seen_timestamp
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: last_seen_session_timestamp
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: first_seen_date
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
         data_type: DATE
       - name: last_seen_date
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
         data_type: DATE
       - name: count_pageviews
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_count_pageviews:
+              type: sum
+              label: "# Pageviews"
+              round: 1
+            m_avg_pageviews:
+              type: number
+              sql: safe_divide(${m_count_pageviews}, ${m_num_users})
+              label: Pageviews per User
+              round: 1
         data_type: INT64
       - name: count_engaged_sessions
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_count_engaged_sessions:
+              type: sum
+              label: Engaged Sessions
+              round: 1
+            m_avg_count_engaged_sessions:
+              type: number
+              sql: safe_divide(${m_count_engaged_sessions}, ${m_num_users})
+              label: Avg Engaged Sessions per User
+              round: 1
         data_type: INT64
       - name: sum_event_value_in_usd
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: FLOAT64
       - name: sum_engaged_time_msec
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_engaged_time_msec:
+              type: sum
+              label: Engaged Time (msec)
+              compact: thousands
+              round: 1
+            m_avg_engaged_time_sec:
+              type: number
+              label: Avg Engaged Time per User (Sec)
+              sql: safe_divide(${m_engaged_time_msec}, ${m_num_users})/1000
+              round: 1
+            m_avg_engaged_time_min:
+              type: number
+              label: Avg Engaged Time per User (Min)
+              sql: safe_divide(${m_engaged_time_msec}, ${m_num_users})/60000
+              round: 1
         data_type: INT64
       - name: count_sessions
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_count_sessions:
+              type: sum
+              label: Sessions
+              round: 1
+            m_avg_count_sessions:
+              type: number
+              sql: safe_divide(${m_count_sessions}, ${m_num_users})
+              label: Avg Sessions per User
+              round: 1
         data_type: INT64
       - name: count_purchase
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_count_purchase:
+              type: sum
+              label: Purchases
+            m_avg_count_purchase:
+              type: number
+              sql: safe_divide(${m_count_purchase}, ${m_num_purchased_users})
+              label: Avg Purchases per User
+              round: 1
         data_type: INT64
       - name: count_message
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_count_message:
+              type: sum
+              label: Avg Message per User
+              round: 1
+            m_avg_count_message:
+              type: number
+              sql: safe_divide(${m_count_message}, ${m_num_users})
+              label: Avg Message per User
+              round: 1
         data_type: INT64
       - name: count_call
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_count_call:
+              type: sum
+              label: Count Call
+              round: 1
+            m_avg_count_call:
+              type: number
+              label: Avg Call per User
+              sql: safe_divide(${m_count_call}, ${m_num_users})
+              round: 1
         data_type: INT64
       - name: count_generate_lead
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_avg_count_generate_lead:
+              type: number
+              label: Avg Generate Lead per User
+              sql: safe_divide(${m_count_generate_lead}, ${m_num_users})
+              round: 1
+            m_count_generate_lead:
+              type: sum
+              label: Count Generate Lead
+              round: 1
         data_type: INT64
       - name: count_store_visit
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_avg_count_store_visit:
+              type: number
+              label: Avg Store Visit per User
+              round: 1
+              sql: safe_divide(${m_count_store_visit}, ${m_num_users})
+            m_count_store_visit:
+              type: sum
+              label: Count Store Visit
+              round: 1
         data_type: INT64
     description: ""
