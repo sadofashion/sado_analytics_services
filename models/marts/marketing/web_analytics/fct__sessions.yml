@@ -7,6 +7,8 @@ models:
           sql_on: ${calendar.date} = ${fct__sessions.session_start_date}
         - join: dim__sessions
           sql_on: ${dim__sessions.session_key} = ${fct__sessions.session_key}
+        - join: dim__client_keys
+          sql_on: ${dim__client_keys.client_key} = ${fct__sessions.client_key}
     columns:
       - name: client_key
         description: ""
@@ -14,6 +16,19 @@ models:
           dimension:
             type: string
             hidden: true
+          metrics:
+            m_users:
+              type: count_distinct
+              label: "# Users"
+              group_label: Users
+              compact: thousands
+            m_engaged_users:
+              type: count_distinct
+              label: "# Engaged Users"
+              group_label: Users
+              filters:
+                - is_user_engaged: 1
+              compact: thousands
         data_type: STRING
       - name: session_key
         description: ""
@@ -21,6 +36,19 @@ models:
           dimension:
             type: string
             hidden: true
+          metrics:
+            m_sessions:
+              type: count_distinct
+              label: "# Sessions"
+              group_label: Sessions
+              compact: thousands
+            m_engaged_sessions:
+              type: count_distinct
+              label: "# Engaged Sessions"
+              group_label: Sessions
+              filters:
+                - is_session_engaged: 1
+              compact: thousands
         data_type: STRING
       - name: stream_id
         description: ""
@@ -61,6 +89,12 @@ models:
               label: "# Page Views"
               group_label: Sessions
               compact: thousands
+            m_pageviews_per_session:
+              type: number
+              label: "# Page Views per Session"
+              group_label: Sessions
+              sql: safe_divide(${m_pageviews}, ${m_sessions})
+              round: 1
         data_type: INT64
       - name: sum_event_value_in_usd
         description: ""
@@ -80,41 +114,120 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_avg_engaged_time_msec:
+              type: average
+              label: "Avg Engaged Time (msec)"
+              group_label: Sessions
+              compact: thousands
+            m_total_engaged_time_msec:
+              type: sum
+              label: "Total Engaged Time (msec)"
+              group_label: Sessions
+              compact: thousands
+              round: 0
+            m_total_engaged_time_msec_per_user:
+              type: number
+              label: "Total Engaged Time (msec) per User"
+              group_label: Users
+              sql: safe_divide(${m_total_engaged_time_msec}, ${m_users})
+              round: 1
+            m_med_engaged_time_msec:
+              type: median
+              label: "Median Engaged Time (msec)"
+              group_label: Sessions
+              compact: thousands
+              round: 0
         data_type: INT64
       - name: session_number
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: count_purchase
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_purchase:
+              type: sum
+              label: "# Purchases"
+              group_label: Sessions
+              round: 0
+            m_session_conversion_rate:
+              type: number
+              label: "Session Conversion Rate"
+              group_label: Sessions
+              sql: safe_divide(${m_purchase}, ${m_sessions})
+              round: 1
+            m_user_conversion_rate:
+              type: number
+              label: "User Conversion Rate"
+              group_label: Users
+              sql: safe_divide(${m_purchase}, ${m_users})
+              round: 1
         data_type: INT64
       - name: count_message
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_message:
+              type: sum
+              label: "# Messages"
+              group_label: Sessions
+              round: 0
         data_type: INT64
       - name: count_call
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_call:
+              type: sum
+              label: "# Calls"
+              group_label: Sessions
+              round: 0
         data_type: INT64
       - name: count_generate_lead
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_generate_lead:
+              type: sum
+              label: "# Generate Lead"
+              group_label: Sessions
+              round: 0
+            m_contacts:
+              type: sum
+              label: "# Contacts"
+              group_label: Sessions
+              sql: (${count_generate_lead} + ${count_message} + ${count_call})
+              round: 0
         data_type: INT64
       - name: count_store_visit
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_store_visit:
+              type: sum
+              label: "# Store Visits"
+              group_label: Sessions
+              round: 0
         data_type: INT64
     description: ""

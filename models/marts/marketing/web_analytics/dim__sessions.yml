@@ -7,18 +7,21 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_partition_date
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
         data_type: DATE
       - name: session_start_timestamp
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: landing_page_path
         description: ""
@@ -49,18 +52,21 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: geo_country
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: geo_region
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: geo_city
         description: ""
@@ -73,18 +79,21 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: geo_metro
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: stream_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: platform
         description: ""
@@ -121,6 +130,7 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: device_operating_system
         description: ""
@@ -133,18 +143,21 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: device_vendor_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: device_advertising_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: device_language
         description: ""
@@ -157,12 +170,14 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: device_time_zone_offset_seconds
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: device_browser
         description: ""
@@ -175,24 +190,33 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: device_web_info_browser_version
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: device_web_info_hostname
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_number
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          additional_dimensions:
+            d_session_number:
+              type: string
+              sql: case when session_number >3 then '3+' else str(session_number) end
+              label: Session Num
         data_type: INT64
       - name: is_first_session
         description: ""
@@ -211,24 +235,38 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_user_source_medium:
+              type: string
+              sql: concat(user_source, '/', user_medium)
+              label: User Source/Medium
         data_type: STRING
       - name: user_source
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_source
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_session_source_medium:
+              type: string
+              sql: concat(session_source, '/', session_medium)
+              label: Session Source/Medium
         data_type: STRING
       - name: session_medium
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_campaign
         description: ""
@@ -259,5 +297,6 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
     description: ""
