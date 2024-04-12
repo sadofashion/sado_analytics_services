@@ -1,95 +1,181 @@
 version: 2
 models:
   - name: fct__pages
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__pages.event_date_dt}
     columns:
       - name: event_date_dt
         description: ""
         meta:
           dimension:
             type: date
+            hidden: true
         data_type: DATE
       - name: stream_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: page_location
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
+          additional_dimensions:
+            d_page_location:
+              type: string
+              label: Page Location
+              sql: coalesce(regexp_extract(${page_location}, r'^https:\/\/5sfashion.vn([a-zA-Z0-9\-\/]+)(?:\?.*)?$'),'/')
+            d_page_type:
+              type: string
+              label: Page Type
+              sql: |
+                case 
+                  when ${d_page_location} = '/' then 'Home'
+                  when ${page_location} like '%san-pham%' then 'Product Page'
+                  when ${page_location} like '%danh-muc%' then 'Listing Page'
+                  when ${page_location} like '%cart%' then 'Cart Page'
+                  when ${page_location} like '%tin-tuc%' then 'Blog Page'
+                else ${d_page_location} end
         data_type: STRING
       - name: page_views
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_page_views:
+              type: sum
+              label: "# Page Views"
+              compact: thousands
         data_type: INT64
       - name: distinct_client_keys
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_distinct_client_keys:
+              type: count_distinct
+              label: "# Distinct Client Keys"
+              compact: thousands
         data_type: INT64
       - name: new_client_keys
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_new_client_keys:
+              type: count_distinct
+              label: "# New Client Keys"
+              compact: thousands
         data_type: INT64
       - name: entrances
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_entrances:
+              type: count
+              label: "# Entrances"
+              compact: thousands
         data_type: INT64
       - name: total_engagement_time_msec
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_total_engagement_time_msec:
+              type: average
+              sql: safe_divide(${total_engagement_time_msec}, ${distinct_client_keys})
+              label: "Engagement Time per User"
+              compact: thousands
         data_type: FLOAT64
       - name: avg_engagement_time_denominator
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: purchase_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: message_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_message_count:
+              type: count
+              label: "# Message Count"
+              compact: thousands
         data_type: INT64
       - name: call_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_call_count:
+              type: count
+              label: "# Call Count"
+              compact: thousands
         data_type: INT64
       - name: generate_lead_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_generate_lead_count:
+              type: count
+              label: "# Generate Lead Count"
+              compact: thousands
         data_type: INT64
       - name: store_visit_count
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: INT64
       - name: scroll_events
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
+          metrics:
+            m_scroll_events:
+              type: count
+              label: "# Scroll Events"
+              compact: thousands
+            m_scroll_rate:
+              type: number
+              sql: safe_divide(${m_scroll_events}, ${m_page_views})
+              label: "Scroll Rate"
+              compact: thousands
         data_type: INT64
     description: ""

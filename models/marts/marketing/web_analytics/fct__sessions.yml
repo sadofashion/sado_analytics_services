@@ -27,7 +27,7 @@ models:
               label: "# Engaged Users"
               group_label: Users
               filters:
-                - is_user_engaged: 1
+                - is_session_engaged: 1
               compact: thousands
         data_type: STRING
       - name: session_key
