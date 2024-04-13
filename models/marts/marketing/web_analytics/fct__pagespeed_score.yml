@@ -1,0 +1,120 @@
+version: 2
+models:
+  - name: fct__pagespeed_score
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__pagespeed_score.analysis_date}
+    columns:
+      - name: analysis_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: url
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: strategy
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: overall_speed_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: accessibility_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_accessibility_score:
+              type: average
+              label: Accessibility Score
+              format: percent
+              round: 1
+        data_type: FLOAT64
+      - name: best_practices_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_best_practices_score:
+              type: average
+              label: Best practices Score
+              format: percent
+              round: 1
+        data_type: FLOAT64
+      - name: performance_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_performance_score:
+              type: average
+              label: Performance Score
+              format: percent
+              round: 1
+        data_type: FLOAT64
+      - name: pwa_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_pwa_score:
+              type: average
+              label: PWA Score
+              format: percent
+              round: 1
+        data_type: FLOAT64
+      - name: seo_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_seo_score:
+              type: average
+              label: SEO Score
+              format: percent
+              round: 1
+        data_type: FLOAT64
+      - name: overall_score
+        description: ""
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          additional_dimensions:
+            d_overall_score:
+              type: string
+              sql: |
+                case when ${fct__pagespeed_score.overall_score} >= 90 then 'Good' 
+                when ${fct__pagespeed_score.overall_score} >= 50 then 'Needs Improvement' 
+                else 'Poor' end
+              label: Overall Page Score
+          metrics:
+            m_overall_score:
+              type: average
+              label: Overall Page Score
+              format: percent
+              round: 1
+    description: ""

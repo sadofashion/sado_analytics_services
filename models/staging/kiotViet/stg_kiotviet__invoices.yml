@@ -8,6 +8,8 @@ models:
         meta:
           dimension:
             type: number
+        tests:
+          - unique
       - name: transaction_code
         description: "{{ doc('column__kiotviet__transaction_code') }}"
         meta:

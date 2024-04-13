@@ -35,6 +35,8 @@ models:
     columns:
       - name: transaction_id
         description: ""
+        tests:
+          - unique
         meta:
           metrics:
             m_num_transactions:

@@ -1,0 +1,435 @@
+version: 2
+models:
+  - name: dim__client_keys
+    columns:
+      - name: client_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_event
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_event
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: stream_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_geo_continent
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_geo_country
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_geo_region
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_geo_city
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_geo_sub_continent
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_geo_metro
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_mobile_brand_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_mobile_model_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_mobile_marketing_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_mobile_os_hardware_model
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_operating_system
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_operating_system_version
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_vendor_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_advertising_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_language
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_is_limited_ad_tracking
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_time_zone_offset_seconds
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: first_device_browser
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_browser_version
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_web_info_browser
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_web_info_browser_version
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_device_web_info_hostname
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_user_campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_user_medium
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_user_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_geo_continent
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_geo_country
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_geo_region
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_geo_city
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_geo_sub_continent
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_geo_metro
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_mobile_brand_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_mobile_model_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_mobile_marketing_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_mobile_os_hardware_model
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_operating_system
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_operating_system_version
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_vendor_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_advertising_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_language
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_is_limited_ad_tracking
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_time_zone_offset_seconds
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: last_device_browser
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_browser_version
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_web_info_browser
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_web_info_browser_version
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_device_web_info_hostname
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_user_campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_user_medium
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_user_source
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_visit
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+        data_type: TIMESTAMP
+      - name: last_seen_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+        data_type: TIMESTAMP
+      - name: first_page_location
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_page_hostname
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: first_page_referrer
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_page_location
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_page_hostname
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: last_page_referrer
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: most_recent_page_location
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: visited_branch
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: searched_branch
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: phone
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: address
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: name
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+    description: ""

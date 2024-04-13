@@ -27,9 +27,9 @@ WITH source AS (
           where date(createdDate) in (select distinct date(createdDate) from {{ source(
             'kiotViet',
             'p_invoices_list'
-        ) }} where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
+        ) }} where parse_date('%Y%m%d',_TABLE_SUFFIX) >= current_date
         )
-        and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -7 day)
+        {# and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(current_date, interval -7 day) #}
         {% endif %}
 
     union all 
@@ -44,9 +44,9 @@ WITH source AS (
           where date(createdDate) in (select distinct date(createdDate) from {{ source(
             'kiotViet',
             'p_invoices_list2'
-        ) }} where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
+        ) }} where parse_date('%Y%m%d',_TABLE_SUFFIX) >= current_date
         )
-        and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -7 day)
+        {# and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(current_date, interval -7 day) #}
 
         {% endif %}
 ),

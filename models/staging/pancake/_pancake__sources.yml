@@ -3,7 +3,6 @@ sources:
   - name: pancake
     schema: Pancake
     description: data pulled from Pancake
-    database: agile-scheme-394814
     tables:
       - name: users
         identifier: p_users__*

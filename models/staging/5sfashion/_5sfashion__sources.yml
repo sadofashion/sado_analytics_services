@@ -3,7 +3,6 @@ sources:
   - name: 5sfashion
     schema: WebsiteDB
     description: "data pulled from 5S fashion web database"
-    database: agile-scheme-394814
     tables:
       - name: products
         identifier: "p_products_*"
@@ -54,4 +53,7 @@ sources:
 
       - name: provinces
         identifier: "p_provinces_*"
+
+      - name: cms_menu_items
+        identifier: "p_cms_menu_items_*"
 

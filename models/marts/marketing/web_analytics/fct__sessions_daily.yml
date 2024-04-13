@@ -1,0 +1,125 @@
+version: 2
+models:
+  - name: fct__sessions_daily
+    meta:
+      joins:
+        - join: dim__sessions_daily
+          sql_on: ${dim__sessions_daily.session_key} = ${fct__sessions_daily.session_key}
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__sessions_daily.session_partition_date}
+    columns:
+      - name: client_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: stream_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: user_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: session_partition_min_timestamp
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: session_partition_count_page_views
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: session_partition_sum_event_value_in_usd
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: FLOAT64
+      - name: session_partition_max_session_engaged
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: session_partition_sum_engagement_time_msec
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: session_number
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: INT64
+      - name: session_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: session_partition_key
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: STRING
+      - name: session_partition_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: purchase_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: message_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: call_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: generate_lead_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: store_visit_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+    description: ""

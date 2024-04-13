@@ -1,0 +1,10 @@
+version: 2
+models:
+  - name: dim__excluded_clients
+    description: "Exclude test users from the analysis"
+    columns:
+      - name: client_key
+        description: "unique ID of test users"
+        meta:
+          dimension:
+            type: string

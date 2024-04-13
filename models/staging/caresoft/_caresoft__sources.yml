@@ -3,7 +3,6 @@ version: 2
 sources:
   - name: caresoft
     description: "Data pulled from caresoft contact center"
-    database: agile-scheme-394814
     schema: Caresoft
     tables:
       - name: tickets

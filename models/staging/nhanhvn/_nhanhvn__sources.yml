@@ -3,7 +3,6 @@ sources:
   - name: nhanhvn
     schema: Nhanhvn
     description: "data pulled from nhanhvn via API & Webhook"
-    database: agile-scheme-394814
     tables:
       - name: "p_bills"
         identifier: "p_bills_*"

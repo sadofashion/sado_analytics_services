@@ -79,7 +79,7 @@ FROM
     AND orders.service_id = carriers.service_id
 WHERE
     orders.order_status IN (
-        {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%}
+        '{{order_statuses|join("','")}}'
     ) window w1 AS (
         PARTITION BY orders.order_id
     )

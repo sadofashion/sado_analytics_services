@@ -150,7 +150,6 @@ nhanhvn_rev AS (
 AND date(last_sync) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
 {% endif %}
 AND order_status IN (
-    {# {%for status in order_statuses%} '{{status}}' {{',' if not loop.last}}{%endfor%} #}
     "Thành công"
 )
 AND order_type IS NOT NULL
