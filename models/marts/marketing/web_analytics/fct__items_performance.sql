@@ -1,7 +1,14 @@
 {{
   config(
     materialized = 'incremental',
-    unique_key = ['id'],
+    unique_key = ['item_id','session_key','event_date_dt'],
+    partition_by = {
+      "field": "event_date_dt",
+      "data_type": "date",
+      "granularity": "day"
+    },
+    incremental_strategy = 'insert_overwrite',
+    tags = ['incremental','fact','ga4']
     )
 }}
 
