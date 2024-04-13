@@ -20,13 +20,14 @@ from {{ ref("stg_ga4__event_items") }} e
 left join {{ ref('dim__excluded_clients') }} ex on e.client_key = ex.client_key
 where e.event_name in ( '{{ events|join("','") }}','begin_checkout')
 and ex.client_key is null
+and e.item_id is not null
 {% if is_incremental() %}
   and e.event_date_dt >= date_add(current_date, interval -1 day)
 {% endif %}
 )
 
 select
-  item_id,
+  regexp_replace(item_id,r'\W','') as item_id,
   client_key,
   session_key,
   event_date_dt,

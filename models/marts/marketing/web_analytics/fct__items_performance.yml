@@ -4,7 +4,7 @@ models:
     meta:
       joins:
         - join: dim__web_items
-          sql_on: ${dim__web_items.item_key} = ${fct__items_performance.item_key}
+          sql_on: ${dim__web_items.product_code} = ${fct__items_performance.item_key}
         - join: dim__sessions
           sql_on: ${dim__sessions.session_key} = ${fct__items_performance.session_key}
         - join: dim__client_keys

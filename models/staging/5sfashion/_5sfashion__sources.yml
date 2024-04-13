@@ -54,3 +54,6 @@ sources:
       - name: provinces
         identifier: "p_provinces_*"
 
+      - name: cms_menu_items
+        identifier: "p_cms_menu_items_*"
+
