@@ -55,7 +55,7 @@ models:
 vars:
   "dbt_date.time_zone": "Asia/Saigon"
   ga4:
-    source_project: "{{env_var('GCP_PROJECT')}}"
+    source_project: "agile-scheme-394814"
     is_user_id_implemented: false
     property_ids: [336884118]
     start_date: "20231001"
