@@ -1,0 +1,49 @@
+version: 2
+models:
+  - name: dim__web_items
+    description: >-
+      a dimension table that contains information about the products available
+      on the website
+    columns:
+      - name: product_code
+        description: The unique identifier for each product
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: product_name
+        description: The name of the product.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: category
+        description: "The category to which the product belongs. "
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: parent_category
+        description: >-
+          The 'parent_category' column represents the main category under which
+          a product falls.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: sub_productline
+        description: >-
+          The 'sub_productline' column represents the subcategory of the product
+          line
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: product_line
+        description: >-
+          The 'product_line' column represents the specific product line to
+          which a product belongs
+        data_type: STRING
+        meta:
+          dimension:
+            type: string

@@ -35,7 +35,7 @@ models:
               type: number
               sql: safe_divide(${m_num_purchased_users}, ${m_num_users})
               label: User Conversion Rate
-              compact: percentage
+              format: percent
         data_type: STRING
       - name: stream_id
         description: ""

@@ -85,7 +85,7 @@ models:
             type: number
             hidden: true
           metrics:
-            total_purchase_quantity:
+            m_total_purchase_quantity:
               type: sum
               label: "Total Purchase Quantity"
               round: 0
@@ -97,7 +97,7 @@ models:
             type: number
             hidden: true
           metrics:
-            avg_purchase_price:
+            m_avg_purchase_price:
               type: average
               label: "Average Purchase Price"
               compact: thousands
@@ -110,7 +110,7 @@ models:
             type: number
             hidden: true
           metrics:
-            num_view_item:
+            m_num_view_item:
               type: sum
               label: "# View Items"
               compact: thousands
@@ -129,7 +129,7 @@ models:
             type: number
             hidden: true
           metrics:
-            avg_view_item_price:
+            m_avg_view_item_price:
               type: average
               label: "Average View Item Price"
               compact: thousands
