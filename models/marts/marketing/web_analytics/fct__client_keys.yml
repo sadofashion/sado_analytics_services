@@ -30,7 +30,7 @@ models:
               label: "# Purchased Users"
               compact: thousands
               filters:
-                - count_purchases: ">0"
+                - count_purchase: ">0"
             m_user_conversion_rate:
               type: number
               sql: safe_divide(${m_num_purchased_users}, ${m_num_users})
