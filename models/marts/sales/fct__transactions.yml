@@ -101,7 +101,7 @@ models:
               type: number
               sql: safe_divide(${m_customer_total_payment},${m_active_customers})
               label: Revenue per customer
-              round: 1
+              round: 0
               compact: thousands
               group_label: Sales Metrics
         data_type: BIGNUMERIC
@@ -150,7 +150,8 @@ models:
               label: AOV
               type: average
               group_label: Sales Metrics
-              round: 1
+              compact: thousands
+              round: 0
               filters:
                 - transaction_type: invoice
                 - total: ">0"

@@ -50,8 +50,8 @@ models:
             hidden: true
           metrics:
             m_accessibility_score:
-              type: number
-              sql: avg(${accessibility_score}*100)
+              type: average
+              sql: ${TABLE}.accessibility_score*100
               label: Accessibility Score
               group_label: Scores
               round: 1
@@ -68,8 +68,8 @@ models:
             hidden: true
           metrics:
             m_best_practices_score:
-              type: number
-              sql: avg(${best_practices_score}*100)
+              type: average
+              sql: ${TABLE}.best_practices_score*100
               label: Best Practices Score
               group_label: Scores
               round: 1
@@ -85,8 +85,8 @@ models:
             hidden: true
           metrics:
             m_performance_score:
-              type: number
-              sql: avg(${performance_score}*100)
+              type: average
+              sql: ${TABLE}.performance_score*100
               label: Performance Score
               group_label: Scores
               round: 1
@@ -102,8 +102,8 @@ models:
             hidden: true
           metrics:
             m_pwa_score:
-              type: number
-              sql: avg(${pwa_score}*100)
+              type: average
+              sql: ${TABLE}.pwa_score*100
               label: PWA Score
               group_label: Scores
               round: 1
@@ -119,8 +119,8 @@ models:
             hidden: true
           metrics:
             m_seo_score:
-              type: number
-              sql: avg(${seo_score}*100)
+              type: average
+              sql: ${TABLE}.seo_score*100
               label: SEO Score
               group_label: Scores
               round: 1
@@ -146,8 +146,8 @@ models:
             hidden: true
           metrics:
             m_metric_percentile_value:
-              type: number
-              sql: avg(${metric_percentile_value}*100)
+              type: average
+              sql: ${TABLE}.metric_percentile_value*100
               label: Metric Percentile Value
               group_label: Scores
               round: 1
@@ -166,8 +166,8 @@ models:
             hidden: true
           metrics:
             m_range_proportion:
-              type: number
-              sql: avg(${range_proportion}*100)
+              type: average
+              sql: ${TABLE}.range_proportion*100
               label: Range Proportion
               group_label: Scores
               round: 1

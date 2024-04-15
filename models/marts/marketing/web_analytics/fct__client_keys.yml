@@ -25,10 +25,25 @@ models:
               type: count_distinct
               label: "# Users"
               compact: thousands
+              round: 1
+            m_num_engaged_users:
+              type: count_distinct
+              label: "# Engaged Users"
+              compact: thousands
+              round: 1
+              filters:
+                - count_purchase: ">0"
+            m_user_engagement_rate:
+              type: number
+              sql: safe_divide(${m_num_engaged_users}, ${m_num_users})
+              label: User Engagement Rate
+              format: percent
+              round: 1
             m_num_purchased_users:
               type: count_distinct
               label: "# Purchased Users"
               compact: thousands
+              round: 1
               filters:
                 - count_purchase: ">0"
             m_user_conversion_rate:
@@ -36,6 +51,7 @@ models:
               sql: safe_divide(${m_num_purchased_users}, ${m_num_users})
               label: User Conversion Rate
               format: percent
+              round: 1
         data_type: STRING
       - name: stream_id
         description: ""

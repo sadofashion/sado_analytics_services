@@ -4,7 +4,7 @@ models:
     meta:
       joins:
         - join: dim__web_items
-          sql_on: ${dim__web_items.product_code} = ${fct__items_performance.item_key}
+          sql_on: ${dim__web_items.product_code} = ${fct__items_performance.item_id}
         - join: dim__sessions
           sql_on: ${dim__sessions.session_key} = ${fct__items_performance.session_key}
         - join: dim__client_keys
@@ -77,6 +77,24 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_purchase:
+              type: sum
+              label: "# Purchases"
+              compact: thousands
+              round: 1
+            m_purchase_to_atc_rate:
+              type: number
+              sql: safe_divide(${m_num_purchase}, ${m_num_add_to_cart})
+              label: "Purchase To ATC Rate"
+              format: percent
+              round: 1
+            m_purchase_rate:
+              type: number
+              sql: safe_divide(${m_num_purchase}, ${m_num_view_item})
+              label: "Purchase Rate"
+              format: percent
+              round: 1
         data_type: INT64
       - name: total_purchase_quantity
         description: total quantity of a particular item purchased
@@ -101,7 +119,7 @@ models:
               type: average
               label: "Average Purchase Price"
               compact: thousands
-              round: 2
+              round: 1
         data_type: FLOAT64
       - name: num_view_item
         description: the count of unique view events for each item
@@ -114,6 +132,7 @@ models:
               type: sum
               label: "# View Items"
               compact: thousands
+              round: 1
         data_type: INT64
       - name: total_view_item_quantity
         description: ""
@@ -133,7 +152,7 @@ models:
               type: average
               label: "Average View Item Price"
               compact: thousands
-              round: 2
+              round: 1
         data_type: FLOAT64
       - name: num_add_to_cart
         description: count of unique events where an item was added to the cart
@@ -141,6 +160,18 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_add_to_cart:
+              type: sum
+              label: "# Add to Cart"
+              compact: thousands
+              round: 1
+            m_add_to_cart_rate:
+              type: number
+              label: "Add to Cart Rate"
+              sql: safe_divide(${m_num_add_to_cart}, ${m_num_view_item})
+              round: 2
+              format: percent
         data_type: INT64
       - name: total_add_to_cart_quantity
         description: total quantity of items that were added to the cart

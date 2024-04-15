@@ -22,6 +22,7 @@ models:
               label: "# Users"
               group_label: Users
               compact: thousands
+              round: 1
             m_engaged_users:
               type: count_distinct
               label: "# Engaged Users"
@@ -29,6 +30,14 @@ models:
               filters:
                 - is_session_engaged: 1
               compact: thousands
+              round: 1
+            m_user_engagement_rate:
+              type: number
+              label: "User Engagement Rate"
+              sql: safe_divide(${m_engaged_users}, ${m_users})
+              group_label: Users
+              format: percent
+              round: 1
         data_type: STRING
       - name: session_key
         description: ""
@@ -42,6 +51,7 @@ models:
               label: "# Sessions"
               group_label: Sessions
               compact: thousands
+              round: 1
             m_engaged_sessions:
               type: count_distinct
               label: "# Engaged Sessions"
@@ -49,6 +59,14 @@ models:
               filters:
                 - is_session_engaged: 1
               compact: thousands
+              round: 1
+            m_session_engagement_rate:
+              type: number
+              label: "Session Engagement Rate"
+              sql: safe_divide(${m_engaged_sessions}, ${m_sessions})
+              group_label: Sessions
+              format: percent
+              round: 1
         data_type: STRING
       - name: stream_id
         description: ""
@@ -89,6 +107,7 @@ models:
               label: "# Page Views"
               group_label: Sessions
               compact: thousands
+              round: 1
             m_pageviews_per_session:
               type: number
               label: "# Page Views per Session"
@@ -121,6 +140,7 @@ models:
               label: "Avg Engaged Time (msec)"
               group_label: Sessions
               compact: thousands
+              round: 1
             m_total_engaged_time_msec:
               type: sum
               label: "Total Engaged Time (msec)"
@@ -164,13 +184,15 @@ models:
               label: "Session Conversion Rate"
               group_label: Sessions
               sql: safe_divide(${m_purchase}, ${m_sessions})
-              round: 1
+              format: percent
+              round: 2
             m_user_conversion_rate:
               type: number
               label: "User Conversion Rate"
               group_label: Users
               sql: safe_divide(${m_purchase}, ${m_users})
-              round: 1
+              format: percent
+              round: 2
         data_type: INT64
       - name: count_message
         description: ""
