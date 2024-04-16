@@ -3,7 +3,7 @@
   partition_by ={ 'field': 'date_start',
   'data_type': 'date',
   'granularity': 'day' },
-  incremental_strategy = 'merge',
+  incremental_strategy = 'insert_overwrite',
   unique_key = ['date_start','campaign_id'],
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'hourly','fact']
@@ -97,7 +97,8 @@ EXCEPT(
         "5SFTRA",
         "5SFT",
         "5SFG",
-        "5SF"
+        "5SF",
+        "5SFTUY"
       ) then 'compiled'
     else 'others' end as page_type,
   coalesce(s.fb_ads_pic, fb.pic) as pic

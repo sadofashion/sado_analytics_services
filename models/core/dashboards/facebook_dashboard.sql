@@ -3,7 +3,7 @@
   partition_by ={ 'field': 'date',
   'data_type': 'date',
   'granularity': 'day' },
-  incremental_strategy = 'merge',
+  incremental_strategy = 'insert_overwrite',
   unique_key = ['date','page','pic'],
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'fact','dashboard']
@@ -40,8 +40,7 @@ WITH facebook_performance AS (
   and fb.page_type in ('local_page','region_page','compiled')
   and account_name not in ('CĐ WEB')
   GROUP BY
-    1,
-    2,3,4
+    1,2,3,4
 ),
 facebook_budget AS (
   SELECT

@@ -24,7 +24,7 @@ FROM
     (
         SELECT
             {# branch_id, #}
-            branch,
+            case when branch =  '5S Nam Giang' then '5S Nam Giang 2' else branch end as branch,
             {# local_page, #}
             {# region_page, #}
             milestones.*,
