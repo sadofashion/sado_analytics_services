@@ -27,25 +27,25 @@ campaign_conversion_stats AS (
         slot,
         SUM(
             CASE
-                WHEN ((conversion_name) IN ('website_purchase')) THEN (conversions)
+                WHEN ((conversion_name) IN ('website_purchase','web_purchase')) THEN (conversions)
                 ELSE NULL
             END
         ) AS ads_purchase,
         SUM(
             CASE
-                WHEN ((conversion_name) IN ('website_purchase')) THEN (conversions_value)
+                WHEN ((conversion_name) IN ('website_purchase','web_purchase')) THEN (conversions_value)
                 ELSE NULL
             END
         ) AS ads_purchase_value,
         SUM(
             CASE
-                WHEN ((conversion_name) IN ('add_to_cart')) THEN (conversions_value)
+                WHEN ((conversion_name) IN ('add_to_cart','web_add_to_cart')) THEN (conversions_value)
                 ELSE NULL
             END
         ) AS ads_atc,
         SUM(
             CASE
-                WHEN ((conversion_name) IN ('website_call', 'website_message')) THEN (conversions_value)
+                WHEN ((conversion_name) IN ('website_call', 'website_message','web_click_calls', 'web_messages')) THEN (conversions_value)
                 ELSE NULL
             END
         ) AS ads_contacts,
