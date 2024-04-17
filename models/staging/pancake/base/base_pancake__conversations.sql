@@ -4,7 +4,7 @@
     incremental_strategy = 'insert_overwrite',
     partition_by = {
         "field": "inserted_at",
-        "data_type": "timestamp",
+        "data_type": "datetime",
         "granularity": "day"
     },
     on_schema_change = 'sync_all_columns',
@@ -18,9 +18,9 @@ WITH source AS (
     {{source('pancake', 'conversations')}}
     where 1=1
     {% if is_incremental() %}
-    date(date_add(datetime(source.inserted_at), INTERVAL 7 HOUR)) in (
+    and date(date_add(datetime(inserted_at), INTERVAL 7 HOUR)) in (
         select 
-        date(date_add(datetime(source.inserted_at), INTERVAL 7 HOUR)) 
+        date(date_add(datetime(inserted_at), INTERVAL 7 HOUR)) 
         from {{source('pancake', 'conversations')}}
       where parse_date('%Y%m%d', _TABLE_SUFFIX) >= date_sub(CURRENT_DATE(), interval 3 day)
     )
@@ -28,7 +28,7 @@ WITH source AS (
 ),
 
 deduplicate as (
-    {{ dbt_utils.deduplicate(relation = source('pancake', 'conversations'), partition_by = 'id', order_by = "_batched_at desc",) }}
+    {{ dbt_utils.deduplicate(relation = 'source', partition_by = 'id', order_by = "_batched_at desc",) }}
 )
 
 SELECT
