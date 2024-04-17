@@ -33,10 +33,7 @@ missed_reason,
 from 
 {{ref("stg_caresoft__calls")}} calls
 {% if is_incremental() %}
-                WHERE
-                      date(start_time) >= date(_dbt_max_partition)
-
-                   OR date(start_time) >= date_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
+    WHERE date(start_time) >= date_SUB(CURRENT_DATE(), INTERVAL 2 DAY)
 {% endif %}
 
 union all

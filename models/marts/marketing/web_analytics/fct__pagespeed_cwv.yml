@@ -47,6 +47,7 @@ models:
             m_percentile_cumulative_layout_shift_score:
               type: average
               label: Cumulative layout shift Percentile
+              sql: safe_divide(${TABLE}.percentile_cumulative_layout_shift_score,100)
               format: percent
               round: 1
         data_type: FLOAT64
@@ -58,7 +59,7 @@ models:
             hidden: true
           metrics:
             m_proportion_cumulative_layout_shift_score:
-              type: sum
+              type: average
               label: Cumulative layout shift Proportion
               format: percent
               round: 1
@@ -73,7 +74,7 @@ models:
             m_percentile_experimental_time_to_first_byte:
               type: average
               label: Experimental time to first byte Percentile
-              format: percent
+              compact: thousands
               round: 1
         data_type: FLOAT64
       - name: proportion_experimental_time_to_first_byte
@@ -84,7 +85,7 @@ models:
             hidden: true
           metrics:
             m_proportion_experimental_time_to_first_byte:
-              type: sum
+              type: average
               label: Experimental time to first byte Proportion
               format: percent
               round: 1
@@ -99,7 +100,7 @@ models:
             m_percentile_first_contentful_paint_ms:
               type: average
               label: First contentful paint Percentile
-              format: percent
+              compact: thousands
               round: 1
         data_type: FLOAT64
       - name: proportion_first_contentful_paint_ms
@@ -110,7 +111,7 @@ models:
             hidden: true
           metrics:
             m_proportion_first_contentful_paint_ms:
-              type: sum
+              type: average
               label: First contentful paint Proportion
               format: percent
               round: 1
@@ -125,7 +126,6 @@ models:
             m_percentile_first_input_delay_ms:
               type: average
               label: First input delay Percentile
-              format: percent
               round: 1
         data_type: FLOAT64
       - name: proportion_first_input_delay_ms
@@ -136,7 +136,7 @@ models:
             hidden: true
           metrics:
             m_proportion_first_input_delay_ms:
-              type: sum
+              type: average
               label: First input delay Proportion
               format: percent
               round: 1
@@ -151,7 +151,7 @@ models:
             m_percentile_interaction_to_next_paint:
               type: average
               label: Interaction to next paint Percentile
-              format: percent
+              compact: thousands
               round: 1
         data_type: FLOAT64
       - name: proportion_interaction_to_next_paint
@@ -162,7 +162,7 @@ models:
             hidden: true
           metrics:
             m_proportion_interaction_to_next_paint:
-              type: sum
+              type: average
               label: Interaction to next paint Proportion
               format: percent
               round: 1
@@ -177,7 +177,7 @@ models:
             m_percentile_largest_contentful_paint_ms:
               type: average
               label: Largest contentful paint Percentile
-              format: percent
+              compact: thousands
               round: 1
         data_type: FLOAT64
       - name: proportion_largest_contentful_paint_ms
@@ -188,7 +188,7 @@ models:
             hidden: true
           metrics:
             m_proportion_largest_contentful_paint_ms:
-              type: sum
+              type: average
               label: Largest contentful paint Proportion
               format: percent
               round: 1

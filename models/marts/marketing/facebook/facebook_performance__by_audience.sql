@@ -6,7 +6,8 @@
   incremental_strategy = 'merge',
   unique_key = 'row_id',
   on_schema_change = 'sync_all_columns',
-  tags = ['incremental', 'daily']
+  tags = ['incremental', 'daily'],
+  enabled = false
 ) }}
 
 SELECT

@@ -16,7 +16,7 @@ SELECT
     conversations.message_count,
     conversations.snippet,
     conversations.type,
-    conversations.updated_at,
+    coalesce(conversations.updated_at, conversations.inserted_at) as updated_at,
     conversations.ad_id,
     conversations.tag_histories
 FROM

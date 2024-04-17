@@ -6,7 +6,7 @@
         'data_type': 'datetime',
         'granularity': 'day',
         },
-    incremental_strategy = 'merge',
+    incremental_strategy = 'insert_overwrite',
     on_schema_change = 'sync_all_columns',
     tags = ['pancake','fact','incremental']
 ) }}
@@ -25,7 +25,7 @@ with user_stats as (
     from {{ref("stg_pancake__user_stats")}}
     {% if is_incremental() %}
     where
-         date(hour) >= date_add(date(_dbt_max_partition), interval -3 day)
+         date(hour) >= date(_dbt_max_partition)
         {% endif %}
         group by 1,2
 ),
@@ -40,7 +40,6 @@ orders as (
     seller_id is not null
     and status = 'Đã xác nhận'
     {% if is_incremental() %}
-    
          and date(updated_at) >= date_add(date(_dbt_max_partition), interval -3 day)
         {% endif %}
     group by 1,2

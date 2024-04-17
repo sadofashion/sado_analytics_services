@@ -6,7 +6,7 @@
         'granularity': 'day',
         },
     unique_key = ['conversation_id'],
-    incremental_strategy = 'merge',
+    incremental_strategy = 'insert_overwrite',
     on_schema_change = 'sync_all_columns',
     tags = ['pancake','fact','incremental','daily']
 ) }}
@@ -52,8 +52,12 @@ raw_ AS (
         ON conversations.tag_id = tags.tag_id
     WHERE 1=1
 {% if is_incremental() %}
- and (
-    DATE(conversations.updated_at) > date_sub(DATE(_dbt_max_partition), interval 3 day) 
+ and ( 
+    date(conversations.inserted_at) in (
+        select date(inserted_at) 
+        from {{ ref("stg_pancake__conversations") }} 
+        where DATE(updated_at) >= date_sub(CURRENT_DATE, interval 1 day)
+        )
 )
 {% endif %}
 )

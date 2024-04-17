@@ -1,6 +1,16 @@
 version: 2
 models:
   - name: base_pancake__conversations
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - conversation_id
+            - customer_id
+            - user_id
+            - page_id
+            - post_id
+            - tag_id
+            - ad_id
     columns:
       - name: conversation_id
         description: ""
