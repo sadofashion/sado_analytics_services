@@ -54,23 +54,26 @@ models:
               type: sum
               label: "#Web Purchases"
               group_label: GG Ads metrics
-              filters:
-                - conversion_name: website\_purchase
+              sql: >-
+                IF(${conversion_name} in ('website_purchase','web_purchase'),
+                ${conversions}, NULL)
             ads_atc:
               type: sum
               label: "#Add to cart"
               group_label: GG Ads metrics
-              filters:
-                - conversion_name: add\_to\_cart
+              sql: >-
+                IF(${conversion_name} in ('add_to_cart','web_add_to_cart'),
+                ${conversions}, NULL)
             ads_contacts:
               type: sum
               label: "#Contacts intent"
               group_label: GG Ads metrics
               sql: >-
-                IF(${conversion_name} in ('website_message','website_call'),
+                IF(${conversion_name} in ('website_message','website_call','web_message','web_call'),
                 ${conversions}, NULL)
           dimension:
             type: number
+            hidden: true
       - name: conversions_value
         description: "{{ doc('column__googleads__conversions_value') }}"
         meta:
@@ -79,7 +82,8 @@ models:
               type: sum
               label: Web Purchases Value
               group_label: GG Ads metrics
-              filters:
-                - conversion_name: website\_purchase
+              sql: >-
+                IF(${conversion_name} in ('website_purchase','web_purchase'),
+                ${conversions_value}, NULL)
           dimension:
             type: number

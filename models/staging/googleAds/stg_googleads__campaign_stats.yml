@@ -28,11 +28,13 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
       - name: campaign_id
         description: "{{ doc('column__googleads__campaign_id') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: date
         description: "{{ doc('column__googleads__date') }}"
         tests:
@@ -40,6 +42,7 @@ models:
         meta:
           dimension:
             type: date
+            hidden: true
       - name: device
         description: "{{ doc('column__googleads__device') }}"
         meta:
@@ -63,8 +66,10 @@ models:
               type: sum
               label: "#Clicks"
               group_label: GG Ads metrics
+              compact: thousands
           dimension:
             type: number
+            hidden: true
       - name: conversions
         description: "{{ doc('column__googleads__conversions') }}"
         meta:
@@ -75,6 +80,7 @@ models:
               group_label: GG Ads metrics
           dimension:
             type: number
+            hidden: true
       - name: conversions_value
         description: "{{ doc('column__googleads__conversions_value') }}"
         meta:
@@ -83,8 +89,11 @@ models:
               type: sum
               label: "#Conversions value"
               group_label: GG Ads metrics
+              compact: millions
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: cost
         description: "{{ doc('column__googleads__cost') }}"
         meta:
@@ -93,8 +102,11 @@ models:
               type: sum
               label: Cost
               group_label: GG Ads metrics
+              compact: millions
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: impressions
         description: "{{ doc('column__googleads__impressions') }}"
         meta:
@@ -103,8 +115,10 @@ models:
               type: sum
               label: "#Impressions"
               group_label: GG Ads metrics
+              compact: thousands
           dimension:
             type: number
+            hidden: true
       - name: interactions
         description: "{{ doc('column__googleads__interactions') }}"
         meta:
@@ -113,8 +127,10 @@ models:
               type: sum
               label: "#Interactions"
               group_label: GG Ads metrics
+              compact: thousands
           dimension:
             type: number
+            hidden: true
       - name: view_through_conversions
         description: "{{ doc('column__googleads__view_through_conversions') }}"
         meta:
@@ -125,3 +141,4 @@ models:
               group_label: GG Ads metrics
           dimension:
             type: number
+            hidden: true
