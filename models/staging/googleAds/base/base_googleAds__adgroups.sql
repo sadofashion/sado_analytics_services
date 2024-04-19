@@ -6,8 +6,7 @@ SELECT
         FIRST_VALUE(ad_group_name) over(
             PARTITION BY ad_group_id,
             campaign_id
-            ORDER BY
-                _LATEST_DATE DESC
+            ORDER BY _DATA_DATE desc, _LATEST_DATE desc DESC
         ) AS ad_group_name,
     FROM
         {{ source(

@@ -11,4 +11,4 @@ FROM
     where _LATEST_DATE = _DATA_DATE
     window w1 as ( PARTITION BY customer_id
         ORDER BY
-            _LATEST_DATE DESC rows between UNBOUNDED PRECEDING and UNBOUNDED FOLLOWING)
+            ORDER BY _DATA_DATE desc, _LATEST_DATE desc rows between UNBOUNDED PRECEDING and UNBOUNDED FOLLOWING)
