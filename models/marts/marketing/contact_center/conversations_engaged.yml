@@ -58,7 +58,7 @@ models:
               type: count_distinct
               label: No. conversations
               group_label: Pancake metrics
-              compact: thousands
+              round: 0
         tests:
           - not_null
           - unique

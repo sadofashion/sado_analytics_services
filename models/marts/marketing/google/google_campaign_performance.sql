@@ -1,5 +1,5 @@
 {{ config(
-    tags = ['ggads','fact','view']
+    tags = ['ggads','fact','table']
 ) }}
 
 WITH campaign_stats AS (

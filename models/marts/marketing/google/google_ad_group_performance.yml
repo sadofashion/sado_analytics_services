@@ -12,29 +12,25 @@ models:
             ${google_ad_group_performance.campaign_id}=${stg_googleads__campaigns.campaign_id}
         - join: calendar
           sql_on: ${google_ad_group_performance.date}=${calendar.date}
-          fields:
-            - date
-            - period
-            - year_month
-            - month_name
-            - no_days
-            - period_code
     columns:
       - name: campaign_id
         description: "{{ doc('column__googleads__campaign_id') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: ad_group_id
         description: "{{ doc('column__googleads__ad_group_id') }}"
         meta:
           dimension:
             type: number
+            hidden: true
       - name: date
         description: "{{ doc('column__googleads__date') }}"
         meta:
           dimension:
             type: date
+            hidden: true
       - name: network_type
         description: "{{ doc('column__googleads__network_type') }}"
         meta:
@@ -49,8 +45,10 @@ models:
               label: Top Impression Percentage
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: search_top_impression_share
         description: "{{ doc('column__googleads__search_top_impression_share') }}"
         meta:
@@ -60,8 +58,10 @@ models:
               label: Search Top Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: video_quartile_p100_rate
         description: "{{ doc('column__googleads__video_quartile_p100_rate') }}"
         meta:
@@ -71,8 +71,10 @@ models:
               label: Video Quartile P100 Rate
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: video_quartile_p75_rate
         description: "{{ doc('column__googleads__video_quartile_p75_rate') }}"
         meta:
@@ -82,8 +84,10 @@ models:
               label: Video Quartile P75 Rate
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: video_quartile_p50_rate
         description: "{{ doc('column__googleads__video_quartile_p50_rate') }}"
         meta:
@@ -93,8 +97,10 @@ models:
               label: Video Quartile P50 Rate
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: video_quartile_p25_rate
         description: "{{ doc('column__googleads__video_quartile_p25_rate') }}"
         meta:
@@ -104,8 +110,10 @@ models:
               label: Video Quartile P25 Rate
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: absolute_top_impression_percentage
         description: "{{ doc('column__googleads__absolute_top_impression_percentage') }}"
         meta:
@@ -115,8 +123,10 @@ models:
               label: Absolute Top Impression Percentage
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: content_impression_share
         description: "{{ doc('column__googleads__content_impression_share') }}"
         meta:
@@ -126,8 +136,10 @@ models:
               label: Content Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: content_rank_lost_impression_share
         description: "{{ doc('column__googleads__content_rank_lost_impression_share') }}"
         meta:
@@ -137,8 +149,10 @@ models:
               label: Content Rank Lost Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: cross_device_conversions
         description: "{{ doc('column__googleads__cross_device_conversions') }}"
         meta:
@@ -150,6 +164,7 @@ models:
               round: 1
           dimension:
             type: number
+            hidden: true
       - name: engagements
         description: "{{ doc('column__googleads__engagements') }}"
         meta:
@@ -161,6 +176,7 @@ models:
               round: 1
           dimension:
             type: number
+            hidden: true
       - name: relative_ctr
         description: "{{ doc('column__googleads__relative_ctr') }}"
         meta:
@@ -170,8 +186,10 @@ models:
               label: Relative Ctr
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: search_absolute_top_impression_share
         description: "{{ doc('column__googleads__search_absolute_top_impression_share') }}"
         meta:
@@ -181,8 +199,10 @@ models:
               label: Search Absolute Top Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: search_budget_lost_absolute_top_impression_share
         description: >-
           {{
@@ -195,8 +215,10 @@ models:
               label: Search Budget Lost Absolute Top Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: search_budget_lost_top_impression_share
         description: >-
           {{ doc('column__googleads__search_budget_lost_top_impression_share')
@@ -208,8 +230,10 @@ models:
               label: Search Budget Lost Top Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: search_impression_share
         description: "{{ doc('column__googleads__search_impression_share') }}"
         meta:
@@ -219,8 +243,10 @@ models:
               label: Search Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: search_rank_lost_absolute_top_impression_share
         description: >-
           {{
@@ -233,8 +259,10 @@ models:
               label: Search Rank Lost Absolute Top Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: search_rank_lost_impression_share
         description: "{{ doc('column__googleads__search_rank_lost_impression_share') }}"
         meta:
@@ -244,8 +272,10 @@ models:
               label: Search Rank Lost Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: search_rank_lost_top_impression_share
         description: "{{ doc('column__googleads__search_rank_lost_top_impression_share') }}"
         meta:
@@ -255,8 +285,10 @@ models:
               label: Search Rank Lost Top Impression Share
               group_label: GG Ads metrics
               format: percent
+              round: 2
           dimension:
             type: number
+            hidden: true
       - name: video_views
         description: "{{ doc('column__googleads__video_views') }}"
         meta:
@@ -268,6 +300,7 @@ models:
               compact: thousands
           dimension:
             type: number
+            hidden: true
       - name: clicks
         description: "{{ doc('column__googleads__clicks') }}"
         meta:
@@ -279,6 +312,7 @@ models:
               compact: thousands
           dimension:
             type: number
+            hidden: true
       - name: conversions
         description: "{{ doc('column__googleads__conversions') }}"
         meta:
@@ -290,6 +324,7 @@ models:
               round: 1
           dimension:
             type: number
+            hidden: true
       - name: cost
         description: "{{ doc('column__googleads__cost') }}"
         meta:
@@ -302,6 +337,7 @@ models:
               round: 2
           dimension:
             type: number
+            hidden: true
       - name: impressions
         description: "{{ doc('column__googleads__impressions') }}"
         meta:
@@ -314,6 +350,7 @@ models:
               round: 1
           dimension:
             type: number
+            hidden: true
       - name: interactions
         description: "{{ doc('column__googleads__interactions') }}"
         meta:
@@ -326,6 +363,7 @@ models:
               round: 1
           dimension:
             type: number
+            hidden: true
       - name: view_through_conversions
         description: "{{ doc('column__googleads__view_through_conversions') }}"
         meta:
@@ -338,3 +376,4 @@ models:
               round: 1
           dimension:
             type: number
+            hidden: true

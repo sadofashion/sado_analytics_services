@@ -1,5 +1,5 @@
 {{ config(
-    tags = ['ggads','fact','view']
+    tags = ['ggads','fact','table']
 ) }}
 
 WITH ad_group_stats AS (
