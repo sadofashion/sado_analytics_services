@@ -33,11 +33,16 @@ jobs:
           pip install -r requirements.txt
           dbt deps
 
-      - name: Push flow
-        id: push_flow
+      - name: Push flow - Run
+        id: push_flow_run
         if: github.event_name == 'push'
         run: |
           dbt run --profiles-dir $PWD --project-dir $PWD --select state:modified --defer --state prod
+          
+      - name: Push flow - Test
+        id: push_flow_test
+        if: github.event_name == 'push'
+        run: |
           dbt test --profiles-dir $PWD --project-dir $PWD --select state:modified --defer --state prod
 
       - name: Generate docs
