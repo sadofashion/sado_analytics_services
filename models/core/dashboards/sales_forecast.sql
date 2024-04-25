@@ -1,7 +1,7 @@
 {{ config(
   materialized = 'table',
   unique_key = ['date'],
-  tags = ['table', 'forecast','dashboard']
+  tags = ['table', 'dimension', 'forecast','dashboard','daily']
 ) }}
 
 WITH revenue_metrics AS (
