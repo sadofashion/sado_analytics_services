@@ -80,3 +80,13 @@ models:
         meta:
           dimension:
             type: string
+      - name: month_day
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: day_of_week
+        description: ""
+        meta:
+          dimension:
+            type: string

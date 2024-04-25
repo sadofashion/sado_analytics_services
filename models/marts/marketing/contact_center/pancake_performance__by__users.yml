@@ -11,10 +11,6 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = date(${pancake_performance__by__users.hour})
-          fields:
-            - date
-            - period
-            - period_code
         - join: stg_pancake__users
           sql_on: >-
             ${stg_pancake__users.user_id} =

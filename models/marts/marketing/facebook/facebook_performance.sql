@@ -72,7 +72,8 @@ WITH facebook_performance AS (
     where 1=1
     and campaigns.account_name not in ('Wookids_KT1','Woo kids _ KT1','Woo kids_KT2','Woo kids_KT3')
     {% if is_incremental() %}
-       and date_start >= date_add(date(_dbt_max_partition), interval -1 day)
+       and date_start >= date_add(current_date, interval -1 day)
+
     {% endif %}
 
     {{ dbt_utils.group_by(12) }}

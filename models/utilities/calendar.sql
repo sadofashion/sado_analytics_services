@@ -15,35 +15,17 @@ _milestone AS (
 calendar AS (
     SELECT
         DISTINCT DATE(date_day) AS date,
-        EXTRACT(
-            DAY
-            FROM
-                date_day
-        ) AS day_of_month,
-        format_date(
-            '%A',
-            date_day
-        ) AS day_name,
+        EXTRACT(DAY FROM date_day) AS day_of_month,
+        format_date('%A',date_day) AS day_name,
         DATE_TRUNC(DATE(date_day), MONTH) AS start_of_month,
-        LAST_DAY(
-            date_day,
-            MONTH
-        ) AS end_of_month,
+        LAST_DAY(date_day,MONTH) AS end_of_month,
         DATE_TRUNC(DATE(date_day), isoweek) AS start_of_week,
         LAST_DAY(DATE(date_day), isoweek) AS end_of_week,
-        format_date(
-            '%B',
-            date_day
-        ) AS month_name,
-        format_date(
-            '%Y.%m',
-            date_day
-        ) AS year_month,
-        EXTRACT(
-            YEAR
-            FROM
-                date_day
-        ) AS YEAR,
+        format_date('%B',date_day) AS month_name,
+        format_date('%Y.%m',date_day) AS year_month,
+        EXTRACT(YEAR FROM date_day) AS YEAR,
+        format_date('%m.%d', date_day) as month_day,
+        format_date('%u', date_day) as day_of_week,
     FROM
         date_spine
 ),

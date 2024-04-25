@@ -29,10 +29,6 @@ models:
             - user_name
         - join: calendar
           sql_on: ${calendar.date} = date(${conversations_engaged.inserted_at})
-          fields:
-            - date
-            - period
-            - period_code
     columns:
       - name: inserted_at
         description: ""

@@ -15,13 +15,6 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_dashboard.date}
-          fields:
-            - date
-            - period
-            - year_month
-            - month_name
-            - period_code
-            - no_days
         - join: dim__branches
           sql_on: >
             (${dim__branches.local_page} = ${facebook_dashboard.page}) 
