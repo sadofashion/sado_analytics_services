@@ -65,6 +65,8 @@ models:
         meta:
           dimension:
             type: timestamp
+        tests:
+          - not_null
       - name: discount_ratio
         description: "{{ doc('column__kiotviet__discount_ratio') }}"
         meta:

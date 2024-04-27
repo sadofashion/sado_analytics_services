@@ -1,0 +1,82 @@
+version: 2
+models:
+  - name: cohort_analysis
+    meta:
+      joins:
+        - join: calendar
+          alias: purchase_month
+          sql_on: ${purchase_month.date} = ${cohort_analysis.transaction_month}
+        - join: calendar
+          alias: cohort_month
+          sql_on: ${cohort_month.date} = ${cohort_analysis.first_purchase_month}
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_id
+            - transaction_month
+    columns:
+      - name: customer_id
+        description: The unique identifier for each customer
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_customers:
+              type: count_distinct
+              label: Number of Customers
+              group_label: Customers
+              round: 1
+              compact: thousands
+        data_type: BIGNUMERIC
+      - name: transaction_month
+        description: The month in which a transaction occurred
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: first_purchase_month
+        description: The month in which a customer made their first purchase
+        meta:
+          dimension:
+            type: date
+            hidden: true
+        data_type: DATE
+      - name: cohort_age
+        description: This column represents the age of the cohort in months
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: segment
+        description: This column represents the current segment of the customer. The
+          segment is determined based on the RFM (Recency, Frequency, Monetary)
+          analysis of the customer's transaction history.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: previous_segment
+        description: This column represents the previous segment of the customer before
+          the current month. It is used to track the movement of customers
+          between different segments.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: cohort_age_group
+        description: This column categorizes the age of the cohort into different
+          groups. The age of the cohort is calculated as the difference in
+          months between the transaction date and the first purchase date.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+    description: The model is a powerful tool for understanding customer behavior
+      over time. It provides a detailed view of each customer's journey, from
+      their first purchase to their most recent transaction. The model also
+      tracks the customer's current and previous segments, providing insights
+      into their purchasing patterns and how they have evolved. This information
+      can be used to identify trends, predict future behavior, and inform
+      strategic decisions.

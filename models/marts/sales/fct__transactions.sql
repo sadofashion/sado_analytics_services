@@ -3,7 +3,7 @@
     partition_by ={ 'field': 'transaction_date',
     'data_type': 'date',
     'granularity': 'day' },
-    incremental_strategy = 'merge',
+    incremental_strategy = 'insert_overwrite',
     unique_key = ['transaction_source_id'],
     on_schema_change = 'sync_all_columns',
     tags = ['incremental', 'hourly','fact','kiotviet','nhanhvn']
@@ -55,13 +55,14 @@ kiotviet_rev AS (
         invoices.transaction_status = 'Hoàn thành'
 
 {% if is_incremental() %}
-{# AND date(invoices.transaction_date )in (
+
+AND date(invoices.transaction_date )in (
     select 
-    distinct DATE(invoices.transaction_date) 
+    distinct DATE(transaction_date) 
     from {{ ref('stg_kiotviet__invoices') }} 
-    where DATE(invoices.modified_date)  >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
-) #}
-and date(coalesce(invoices.modified_date,invoices.transaction_date)) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+    where DATE(modified_date)  >= date_add(current_date, INTERVAL -1 DAY)
+)
+{# and date(invoices.modified_date) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY) #}
 
 {% endif %}
 UNION ALL
@@ -99,13 +100,13 @@ WHERE
     returns.transaction_status = 'Đã trả'
 
 {% if is_incremental() %}
-and date(coalesce(returns.modified_date,returns.transaction_date)) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
-{# AND date(returns.transaction_date )in (
+{# and date(returns.modified_date) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY) #}
+AND date(returns.transaction_date )in (
     select 
-    distinct DATE(returns.transaction_date) 
+    distinct DATE(transaction_date) 
     from {{ ref('stg_kiotviet__returns') }} 
-    where DATE(returns.modified_date)  >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
-) #}
+    where DATE(modified_date)  >= date_add(current_date, INTERVAL -1 DAY)
+)
 {% endif %}),
 nhanhvn_rev AS (
     SELECT
@@ -147,7 +148,13 @@ nhanhvn_rev AS (
     WHERE
         1 = 1
 {% if is_incremental() %}
-AND date(last_sync) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY)
+and COALESCE(delivery_date, send_carrier_date, DATE(created_date)) in (
+    select 
+    COALESCE(delivery_date, send_carrier_date, DATE(created_date)) 
+    from {{ ref('stg_nhanhvn__ordersdetails') }}
+    where date(last_sync) >= date_add(CURRENT_DATE, INTERVAL -1 DAY)
+)
+{# AND date(last_sync) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY) #}
 {% endif %}
 AND order_status IN (
     "Thành công"

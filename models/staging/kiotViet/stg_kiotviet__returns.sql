@@ -14,7 +14,7 @@ SELECT
     statusValue AS transaction_status,
     saleChannelId as salechannel_id,
     createdDate as created_date ,
-    modifiedDate as modified_date,
+    coalesce(modifiedDate,createdDate) as modified_date,
     transaction_type
 FROM
     {{ ref('base_kiotViet__returns') }}

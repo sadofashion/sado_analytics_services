@@ -10,7 +10,7 @@ SELECT
     totalPayment as total_payment,
     statusValue AS transaction_status,
     createdDate as created_Date,
-    modifiedDate as modified_date,
+    coalesce(modifiedDate,createdDate) as modified_date,
     discountRatio as discount_ratio,
     discount,
     transaction_type
