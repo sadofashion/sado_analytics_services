@@ -7,13 +7,13 @@
     unique_key = ['customer_id','transaction_month']
 ) }}
 
-{% set cohort_age_ranges ={ "0-3m" :"1. 0 and 3",
-                            "4-6m" :"2. 4 and 6",
-                            "7-9m" :"3. 7 and 9",
-                            "10-12m" :"4. 10 and 12",
-                            "1-1.5y": "5. 13 and 18",
-                            "1.5-2y": "6. 19 and 24",
-                            "2-3y": "7. 25 and 36",
+{% set cohort_age_ranges ={ "1. 0-3m" :"0 and 3",
+                            "2. 4-6m" :"4 and 6",
+                            "3. 7-9m" :"7 and 9",
+                            "4. 10-12m" :"10 and 12",
+                            "5. 1-1.5y": "13 and 18",
+                            "6. 1.5-2y": "19 and 24",
+                            "7. 2-3y": "25 and 36",
                             } %}
 WITH joined_tables AS (
     SELECT
