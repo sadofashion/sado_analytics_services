@@ -28,7 +28,7 @@ increment as (
   {{source('esms', 'sms_sent_data')}}
   where campaign not in ('ZNS||2024-03-15-2024-17-03|| WK 84 LL - 5S mua hàng 6 tháng')
   {% if is_incremental() %}
-   and date(_batched_at) >= (select max(_dbt_max_partition) from {{ this }})
+   and parse_date('%Y%m%d', _TABLE_SUFFIX) >= date_add(current_date, interval -1 day)
   {% endif %}
 ),
 

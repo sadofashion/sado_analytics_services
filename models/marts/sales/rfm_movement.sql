@@ -6,6 +6,7 @@
   incremental_strategy = 'insert_overwrite',
   unique_key = ['customer_id', 'start_of_month'],
   on_schema_change = 'sync_all_columns',
+  partition_expiration_days = 90,
   tags = ['incremental','table', 'fact', 'kiotviet','daily']
 ) }}
 
@@ -190,7 +191,7 @@ aggregated_cumulative AS (
             transaction_date DESC rows BETWEEN unbounded preceding
             AND unbounded following) AS last_purchase_branch,
           FROM
-            {{ ref('revenue') }}
+            {{ ref('fct__transactions') }}
           WHERE
             customer_id IS NOT NULL
         ),

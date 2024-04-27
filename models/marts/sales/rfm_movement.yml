@@ -49,6 +49,7 @@ models:
         meta:
           dimension:
             type: date
+            hidden: true
         tests:
           - not_null
       - name: last_purchase
@@ -56,6 +57,7 @@ models:
         meta:
           dimension:
             type: date
+            hidden: true
         tests:
           - not_null
       - name: recency
