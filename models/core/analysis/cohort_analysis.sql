@@ -7,7 +7,8 @@
     unique_key = ['customer_id','transaction_month']
 ) }}
 
-{% set cohort_age_ranges ={ "1. 0-3m" :"0 and 3",
+{% set cohort_age_ranges ={ "0. T0" :"0 and 0",
+                            "1. 1-3m" :"1 and 3",
                             "2. 4-6m" :"4 and 6",
                             "3. 7-9m" :"7 and 9",
                             "4. 10-12m" :"10 and 12",

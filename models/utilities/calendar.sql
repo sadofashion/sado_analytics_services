@@ -23,9 +23,11 @@ calendar AS (
         LAST_DAY(DATE(date_day), isoweek) AS end_of_week,
         format_date('%B',date_day) AS month_name,
         format_date('%Y.%m',date_day) AS year_month,
+        format_date('%YQ%Q',date_day) AS year_quarter,
         EXTRACT(YEAR FROM date_day) AS YEAR,
         format_date('%m.%d', date_day) as month_day,
         format_date('%u', date_day) as day_of_week,
+
     FROM
         date_spine
 ),

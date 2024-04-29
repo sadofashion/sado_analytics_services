@@ -90,3 +90,8 @@ models:
         meta:
           dimension:
             type: string
+      - name: year_quarter
+        description: ""
+        meta:
+          dimension:
+            type: string
