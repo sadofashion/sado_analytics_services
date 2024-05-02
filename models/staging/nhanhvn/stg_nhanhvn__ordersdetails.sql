@@ -18,9 +18,9 @@ WITH source AS (
     and date(createdDateTime) in (
         select distinct date(createdDateTime) 
         from {{ source('nhanhvn', 'p_orders') }} 
-        where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date(_dbt_max_partition)
+        where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(current_date, interval -1 day)
         )
-    and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(date(_dbt_max_partition), interval -7 day)
+    {# and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(current_date, interval -7 day) #}
     {% endif %}
 ),
 
