@@ -1,6 +1,6 @@
 {{
   config(
-    tags=['table','dimension']
+    tags=['table','dimension','daily']
     )
 }}
 
@@ -23,7 +23,7 @@ WITH kiotviet_products AS (
         {{ ref("stg_kiotviet__products") }}
         kiot
     WHERE
-        kiot.productline NOT IN ('NGUYÊN PHỤ LIỆU','NPL 2023','DANH MỤC VẬN CHUYỂN','VẬT TƯ - QUÀ TẶNG')
+        kiot.productline NOT IN ('NGUYÊN PHỤ LIỆU','NPL 2023','DANH MỤC VẬN CHUYỂN')
         {# AND kiot.type NOT IN ('Combo') #}
 ),
 nhanhvn__products AS (
@@ -77,9 +77,5 @@ FROM
     kiotviet_products p1 
     full OUTER JOIN nhanhvn__products p2
     ON p1.product_code = p2.product_code
-    where length(COALESCE(
-        p1.product_code,
-        p2.product_code
-    )) >=8
-    and (p1.productline not in ('ĐỒNG PHỤC') or p1.productline is null)
+    where (p1.productline not in ('ĐỒNG PHỤC') or p1.productline is null)
     
