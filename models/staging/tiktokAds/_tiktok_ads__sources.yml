@@ -1,0 +1,14 @@
+version: 1
+sources:
+  - name: tiktok
+    schema: Tiktok
+    description: "data from tiktok business manager"
+    tables:
+      - identifier: p_ad_age_gender_report__*
+        name: ad_age_gender
+      - identifier: p_ad_report_daily__*
+        name: ad_report_daily
+      - identifier: p_image_report__*
+        name: image_report
+      - identifier: p_search_report__*
+        name: search_report
