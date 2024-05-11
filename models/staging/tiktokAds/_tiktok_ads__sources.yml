@@ -4,6 +4,12 @@ sources:
     schema: Tiktok
     description: "data from tiktok business manager"
     tables:
+      - identifier: p_campaign__*
+        name: campaign
+      - identifier: p_adgroup__*
+        name: adgroup
+      - identifier: p_ad__*
+        name: ad
       - identifier: p_ad_age_gender_report__*
         name: ad_age_gender
       - identifier: p_ad_report_daily__*
@@ -12,3 +18,7 @@ sources:
         name: image_report
       - identifier: p_search_report__*
         name: search_report
+      - identifier: p_creative_report__*
+        name: creative_report
+      - identifier: p_video_insight__*
+        name: video_insight

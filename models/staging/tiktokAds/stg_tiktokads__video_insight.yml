@@ -1,0 +1,163 @@
+version: 2
+models:
+  - name: stg_tiktokads__video_insight
+    columns:
+      - name: country_code
+        description: This is a JSON column that contains the country code associated
+          with the ad. The data is extracted from the 'info.country_code' field
+          in the source data.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: create_time
+        description: This is a STRING column that contains the time when the ad was
+          created. The data is extracted from the 'info.create_time' field in
+          the source data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: currency
+        description: This is a STRING column that contains the currency used for the ad.
+          The data is extracted from the 'info.currency' field in the source
+          data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: identity
+        description: This column represents the unique identifier of the ad campaign. It
+          is extracted from the 'identity' field in the source data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: material_id
+        description: This column represents the unique identifier of the ad material. It
+          is extracted from the 'material_id' field in the source data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: material_name
+        description: This column represents the name of the ad material. It is extracted
+          from the 'material_name' field in the source data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: placement
+        description: A JSON array that contains the placement information of the ad.
+          This can include details such as the platform (e.g., TikTok, Vigo
+          Video), the location (e.g., feed, detail page), and the device (e.g.,
+          mobile, tablet).
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: video_material_source
+        description: A string that indicates the source of the video material used in
+          the ad. This can be a URL or a reference to a file stored in a
+          specific location.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: clicks
+        description: A float64 value that represents the number of clicks the ad
+          received. This metric is used to measure the engagement of the ad.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: conversion
+        description: The 'conversion' column represents the total number of conversions
+          that have occurred. A conversion is defined as a user completing a
+          desired action after clicking on an ad, such as making a purchase or
+          signing up for a newsletter. This column is of FLOAT64 data type.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: conversion_rate_v2
+        description: The 'conversion_rate_v2' column represents the conversion rate of
+          the ad. It is calculated by dividing the number of conversions by the
+          total number of clicks and multiplying by 100 to get a percentage.
+          This column is of FLOAT64 data type.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_conversion
+        description: The 'cost_per_conversion' column represents the average cost per
+          conversion. It is calculated by dividing the total ad spend by the
+          number of conversions. This column is of FLOAT64 data type.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cpc
+        description: The 'cpc' column represents the Cost Per Click. It is the amount of
+          money spent for each click in your pay-per-click (PPC) marketing
+          campaigns. This is calculated by dividing the total cost of your
+          clicks by the total number of clicks. The data type of this column is
+          FLOAT64.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cpm
+        description: The 'cpm' column stands for Cost Per Mille, also known as Cost Per
+          Thousand Impressions. This metric tells you how much it costs to
+          receive 1,000 impressions on one advertisement. The data type of this
+          column is FLOAT64.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: ctr
+        description: The 'ctr' column represents the Click Through Rate. It is the ratio
+          of users who click on a specific link to the number of total users who
+          view a page, email, or advertisement. It is commonly used to measure
+          the success of an online advertising campaign. The data type of this
+          column is FLOAT64.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: impressions
+        description: The 'impressions' column represents the total number of times the
+          ad was shown to users. It is extracted from the 'metrics' section of
+          the source data and is cast to FLOAT64 data type.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: organic_video_views
+        description: The 'organic_video_views' column indicates the number of times the
+          video ad was viewed organically, i.e., not through paid promotions.
+          This data is also extracted from the 'metrics' section of the source
+          data and is cast to FLOAT64 data type.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: spend
+        description: The 'spend' column represents the total amount of money spent on
+          the ad campaign. This is also extracted from the 'metrics' section of
+          the source data and is cast to FLOAT64 data type.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: _batched_at
+        description: This is a timestamp column that indicates when the data was batched
+          for processing. It is used to order the data and select the most
+          recent record for each material_id in the final output of the model.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: TIMESTAMP
+    description: The model that extracts data from the Tiktok API. It contains
+      information about video insights from TikTok ads.
