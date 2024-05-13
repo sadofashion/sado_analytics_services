@@ -8,13 +8,6 @@ models:
         - join: dim__branches
           sql_on: |
             ${dim__branches.branch_id} = ${sales_dashboard.branch_id}
-          fields:
-            - local_page
-            - fb_ads_pic
-            - asm_name
-            - branch_name
-            - province
-            - region
     columns:
       - name: val_transaction_id
         data_type: int64
