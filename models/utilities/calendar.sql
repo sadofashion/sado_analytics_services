@@ -25,6 +25,7 @@ calendar AS (
         format_date('%Y.%m',date_day) AS year_month,
         format_date('%YQ%Q',date_day) AS year_quarter,
         EXTRACT(YEAR FROM date_day) AS YEAR,
+        EXTRACT(MONTH FROM date_day) AS MONTH,
         format_date('%m.%d', date_day) as month_day,
         format_date('%u', date_day) as day_of_week,
 

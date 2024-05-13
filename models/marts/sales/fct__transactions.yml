@@ -176,7 +176,7 @@ models:
               type: sum
               compact: millions
               round: 1
-              label: Total Collected Revenue
+              label: Total Collected Revenue (customer)
               group_label: Revenue Metrics
               filters:
                 - customer_id: "!null"

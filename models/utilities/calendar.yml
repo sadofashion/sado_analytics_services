@@ -1,16 +1,12 @@
 version: 2
 models:
   - name: calendar
-    description: >-
-      The 'calendar' model generates a calendar table with various date-related
-      information. This calendar table can be used for analyzing and reporting
-      data based on different time periods.
+    description: The 'calendar' model generates a calendar table with various
+      date-related information. This calendar table can be used for analyzing
+      and reporting data based on different time periods.
     columns:
       - name: date
         description: ""
-        tests:
-          - not_null
-          - unique
         meta:
           metrics:
             no_days:
@@ -25,73 +21,85 @@ models:
               - MONTH
               - YEAR
               - QUARTER
+        data_type: DATE
+        tests:
+          - not_null
+          - unique
       - name: day_of_month
         description: ""
         meta:
           dimension:
             type: number
+        data_type: INT64
       - name: day_name
         description: ""
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: start_of_month
         description: ""
         meta:
           dimension:
             type: date
+        data_type: DATE
       - name: end_of_month
         description: ""
         meta:
           dimension:
             type: date
+        data_type: DATE
       - name: start_of_week
         description: ""
         meta:
           dimension:
             type: date
+        data_type: DATE
       - name: end_of_week
         description: ""
         meta:
           dimension:
             type: date
+        data_type: DATE
       - name: month_name
         description: ""
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: year_month
         description: ""
         meta:
           dimension:
             type: string
-      - name: year
+        data_type: STRING
+      - name: year_quarter
         description: ""
-        meta:
-          dimension:
-            type: number
-      - name: period
+        data_type: STRING
+      - name: YEAR
         description: ""
-        meta:
-          dimension:
-            type: string
-      - name: period_code
+        data_type: INT64
+      - name: MONTH
         description: ""
-        meta:
-          dimension:
-            type: string
+        data_type: INT64
       - name: month_day
         description: ""
         meta:
           dimension:
             type: string
+        data_type: STRING
       - name: day_of_week
         description: ""
-        meta:
-          dimension:
-            type: string
-      - name: year_quarter
+        data_type: STRING
+      - name: period
         description: ""
         meta:
           dimension:
             type: string
+        data_type: STRING
+      - name: period_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
