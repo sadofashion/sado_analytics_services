@@ -1,0 +1,786 @@
+version: 2
+models:
+  - name: stg_tiktokads__creative_report
+    columns:
+      - name: image_id
+        description: The unique identifier for the image used in the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: material_id
+        description: The unique identifier for the material or content used in the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: page_id
+        description: The unique identifier for the page where the ad is displayed.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: video_id
+        description: The unique identifier for the video content associated with the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: add_to_wishlist
+        description: The total number of times users have added the product to their
+          wishlist after viewing the ad.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: add_to_wishlist_rate
+        description: The rate at which users add the product to their wishlist after
+          viewing the ad, calculated as the number of 'add to wishlist' actions
+          divided by the total number of ad views.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: app_event_add_to_cart
+        description: This column represents the total number of 'add to cart' events
+          that occurred within the app.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: app_event_add_to_cart_rate
+        description: This column represents the rate of 'add to cart' events that
+          occurred within the app. It is calculated by dividing the total number
+          of 'add to cart' events by the total number of app events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: average_video_play
+        description: This column represents the average duration of video plays. It is
+          calculated by dividing the total duration of all video plays by the
+          total number of video plays.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: checkout
+        description: The 'checkout' column represents the total number of checkouts that
+          have occurred. This is an integer value that is extracted from the
+          'metrics.checkout' field in the source data.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: checkout_rate
+        description: The 'checkout_rate' column represents the rate of checkouts. This
+          is a floating point value that is calculated as the number of
+          checkouts divided by the total number of sessions. It is extracted
+          from the 'metrics.checkout_rate' field in the source data.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: clicks
+        description: The 'clicks' column represents the total number of clicks that have
+          occurred. This is an integer value that is extracted from the
+          'metrics.clicks' field in the source data.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: complete_payment
+        description: This column represents the total number of completed payments. It
+          is derived from the 'complete_payment' metric in the source data.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: complete_payment_rate
+        description: This column represents the rate of completed payments. It is
+          calculated by dividing the number of completed payments by the total
+          number of transactions. It is derived from the 'complete_payment_rate'
+          metric in the source data.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: conversion
+        description: This column represents the total number of conversions. A
+          conversion is defined as a completed action that is beneficial to the
+          business, such as a purchase or a sign-up. It is derived from the
+          'conversion' metric in the source data.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: conversion_rate
+        description: The conversion rate is the percentage of users who take a desired
+          action. The archetypical example of conversion rate is the percentage
+          of website visitors who buy something on the site.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_add_to_wishlist
+        description: This is the average amount of money spent for each add to wishlist
+          action. It is calculated by dividing the total amount spent by the
+          number of adds to wishlist.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_app_event_add_to_cart
+        description: This is the average amount of money spent for each add to cart
+          event in the app. It is calculated by dividing the total amount spent
+          by the number of add to cart events in the app.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_checkout
+        description: This column represents the average cost incurred for each checkout
+          event. It is calculated by dividing the total ad spend by the number
+          of checkout events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_complete_payment
+        description: This column represents the average cost incurred for each complete
+          payment event. It is calculated by dividing the total ad spend by the
+          number of complete payment events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_conversion
+        description: This column represents the average cost incurred for each
+          conversion event. It is calculated by dividing the total ad spend by
+          the number of conversion events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_download_start
+        description: This column represents the cost incurred per download start. It is
+          calculated by dividing the total cost by the number of download
+          starts. The value is represented as a floating point number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_initiate_checkout
+        description: This column represents the cost incurred per initiation of
+          checkout. It is calculated by dividing the total cost by the number of
+          initiated checkouts. The value is represented as a floating point
+          number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_page_event_search
+        description: This column represents the cost incurred per page event search. It
+          is calculated by dividing the total cost by the number of page event
+          searches. The value is represented as a floating point number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_product_details_page_browse
+        description: This column represents the cost incurred per product details page
+          browse event. It is calculated by dividing the total cost by the
+          number of product details page browse events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_purchase
+        description: This column represents the cost incurred per purchase event. It is
+          calculated by dividing the total cost by the number of purchase
+          events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_registration
+        description: This column represents the cost incurred per registration event. It
+          is calculated by dividing the total cost by the number of registration
+          events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_total_add_to_wishlist
+        description: This column represents the total cost incurred per 'add to
+          wishlist' event. It is calculated by dividing the total spend by the
+          total number of 'add to wishlist' events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_total_app_event_add_to_cart
+        description: This column represents the total cost incurred per 'add to cart'
+          event in the app. It is calculated by dividing the total spend by the
+          total number of 'add to cart' events in the app.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_total_checkout
+        description: This column represents the total cost incurred per checkout event.
+          It is calculated by dividing the total spend by the total number of
+          checkout events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_total_purchase
+        description: This column represents the total cost per purchase made. It is
+          calculated by dividing the total cost by the total number of
+          purchases. This metric is useful for understanding the efficiency of
+          the advertising spend in terms of generating purchases.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_total_registration
+        description: This column represents the total cost per user registration. It is
+          calculated by dividing the total cost by the total number of user
+          registrations. This metric is useful for understanding the efficiency
+          of the advertising spend in terms of generating user registrations.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_total_view_content
+        description: This column represents the total cost per content view. It is
+          calculated by dividing the total cost by the total number of content
+          views. This metric is useful for understanding the efficiency of the
+          advertising spend in terms of generating content views.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_user_registration
+        description: This column represents the cost incurred per user registration. It
+          is calculated by dividing the total cost by the number of user
+          registrations. The value is represented as a floating point number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_view_content
+        description: This column represents the cost incurred per content view. It is
+          calculated by dividing the total cost by the number of content views.
+          The value is represented as a floating point number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cost_per_web_event_add_to_cart
+        description: This column represents the cost incurred per 'add to cart' event on
+          the web. It is calculated by dividing the total cost by the number of
+          'add to cart' events on the web. The value is represented as a
+          floating point number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cpc
+        description: The 'cpc' column represents the Cost Per Click. It is the amount
+          spent for each click on the ad.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: cpm
+        description: The 'cpm' column represents the Cost Per Mille (thousand
+          impressions). It is the amount spent for every thousand impressions
+          the ad receives.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: ctr
+        description: The 'ctr' column represents the Click Through Rate. It is the ratio
+          of users who click on the ad to the number of total users who viewed
+          the ad.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: download_start_rate
+        description: The download_start_rate column represents the rate at which users
+          start downloading the advertised app or content. It is calculated by
+          dividing the number of download starts by the total number of
+          impressions. The value is represented as a float.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: impressions
+        description: The impressions column represents the total number of times the ad
+          was shown to users. Each time an ad is displayed on a user's screen,
+          it counts as one impression. The value is represented as an integer.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: initiate_checkout
+        description: The initiate_checkout column represents the total number of times
+          users initiated the checkout process after viewing the ad. This
+          includes instances where the user may not have completed the purchase.
+          The value is represented as an integer.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: initiate_checkout_rate
+        description: This column represents the rate at which users initiate the
+          checkout process after viewing an ad. It is calculated by dividing the
+          number of users who initiate checkout by the total number of users who
+          viewed the ad. The value is represented as a float.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: page_event_search
+        description: This column represents the total number of search events that
+          occurred on the page after an ad was viewed. A search event is defined
+          as a user performing a search action on the page. The value is
+          represented as an integer.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: page_event_search_rate
+        description: This column represents the rate at which search events occur on the
+          page after an ad is viewed. It is calculated by dividing the number of
+          search events by the total number of users who viewed the ad. The
+          value is represented as a float.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: product_details_page_browse
+        description: This column represents the total number of times users have browsed
+          the product details page.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: product_details_page_browse_rate
+        description: This column represents the rate at which users browse the product
+          details page. It is calculated by dividing the number of product
+          details page browses by the total number of page views.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: purchase
+        description: This column represents the total number of purchases made by users.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: purchase_rate
+        description: The purchase_rate column represents the rate at which purchases are
+          made. It is calculated by dividing the number of purchases by the
+          total number of impressions. The value is represented as a float.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: registration
+        description: The registration column represents the total number of
+          registrations. It is an integer value that counts the number of users
+          who have registered.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: registration_rate
+        description: The registration_rate column represents the rate at which
+          registrations are made. It is calculated by dividing the number of
+          registrations by the total number of impressions. The value is
+          represented as a float.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: sales_lead
+        description: The 'sales_lead' column represents the number of potential
+          customers who have shown interest in the product or service.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: spend
+        description: The 'spend' column indicates the total amount of money spent on
+          advertising.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_add_to_wishlist
+        description: The 'total_add_to_wishlist' column shows the total number of times
+          users have added the product to their wishlist.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: total_add_to_wishlist_value
+        description: This column represents the total value of all items added to the
+          wishlist. It is calculated by summing up the value of each item added
+          to the wishlist.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_app_event_add_to_cart
+        description: This column represents the total number of 'add to cart' events
+          that occurred within the app. It is calculated by counting the number
+          of times users added items to their cart in the app.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: total_app_event_add_to_cart_value
+        description: This column represents the total value of all 'add to cart' events
+          that occurred within the app. It is calculated by summing up the value
+          of each item added to the cart in the app.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_checkout
+        description: The total number of checkouts initiated by users for the given ad
+          campaign. This includes both completed and abandoned checkouts.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: total_checkout_value
+        description: The total monetary value associated with the checkouts initiated by
+          users for the given ad campaign. This value is calculated based on the
+          product prices at the time of checkout.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_complete_payment_rate
+        description: The rate at which users complete the payment process after
+          initiating a checkout for the given ad campaign. This is calculated as
+          the ratio of completed payments to total checkouts initiated.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_download_start_value
+        description: This column represents the total value generated from the start of
+          downloads. It is calculated by summing up the value of all initiated
+          downloads.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_initiate_checkout_value
+        description: This column represents the total value generated from the
+          initiation of checkouts. It is calculated by summing up the value of
+          all initiated checkouts.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_page_event_search_value
+        description: This column represents the total value generated from page event
+          searches. It is calculated by summing up the value of all page event
+          searches.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_product_details_page_browse_value
+        description: The total value associated with the browsing of product details
+          pages. This is calculated by summing up the value of all individual
+          browsing actions on product details pages.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_purchase
+        description: The total number of purchases made. This is calculated by summing
+          up all individual purchase actions.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: total_purchase_value
+        description: The total value associated with all purchases. This is calculated
+          by summing up the value of all individual purchase actions.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_registration
+        description: This column represents the total number of user registrations. It
+          is derived from the 'metrics.total_registration' field in the source
+          data.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: total_sales_lead
+        description: This column represents the total number of sales leads. It is
+          derived from the 'metrics.total_sales_lead' field in the source data.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: total_sales_lead_value
+        description: This column represents the total value of sales leads. It is
+          derived from the 'metrics.total_sales_lead_value' field in the source
+          data.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_user_registration_value
+        description: This column represents the total value associated with user
+          registrations. It is calculated by summing up the value of all user
+          registrations.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_view_content
+        description: This column represents the total count of content views. It is
+          calculated by summing up the number of times content was viewed.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: total_view_content_value
+        description: This column represents the total value associated with content
+          views. It is calculated by summing up the value of all content views.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: total_web_event_add_to_cart_value
+        description: This column represents the total value of all web events where a
+          product was added to the cart. It is calculated by summing up the
+          value of all individual 'add to cart' events on the web platform.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: user_registration
+        description: This column represents the total number of user registrations. It
+          is calculated by counting the number of unique users who have
+          registered on the platform.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: user_registration_rate
+        description: This column represents the rate of user registrations. It is
+          calculated by dividing the total number of user registrations by the
+          total number of users who visited the platform.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_checkout
+        description: This column represents the average value generated per checkout
+          event. It is calculated by dividing the total value generated by the
+          number of checkout events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_complete_payment
+        description: This column represents the average value generated per completed
+          payment event. It is calculated by dividing the total value generated
+          by the number of completed payment events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_download_start
+        description: This column represents the average value generated per download
+          start event. It is calculated by dividing the total value generated by
+          the number of download start events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_initiate_checkout
+        description: This column represents the average value generated per initiated
+          checkout event. It is calculated by dividing the total value generated
+          from all initiated checkouts by the total number of initiated
+          checkouts.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_page_event_search
+        description: This column represents the average value generated per page event
+          search. It is calculated by dividing the total value generated from
+          all page event searches by the total number of page event searches.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_product_details_page_browse
+        description: This column represents the average value generated per product
+          details page browse event. It is calculated by dividing the total
+          value generated from all product details page browses by the total
+          number of product details page browses.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_total_add_to_wishlist
+        description: This column represents the total value per 'add to wishlist' event.
+          It is calculated by dividing the total value of all 'add to wishlist'
+          events by the total number of such events. The value is represented as
+          a floating point number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_total_app_event_add_to_cart
+        description: This column represents the total value per 'add to cart' event in
+          the app. It is calculated by dividing the total value of all 'add to
+          cart' events in the app by the total number of such events. The value
+          is represented as a floating point number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_total_purchase
+        description: This column represents the total value per purchase. It is
+          calculated by dividing the total value of all purchases by the total
+          number of purchases. The value is represented as a floating point
+          number.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_total_view_content
+        description: This column represents the value per total view content. It is
+          calculated by dividing the total value generated from all content
+          views by the total number of content views. This metric helps in
+          understanding the value generated per content view.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_user_registration
+        description: This column represents the value per user registration. It is
+          calculated by dividing the total value generated from all user
+          registrations by the total number of user registrations. This metric
+          helps in understanding the value generated per user registration.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: value_per_web_event_add_to_cart
+        description: This column represents the value per web event add to cart. It is
+          calculated by dividing the total value generated from all add to cart
+          events on the web by the total number of add to cart events on the
+          web. This metric helps in understanding the value generated per add to
+          cart event on the web.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: video_play_actions
+        description: The 'video_play_actions' column represents the total number of
+          times a video was played in the ad.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: video_views_p100
+        description: The 'video_views_p100' column represents the total number of times
+          a video was viewed completely (100%) in the ad.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: video_views_p25
+        description: The 'video_views_p25' column represents the total number of times a
+          video was viewed at least 25% in the ad.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: video_views_p50
+        description: This column represents the number of times a video has been viewed
+          at least 50% of its total duration.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: video_views_p75
+        description: This column represents the number of times a video has been viewed
+          at least 75% of its total duration.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: video_watched_2s
+        description: This column represents the number of times a video has been watched
+          for at least 2 seconds.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: video_watched_6s
+        description: This column represents the number of times a video was watched for
+          at least 6 seconds.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: view_content
+        description: This column represents the total number of content views.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: view_content_rate
+        description: This column represents the rate of content views, calculated as the
+          number of content views divided by the total number of impressions.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: web_event_add_to_cart
+        description: This column represents the total number of 'add to cart' events
+          that occurred on the web platform for a specific ad.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: web_event_add_to_cart_rate
+        description: This column represents the rate of 'add to cart' events that
+          occurred on the web platform for a specific ad. It is calculated by
+          dividing the number of 'add to cart' events by the total number of
+          events.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: _batched_at
+        description: This column represents the timestamp at which the data was batched
+          and loaded into the database.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: TIMESTAMP
+    description: The model is a staging model that extracts data from the Tiktok
+      creative report. It includes metrics related to ad creative performance

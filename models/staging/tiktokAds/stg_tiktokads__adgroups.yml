@@ -1,0 +1,752 @@
+version: 2
+models:
+  - name: stg_tiktokads__adgroups
+    columns:
+      - name: actions
+        description: A JSON array containing the actions associated with the ad group.
+          Actions can include things like clicks, impressions, conversions, etc.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: adgroup_app_profile_page_state
+        description: A string indicating the state of the ad group's app profile page.
+          This could be active, inactive, paused, etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: adgroup_id
+        description: A unique string identifier for the ad group. This is used to
+          uniquely identify each ad group within the TikTok Ads platform.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: adgroup_name
+        description: The name of the ad group. This is a string value that represents
+          the name assigned to the ad group within the TikTok Ads platform.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: advertiser_id
+        description: The unique identifier of the advertiser. This is a string value
+          that represents the unique ID assigned to the advertiser within the
+          TikTok Ads platform.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: age_groups
+        description: The age groups targeted by the ad group. This is a JSON array that
+          contains the age groups that the ad group is targeting. Each age group
+          is represented as a string value.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: app_download_url
+        description: The URL where the application associated with the ad can be downloaded.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: app_id
+        description: The unique identifier of the application associated with the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: app_type
+        description: The type of the application associated with the ad. This could be a
+          category or platform type.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: attribution_event_count
+        description: This column represents the count of attribution events associated
+          with the ad group. It is extracted from the 'attribution_event_count'
+          field in the source data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: audience_ids
+        description: This column contains a JSON array of audience IDs targeted by the
+          ad group. These IDs are extracted from the 'audience_ids' field in the
+          source data.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: auto_targeting_enabled
+        description: This column is a boolean flag indicating whether auto-targeting is
+          enabled for the ad group. It is extracted from the
+          'auto_targeting_enabled' field in the source data and cast to a
+          boolean value.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: bid_display_mode
+        description: The 'bid_display_mode' column represents the mode of display for
+          the bid in the TikTok Ads platform. It is a string data type.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: bid_price
+        description: The 'bid_price' column represents the price of the bid for the ad
+          group in the TikTok Ads platform. It is a float data type, allowing
+          for decimal values.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: bid_type
+        description: The 'bid_type' column represents the type of bid for the ad group
+          in the TikTok Ads platform. It is a string data type, indicating the
+          specific bidding strategy used.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: billing_event
+        description: The billing_event column represents the event that triggers the
+          billing process for the ad. It is a string data type.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: brand_safety_partner
+        description: The brand_safety_partner column represents the partner responsible
+          for ensuring the brand's safety in the ad campaign. It is a string
+          data type.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: brand_safety_type
+        description: The brand_safety_type column represents the type of brand safety
+          measures implemented in the ad campaign. It is a string data type.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: budget
+        description: The budget column represents the allocated budget for the ad group.
+          It is a floating point number that indicates the amount of money set
+          aside for the ad group's advertising efforts.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: budget_mode
+        description: The budget_mode column is a string that indicates the mode of the
+          budget. It specifies how the budget is distributed over time. For
+          example, it could be 'daily' indicating the budget is distributed
+          daily, or 'lifetime' indicating the budget is for the entire duration
+          of the ad group.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: campaign_id
+        description: The campaign_id column is a string that uniquely identifies the
+          campaign that the ad group belongs to. This ID is used to link the ad
+          group to its parent campaign.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: campaign_name
+        description: The name of the advertising campaign associated with the ad group.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: catalog_id
+        description: The unique identifier of the catalog associated with the ad group.
+          Catalogs are collections of items that can be used in ads.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: category_exclusion_ids
+        description: A JSON array of unique identifiers for categories that are excluded
+          from the ad group. These categories represent types of content that
+          the advertiser does not want their ads to appear alongside.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: category_id
+        description: The unique identifier for the category of the ad group. This is a
+          string value.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: click_attribution_window
+        description: The time window for attributing clicks to the ad group. This is a
+          string value that represents a time duration.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: comment_disabled
+        description: A boolean flag indicating whether comments are disabled for the ad
+          group. If true, comments are disabled; if false, comments are enabled.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: contextual_tag_ids
+        description: This column contains JSON data of the IDs of the contextual tags
+          associated with the ad group. Contextual tags are used to categorize
+          the content of the ad group for better targeting and ad placement.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: conversion_bid_price
+        description: This column represents the bid price for conversions. It is the
+          maximum amount that the advertiser is willing to pay for a conversion.
+          The data type of this column is FLOAT64, which means it can contain
+          decimal values.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: conversion_window
+        description: This column represents the conversion window for the ad group. The
+          conversion window is the period of time after an ad interaction during
+          which a conversion, such as a purchase, is recorded.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: create_time
+        description: The datetime when the ad group was created. It is extracted from
+          the 'create_time' field in the source data.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: DATETIME
+      - name: creative_material_mode
+        description: The mode of the creative material used in the ad group. It is
+          extracted from the 'creative_material_mode' field in the source data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: dayparting
+        description: The specific times of the day when the ad group is scheduled to
+          run. It is extracted from the 'dayparting' field in the source data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: deep_bid_type
+        description: The 'deep_bid_type' column represents the type of deep bid used in
+          the ad group. It is a string value that can provide insights into the
+          bidding strategy used for the ad group.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: deep_cpa_bid
+        description: The 'deep_cpa_bid' column represents the Cost Per Action (CPA) bid
+          for the ad group. It is a float64 value that indicates the amount the
+          advertiser is willing to pay for each action (like a click or
+          conversion) that is taken on their ad.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: delivery_mode
+        description: The 'delivery_mode' column represents the mode of delivery for the
+          ad group. It is a string value that can provide insights into how the
+          ads are being delivered to the target audience.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: device_model_ids
+        description: This column contains JSON data of the device model IDs targeted by
+          the ad group. Each ID represents a specific model of a device.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: device_price_ranges
+        description: This column contains JSON data of the device price ranges targeted
+          by the ad group. Each range represents a specific price category of
+          devices.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: excluded_audience_ids
+        description: This column contains JSON data of the audience IDs that are
+          excluded from the ad group. Each ID represents a specific audience
+          group that is not targeted by the ad group.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: excluded_custom_actions
+        description: This column contains a JSON array of custom actions that are
+          excluded from the ad group. Custom actions can be any specific user
+          interactions that the advertiser wants to track, such as app installs,
+          page views, or purchases.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: feed_type
+        description: This column contains a string that indicates the type of feed for
+          the ad group. The feed type can be used to categorize the ad group
+          based on the type of content it contains or the way it is delivered to
+          users.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: frequency
+        description: This column contains a string that indicates the frequency of the
+          ad group. The frequency can be used to control how often the ads in
+          the ad group are shown to users.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: frequency_schedule
+        description: The 'frequency_schedule' column represents the schedule of
+          frequency for the ad group. It is a string type column.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: gender
+        description: The 'gender' column represents the target gender for the ad group.
+          It is a string type column.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: identity_authorized_bc_id
+        description: The 'identity_authorized_bc_id' column represents the authorized
+          business center ID associated with the ad group. It is a string type
+          column.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: identity_id
+        description: The unique identifier for the identity associated with the ad
+          group. This is a string value.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: identity_type
+        description: The type of identity associated with the ad group. This could be a
+          user, a device, or another type of entity. This is a string value.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: included_custom_actions
+        description: A JSON array of custom actions that are included in the ad group.
+          These actions could be things like clicks, views, or other types of
+          engagement.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: interest_category_ids
+        description: This column contains JSON data of the IDs of the interest
+          categories targeted by the ad group. Interest categories are
+          predefined groupings of users based on their interests and behaviors.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: interest_keyword_ids
+        description: This column contains JSON data of the IDs of the interest keywords
+          targeted by the ad group. Interest keywords are specific words or
+          phrases that users might be interested in, and are used to target ads
+          more precisely.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: inventory_filter_enabled
+        description: This column is a boolean value indicating whether the inventory
+          filter is enabled for the ad group. When enabled, the ad group's ads
+          will only be shown in the specified inventory types.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: ios14_quota_type
+        description: This column represents the type of quota set for iOS 14 users in
+          the ad group. The value is a string.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: is_hfss
+        description: This boolean column indicates whether the ad group is classified as
+          High in Fat, Salt or Sugar (HFSS). If the value is true, the ad group
+          is HFSS, otherwise it is not.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: is_new_structure
+        description: This boolean column indicates whether the ad group is using a new
+          structure. If the value is true, the ad group is using a new
+          structure, otherwise it is using an old structure.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: is_smart_performance_campaign
+        description: A boolean field indicating whether the ad group is part of a smart
+          performance campaign. If true, the ad group is part of a smart
+          performance campaign.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: isp_ids
+        description: A JSON array containing the IDs of the Internet Service Providers
+          (ISPs) targeted by the ad group. Each ID corresponds to a specific
+          ISP.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: keywords
+        description: A string field containing the keywords associated with the ad
+          group. These keywords are used to match the ad group with relevant
+          user searches or content.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: languages
+        description: This column contains a JSON array of languages associated with the
+          ad group. Each language is represented by a unique identifier.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: location_ids
+        description: This column contains a JSON array of location identifiers
+          associated with the ad group. Each location is represented by a unique
+          identifier.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: modify_time
+        description: This column contains the date and time when the ad group was last
+          modified. The time is represented in the DATETIME format.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: DATETIME
+      - name: network_types
+        description: A JSON array containing the types of networks where the adgroup's
+          ads are displayed. This can include various types such as 'WIFI',
+          '4G', '3G', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: next_day_retention
+        description: A string value representing the next day retention rate for the
+          adgroup. This is a measure of how many users return to the app the day
+          after installing it.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: operating_systems
+        description: A JSON array containing the operating systems on which the
+          adgroup's ads are displayed. This can include various systems such as
+          'iOS', 'Android', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: operation_status
+        description: The operation_status column represents the current status of the
+          operation being performed on the adgroup. This could include statuses
+          such as 'active', 'paused', 'deleted', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: optimization_event
+        description: The optimization_event column represents the event that the adgroup
+          is optimized for. This could include events such as 'click',
+          'conversion', 'impression', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: optimization_goal
+        description: The optimization_goal column represents the goal that the adgroup
+          is trying to achieve through optimization. This could include goals
+          such as 'reach', 'engagement', 'conversion', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: pacing
+        description: The 'pacing' column represents the pacing of the ad group. It
+          indicates how the ad group's budget is spent over time. This could be
+          evenly distributed throughout the day or accelerated to spend as
+          quickly as possible.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: pixel_id
+        description: The 'pixel_id' column represents the unique identifier of the pixel
+          associated with the ad group. Pixels are used to track user behavior
+          on a website, which can be used for retargeting and conversion
+          tracking.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: placement_type
+        description: The 'placement_type' column represents the type of placement for
+          the ad group. This could be in the form of a news feed, story,
+          in-article, etc. It indicates where the ad will be displayed.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: placements
+        description: A JSON array that contains the placements of the ad. This refers to
+          where the ad will be shown on the platform.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: product_source
+        description: A string that indicates the source of the product being advertised.
+          This could be a specific store, website, or other source.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: promotion_type
+        description: A string that indicates the type of promotion being used for the
+          ad. This could include things like discounts, special offers, or other
+          types of promotions.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: purchased_impression
+        description: This column represents the number of impressions that were
+          purchased for the ad group. An impression is counted each time an ad
+          is shown.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: purchased_reach
+        description: This column represents the total number of unique users who have
+          seen the ad. It is a measure of the size of the audience that was
+          reached by the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: rf_estimated_cpr
+        description: This column represents the estimated cost per reach. It is a
+          measure of how much it costs to reach one unique user with the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: rf_estimated_frequency
+        description: This column represents the estimated frequency of the reach and
+          frequency purchased type. It is a string type field.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: rf_purchased_type
+        description: This column represents the type of reach and frequency purchased.
+          It is a string type field.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: schedule_end_time
+        description: This column represents the end time of the ad schedule. It is a
+          datetime type field.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: DATETIME
+      - name: schedule_infos
+        description: This column contains information about the schedule of the ad
+          group. It includes details such as the start and end times, and the
+          days of the week when the ad group is active.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: schedule_start_time
+        description: This column represents the start time of the ad group's schedule.
+          It is stored as a datetime value.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: DATETIME
+      - name: schedule_type
+        description: This column indicates the type of schedule for the ad group. It
+          could be a fixed schedule or a flexible one, depending on the
+          advertiser's strategy.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: scheduled_budget
+        description: The 'scheduled_budget' column represents the budget that has been
+          scheduled for a particular ad group. The data type of this column is
+          FLOAT64, which means it can contain floating point numbers.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: search_result_enabled
+        description: The 'search_result_enabled' column is a boolean column that
+          indicates whether the search result is enabled or not for a particular
+          ad group. If the value is true, it means the search result is enabled,
+          and if the value is false, it means the search result is not enabled.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: secondary_optimization_event
+        description: The 'secondary_optimization_event' column represents the secondary
+          event that is used for optimization. This is a string column and can
+          contain various types of events that are used for optimization.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: secondary_status
+        description: The secondary status of the ad group. This field provides
+          additional information about the status of the ad group.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: share_disabled
+        description: A boolean field indicating whether sharing is disabled for the ad
+          group. If true, sharing is disabled.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: shopping_ads_type
+        description: The type of shopping ads used in the ad group. This field specifies
+          the format of the shopping ads.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: skip_learning_phase
+        description: A boolean field indicating whether the learning phase of the ad
+          group is skipped. If set to true, the ad group will not go through the
+          learning phase and will start delivering ads immediately.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: smart_audience_enabled
+        description: A string field that indicates whether the smart audience feature is
+          enabled for the ad group. This feature allows the ad group to target
+          users based on their behavior and interests.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: smart_interest_behavior_enabled
+        description: A string field that indicates whether the smart interest behavior
+          feature is enabled for the ad group. This feature allows the ad group
+          to target users based on their interests and behaviors.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: spending_power
+        description: This column represents the spending power of the ad group. It is a
+          string value that indicates the financial capacity of the ad group to
+          spend on advertising.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: statistic_type
+        description: This column represents the type of statistics used for the ad
+          group. It is a string value that indicates the statistical method or
+          approach used for analyzing the ad group's performance.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: store_authorized_bc_id
+        description: This column represents the ID of the authorized business center for
+          the store. It is a string value that serves as a unique identifier for
+          the business center that is authorized to manage the store.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: store_id
+        description: The unique identifier of the store associated with the ad group.
+          This is a string value.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: video_download_disabled
+        description: A boolean flag indicating whether the video download feature is
+          disabled for the ad group. If true, users cannot download videos from
+          the ad group.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: view_attribution_window
+        description: The time window for attributing views to the ad group. This is a
+          string value representing a time duration.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: zipcode_ids
+        description: This column contains the JSON array of the IDs of the zip codes
+          targeted by the ad group.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+    description: The model represents ad groups data from TikTok. It includes
+      various fields related to ad groups. The data is extracted from the Tiktok
+      API

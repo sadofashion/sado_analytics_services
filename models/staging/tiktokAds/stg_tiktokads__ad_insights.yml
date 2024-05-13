@@ -1,0 +1,1489 @@
+version: 2
+models:
+  - name: stg_tiktokads__ad_insights
+    description: >-
+      The model is a daily snapshot of TikTok ad performance. The data is
+      sourced from the TikTok API. This model is useful for analyzing ad
+      performance over time, understanding the effectiveness of different ad
+      groups and campaigns, and optimizing ad spend.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ad_id
+            - adgroup_id
+            - campaign_id
+            - date
+    columns:
+      - name: ad_id
+        description: The unique identifier for each ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: adgroup_id
+        description: The unique identifier for the ad group. This is a string value.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: adgroup_name
+        description: The name of the ad group. This is a string value.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: advertiser_id
+        description: The unique identifier for the advertiser. This is a string value.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: advertiser_name
+        description: The name of the advertiser for the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: campaign_id
+        description: This column represents the unique identifier for the ad campaign.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: campaign_name
+        description: The name of the advertising campaign associated with the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: placement_type
+        description: >-
+          The type of placement where the ad was displayed. This can include
+          various platforms or sections within a platform where the ad was
+          shown.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: objective_type
+        description: >-
+          The 'objective_type' column indicates the objective or goal of the ad
+          campaign. This could be brand awareness, lead generation, conversion,
+          etc.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: add_to_wishlist
+        description: >-
+          The number of times users added the product to their wishlist through
+          the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: add_to_wishlist_rate
+        description: >-
+          The rate at which users added the product to their wishlist after
+          viewing the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: app_event_add_to_cart
+        description: >-
+          The number of times the 'add to cart' event was triggered in the app
+          due to the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: app_event_add_to_cart_rate
+        description: >-
+          The rate at which the 'add to cart' event was triggered in the app due
+          to the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: average_video_play
+        description: This column represents the average duration of video play for the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: average_video_play_per_user
+        description: >-
+          This column represents the average duration of video play per user for
+          the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: checkout
+        description: >-
+          The number of times a user has proceeded to checkout after viewing the
+          ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: checkout_rate
+        description: >-
+          The rate at which users proceed to checkout after viewing the ad,
+          calculated as the number of checkouts divided by the number of ad
+          views.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: clicks
+        description: >-
+          The 'clicks' column represents the total number of times users have
+          clicked on the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: comments
+        description: >-
+          The 'comments' column indicates the total number of comments made by
+          users on the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: complete_payment
+        description: >-
+          The 'complete_payment' column shows the total number of completed
+          payments made by users after clicking on the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: complete_payment_rate
+        description: >-
+          The rate at which users complete payments after interacting with the
+          ad. It is calculated by dividing the number of users who completed
+          payments by the total number of users who interacted with the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: conversion
+        description: >-
+          The total number of conversions that occurred as a result of users
+          interacting with the ad. A conversion is defined as a user completing
+          a desired action such as making a purchase, signing up for a
+          newsletter, or filling out a form.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: conversion_rate
+        description: >-
+          The rate at which conversions occur after users interact with the ad.
+          It is calculated by dividing the total number of conversions by the
+          total number of users who interacted with the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_1000_reached
+        description: >-
+          This column represents the cost incurred for every 1000 people reached
+          by the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_add_to_wishlist
+        description: >-
+          This column represents the cost incurred for every instance of a user
+          adding a product to their wishlist as a result of the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_app_event_add_to_cart
+        description: >-
+          This column represents the cost incurred for every instance of a user
+          adding a product to their cart within the app as a result of the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_checkout
+        description: >-
+          This column represents the cost incurred per checkout action on the
+          ad. It is calculated by dividing the total ad spend by the number of
+          checkouts. The value is represented as a float.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_complete_payment
+        description: >-
+          This column represents the cost incurred per complete payment action
+          on the ad. It is calculated by dividing the total ad spend by the
+          number of complete payments. The value is represented as a float.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_conversion
+        description: >-
+          This column represents the cost incurred per conversion action on the
+          ad. It is calculated by dividing the total ad spend by the number of
+          conversions. The value is represented as a float.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_cta_purchase
+        description: >-
+          This column represents the cost per call-to-action (CTA) purchase. It
+          is calculated by dividing the total cost by the number of CTA
+          purchases. The value is represented as a string.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_cta_registration
+        description: >-
+          This column represents the cost per call-to-action (CTA) registration.
+          It is calculated by dividing the total cost by the number of CTA
+          registrations. The value is represented as a string.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_download_start
+        description: >-
+          This column represents the cost per download start. It is calculated
+          by dividing the total cost by the number of download starts. The value
+          is represented as a string.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_initiate_checkout
+        description: >-
+          This column represents the cost incurred per initiate checkout action.
+          It is calculated by dividing the total cost by the number of initiate
+          checkout actions.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_on_web_add_to_wishlist
+        description: >-
+          This column represents the cost incurred per 'add to wishlist' action
+          on the web. It is calculated by dividing the total cost by the number
+          of 'add to wishlist' actions on the web.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_page_event_search
+        description: >-
+          This column represents the cost incurred per page event search action.
+          It is calculated by dividing the total cost by the number of page
+          event search actions.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_product_details_page_browse
+        description: >-
+          This column represents the cost incurred per product details page
+          browse event. It is calculated by dividing the total cost by the
+          number of product details page browse events.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_purchase
+        description: >-
+          This column represents the cost incurred per purchase event. It is
+          calculated by dividing the total cost by the number of purchase
+          events.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_registration
+        description: >-
+          This column represents the cost incurred per registration event. It is
+          calculated by dividing the total cost by the number of registration
+          events.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_result
+        description: >-
+          This column represents the cost per result. It is calculated by
+          dividing the total cost by the total number of results. The result
+          could be any action that the advertiser has defined as a goal, such as
+          a click, a conversion, or an app install.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_secondary_goal_result
+        description: >-
+          This column represents the cost per secondary goal result. It is
+          calculated by dividing the total cost by the total number of secondary
+          goal results. The secondary goal result could be any action that the
+          advertiser has defined as a secondary goal, such as a view, a like, or
+          a share.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_total_add_to_wishlist
+        description: >-
+          This column represents the cost per total add to wishlist. It is
+          calculated by dividing the total cost by the total number of 'add to
+          wishlist' actions. This metric is particularly useful for e-commerce
+          advertisers who want to measure the cost effectiveness of their
+          campaigns in terms of wishlist additions.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_total_app_event_add_to_cart
+        description: >-
+          This column represents the total cost incurred for each 'add to cart'
+          event in the app. It is calculated by dividing the total cost by the
+          total number of 'add to cart' events in the app.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_total_checkout
+        description: >-
+          This column represents the total cost incurred for each checkout
+          event. It is calculated by dividing the total cost by the total number
+          of checkout events.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_total_purchase
+        description: >-
+          This column represents the total cost incurred for each purchase
+          event. It is calculated by dividing the total cost by the total number
+          of purchase events.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_total_registration
+        description: >-
+          This column represents the cost per total registration. It is
+          calculated by dividing the total cost by the total number of
+          registrations. The value is represented as a string.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_total_view_content
+        description: >-
+          This column represents the cost per total view content. It is
+          calculated by dividing the total cost by the total number of content
+          views. The value is represented as a string.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_user_registration
+        description: >-
+          This column represents the cost per user registration. It is
+          calculated by dividing the total cost by the total number of user
+          registrations. The value is represented as a string.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_view_content
+        description: >-
+          This column represents the cost incurred per view of the content. It
+          is calculated by dividing the total cost by the number of content
+          views. The value is represented as a floating point number.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_vta_conversion
+        description: >-
+          This column represents the cost incurred per view-through attribution
+          (VTA) conversion. VTA conversion refers to the number of conversions
+          that occurred after a user viewed an ad, without necessarily clicking
+          on it. The value is represented as a floating point number.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_vta_purchase
+        description: >-
+          This column represents the cost incurred per view-through attribution
+          (VTA) purchase. VTA purchase refers to the number of purchases that
+          occurred after a user viewed an ad, without necessarily clicking on
+          it. The value is represented as a floating point number.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_vta_registration
+        description: >-
+          This column represents the cost per View Through Attribution (VTA)
+          registration. VTA is a type of attribution model that gives credit to
+          the last viewed ad impression before a conversion (in this case, a
+          registration). The cost is calculated by dividing the total ad spend
+          by the number of VTA registrations.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_web_event_add_to_cart
+        description: >-
+          This column represents the cost per 'add to cart' event on the web
+          platform. It is calculated by dividing the total ad spend by the
+          number of 'add to cart' events on the web platform. This metric helps
+          in understanding the cost effectiveness of the ad campaign in driving
+          potential customers to add products to their cart on the web platform.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cpc
+        description: >-
+          This column represents the Cost Per Click (CPC). It is a common
+          performance metric in digital advertising that measures the cost an
+          advertiser pays for each click on their ad. It is calculated by
+          dividing the total ad spend by the total number of clicks. This metric
+          helps in understanding the cost effectiveness of the ad campaign in
+          driving user engagement.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cpm
+        description: >-
+          The cost per 1000 impressions. This metric gives the cost of reaching
+          1000 people through the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cta_app_install
+        description: >-
+          The number of times users clicked the 'Install' call-to-action button
+          on the ad. This metric is useful for tracking the effectiveness of app
+          promotion ads.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cta_conversion
+        description: >-
+          The number of conversions that occurred as a result of users clicking
+          the call-to-action button on the ad. This metric is useful for
+          tracking the effectiveness of conversion-focused ads.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cta_purchase
+        description: >-
+          This column represents the number of times the 'purchase'
+          call-to-action (CTA) was clicked in the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cta_registration
+        description: >-
+          This column represents the number of times the 'registration'
+          call-to-action (CTA) was clicked in the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: ctr
+        description: >-
+          This column represents the Click-Through Rate (CTR) for the ad. It is
+          calculated as the number of clicks that the ad receives divided by the
+          number of times the ad is shown (impressions), expressed as a
+          percentage.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: download_start
+        description: >-
+          This column represents the number of times a download of the
+          advertised application was initiated.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: download_start_rate
+        description: >-
+          This column represents the rate at which downloads of the advertised
+          application were initiated. It is calculated by dividing the number of
+          download starts by the total number of impressions.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: dpa_target_audience_type
+        description: >-
+          This column represents the type of target audience for the Dynamic
+          Product Ads (DPA). The value can indicate whether the ad was targeted
+          towards new users, existing users, or a custom audience.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: engaged_view
+        description: >-
+          This column represents the number of times a user engaged with the ad.
+          An engagement is counted when a user interacts with the ad in any way,
+          such as clicking the link, liking the ad, sharing it, etc.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: engaged_view_15s
+        description: >-
+          This column represents the number of times a user engaged with the ad
+          for at least 15 seconds. This includes actions such as watching the ad
+          video for 15 seconds or more, clicking and exploring the ad content
+          for 15 seconds or more, etc.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: follows
+        description: >-
+          This column represents the number of times a user followed the
+          advertiser after viewing the ad. This is a key metric for advertisers
+          looking to grow their follower base on TikTok.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: impressions
+        description: The total number of times the ad was shown to users.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: initiate_checkout
+        description: >-
+          The total number of times users initiated the checkout process for a
+          product after viewing the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: initiate_checkout_rate
+        description: >-
+          The rate at which users initiated the checkout process after viewing
+          the ad. It is calculated by dividing the number of checkouts initiated
+          by the total number of impressions.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: likes
+        description: >-
+          The 'likes' column represents the total number of likes received by
+          the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: on_web_add_to_wishlist
+        description: >-
+          The 'on_web_add_to_wishlist' column represents the number of times
+          users added the product to their wishlist on the web platform after
+          viewing the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: on_web_add_to_wishlist_per_click
+        description: >-
+          This column represents the number of 'add to wishlist' actions that
+          occurred on the web per click.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: page_event_search
+        description: >-
+          This column represents the number of search events that occurred on
+          the page.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: page_event_search_rate
+        description: >-
+          This column represents the rate of search events that occurred on the
+          page.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: product_details_page_browse
+        description: >-
+          The number of times users browsed the product details page after
+          seeing the ad. This metric helps in understanding user engagement with
+          the product after viewing the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: product_details_page_browse_rate
+        description: >-
+          The rate at which users browsed the product details page after seeing
+          the ad. It is calculated as the number of product details page browses
+          divided by the total number of ad views. This rate helps in
+          understanding the effectiveness of the ad in driving user engagement
+          with the product.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: profile_visits
+        description: >-
+          The 'profile_visits' column represents the number of times a user has
+          visited the profile of the advertiser on TikTok.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: purchase
+        description: >-
+          The 'purchase' column indicates the total number of purchases made by
+          users after viewing the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: purchase_rate
+        description: >-
+          The 'purchase_rate' column represents the rate of purchases made by
+          users after viewing the ad. It is calculated by dividing the number of
+          purchases by the total number of ad views.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: reach
+        description: >-
+          The total number of unique users who have seen any content related to
+          the ad campaign.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: real_time_conversion
+        description: >-
+          The number of conversions that occurred in real-time as a result of
+          the ad campaign. A conversion is defined as a desired action taken by
+          a user, such as making a purchase, signing up for a newsletter, or
+          filling out a form.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: real_time_conversion_rate
+        description: >-
+          The rate at which real-time conversions occur. It is calculated by
+          dividing the number of real-time conversions by the total number of
+          unique users who have seen the ad, and then multiplying the result by
+          100 to get a percentage.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: real_time_cost_per_conversion
+        description: >-
+          This column represents the real-time cost per conversion. It is
+          calculated by dividing the total cost by the number of conversions.
+          The value is in the currency of the ad account.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: real_time_cost_per_result
+        description: >-
+          This column represents the real-time cost per result. It is calculated
+          by dividing the total cost by the number of results. The value is in
+          the currency of the ad account.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: real_time_result
+        description: >-
+          This column represents the real-time results. It is the number of
+          times the desired action was taken after a user clicked on the ad.
+          This could include actions such as likes, shares, comments, or any
+          other defined campaign objective.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: real_time_result_rate
+        description: >-
+          This column represents the rate of real-time results achieved from the
+          ad campaign. It is calculated by dividing the number of real-time
+          results by the total number of impressions. The value is represented
+          as a FLOAT64 data type.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: registration
+        description: >-
+          This column represents the total number of user registrations achieved
+          from the ad campaign. It is represented as a FLOAT64 data type.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: registration_rate
+        description: >-
+          This column represents the rate of user registrations achieved from
+          the ad campaign. It is calculated by dividing the number of user
+          registrations by the total number of impressions. The value is
+          represented as a FLOAT64 data type.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: result
+        description: >-
+          The 'result' column represents the total number of results achieved by
+          the ad. This could include any action that the ad was designed to
+          achieve, such as clicks, conversions, or views.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: result_rate
+        description: >-
+          The 'result_rate' column represents the rate of results achieved per
+          impression. It is calculated by dividing the total number of results
+          by the total number of impressions, giving an indication of the ad's
+          effectiveness.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: sales_lead
+        description: >-
+          The 'sales_lead' column represents the total number of sales leads
+          generated by the ad. A sales lead is a prospective consumer of a
+          product or service, created when an individual or business shows
+          interest and provides contact information.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: secondary_goal_result
+        description: >-
+          This column represents the secondary goal result of the ad. It is the
+          outcome of the secondary objective set for the ad campaign.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: secondary_goal_result_rate
+        description: >-
+          This column represents the rate of the secondary goal result. It is
+          calculated by dividing the number of secondary goal results by the
+          total number of impressions or clicks.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: shares
+        description: >-
+          This column represents the number of times the ad was shared by users.
+          It is a measure of the ad's virality and user engagement.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: skan_sales_lead
+        description: >-
+          The column 'skan_sales_lead' represents the number of sales leads
+          generated through the SKAdNetwork, which is Apple's privacy-friendly
+          ad network.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: skan_total_sales_lead
+        description: >-
+          The column 'skan_total_sales_lead' represents the total number of
+          sales leads generated through the SKAdNetwork over a certain period of
+          time.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: skan_total_sales_lead_value
+        description: >-
+          The column 'skan_total_sales_lead_value' represents the total value of
+          the sales leads generated through the SKAdNetwork over a certain
+          period of time.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: spend
+        description: The total amount of money spent on the ad campaign.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_active_pay_roas
+        description: >-
+          The total return on ad spend (ROAS) for all active payments. This is
+          calculated by dividing the total revenue generated by the ad campaign
+          by the total amount spent on the campaign.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_add_to_wishlist
+        description: >-
+          The total number of times users added the advertised product to their
+          wishlist.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_add_to_wishlist_value
+        description: >-
+          This column represents the total value of all items added to the
+          wishlist. It is calculated by summing up the value of each item added
+          to the wishlist.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_app_event_add_to_cart
+        description: >-
+          This column represents the total number of 'add to cart' events that
+          occurred within the app. It is calculated by counting the number of
+          times users added items to their cart in the app.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_app_event_add_to_cart_value
+        description: >-
+          This column represents the total value of all 'add to cart' events
+          that occurred within the app. It is calculated by summing up the value
+          of each item added to the cart in the app.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_checkout
+        description: >-
+          This column represents the total number of checkouts that have
+          occurred. It is calculated by summing up all the individual checkouts
+          that have taken place.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_checkout_value
+        description: >-
+          This column represents the total value of all checkouts. It is
+          calculated by summing up the value of all individual checkouts.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_complete_payment_rate
+        description: >-
+          This column represents the rate of completed payments. It is
+          calculated by dividing the number of completed payments by the total
+          number of checkouts.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_download_start_value
+        description: >-
+          This column represents the total value generated from the start of
+          downloads. It is calculated by summing up the value of all initiated
+          downloads.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_initiate_checkout_value
+        description: >-
+          This column represents the total value generated from the initiation
+          of checkouts. It is calculated by summing up the value of all
+          initiated checkouts.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_on_web_add_to_wishlist_value
+        description: >-
+          This column represents the total value generated from adding items to
+          the wishlist on the web. It is calculated by summing up the value of
+          all items added to the wishlist on the web.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_page_event_search_value
+        description: >-
+          This column represents the total value generated from page event
+          searches. It is calculated by summing up the value of all page event
+          searches.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_product_details_page_browse_value
+        description: >-
+          This column represents the total value generated from browsing the
+          product details page. It is calculated by summing up the value of all
+          product details page browses.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_purchase
+        description: >-
+          This column represents the total number of purchases made. It is
+          calculated by summing up all the purchases.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_purchase_value
+        description: >-
+          The total value of all purchases made through the ad. This is
+          calculated by summing the value of all individual purchases.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_registration
+        description: >-
+          The total number of registrations or sign-ups that have occurred as a
+          result of the ad. This is calculated by counting the number of unique
+          users who have registered after clicking on the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_sales_lead
+        description: >-
+          The total number of potential sales opportunities generated by the ad.
+          This is calculated by counting the number of users who have shown
+          interest in the product or service by performing actions like filling
+          out a form, subscribing to a newsletter, or adding a product to their
+          cart.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_sales_lead_value
+        description: >-
+          This column represents the total value of sales leads generated from
+          the ad campaign. It is calculated by summing up the value of all sales
+          leads.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_user_registration_value
+        description: >-
+          This column represents the total value of user registrations generated
+          from the ad campaign. It is calculated by summing up the value of all
+          user registrations.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_view_content
+        description: >-
+          This column represents the total number of content views generated
+          from the ad campaign. It is calculated by summing up the number of all
+          content views.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_view_content_value
+        description: >-
+          This column represents the total value of the content viewed by users.
+          It is calculated by summing up the value of all content viewed by
+          users.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: total_web_event_add_to_cart_value
+        description: >-
+          This column represents the total value of the 'add to cart' events on
+          the web. It is calculated by summing up the value of all 'add to cart'
+          events that occurred on the web.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: user_registration
+        description: >-
+          This column represents the number of users who have registered. It is
+          calculated by counting the number of unique users who have completed
+          the registration process.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: user_registration_rate
+        description: >-
+          The rate at which users register on the platform after viewing the ad.
+          It is calculated by dividing the number of users who registered after
+          viewing the ad by the total number of users who viewed the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_checkout
+        description: >-
+          The average value generated per checkout after viewing the ad. It is
+          calculated by dividing the total value generated from checkouts by the
+          total number of checkouts after viewing the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_complete_payment
+        description: >-
+          The average value generated per completed payment after viewing the
+          ad. It is calculated by dividing the total value generated from
+          completed payments by the total number of completed payments after
+          viewing the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_download_start
+        description: >-
+          This column represents the value per download start. It is calculated
+          by dividing the total value generated from all downloads by the total
+          number of downloads started. This metric helps in understanding the
+          average value generated from each download start.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_initiate_checkout
+        description: >-
+          This column represents the value per initiate checkout. It is
+          calculated by dividing the total value generated from all checkouts by
+          the total number of checkouts initiated. This metric helps in
+          understanding the average value generated from each checkout
+          initiation.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_on_web_add_to_wishlist
+        description: >-
+          This column represents the value per add to wishlist on web. It is
+          calculated by dividing the total value generated from all wishlist
+          additions on the web by the total number of wishlist additions on the
+          web. This metric helps in understanding the average value generated
+          from each wishlist addition on the web.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_page_event_search
+        description: >-
+          This column represents the value per page event search. It is
+          calculated by dividing the total value generated from page event
+          searches by the total number of page event searches.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_product_details_page_browse
+        description: >-
+          This column represents the value per product details page browse. It
+          is calculated by dividing the total value generated from product
+          details page browses by the total number of product details page
+          browses.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_total_add_to_wishlist
+        description: >-
+          This column represents the value per total add to wishlist. It is
+          calculated by dividing the total value generated from adding items to
+          the wishlist by the total number of items added to the wishlist.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_total_app_event_add_to_cart
+        description: >-
+          This column represents the total value per app event add to cart. It
+          is calculated by dividing the total value of all app events add to
+          cart by the total number of such events. This metric is useful for
+          understanding the average value generated by each app event add to
+          cart.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_total_purchase
+        description: >-
+          This column represents the total value per purchase. It is calculated
+          by dividing the total value of all purchases by the total number of
+          purchases. This metric is useful for understanding the average value
+          generated by each purchase.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_total_view_content
+        description: >-
+          This column represents the total value per content view. It is
+          calculated by dividing the total value of all content views by the
+          total number of content views. This metric is useful for understanding
+          the average value generated by each content view.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_user_registration
+        description: >-
+          This column represents the value per user registration. It is
+          calculated by dividing the total value generated from all registered
+          users by the total number of registered users. The value is
+          represented as a floating point number.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: value_per_web_event_add_to_cart
+        description: >-
+          This column represents the value per 'add to cart' event on the web.
+          It is calculated by dividing the total value generated from all 'add
+          to cart' events on the web by the total number of such events. The
+          value is represented as a floating point number.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_play_actions
+        description: >-
+          This column represents the total number of video play actions. It
+          counts the number of times users played the video in the ad. The value
+          is represented as a floating point number.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_views_p100
+        description: >-
+          This column represents the percentage of video views that reached 100%
+          of the video length. It is a measure of how engaging the video content
+          is, with a higher percentage indicating that more viewers watched the
+          entire video.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_views_p25
+        description: >-
+          This column represents the percentage of video views that reached at
+          least 25% of the video length. It is a measure of initial engagement
+          with the video content, with a higher percentage indicating that more
+          viewers watched at least a quarter of the video.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_views_p50
+        description: >-
+          This column represents the percentage of video views that reached at
+          least 50% of the video length. It is a measure of mid-point engagement
+          with the video content, with a higher percentage indicating that more
+          viewers watched at least half of the video.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_views_p75
+        description: >-
+          This column represents the number of times a video was viewed up to
+          75% of its length.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_watched_2s
+        description: >-
+          This column represents the number of times a video was watched for at
+          least 2 seconds.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_watched_6s
+        description: >-
+          This column represents the number of times a video was watched for at
+          least 6 seconds.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: view_content
+        description: >-
+          This column represents the number of times a user viewed the content
+          of the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: view_content_rate
+        description: >-
+          This column represents the rate at which users viewed the content of
+          the ad. It is calculated by dividing the number of content views by
+          the total number of impressions.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: vta_app_install
+        description: >-
+          This column represents the number of times the app was installed via
+          the ad. It is part of the view-through attribution (VTA) metrics,
+          which measure the number of users who viewed the ad and then later
+          completed the desired action (in this case, installing the app).
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: vta_conversion
+        description: >-
+          This column represents the number of View-Through Attribution (VTA)
+          conversions. VTA is a way to measure a user's conversion based on the
+          view of an ad, without clicking on it.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: vta_purchase
+        description: >-
+          This column represents the number of View-Through Attribution (VTA)
+          purchases. It measures the number of purchases made by users who
+          viewed the ad but did not necessarily click on it.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: vta_registration
+        description: >-
+          This column represents the number of View-Through Attribution (VTA)
+          registrations. It measures the number of registrations made by users
+          who viewed the ad but did not necessarily click on it.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: web_event_add_to_cart
+        description: >-
+          This column represents the number of times a user added a product to
+          their cart on the website after viewing the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: web_event_add_to_cart_rate
+        description: >-
+          This column represents the rate at which users added a product to
+          their cart on the website after viewing the ad. It is calculated by
+          dividing the number of 'add to cart' events by the total number of ad
+          views.
+        data_type: STRING
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: date
+        description: >-
+          This column represents the date on which the ad data was recorded. It
+          is in the format YYYY-MM-DD.
+        data_type: DATE
+        meta:
+          dimension:
+            type: date

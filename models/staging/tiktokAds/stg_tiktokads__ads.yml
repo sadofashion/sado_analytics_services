@@ -1,0 +1,356 @@
+version: 2
+models:
+  - name: stg_tiktokads__ads
+    columns:
+      - name: ad_format
+        description: The format of the ad. This is a string value that describes the
+          type of ad being displayed. Examples could include 'video', 'image',
+          'carousel', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: ad_id
+        description: The unique identifier for the ad. This is a string value that is
+          unique to each ad and is used to track and identify the ad in the
+          system.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: ad_name
+        description: The name of the ad. This is a string value that is used to identify
+          the ad in a more human-readable format. This could be a name given by
+          the advertiser for easy identification.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: ad_text
+        description: The 'ad_text' column contains the main text content of the
+          advertisement. This is typically a brief description or tagline
+          associated with the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: ad_texts
+        description: The 'ad_texts' column contains additional text content related to
+          the advertisement. This could include supplementary information,
+          additional taglines, or alternative versions of the main ad text.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: adgroup_id
+        description: The 'adgroup_id' column contains the unique identifier for the ad
+          group to which the advertisement belongs. This is used to group
+          related ads together for tracking and analysis purposes.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: adgroup_name
+        description: The name of the ad group. This is a string value that represents
+          the name of the group that the ad belongs to.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: advertiser_id
+        description: The unique identifier of the advertiser. This is a string value
+          that uniquely identifies the advertiser who is running the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: app_name
+        description: The name of the app. This is a string value that represents the
+          name of the app where the ad is being displayed.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: avatar_icon_web_uri
+        description: The URI of the avatar icon associated with the ad. This is
+          typically a URL where the avatar image can be found.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: brand_safety_postbid_partner
+        description: The partner involved in ensuring brand safety after the ad bid has
+          been won. This is typically a third-party company that ensures the ad
+          content is safe and appropriate for the brand.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: brand_safety_vast_url
+        description: The URL of the VAST (Video Ad Serving Template) associated with
+          brand safety. This URL is used to track and manage the delivery of
+          video content for the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: call_to_action
+        description: The 'call_to_action' column represents the specific action that the
+          advertiser wants the user to take. This could be a prompt to visit a
+          website, download an app, or any other action that aligns with the
+          advertiser's marketing goals.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: call_to_action_id
+        description: The 'call_to_action_id' column is a unique identifier for the
+          specific call to action associated with the ad. This ID can be used to
+          track the performance of different calls to action across multiple
+          ads.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: campaign_id
+        description: The 'campaign_id' column is a unique identifier for the advertising
+          campaign that the ad is a part of. This ID can be used to group
+          together all ads that are part of the same campaign for analysis and
+          reporting purposes.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: campaign_name
+        description: The name of the advertising campaign associated with the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: card_id
+        description: The unique identifier for the card element within the ad. This can
+          be used to track specific components of an ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: carousel_image_labels
+        description: Labels associated with images in a carousel ad format. This can be
+          used to categorize or describe the content of the images.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: click_tracking_url
+        description: The URL used for tracking the clicks on the ad. This is a string field.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: create_time
+        description: The timestamp when the ad was created. This is a datetime field.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: DATETIME
+      - name: creative_authorized
+        description: A boolean field indicating whether the creative content of the ad
+          is authorized or not. True means authorized, False means not
+          authorized.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: creative_type
+        description: The 'creative_type' column represents the type of creative used in
+          the ad. This could be a video, image, carousel, etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: deeplink
+        description: The 'deeplink' column contains the URL that takes users directly to
+          a specific destination within the app, bypassing the app's homepage or
+          other intervening steps. It is used to improve user experience by
+          taking users directly to the relevant content.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: deeplink_type
+        description: The 'deeplink_type' column indicates the type of deeplink used.
+          This could be a standard deeplink, deferred deeplink, or contextual
+          deeplink.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: display_name
+        description: The display name of the ad. This is the name that is shown to the
+          users on the platform.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: identity_id
+        description: The unique identifier for the identity associated with the ad. This
+          could be the user or the advertiser who created the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: identity_type
+        description: The type of identity associated with the ad. This could be a user,
+          an advertiser, or any other entity that can be associated with an ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: image_ids
+        description: A JSON array containing the IDs of the images associated with the
+          ad. These IDs can be used to retrieve the images from the image
+          database.
+        meta:
+          dimension:
+            type: string
+        data_type: JSON
+      - name: impression_tracking_url
+        description: The URL used to track impressions for the ad. An impression is
+          counted each time the ad is displayed.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: is_aco
+        description: A boolean value indicating whether the ad is part of an Automatic
+          Content Optimization (ACO) campaign. If true, the ad is part of an ACO
+          campaign; if false, it is not.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: is_new_structure
+        description: A boolean field indicating whether the ad follows a new structure
+          or not. True if the ad follows a new structure, false otherwise.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: landing_page_url
+        description: A string field representing the URL of the landing page where users
+          are directed after clicking on the ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: landing_page_urls
+        description: A string field representing multiple URLs of the landing pages
+          where users can be directed after clicking on the ad. The URLs are
+          separated by commas.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: modify_time
+        description: The 'modify_time' column represents the date and time when the ad
+          was last modified. It is of DATETIME type.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: DATETIME
+      - name: music_id
+        description: The 'music_id' column is a unique identifier for the music
+          associated with the ad. It is of STRING type.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: operation_status
+        description: The 'operation_status' column indicates the current operational
+          status of the ad. It is of STRING type.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: optimization_event
+        description: The 'optimization_event' column represents the event that the ad is
+          optimized for. This could be a click, view, or other user interaction.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: page_id
+        description: The 'page_id' column represents the unique identifier of the page
+          where the ad is displayed. This is used for tracking and analytics
+          purposes.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: playable_url
+        description: The 'playable_url' column represents the URL of the playable ad.
+          This is the URL that users are directed to when they interact with the
+          ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: profile_image_url
+        description: The URL of the profile image associated with the ad. This is
+          typically the image of the advertiser or the brand.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: secondary_status
+        description: The secondary status of the ad. This can provide additional
+          information about the ad's current state, such as whether it's active,
+          paused, or deleted.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: tracking_pixel_id
+        description: The ID of the tracking pixel associated with the ad. This is used
+          for tracking user interactions with the ad, such as clicks and
+          conversions.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: vast_moat_enabled
+        description: A boolean field indicating whether the VAST (Video Ad Serving
+          Template) Moat is enabled for the ad. This is used for tracking and
+          reporting on video ad performance.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: video_id
+        description: A unique identifier for the video associated with the ad. This is
+          used to link the ad with its corresponding video content.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: viewability_postbid_partner
+        description: The partner involved in the post-bid viewability of the ad. This is
+          used to track and optimize the viewability of the ad after the bidding
+          process.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: viewability_vast_url
+        description: This column contains the URL for the VAST (Video Ad Serving
+          Template) related to viewability tracking. VAST is a specification
+          released by the Interactive Advertising Bureau (IAB) that allows ad
+          servers to use a single ad response format across multiple
+          publishers/platforms. The URL stored in this column is used to track
+          the viewability of the video ad.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+    description: The model that extracts data from the Tiktok Ads API. It contains
+      information about the ads.

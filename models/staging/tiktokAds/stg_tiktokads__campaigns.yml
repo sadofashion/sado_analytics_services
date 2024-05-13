@@ -1,0 +1,168 @@
+version: 2
+models:
+  - name: stg_tiktokads__campaigns
+    columns:
+      - name: advertiser_id
+        description: The unique identifier for the advertiser. This is a string value.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: campaign_id
+        description: The unique identifier for the campaign. This is a string value.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: campaign_name
+        description: The name of the campaign. This is a string value.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: campaign_type
+        description: The 'campaign_type' column represents the type of the campaign. It
+          is a string value that can provide information about the nature of the
+          campaign, such as whether it is a brand awareness campaign, a lead
+          generation campaign, etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: objective
+        description: The 'objective' column represents the main goal or purpose of the
+          campaign. It is a string value that can provide information about what
+          the campaign aims to achieve, such as increasing brand awareness,
+          generating leads, driving website traffic, etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: objective_type
+        description: The 'objective_type' column represents the specific type of the
+          campaign objective. It is a string value that can provide more
+          detailed information about the campaign's goal, such as whether it is
+          aimed at increasing website conversions, app installs, video views,
+          etc.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: operation_status
+        description: This column represents the current operational status of the
+          campaign. It is a string value that can take on various statuses such
+          as 'active', 'paused', 'deleted', etc. This field is crucial for
+          understanding the current state of a campaign.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: secondary_status
+        description: This column represents the secondary status of the campaign. It is
+          a string value that provides additional information about the
+          campaign's status. This could include statuses like 'under review',
+          'disapproved', 'limited by budget', etc. This field provides more
+          granular insights into the campaign's status.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: app_promotion_type
+        description: This column represents the type of app promotion for the campaign.
+          It is a string value that can take on various types such as 'install',
+          're-engagement', 'conversion', etc. This field is important for
+          understanding the goal of the campaign in terms of app promotion.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: budget
+        description: The budget column represents the allocated budget for a specific
+          campaign. It is an integer value.
+        meta:
+          dimension:
+            type: number
+        data_type: INT64
+      - name: budget_mode
+        description: The budget_mode column indicates the mode of the budget for a
+          campaign. It is a string value that can take on values such as 'daily'
+          or 'lifetime', indicating whether the budget is allocated daily or for
+          the lifetime of the campaign.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: budget_optimize_on
+        description: The budget_optimize_on column represents the parameter on which the
+          budget is optimized. It is a string value that can take on values such
+          as 'clicks', 'impressions', or 'conversions', indicating what the
+          budget is optimized for.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: deep_bid_type
+        description: The 'deep_bid_type' column represents the type of deep bid used in
+          the campaign. It is a string value extracted from the JSON data.
+        meta:
+          dimension:
+            type: string
+        data_type: STRING
+      - name: is_advanced_dedicated_campaign
+        description: The 'is_advanced_dedicated_campaign' column is a boolean value
+          indicating whether the campaign is an advanced dedicated campaign or
+          not. It is extracted from the JSON data and cast to a boolean value.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: is_new_structure
+        description: The 'is_new_structure' column is a boolean value indicating whether
+          the campaign uses a new structure or not. It is extracted from the
+          JSON data and cast to a boolean value.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: is_search_campaign
+        description: A boolean flag indicating whether the campaign is a search
+          campaign. If true, the campaign is a search campaign, otherwise it is
+          not.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: is_smart_performance_campaign
+        description: A boolean flag indicating whether the campaign is a smart
+          performance campaign. If true, the campaign is a smart performance
+          campaign, otherwise it is not.
+        meta:
+          dimension:
+            type: boolean
+        data_type: BOOLEAN
+      - name: roas_bid
+        description: A float value representing the Return on Ad Spend (ROAS) bid for
+          the campaign. This is the amount of money the advertiser is willing to
+          spend to achieve a return on their ad spend.
+        meta:
+          dimension:
+            type: number
+        data_type: FLOAT64
+      - name: create_time
+        description: The timestamp when the campaign was created. It is extracted from
+          the source data using the datetime function to convert the string into
+          a datetime format.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: DATETIME
+      - name: modify_time
+        description: The timestamp when the campaign was last modified. It is extracted
+          from the source data using the datetime function to convert the string
+          into a datetime format.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: DATETIME
+    description: The model extracts data from the Tiktok Ads API. It contains
+      information about the campaigns run by advertisers.

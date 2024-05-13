@@ -1,0 +1,371 @@
+version: 2
+models:
+  - name: stg_tiktokads__age_gender_insights
+    description: "The model provides insights into TikTok ads based on age and gender. "
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ad_id
+            - adgroup_id
+            - campaign_id
+            - date
+            - age
+            - gender
+    columns:
+      - name: ad_id
+        description: >-
+          The unique identifier for each ad. This is a string value that is
+          unique for each ad and is used to track the performance of individual
+          ads.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: age
+        description: >-
+          The age group that the ad was shown to. This is a string value that
+          represents the age group of the audience that the ad was shown to. It
+          is used to understand the demographic reach of the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: gender
+        description: >-
+          The gender that the ad was shown to. This is a string value that
+          represents the gender of the audience that the ad was shown to. It is
+          used to understand the demographic reach of the ad.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: adgroup_id
+        description: The unique identifier for the ad group. This is a string value.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: adgroup_name
+        description: The name of the ad group. This is a string value.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: advertiser_id
+        description: The unique identifier for the advertiser. This is a string value.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: advertiser_name
+        description: >-
+          The name of the advertiser. This is a string value that represents the
+          name of the advertiser who is running the ad campaign.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: campaign_id
+        description: >-
+          The unique identifier for the ad campaign. This is a string value that
+          uniquely identifies each ad campaign.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: campaign_name
+        description: >-
+          The name of the ad campaign. This is a string value that represents
+          the name of the ad campaign.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: placement_type
+        description: >-
+          The 'placement_type' column represents the type of placement where the
+          ad was displayed. This could be in the user's feed, in the search
+          results, etc.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: objective_type
+        description: >-
+          The 'objective_type' column represents the objective of the ad
+          campaign. This could be brand awareness, lead generation, conversions,
+          etc.
+        data_type: STRING
+        meta:
+          dimension:
+            type: string
+      - name: average_video_play
+        description: >-
+          The 'average_video_play' column represents the average duration for
+          which the ad video was played by the users. This is measured in
+          seconds.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: clicks
+        description: >-
+          The 'clicks' column represents the total number of times users have
+          clicked on the ad. This metric is crucial for understanding user
+          engagement and the effectiveness of the ad.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: comments
+        description: >-
+          The 'comments' column indicates the total number of comments made by
+          users on the ad. This can be used to gauge user interaction and
+          sentiment towards the ad.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: conversion
+        description: >-
+          The 'conversion' column represents the total number of successful
+          conversions that have occurred as a result of users clicking on the
+          ad. This is a key performance indicator for the ad's success in
+          driving desired user actions.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: conversion_rate
+        description: >-
+          The conversion rate column represents the percentage of users who have
+          completed a desired action (conversion) after clicking on the ad. It
+          is calculated by dividing the number of conversions by the total
+          number of clicks and multiplying the result by 100.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_conversion
+        description: >-
+          The cost per conversion column represents the average amount spent on
+          an ad campaign for each conversion achieved. It is calculated by
+          dividing the total cost of the campaign by the number of conversions.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cost_per_result
+        description: >-
+          The cost per result column represents the average amount spent for
+          each successful result achieved. The definition of a 'result' depends
+          on the objective of the ad campaign, it could be a click, a
+          conversion, or any other defined action.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cpc
+        description: >-
+          The 'cpc' column represents the Cost Per Click. It is the amount of
+          money spent for each click in your TikTok advertising campaign. This
+          is calculated by dividing the total cost of your clicks by the total
+          number of clicks. This column is of FLOAT64 data type.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cpm
+        description: >-
+          The 'cpm' column represents the Cost Per Mille (Cost Per Thousand
+          Impressions). It is the amount spent on an ad campaign, divided by
+          Impressions, multiplied by 1000. This is a common metric used by the
+          advertising industry to gauge the cost effectiveness and efficiency of
+          an advertising campaign. This column is of FLOAT64 data type.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: ctr
+        description: >-
+          The 'ctr' column represents the Click Through Rate. It is the ratio of
+          users who click on a specific link to the number of total users who
+          view the ad, email, or page. It is commonly used to measure the
+          success of an online advertising campaign. This column is of FLOAT64
+          data type.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: follows
+        description: >-
+          The 'follows' column represents the total number of new followers
+          gained as a result of the ad. It is a floating point number that is
+          derived from the 'metrics.follows' field in the original JSON data.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: impressions
+        description: >-
+          The 'impressions' column represents the total number of times the ad
+          was shown. It is a floating point number that is derived from the
+          'metrics.impressions' field in the original JSON data.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: likes
+        description: >-
+          The 'likes' column represents the total number of likes received by
+          the ad. It is a floating point number that is derived from the
+          'metrics.likes' field in the original JSON data.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: profile_visits
+        description: >-
+          The 'profile_visits' column represents the number of times users have
+          visited the profile page of the advertiser after seeing the ad.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: real_time_conversion
+        description: >-
+          The 'real_time_conversion' column indicates the number of conversions
+          that have occurred in real-time after users have interacted with the
+          ad.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: result
+        description: >-
+          The 'result' column represents the total number of desired actions
+          that were achieved by the ad. This could include actions such as
+          clicks, likes, shares, etc.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: result_rate
+        description: >-
+          The result rate column represents the ratio of results to impressions.
+          It is calculated by dividing the number of results by the number of
+          impressions and multiplying by 100. This metric is useful for
+          understanding the effectiveness of an ad in achieving its objective.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: shares
+        description: >-
+          The shares column represents the total number of times the ad was
+          shared by users. This metric is useful for understanding the virality
+          of an ad, as a higher number of shares typically indicates that the ad
+          content resonated with the audience.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: spend
+        description: >-
+          The spend column represents the total amount of money spent on the ad
+          campaign. This metric is useful for understanding the cost of the ad
+          campaign and can be used to calculate other metrics such as cost per
+          result or cost per conversion.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_views_p100
+        description: >-
+          This column represents the number of times a video has been viewed to
+          100% of its length. It is a measure of complete engagement with the
+          video content.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_views_p25
+        description: >-
+          This column represents the number of times a video has been viewed to
+          25% of its length. It provides an insight into the initial engagement
+          of the audience with the video content.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_views_p50
+        description: >-
+          This column represents the number of times a video has been viewed to
+          50% of its length. It indicates the mid-level engagement of the
+          audience with the video content.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_views_p75
+        description: >-
+          This column represents the number of times a video has been viewed up
+          to 75% of its length.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_watched_2s
+        description: >-
+          This column represents the number of times a video has been watched
+          for at least 2 seconds.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: video_watched_6s
+        description: >-
+          This column represents the number of times a video has been watched
+          for at least 6 seconds.
+        data_type: FLOAT64
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: date
+        description: >-
+          The 'date' column represents the date when the ad metrics were
+          recorded. It is derived from the 'stat_time_day' column in the source
+          data, which is converted to a date format.
+        data_type: DATE
+        meta:
+          dimension:
+            type: date
