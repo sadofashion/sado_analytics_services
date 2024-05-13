@@ -96,7 +96,7 @@ models:
           dimension:
             type: date
           additional_dimensions:
-            d_store_age:
+            d_store_age_group:
               type: string
               sql: |
                 case when date_diff(current_date,${opening_day},month) < 3 then '1. under 3M'
@@ -108,6 +108,10 @@ models:
                 when date_diff(current_date,${opening_day},month) between 24 and 35 then '7. 2-3Y'
                 else '8. over 3Y' end
               label: Store age group
+            d_store_age:
+              type: number
+              sql: date_diff(current_date,${opening_day},month)
+              label: Store age
       - name: close_date
         description: ""
         meta:

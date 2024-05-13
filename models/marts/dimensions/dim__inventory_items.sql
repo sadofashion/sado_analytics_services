@@ -44,6 +44,7 @@ nhanhvn__products AS (
         )
     WHERE 1=1
         {# and type_name NOT IN ('Combo') #}
+        and product_code is not null
 )
 SELECT
     coalesce(
