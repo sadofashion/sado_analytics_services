@@ -148,9 +148,9 @@ nhanhvn_rev AS (
     WHERE
         1 = 1
 {% if is_incremental() %}
-and DATE(created_date) in (
+and DATE(delivery_date) in (
     select 
-    DATE(created_date)
+    DATE(delivery_date)
     from {{ ref('stg_nhanhvn__ordersdetails') }}
     where date(last_sync) >= date_add(CURRENT_DATE, INTERVAL -1 DAY)
 )
