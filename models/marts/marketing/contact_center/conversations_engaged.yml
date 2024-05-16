@@ -152,30 +152,20 @@ models:
             d_stage:
               type: string
               sql: >
-                case when ${TABLE}.stage like '%Chưa phản hồi%' then '[2] Chưa
-                phản hồi'
-
+                case when ${TABLE}.stage like '%Chưa phản hồi%' then '[2] Chưa phản hồi'
                 when ${TABLE}.stage like '%Tham khảo%' then '[3] Tham khảo'
-
-                when ${TABLE}.stage like '%Đang chổt%' then '[4] Đang chốt'
-
-                when ${TABLE}.stage like '%chuyển CH%' then '[5] Chốt đơn'
-
-                when ${TABLE}.stage like '%Khách ra SR%' then '[5] Chốt đơn'
-
-                when ${TABLE}.stage like '%Đã mua hàng%' then '[5] Chốt đơn'
-
-                when ${TABLE}.stage like '%Giá Cao%' then 'Huỷ'
-
-                when ${TABLE}.stage like '%Hết hàng%' then 'Huỷ'
-
+                when regexp_contains(${TABLE}.stage,r'Chăm sóc lần') then '[3.1] Chăm sóc lại'
+                when regexp_contains(${TABLE}.stage,r'Đang chổt|Đang chốt') then '[4] Đang chốt'
+                when regexp_contains(${TABLE}.stage,r'chuyển CH|Khách ra SR|Đã mua hàng') then '[5] Chốt đơn'
+                when regexp_contains(${TABLE}.stage,r'Đã gửi|Kiểm hàng') then '[0] Đang giao hàng'
+                when regexp_contains(${TABLE}.stage,r'Giá Cao|Hết hàng') then 'Huỷ'
                 else '[1] Hội thoại mới' end
               label: Stage
             d_closed_state:
               type: string
               sql: >
-                case  when ${TABLE}.stage like '%Đã mua hàng%' then 'Đã mua
-                hàng' when ${TABLE}.stage like '%chuyển CH%' then 'chuyển CH'
+                case  when ${TABLE}.stage like '%Đã mua hàng%' then 'Đã mua hàng' 
+                when ${TABLE}.stage like '%chuyển CH%' then 'chuyển CH'
                 when ${TABLE}.stage like '%Khách ra SR%' then 'Khách ra SR' end
               label: Closed State
             d_refuse_reason:
