@@ -153,6 +153,7 @@ and DATE(delivery_date) in (
     DATE(delivery_date)
     from {{ ref('stg_nhanhvn__ordersdetails') }}
     where date(last_sync) >= date_add(CURRENT_DATE, INTERVAL -1 DAY)
+    and delivery_date is not null
 )
 {# AND date(last_sync) >= date_add(DATE(_dbt_max_partition), INTERVAL -1 DAY) #}
 {% endif %}
