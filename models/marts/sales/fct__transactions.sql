@@ -112,7 +112,11 @@ nhanhvn_rev AS (
     SELECT
         order_id AS transaction_id,
         shop_order_id AS transaction_code,
-        delivery_date AS transaction_date,
+        COALESCE(
+            delivery_date,
+            send_carrier_date,
+            DATE(created_date)
+        ) AS transaction_date,
         return_from_order_id AS reference_transaction_id,
         traffic_source_id AS branch_id,
         COALESCE(
@@ -148,9 +152,13 @@ nhanhvn_rev AS (
     WHERE
         1 = 1
 {% if is_incremental() %}
-and DATE(delivery_date) in (
+and COALESCE(delivery_date,send_carrier_date,DATE(created_date)) in (
     select 
-    DATE(delivery_date)
+    COALESCE(
+            delivery_date,
+            send_carrier_date,
+            DATE(created_date)
+        )
     from {{ ref('stg_nhanhvn__ordersdetails') }}
     where date(last_sync) >= date_add(CURRENT_DATE, INTERVAL -1 DAY)
     and delivery_date is not null
