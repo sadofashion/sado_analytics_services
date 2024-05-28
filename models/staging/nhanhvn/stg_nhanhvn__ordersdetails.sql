@@ -1,7 +1,7 @@
 {{
   config(
     materialized = 'incremental',
-    partition_by = {"field": "last_sync", "data_type": "timestamp", "granularity": "day"},
+    partition_by = {"field": "last_sync", "data_type": "datetime", "granularity": "day"},
     incremental_strategy = 'insert_overwrite',
     unique_key = 'order_id',
     on_schema_change = 'sync_all_columns',
@@ -104,7 +104,7 @@ SELECT
             safe_cast(products.quantity AS int64) AS quantity, 
             safe_cast(products.discount AS int64) AS item_discount
             )
-    ) products
+    ) products,
 FROM
     deduplicate orders,
     unnest(products) products
