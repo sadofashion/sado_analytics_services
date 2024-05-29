@@ -4,9 +4,6 @@
 ) }}
 
 WITH 
-old_convention as (
-    old_naming
-),
 current_campaign_name AS (
 
     SELECT
@@ -26,8 +23,8 @@ current_campaign_name AS (
         where date_start >= '2024-06-01'
 ),
 convention_version as (
-    select * 
-    case when campaign_name like '5S%' then 'B2406' else '2406' end as convention_version
+    select * ,
+    case when campaign_name like '5S%' then 'B2406' else '2406' end as convention_version_number
     from current_campaign_name
 ),
 
@@ -36,9 +33,9 @@ new_naming_convention as (
         * ,
         {{parse_naming_convention(campaign_col = "campaign_name", adset_col = "adset_name", ad_col = "ad_name")}}
     from convention_version
-    where convention_version = '2406'
+    where convention_version.convention_version_number = '2406'
 ),
-old_naming_convention(
+old_naming_convention as (
     SELECT
         *,
         regexp_extract (campaign_name,r"^(?:.*?_){4}(.*?)_(?:.*?)$") AS big_campaign,
@@ -50,10 +47,40 @@ old_naming_convention(
         regexp_extract (campaign_name,r"^(?:.*?_){2}(.*?)_(?:.*?)$") AS funnel,
         regexp_extract (campaign_name,r"^(?:.*?_){3}(.*?)_(?:.*?)$") AS ad_type,
     from convention_version
-    where convention_version = 'B2406'
+    where convention_version.convention_version_number = 'B2406'
     )
 
 
 
-select * 
+select 
+    * 
 from new_naming_convention
+
+union all
+
+select 
+    account_id,
+    account_name,
+    campaign_name,
+    adset_name,
+    ad_name,
+    campaign_start_date,
+    campaign_stop_date,
+    campaign_id,
+    convention_version_number,
+    'fb' as channel,
+    page as ad_location,
+    case when page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF","5SFTUY") then "PIC Region" else "Store" end as ad_location_layer,
+    ad_type as campaign_category,
+    big_campaign as event_name,
+    content_group as content_edge,
+    pic as ad_pic,
+    null as audience_type,
+    null as target_method,
+    null as original_audience_name,
+    null as audience_demographic,
+    null as audience_region,
+    null as audience_source_name,
+    media_type,
+    content_group as content_code
+from old_naming_convention

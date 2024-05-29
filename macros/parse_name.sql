@@ -1,7 +1,7 @@
 {%- macro parse_naming_convention(campaign_col,adset_col, ad_col)%}
-{{parse_campaign_name(campaign_col)}}
-{{parse_adset_name(adset_col)}}
-{{parse_ad_name(ad_col)}}
+    {{parse_campaign_name(campaign_col)}}
+    {{parse_adset_name(adset_col)}}
+    {{parse_ad_name(ad_col)}}
 {% endmacro -%}
 
 
@@ -9,14 +9,14 @@
     -- fb_vn_engagement_{true summer_}_tung.ng
     {%- set extracted_fields %}
     SPLIT({{column_name}},"_") [safe_offset(0)] AS channel,
-    SPLIT({{column_name}},"_") [safe_offset(1)] AS localtion,
+    SPLIT({{column_name}},"_") [safe_offset(1)] AS ad_location,
     CASE
         length(SPLIT({{column_name}}, "_") [safe_offset(1)])
         WHEN 2 THEN "Country"
         WHEN 3 THEN "Province"
         WHEN 4 THEN "Economic Region"
         WHEN 5 THEN "Store"
-    END AS localtion_layer,
+    END AS ad_location_layer,
     SPLIT({{column_name}},"_") [safe_offset(2)] AS campaign_category,
     REGEXP_REPLACE(SPLIT({{column_name}}, "_") [safe_offset(3)], r"{|}|[|]", "") AS event_name,
     REGEXP_REPLACE(SPLIT({{column_name}}, "_") [safe_offset(3)], r"{|}|[|]", "") AS content_edge,
@@ -43,7 +43,7 @@
     {% do return(extracted_fields) %}
 {% endmacro %}
 
-{% macro parse_ad_name(column_name) %}
+{%- macro parse_ad_name(column_name) %}
     {% set media_types ={ "crs" :"Carousel",
     "vid" :"Video",
     "sgm" :"Single Image",
@@ -56,9 +56,15 @@
     "pcm" :"Product Catalog + Mixed",
     "liv" :"Live Stream" } %}
     -- int _1824fm-vn-web visitor
+    {%-set media_type_code-%}
+    SPLIT({{column_name}},"_") [safe_offset(0)]
+    {%-endset-%}
     {%- set extracted_fields %}
-    SPLIT({{column_name}},"_") [safe_offset(0)] AS media_type,
+    case 
+    {%-for code, media_type in media_types.items() %}
+    when {{media_type_code}} = '{{code}}' then '{{media_type}}'
+    {%endfor-%} end AS media_type,
     SPLIT({{column_name}},"_") [safe_offset(1)] AS content_code,
     {% endset -%}
     {% do return(extracted_fields) %}
-{% endmacro %}
+{% endmacro -%}
