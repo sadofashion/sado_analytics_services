@@ -1,0 +1,61 @@
+version: 2
+models:
+  - name: dim__offline_stores
+    columns:
+      - name: branch_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        tests:
+          - unique
+      - name: branch_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: email
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: asm_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: phone
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: local_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: fb_ads_pic
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region
+        description: ""
+        meta:
+          dimension:
+            type: string
+    description: >-
+      Danh sách CH offline tồn tại trên kiotviet, map với thông tin page chạy
+      ads & người chạy ads tương ứng

@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: dim__sms_campaigns
+    description: ""
+    columns:
+      - name: campaign
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: start_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: end_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: audience
+        description: ""
+        meta:
+          dimension:
+            type: string
