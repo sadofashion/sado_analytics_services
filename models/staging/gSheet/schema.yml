@@ -1,63 +1,99 @@
 version: 2
 models:
   - name: stg_gsheet__asms
-    description: ""
     columns:
       - name: asm_name
-        description: ""
+        description: The name of the Area Sales Manager
         meta:
           dimension:
             type: string
-      - name: phone
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: email
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: pic
-        description: ""
-        meta:
-          dimension:
-            type: string
+        data_type: string
       - name: store_name
-        description: ""
+        description: The name of the store. The data is cleaned in this model to ensure
+          consistency in the store names.
         meta:
           dimension:
             type: string
+        data_type: string
+      - name: phone
+        description: The 'phone' column represents the phone number of the ASM
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: email
+        description: The email column contains the email addresses associated with ASM
+        meta:
+          dimension:
+            type: string
+        data_type: string
       - name: local_page
-        description: ""
+        description: The local_page column contains the name for the local pages of each
+          store.
         meta:
           dimension:
             type: string
+        data_type: string
       - name: region_page
-        description: ""
+        description: The region_page column contains the name for the regional pages
+          associated with each store. These pages provide information about the
+          stores in a specific region, including regional promotions and events.
         meta:
           dimension:
             type: string
+        data_type: string
+      - name: pic
+        description: The 'pic' column represents the person in charge of advertising
+          each store.
+        meta:
+          dimension:
+            type: string
+        data_type: string
       - name: opening_day
-        description: ""
+        description: The 'opening_day' column represents the date when the store was
+          opened. It is a date type column formatted as YYYY-MM-DD.
         meta:
           dimension:
             type: date
+        data_type: date
       - name: close_date
-        description: ""
+        description: The 'close_date' column represents the date when the store was
+          closed. It is a date type column formatted as YYYY-MM-DD. If the store
+          is still open, this field will be null.
         meta:
           dimension:
             type: date
+        data_type: date
       - name: region
-        description: ""
+        description: The 'region' column represents the geographical region where the
+          store is located.
         meta:
           dimension:
             type: string
+        data_type: string
       - name: province
-        description: ""
+        description: The 'province' column represents the specific province within the
+          region where the store is located.
         meta:
           dimension:
             type: string
+        data_type: string
+      - name: region_code
+        description: The 'region_code' column represents the unique code assigned to
+          each region.
+        data_type: string
+        quote: true
+      - name: province_code
+        description: "The 'province_code' column represents the unique code assigned to
+          each province. "
+        data_type: string
+        quote: true
+      - name: branch_code
+        description: The 'branch_code' column represents the unique code assigned to
+          each store branch. This code is used for internal tracking and
+          referencing purposes.
+        data_type: string
+        quote: true
   - name: stg_gsheet__facebook_budget
     columns:
       - name: branch
