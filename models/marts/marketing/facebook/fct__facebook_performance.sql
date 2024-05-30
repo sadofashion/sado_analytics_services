@@ -1,3 +1,10 @@
+{{
+  config(
+    materialized = 'table',
+    enabled = false,
+    )
+}}
+
 {% set metrics = [
     "link_click",
     "post_engagement",
