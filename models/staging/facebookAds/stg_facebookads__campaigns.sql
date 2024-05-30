@@ -8,10 +8,10 @@ current_campaign_name AS (
 
     SELECT
         DISTINCT account_id,
-        FIRST_VALUE (account_name) over (PARTITION BY account_id ORDER BY _batched_at DESC) AS account_name,
-        upper(FIRST_VALUE (campaign_name) over ( PARTITION BY campaign_id ORDER BY _batched_at DESC )) AS campaign_name,
-        upper(FIRST_VALUE (adset_name) over (PARTITION BY adset_id ORDER BY _batched_at DESC )) AS adset_name,
-        upper(FIRST_VALUE (ad_name) over (PARTITION BY ad_id ORDER BY _batched_at DESC)) AS ad_name,
+        FIRST_VALUE (account_name) over  ad_window AS account_name,
+        FIRST_VALUE (campaign_name) over  ad_window AS campaign_name,
+        FIRST_VALUE (adset_name) over  ad_window AS adset_name,
+        FIRST_VALUE (ad_name) over  ad_window AS ad_name,
         MIN(date_start) over (PARTITION BY campaign_id) AS campaign_start_date,
         MAX(date_start) over (PARTITION BY campaign_id) AS campaign_stop_date,
         campaign_id
@@ -20,7 +20,7 @@ current_campaign_name AS (
             'facebookAds',
             'p_AdsInsights__*'
         ) }}
-        where date_start >= '2024-06-01'
+        window ad_window as (partition by account_id, campaign_id, adset_id,ad_id order by _batched_at desc)
 ),
 convention_version as (
     select * ,
@@ -80,7 +80,7 @@ select
     null as original_audience_name,
     null as audience_demographic,
     null as audience_region,
-    null as audience_source_name,
+    funnel as audience_source_name,
     media_type,
     content_group as content_code
 from old_naming_convention
