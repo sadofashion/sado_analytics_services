@@ -1,7 +1,7 @@
 {{
   config(
     materialized = 'incremental',
-    partition_by = {"field": "date_start", "data_type": "date"},
+    partition_by = {"field": "date_start", "data_type": "date", "granularity": "day"},
     incremental_strategy = 'insert_overwrite',
     )
 }}
@@ -13,7 +13,7 @@ WITH source AS (
             'p_AdsInsights__*'
         )}}
         {% if is_incremental() %}
-          where parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(current_date, INTERVAL -1 DAY)
+          where date_start >= date_add(current_date, INTERVAL -1 DAY)
         {% endif %}
     
 )
