@@ -12,15 +12,18 @@ current_campaign_name AS (
         FIRST_VALUE (campaign_name) over  ad_window AS campaign_name,
         FIRST_VALUE (adset_name) over  ad_window AS adset_name,
         FIRST_VALUE (ad_name) over  ad_window AS ad_name,
-        MIN(date_start) over (PARTITION BY campaign_id) AS campaign_start_date,
-        MAX(date_start) over (PARTITION BY campaign_id) AS campaign_stop_date,
+        MIN(date_start) over campaign_window AS campaign_start_date,
+        MAX(date_start) over campaign_window AS campaign_stop_date,
         campaign_id
     FROM
         {{ source(
             'facebookAds',
             'p_AdsInsights__*'
         ) }}
-        window ad_window as (partition by account_id, campaign_id, adset_id,ad_id order by _batched_at desc)
+        window ad_window as (partition by account_id, campaign_id, adset_id,ad_id order by _batched_at desc),
+        {# account_window as (partition by account_id order by _batched_at desc), #}
+        campaign_window as (partition by campaign_id)
+
 ),
 convention_version as (
     select * ,

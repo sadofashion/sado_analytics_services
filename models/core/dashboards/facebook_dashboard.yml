@@ -17,9 +17,11 @@ models:
           sql_on: ${calendar.date} = ${facebook_dashboard.date}
         - join: dim__branches
           sql_on: >
-            (${dim__branches.local_page} = ${facebook_dashboard.page}) 
-            or (${dim__branches.region_page} = ${facebook_dashboard.page} and
+            (${dim__branches.local_page} = ${facebook_dashboard.page})  or
+            (${dim__branches.region_page} = ${facebook_dashboard.page} and
             ${dim__branches.local_page} <> ${dim__branches.region_page})
+        - join: stg_facebookads__accounts
+          sql_on: ${stg_facebookads__accounts.account_id} = ${facebook_dashboard.account_id}
     columns:
       - name: impressions
         data_type: numeric
@@ -518,3 +520,9 @@ models:
         meta:
           dimension:
             type: string
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true

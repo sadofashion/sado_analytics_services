@@ -24,12 +24,13 @@ WITH facebook_performance AS (
     fb.page_type,
     fb.date_start,
     fb.pic,
+    fb.account_id,
     {% for metric in metrics %}
       SUM(fb.{{ metric }}) AS {{ metric }},
     {% endfor %}
   FROM
-    {{ ref("facebook_performance") }}
-    fb
+    {{ ref("facebook_performance") }} fb
+    left join {{ref("stg_facebookads__accounts")}} acc on fb.account_id = acc.account_id
   WHERE 
   {% if is_incremental() %}
     date_start >= date_add(date(_dbt_max_partition), interval -3 day)
@@ -38,9 +39,9 @@ WITH facebook_performance AS (
   {% endif %}
     
   and fb.page_type in ('local_page','region_page','compiled')
-  and account_name not in ('CĐ WEB')
+  and acc.account_name not in ('CĐ WEB')
   GROUP BY
-    1,2,3,4
+    1,2,3,4,5
 ),
 facebook_budget AS (
   SELECT

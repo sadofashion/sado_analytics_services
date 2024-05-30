@@ -36,12 +36,9 @@ models:
           sql_on: >-
             ${stg_kiotviet__categories.ads_product_mapping} =
             ${facebook_performance.promoted_productline}
+        - join: stg_facebookads__accounts
+          sql_on: ${stg_facebookads__accounts.account_id} = ${facebook_performance.account_id}
     columns:
-      - name: account_name
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: date_start
         description: ""
         meta:
@@ -312,3 +309,9 @@ models:
         meta:
           dimension:
             type: string
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
