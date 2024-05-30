@@ -14,7 +14,7 @@ WITH facebook_performance AS (
   SELECT
     campaigns.account_id,
     adsinsights.date_start,
-    campaigns.campaign_name,
+    {# campaigns.campaign_name, #}
     campaigns.event_name as big_campaign,
     campaigns.ad_pic as pic,
     campaigns.content_edge as content_group,
@@ -70,13 +70,13 @@ WITH facebook_performance AS (
     campaigns
     ON adsinsights.campaign_id = campaigns.campaign_id 
     where 1=1
-    and campaigns.account_name not in ('Wookids_KT1','Woo kids _ KT1','Woo kids_KT2','Woo kids_KT3')
+    and campaigns.account_id not in (311864311227191,622771789982135,3744530109108893)
     {% if is_incremental() %}
        and date_start >= date_add(current_date, interval -1 day)
 
     {% endif %}
 
-    {{ dbt_utils.group_by(12) }}
+    {{ dbt_utils.group_by(11) }}
 )
 SELECT
   DISTINCT fb.*

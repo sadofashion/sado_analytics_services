@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: stg_facebookads__accounts
+    columns:
+      - name: account_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: account_name
+        description: ""
+        meta:
+          dimension:
+            type: string

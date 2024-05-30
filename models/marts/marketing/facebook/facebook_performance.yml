@@ -7,7 +7,7 @@ models:
           combination_of_columns:
             - date_start
             - campaign_id
-            - account_name
+            - account_id
     meta:
       joins:
         - join: calendar
@@ -19,19 +19,13 @@ models:
             - month_name
             - no_days
             - period_code
-        - join: dim__offline_stores
+        - join: dim__branches
           sql_on: >-
-            (${facebook_performance.page} = ${dim__offline_stores.local_page}
+            (${facebook_performance.page} = ${dim__branches.local_page}
             and ${facebook_performance.page_type}='local_page') or
-            (${facebook_performance.page} = ${dim__offline_stores.region_page}
+            (${facebook_performance.page} = ${dim__branches.region_page}
             and ${facebook_performance.page_type}='region_page')
-          fields:
-            - local_page
-            - region_page
-            - asm_name
-            - branch_name
-            - province
-            - region
+
         - join: stg_kiotviet__categories
           sql_on: >-
             ${stg_kiotviet__categories.ads_product_mapping} =

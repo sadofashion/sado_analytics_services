@@ -24,7 +24,7 @@ WITH facebook_performance AS (
     fb.page_type,
     fb.date_start,
     fb.pic,
-    fb.account_id,
+    {# fb.account_id, #}
     {% for metric in metrics %}
       SUM(fb.{{ metric }}) AS {{ metric }},
     {% endfor %}
@@ -41,7 +41,7 @@ WITH facebook_performance AS (
   and fb.page_type in ('local_page','region_page','compiled')
   and acc.account_name not in ('CĐ WEB')
   GROUP BY
-    1,2,3,4,5
+    1,2,3,4
 ),
 facebook_budget AS (
   SELECT

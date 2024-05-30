@@ -8,21 +8,23 @@ current_campaign_name AS (
 
     SELECT
         DISTINCT account_id,
-        FIRST_VALUE (account_name) over  ad_window AS account_name,
-        FIRST_VALUE (campaign_name) over  ad_window AS campaign_name,
-        FIRST_VALUE (adset_name) over  ad_window AS adset_name,
+        {# FIRST_VALUE (account_name) over  ad_window AS account_name, #}
+        FIRST_VALUE (campaign_name) over  campaign_window AS campaign_name,
+        FIRST_VALUE (adset_name) over  adset_window AS adset_name,
         FIRST_VALUE (ad_name) over  ad_window AS ad_name,
-        MIN(date_start) over campaign_window AS campaign_start_date,
-        MAX(date_start) over campaign_window AS campaign_stop_date,
-        campaign_id
+        {# MIN(date_start) over campaign_window AS campaign_start_date, #}
+        {# MAX(date_start) over campaign_window AS campaign_stop_date, #}
+        campaign_id,
     FROM
         {{ source(
             'facebookAds',
             'p_AdsInsights__*'
         ) }}
-        window ad_window as (partition by account_id, campaign_id, adset_id,ad_id order by _batched_at desc),
+        window campaign_window as (partition by campaign_id order by _batched_at desc),
+         adset_window as (partition by campaign_id, adset_id order by _batched_at desc),
+         ad_window as (partition by campaign_id, adset_id,ad_id order by _batched_at desc)
         {# account_window as (partition by account_id order by _batched_at desc), #}
-        campaign_window as (partition by campaign_id)
+        {# campaign_window as (partition by campaign_id) #}
 
 ),
 convention_version as (
@@ -63,12 +65,12 @@ union all
 
 select 
     account_id,
-    account_name,
+    {# account_name, #}
     campaign_name,
     adset_name,
     ad_name,
-    campaign_start_date,
-    campaign_stop_date,
+    {# campaign_start_date, #}
+    {# campaign_stop_date, #}
     campaign_id,
     convention_version_number,
     'fb' as channel,
@@ -76,7 +78,7 @@ select
     case when page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF","5SFTUY") then "PIC Region" else "Store" end as ad_location_layer,
     ad_type as campaign_category,
     big_campaign as event_name,
-    content_group as content_edge,
+    promoted_productline as content_edge,
     pic as ad_pic,
     null as audience_type,
     null as target_method,
