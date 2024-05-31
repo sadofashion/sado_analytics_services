@@ -18,9 +18,11 @@ with store_group as (
 
 select 
     c.* except(ad_location),
-    case when c.ad_location_layer ="Country" then "Vietnam" else coalesce(s.local_page,p.province, r.region, b.branch_name,c.ad_location) end as ad_location,
-    coalesce(p.province,p2.province,p3.province) as province,
-    coalesce(r.region,r2.region, r3.region) as region,
+    case when c.ad_location_layer ="Country" then "Vietnam" 
+    else coalesce(s.local_page_code,p.province_code, r.region_code, b.branch_code,c.ad_location) end as ad_location,
+    case when c.ad_location_layer ="Store" then coalesce(s.local_page_code, b.local_page_code) end as ad_group_location,
+    coalesce(p.province_code,p2.province_code,p3.province_code) as province,
+    coalesce(r.region_code,r2.region_code, r3.region_code) as region,
     "Vietnam" as country,
 from {{ ref('stg_facebookads__campaigns') }} c
 -- join store group base on convention version number

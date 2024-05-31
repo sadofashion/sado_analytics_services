@@ -38,7 +38,7 @@
     WHEN 'int' THEN 'Interest'
     WHEN 'ret' THEN 'Retargeting'
     WHEN 'mas' THEN 'Mass'
-    ELSE 'Unknown'END AS target_method,
+    ELSE 'Unknown' END AS target_method,
     SPLIT({{column_name}} ,"_") [safe_offset(1)] AS original_audience_name,
     SPLIT(SPLIT({{column_name}} , "_") [safe_offset(1)], "-") [safe_offset(0)] AS audience_demographic,
     SPLIT(SPLIT({{column_name}} , "_") [safe_offset(1)], "-") [safe_offset(1)] AS audience_region,
