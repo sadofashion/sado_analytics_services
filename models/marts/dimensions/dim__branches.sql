@@ -32,6 +32,7 @@ SELECT
     asm_list.email,
 
     asm_list.local_page,
+    asm_list.local_page_code,
     asm_list.region_page,
     asm_list.pic as fb_ads_pic,
 
@@ -58,6 +59,7 @@ select
     cast(null as string) as email,
 
     cast(null as string) as local_page,
+    cast(null as string) as local_page_code,
     cast(null as string) as region_page,
     cast(null as string) as fb_ads_pic,
 

@@ -1,0 +1,14 @@
+version: 2
+models:
+  - name: dim__regions
+    columns:
+      - name: region
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region_code
+        description: ""
+        meta:
+          dimension:
+            type: string

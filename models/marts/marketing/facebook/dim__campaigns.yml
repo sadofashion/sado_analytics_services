@@ -1,39 +1,20 @@
 version: 2
 models:
-  - name: stg_facebookads__campaigns
-    description: ""
+  - name: dim__campaigns
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - account_id
+            - campaign_id
+            - adset_id
+            - ad_id
     columns:
       - name: account_id
         description: ""
         meta:
           dimension:
             type: number
-      - name: account_name
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: campaign_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: campaign_start_date
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: campaign_stop_date
-        description: ""
-        meta:
-          dimension:
-            type: date
-      - name: campaign_id
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: media_type
         description: ""
         meta:
           dimension:
@@ -48,17 +29,27 @@ models:
         meta:
           dimension:
             type: string
+      - name: campaign_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: adset_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: ad_id
+        description: ""
+        meta:
+          dimension:
+            type: number
       - name: convention_version_number
         description: ""
         meta:
           dimension:
             type: string
       - name: channel
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: ad_location
         description: ""
         meta:
           dimension:
@@ -118,7 +109,17 @@ models:
         meta:
           dimension:
             type: string
+      - name: media_type
+        description: ""
+        meta:
+          dimension:
+            type: string
       - name: content_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: ad_location
         description: ""
         meta:
           dimension:

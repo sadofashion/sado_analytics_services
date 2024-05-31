@@ -25,11 +25,11 @@ WITH staging AS (
         C.totalRevenue AS total_revenue,
         C.rewardPoint AS rewardpoint,
         C.createdDate AS created_date,
-        B.branchName as branch_name,
+        B.branch_name,
         C.modifieddate as modified_date,
     FROM
         {{ ref('base_kiotViet__customers') }} C
-    left join  {{ref('base_kiotViet__branches')}} B on C.branchId = B.id
+    left join  {{ref('stg_kiotviet__branches')}} B on C.branchId = B.id
 )
 SELECT
     DISTINCT staging.customer_id,
