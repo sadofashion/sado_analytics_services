@@ -3,8 +3,11 @@
     materialized = 'incremental',
     partition_by = {"field": "date_start", "data_type": "date", "granularity": "day"},
     incremental_strategy = 'insert_overwrite',
+    on_schema_change = 'sync_all_columns',
+    tags = ['incremental', 'hourly','fact']
     )
 }}
+
 
 WITH source AS (
 
