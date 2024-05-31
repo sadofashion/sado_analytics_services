@@ -124,6 +124,10 @@ models:
               type: number
               sql: date_diff(current_date,${opening_day},month)
               label: Store age
+            d_is_opening_store:
+              type: boolean
+              sql: case when date_trunc(opening_day,month) = date_trunc(current_date,month) then "CH mở mới trong tháng" else "CH mở trước tháng" end
+              label: Is opening store
         data_type: date
         description: The 'opening_day' column represents the date when the branch was
           opened. It is a date type column and can contain any valid date value

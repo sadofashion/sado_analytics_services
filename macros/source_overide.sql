@@ -1,4 +1,4 @@
-{% macro source(
+{# {% macro source(
         source_name,
         table_name
     ) %}
@@ -21,4 +21,4 @@
     {% else %}
         {% do return(original_source) %}
     {% endif %}
-{% endmacro %}
+{% endmacro %} #}

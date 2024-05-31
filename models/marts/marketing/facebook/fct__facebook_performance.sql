@@ -5,6 +5,7 @@
     )
 }}
 
-{set current_naming_convention = '2406'}
+{%set current_naming_convention = '2406'%}
 
-with re
+select 
+from {{ ref("stg_facebookads__adsinsights") }}

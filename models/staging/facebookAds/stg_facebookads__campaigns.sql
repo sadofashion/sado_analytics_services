@@ -15,12 +15,13 @@ current_campaign_name AS (
         {# MIN(date_start) over campaign_window AS campaign_start_date, #}
         {# MAX(date_start) over campaign_window AS campaign_stop_date, #}
         campaign_id,adset_id, ad_id,
+        {{dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id','date_start'])}} as ad_key,
     FROM
         {{ source(
             'facebookAds',
             'p_AdsInsights__*'
         ) }}
-        window campaign_window as (partition by campaign_id order by _batched_at desc),
+    window campaign_window as (partition by campaign_id order by _batched_at desc),
          adset_window as (partition by campaign_id, adset_id order by _batched_at desc),
          ad_window as (partition by campaign_id, adset_id,ad_id order by _batched_at desc)
         {# account_window as (partition by account_id order by _batched_at desc), #}
@@ -66,8 +67,10 @@ renaming_old_convention as (
     o.campaign_id,
     o.adset_id, 
     o.ad_id,
+    o.ad_key,
     o.convention_version_number,
     'fb' as channel,
+    '5s' as brand_name,
     o.page as ad_location,
     case when o.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF","5SFTUY") then "PIC Region" else "Store" end as ad_location_layer,
     o.ad_type as campaign_category,

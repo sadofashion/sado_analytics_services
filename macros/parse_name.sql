@@ -7,20 +7,24 @@
 
 {% macro parse_campaign_name(column_name) %}
     -- fb_vn_engagement_{true summer_}_tung.ng
+    {%- set extracted_campaign -%}
+    REGEXP_EXTRACT({{column_name}},r"{(.*)}")
+    {%- endset -%}
     {%- set extracted_fields %}
     SPLIT({{column_name}},"_") [safe_offset(0)] AS channel,
-    SPLIT({{column_name}},"_") [safe_offset(1)] AS ad_location,
+    SPLIT({{column_name}},"_") [safe_offset(1)] AS brand_name,
+    UPPER(SPLIT({{column_name}},"_") [safe_offset(2)]) AS ad_location,
     CASE
-        length(SPLIT({{column_name}}, "_") [safe_offset(1)])
+        length(SPLIT({{column_name}}, "_") [safe_offset(2)])
         WHEN 2 THEN "Country"
         WHEN 3 THEN "Province"
         WHEN 4 THEN "Economic Region"
         WHEN 5 THEN "Store"
     END AS ad_location_layer,
-    SPLIT({{column_name}},"_") [safe_offset(2)] AS campaign_category,
-    REGEXP_REPLACE(SPLIT({{column_name}}, "_") [safe_offset(3)], r"{|}|[|]", "") AS event_name,
-    REGEXP_REPLACE(SPLIT({{column_name}}, "_") [safe_offset(3)], r"{|}|[|]", "") AS content_edge,
-    SPLIT({{column_name}},"_") [safe_offset(5)] AS ad_pic,
+    SPLIT({{column_name}},"_") [safe_offset(3)] AS campaign_category,
+    SPLIT({{extracted_campaign}}, "_") [safe_offset(0)] AS event_name,
+    REGEXP_REPLACE(REGEXP_EXTRACT({{extracted_campaign}}, r"_(.*)"),r"_","") AS content_edge,
+    REGEXP_EXTRACT({{column_name}}, r"(?:.*)_(.*)$") AS ad_pic,
     {% endset -%}
     {% do return(extracted_fields) %}
 {% endmacro %}
@@ -54,7 +58,8 @@
     "pcr" :"Product Catalog + Carousel",
     "pcl" :"Product Catalog + Collection",
     "pcm" :"Product Catalog + Mixed",
-    "liv" :"Live Stream" } %}
+    "liv" :"Live Stream",
+    "txt": "Text" } %}
     -- int _1824fm-vn-web visitor
     {%-set media_type_code-%}
     SPLIT({{column_name}},"_") [safe_offset(0)]
