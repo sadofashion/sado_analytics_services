@@ -66,6 +66,7 @@
   FROM
     {{ ref('stg_facebookads__adsinsights') }}
     adsinsights
+    where 1=1
     {% if is_incremental() %}
        and date_start >= date_add(current_date, interval -1 day)
     {% endif %}
