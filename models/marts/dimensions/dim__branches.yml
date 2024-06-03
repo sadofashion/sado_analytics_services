@@ -3,68 +3,40 @@ models:
   - name: dim__branches
     columns:
       - name: branch_id
-        description: >-
-          This is a unique identifier for each branch. It is used to distinguish
-          between different branches in the database.
+        description: This is a unique identifier for each branch. It is used to
+          distinguish between different branches in the database.
         data_type: numeric
         quote: true
-        meta:
-          dimension:
-            type: number
       - name: branch_name
-        description: >-
-          This is the name of the branch. It provides a human-readable
+        description: This is the name of the branch. It provides a human-readable
           identifier for each branch and is used in various reports and
           analyses.
         data_type: string
         quote: true
-        meta:
-          dimension:
-            type: string
-          additional_dimensions:
-            d_source:
-              type: string
-              sql: |
-                case when ${channel} = 'Offline' then ${asm_name} 
-                when ${channel} = 'Online & Ecom' and ${branch_name} in ('Website','FB - WEB') then 'Website'
-                when ${channel} = 'Online & Ecom' and ${branch_name} in ('Facebook','Instagram') then 'Social'
-                when ${channel} = 'Online & Ecom' and ${branch_name} in ('Tiktok Shop','Lazada.vn','Shopee.vn','Tiki.vn','Sàn','Zalo Shop') then 'Sàn'
-                else ${branch_name} end
-              label: Source
       - name: branch_code
         data_type: string
         quote: true
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: channel
-        description: >-
-          This column indicates the channel through which the branch operates.
-          It can be either 'Offline' for physical branches or 'Online & Ecom'
-          for online sales channels.
+        description: This column indicates the channel through which the branch
+          operates. It can be either 'Offline' for physical branches or 'Online
+          & Ecom' for online sales channels.
         data_type: string
         quote: true
-        meta:
-          dimension:
-            type: string
       - name: asm_name
         meta:
           dimension:
             type: string
         data_type: string
-        description: >-
-          The name of the Area Sales Manager (ASM) associated with the branch.
-          If the ASM name is not available, the value will be 'Kho & CH khác
-          Kiotviet' for offline channels and 'Online' for online channels.
+        description: The name of the Area Sales Manager (ASM) associated with the
+          branch. If the ASM name is not available, the value will be 'Kho & CH
+          khác Kiotviet' for offline channels and 'Online' for online channels.
       - name: phone
         meta:
           dimension:
             type: string
             hidden: true
         data_type: string
-        description: >-
-          The phone number associated with the branch. This field may be null
+        description: The phone number associated with the branch. This field may be null
           for online channels.
       - name: email
         meta:
@@ -72,26 +44,19 @@ models:
             type: string
             hidden: true
         data_type: string
-        description: ""
       - name: local_page
         meta:
           dimension:
             type: string
         data_type: string
-        description: ""
       - name: region_page
         meta:
           dimension:
             type: string
         data_type: string
-        description: ""
       - name: fb_ads_pic
         data_type: string
         quote: true
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: province
         meta:
           dimension:
@@ -99,22 +64,15 @@ models:
           additional_dimensions:
             d_province:
               type: string
-              sql: >-
-                case when ${province} is null then 'Chưa phân loại' else
-                ${province} end
+              sql: case when ${province} is null then 'Chưa phân loại' else ${province} end
               label: Province group
         data_type: string
-        description: >-
-          The 'province' column represents the province where the branch is
+        description: The 'province' column represents the province where the branch is
           located. It is a string type column and can contain any valid string
           value representing the name of the province.
       - name: province_code
         data_type: string
         quote: true
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: region
         meta:
           dimension:
@@ -122,22 +80,15 @@ models:
           additional_dimensions:
             d_region:
               type: string
-              sql: >-
-                case when ${region} is null then 'Chưa phân loại' else ${region}
-                end
+              sql: case when ${region} is null then 'Chưa phân loại' else ${region} end
               label: Region group
         data_type: string
-        description: >-
-          The 'region' column represents the region where the branch is located.
-          It is a string type column and can contain any valid string value
-          representing the name of the region.
+        description: The 'region' column represents the region where the branch is
+          located. It is a string type column and can contain any valid string
+          value representing the name of the region.
       - name: region_code
         data_type: string
         quote: true
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: opening_day
         meta:
           dimension:
@@ -173,9 +124,12 @@ models:
               type: number
               sql: date_diff(current_date,${opening_day},month)
               label: Store age
+            d_is_opening_store:
+              type: boolean
+              sql: case when date_trunc(opening_day,month) = date_trunc(current_date,month) then "CH mở mới trong tháng" else "CH mở trước tháng" end
+              label: Is opening store
         data_type: date
-        description: >-
-          The 'opening_day' column represents the date when the branch was
+        description: The 'opening_day' column represents the date when the branch was
           opened. It is a date type column and can contain any valid date value
           in the format 'YYYY-MM-DD'.
       - name: close_date
@@ -183,8 +137,7 @@ models:
           dimension:
             type: date
         data_type: date
-        description: >-
-          The 'close_date' column represents the date when the branch was
+        description: The 'close_date' column represents the date when the branch was
           closed. The data type of this column is 'date'. If the branch is still
           operational, this field may be null.
     description: Tổng hợp CH Online & Offline

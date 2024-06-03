@@ -14,13 +14,14 @@ current_campaign_name AS (
         FIRST_VALUE (ad_name) over  ad_window AS ad_name,
         {# MIN(date_start) over campaign_window AS campaign_start_date, #}
         {# MAX(date_start) over campaign_window AS campaign_stop_date, #}
-        campaign_id,
+        campaign_id,adset_id, ad_id,
+        {{dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id'])}} as ad_key,
     FROM
         {{ source(
             'facebookAds',
             'p_AdsInsights__*'
         ) }}
-        window campaign_window as (partition by campaign_id order by _batched_at desc),
+    window campaign_window as (partition by campaign_id order by _batched_at desc),
          adset_window as (partition by campaign_id, adset_id order by _batched_at desc),
          ad_window as (partition by campaign_id, adset_id,ad_id order by _batched_at desc)
         {# account_window as (partition by account_id order by _batched_at desc), #}
@@ -53,7 +54,40 @@ old_naming_convention as (
         regexp_extract (campaign_name,r"^(?:.*?_){3}(.*?)_(?:.*?)$") AS ad_type,
     from convention_version
     where convention_version.convention_version_number = 'B2406'
-    )
+    ),
+renaming_old_convention as (
+    select 
+    o.account_id,
+    {# account_name, #}
+    o.campaign_name,
+    o.adset_name,
+    o.ad_name,
+    {# campaign_start_date, #}
+    {# campaign_stop_date, #}
+    o.campaign_id,
+    o.adset_id, 
+    o.ad_id,
+    o.ad_key,
+    o.convention_version_number,
+    'fb' as channel,
+    '5s' as brand_name,
+    o.page as ad_location,
+    case when o.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF","5SFTUY") 
+    then "PIC Region" else "Store" end as ad_location_layer,
+    o.ad_type as campaign_category,
+    o.big_campaign as event_name,
+    o.promoted_productline as content_edge,
+    o.pic as ad_pic,
+    cast(null as string) as audience_type,
+    cast(null as string) as target_method,
+    cast(null as string) as original_audience_name,
+    cast(null as string) as audience_demographic,
+    cast(null as string) as audience_region,
+    o.funnel as audience_source_name,
+    o.media_type,
+    o.content_group as content_code
+from old_naming_convention o
+)
 
 
 
@@ -63,29 +97,5 @@ from new_naming_convention
 
 union all
 
-select 
-    account_id,
-    {# account_name, #}
-    campaign_name,
-    adset_name,
-    ad_name,
-    {# campaign_start_date, #}
-    {# campaign_stop_date, #}
-    campaign_id,
-    convention_version_number,
-    'fb' as channel,
-    page as ad_location,
-    case when page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF","5SFTUY") then "PIC Region" else "Store" end as ad_location_layer,
-    ad_type as campaign_category,
-    big_campaign as event_name,
-    promoted_productline as content_edge,
-    pic as ad_pic,
-    null as audience_type,
-    null as target_method,
-    null as original_audience_name,
-    null as audience_demographic,
-    null as audience_region,
-    funnel as audience_source_name,
-    media_type,
-    content_group as content_code
-from old_naming_convention
+select * 
+from renaming_old_convention

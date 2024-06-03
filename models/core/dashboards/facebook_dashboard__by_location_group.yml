@@ -1,0 +1,151 @@
+version: 2
+models:
+  - name: facebook_dashboard__by_location_group
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date
+            - local_page_code
+            - ad_pic
+    columns:
+      - name: impressions
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: spend
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: clicks
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: reach
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: link_click
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: post_engagement
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: offline_conversion_purchase
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: offline_conversion_purchase_value
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: pixel_purchase
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: pixel_purchase_value
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: meta_purchase
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: meta_purchase_value
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: val_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_invoice_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_return_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: val_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_invoice_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_return_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: val_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_invoice_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_return_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_stores
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: daily_budget
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: daily_sales_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: daily_traffic_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: local_page_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+
+      - name: ad_pic
+        description: ""
+        meta:
+          dimension:
+            type: string

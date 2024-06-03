@@ -34,6 +34,7 @@ SELECT
         campaign_id ,
         adset_id ,
         ad_id ,
+        {{dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id','date_start'])}} as ad_key,
         date_start ,
         clicks,
         impressions,

@@ -1,49 +1,37 @@
 version: 2
 models:
-  - name: base_kiotViet__branches
+  - name: dim__location_groups
     columns:
-      - name: id
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: branchname
+      - name: local_page_code
         description: ""
         meta:
           dimension:
             type: string
-      - name: address
+        tests:
+          - unique
+          - not_null
+      - name: local_page
         description: ""
         meta:
           dimension:
             type: string
-      - name: locationname
+      - name: region
         description: ""
         meta:
           dimension:
             type: string
-      - name: wardname
+      - name: province
         description: ""
         meta:
           dimension:
             type: string
-      - name: contactnumber
+      - name: asm_name
         description: ""
         meta:
           dimension:
             type: string
-      - name: email
+      - name: fb_ads_pic
         description: ""
         meta:
           dimension:
             type: string
-      - name: createddate
-        description: ""
-        meta:
-          dimension:
-            type: timestamp
-      - name: modifieddate
-        description: ""
-        meta:
-          dimension:
-            type: timestamp

@@ -4,7 +4,7 @@
     'data_type': 'date',
     'granularity': 'month' },
     unique_key = ['branch_id','date'],
-    incremental_strategy = 'merge',
+    incremental_strategy = 'insert_overwrite',
     on_schema_change = 'sync_all_columns',
     tags = ['incremental', 'fact','budget','ignore']
 ) }}
@@ -52,8 +52,8 @@ WHERE
 
 select final.*,
 branch.branch_id,
-branch.local_page,
-branch.region_page,
+branch.local_page_code,
+{# branch.region_page_code, #}
 from final
 left join {{ ref('dim__branches') }} branch
 on lower(final.branch) = lower(branch.branch_name)

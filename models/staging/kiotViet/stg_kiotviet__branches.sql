@@ -3,6 +3,16 @@
     tags=['view', 'dimension','kiotviet']
   )
 }}
+with source AS (
+    {{ dbt_utils.deduplicate(
+        relation = source(
+            'kiotViet',
+            'p_branches_list'
+        ),
+        partition_by = 'id',
+        order_by = "modifiedDate DESC,_batched_at desc",
+    ) }}
+)
 SELECT
     b.id as branch_id,
     b.branchName as branch_name,
@@ -12,8 +22,5 @@ SELECT
     b.email,
     b.createdDate as created_Date,
     b.modifiedDate as modified_date,
-    {# coalesce(r.region,"(Chưa phân loại)") region, #}
-    {# coalesce(r.province,"(Chưa phân loại)") province, #}
 FROM
-    {{ ref('base_kiotViet__branches') }} b
-  {# left join {{ref('stg_gsheet__regions')}} r on lower(b.branchName) = lower(r.branch_name) #}
+    source b

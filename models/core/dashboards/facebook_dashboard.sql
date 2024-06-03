@@ -49,25 +49,19 @@ facebook_budget AS (
     budget.region_page,
     budget.date,
     budget.milestone_name,
-    {% for target in targets %}
-      SUM(
-        daily_{{ target }}
-      ) AS daily_{{ target }},
-    {% endfor %}
+    {%- for target in targets %}
+    SUM(daily_{{ target }}) AS daily_{{ target }},
+    {% endfor -%}
   FROM
-    {{ ref("facebook_budget") }}
-    budget
+    {{ ref("facebook_budget") }} budget
   WHERE
     budget.date <= CURRENT_DATE()
-    {% if is_incremental() %}
+    {%- if is_incremental() %}
     and budget.date >= date_add(date(_dbt_max_partition), interval -3 day)
     {% else %}
     and budget.date >= '2023-11-01'
-  {% endif %}
-  GROUP BY
-    1,
-    2,
-    3,4
+  {% endif -%}
+  {{dbt_utils.group_by(4)}}
 ),
 offline_performance AS (
   SELECT
@@ -161,6 +155,6 @@ FROM
     p.page,
     b.local_page,
     o.local_page
-  )) = lower(a1.local_page) 
+  )) = lower(a1.local_page)
   left join asms as a2 on ( LOWER(COALESCE( p.page, b.region_page,o.region_page )) = LOWER(a2.region_page) )
   
