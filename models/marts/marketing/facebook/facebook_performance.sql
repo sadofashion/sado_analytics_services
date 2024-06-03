@@ -12,7 +12,7 @@
 {# WITH facebook_performance AS ( #}
 
   SELECT
-    campaigns.account_id,
+    adsinsights.account_id,
     adsinsights.date_start,
     {# campaigns.campaign_name, #}
     {# campaigns.event_name as big_campaign,
