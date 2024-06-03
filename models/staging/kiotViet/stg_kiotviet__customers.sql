@@ -29,7 +29,7 @@ WITH staging AS (
         C.modifieddate as modified_date,
     FROM
         {{ ref('base_kiotViet__customers') }} C
-    left join  {{ref('stg_kiotviet__branches')}} B on C.branchId = B.id
+    left join  {{ref('stg_kiotviet__branches')}} B on C.branchId = B.branch_id
 )
 SELECT
     DISTINCT staging.customer_id,
