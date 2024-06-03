@@ -15,7 +15,7 @@ current_campaign_name AS (
         {# MIN(date_start) over campaign_window AS campaign_start_date, #}
         {# MAX(date_start) over campaign_window AS campaign_stop_date, #}
         campaign_id,adset_id, ad_id,
-        {{dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id','date_start'])}} as ad_key,
+        {{dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id'])}} as ad_key,
     FROM
         {{ source(
             'facebookAds',
@@ -72,7 +72,8 @@ renaming_old_convention as (
     'fb' as channel,
     '5s' as brand_name,
     o.page as ad_location,
-    case when o.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF","5SFTUY") then "PIC Region" else "Store" end as ad_location_layer,
+    case when o.page in ("5SFTHA","5SFTIE","5SFTUN","5SFTRA","5SFT","5SFG","5SF","5SFTUY") 
+    then "PIC Region" else "Store" end as ad_location_layer,
     o.ad_type as campaign_category,
     o.big_campaign as event_name,
     o.promoted_productline as content_edge,

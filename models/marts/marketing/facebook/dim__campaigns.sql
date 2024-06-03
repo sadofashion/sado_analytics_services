@@ -15,8 +15,8 @@ with store_group as (
     from {{ ref('dim__branches') }}
 )
 
-
 select 
+distinct
     c.* except(ad_location),
     case when c.ad_location_layer ="Country" then "Vietnam" 
     else coalesce(s.local_page_code,p.province_code, r.region_code, b.branch_code,c.ad_location) end as ad_location,

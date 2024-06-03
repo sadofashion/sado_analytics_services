@@ -1,0 +1,37 @@
+version: 2
+models:
+  - name: dim__location_groups
+    columns:
+      - name: local_page_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+        tests:
+          - unique
+          - not_null
+      - name: local_page
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: region
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: asm_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: fb_ads_pic
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -1,158 +1,143 @@
 version: 2
 models:
-  - name: dim__campaigns
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - account_id
-            - campaign_id
-            - adset_id
-            - ad_id
+  - name: facebook_dashboard__by_location_group
     columns:
-      - name: account_id
+      - name: impressions
         description: ""
         meta:
           dimension:
             type: number
-      - name: campaign_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: adset_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: ad_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: campaign_id
+      - name: spend
         description: ""
         meta:
           dimension:
             type: number
-      - name: adset_id
+      - name: clicks
         description: ""
         meta:
           dimension:
             type: number
-      - name: ad_id
+      - name: reach
         description: ""
         meta:
           dimension:
             type: number
-      - name: convention_version_number
+      - name: link_click
         description: ""
         meta:
           dimension:
-            type: string
-      - name: channel
+            type: number
+      - name: post_engagement
         description: ""
         meta:
           dimension:
-            type: string
-      - name: ad_location_layer
+            type: number
+      - name: offline_conversion_purchase
         description: ""
         meta:
           dimension:
-            type: string
-      - name: campaign_category
+            type: number
+      - name: offline_conversion_purchase_value
         description: ""
         meta:
           dimension:
-            type: string
-      - name: event_name
+            type: number
+      - name: pixel_purchase
         description: ""
         meta:
           dimension:
-            type: string
-      - name: content_edge
+            type: number
+      - name: pixel_purchase_value
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: meta_purchase
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: meta_purchase_value
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: val_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_invoice_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_return_transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: val_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_invoice_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_return_total
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: val_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_invoice_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_return_total_payment
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_stores
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: daily_budget
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: daily_sales_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: daily_traffic_target
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: local_page_code
         description: ""
         meta:
           dimension:
             type: string
       - name: ad_pic
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: audience_type
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: target_method
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: original_audience_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: audience_demographic
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: audience_region
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: audience_source_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: media_type
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: content_code
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: ad_location
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: ad_key
-        description: ""
-        meta:
-          dimension:
-            type: string
-        tests:
-          - unique
-          - not_null
-      - name: brand_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: ad_group_location
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: province
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: region
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: country
         description: ""
         meta:
           dimension:
