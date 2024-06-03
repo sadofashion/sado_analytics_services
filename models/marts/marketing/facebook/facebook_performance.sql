@@ -9,21 +9,21 @@
   tags = ['incremental', 'hourly','fact']
 ) }}
 
-WITH facebook_performance AS (
+{# WITH facebook_performance AS ( #}
 
   SELECT
     campaigns.account_id,
     adsinsights.date_start,
     {# campaigns.campaign_name, #}
-    campaigns.event_name as big_campaign,
+    {# campaigns.event_name as big_campaign,
     campaigns.ad_pic as pic,
     campaigns.content_edge as content_group,
     campaigns.ad_location as page,
     campaigns.content_edge as promoted_productline,
     campaigns.media_type,
-    campaigns.campaign_category as ad_type,
+    campaigns.campaign_category as ad_type, #}
     {# campaigns.audience_source_name as funnel, #}
-    adsinsights.campaign_id,
+    adsinsights.ad_key,
     SUM(
       adsinsights.impressions
     ) impressions,
@@ -66,45 +66,9 @@ WITH facebook_performance AS (
   FROM
     {{ ref('stg_facebookads__adsinsights') }}
     adsinsights
-    LEFT JOIN {{ ref('stg_facebookads__campaigns') }}
-    campaigns
-    ON adsinsights.campaign_id = campaigns.campaign_id 
-    where 1=1
-    and campaigns.account_id not in (311864311227191,622771789982135,3744530109108893)
     {% if is_incremental() %}
        and date_start >= date_add(current_date, interval -1 day)
-
     {% endif %}
 
-    {{ dbt_utils.group_by(10) }}
-)
-SELECT
-  DISTINCT fb.*
-EXCEPT(
-    page,
-    pic
-  ),
-  case 
-    when s.local_page = fb.page then s.local_page
-    when (s.region_page = fb.page and s.local_page <> fb.page) then fb.page
-    else fb.page end as page,
-  case 
-    when s.local_page = fb.page then 'local_page'
-    when (s.region_page = fb.page and s.local_page <> fb.page) then 'region_page'
-    when fb.page IN (
-        "5SFTHA",
-        "5SFTIE",
-        "5SFTUN",
-        "5SFTRA",
-        "5SFT",
-        "5SFG",
-        "5SF",
-        "5SFTUY"
-      ) then 'compiled'
-    else 'others' end as page_type,
-  coalesce(s.fb_ads_pic, fb.pic) as pic
-FROM
-  facebook_performance fb
-  LEFT JOIN {{ ref("dim__branches") }}
-  s
-  ON (fb.page = s.local_page or (fb.page = s.region_page and fb.page <> s.region_page) ) and s.asm_name not in ('Online')
+    {{ dbt_utils.group_by(3) }}
+

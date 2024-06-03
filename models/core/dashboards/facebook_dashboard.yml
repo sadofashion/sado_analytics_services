@@ -455,7 +455,7 @@ models:
           metrics:
             m_num_pages_days:
               type: count_distinct
-              sql: concat(${TABLE}.date,local_page_code)
+              sql: concat(${TABLE}.date,${TABLE}.local_page_code)
               label: No. Pages Days
               group_label: Misc
               filters:

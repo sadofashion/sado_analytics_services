@@ -5,7 +5,8 @@
   'granularity': 'day' },
   incremental_strategy = 'insert_overwrite',
   on_schema_change = 'sync_all_columns',
-  tags = ['incremental', 'fact','dashboard']
+  tags = ['incremental', 'fact','dashboard'],
+  enabled = false
 ) }}
 
 {% set metrics = ["impressions","spend","clicks","reach","link_click","post_engagement","offline_conversion_purchase","offline_conversion_purchase_value","pixel_purchase","pixel_purchase_value","meta_purchase","meta_purchase_value"] %}

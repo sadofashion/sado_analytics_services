@@ -35,3 +35,20 @@ models:
         meta:
           dimension:
             type: string
+      - name: opening_day
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+          additional_dimensions:
+            is_opening:
+              type: string
+              sql: case when date_diff(current_date, opening_day,day) <30 then "Đang khai trương" else "Đang hoạt động" end
+              label: Is Opening Branch
+      - name: close_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true

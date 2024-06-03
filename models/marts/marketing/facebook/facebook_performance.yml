@@ -6,8 +6,7 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - date_start
-            - campaign_id
-            - account_id
+            - ad_key
     meta:
       joins:
         - join: calendar
@@ -19,12 +18,6 @@ models:
             - month_name
             - no_days
             - period_code
-        - join: dim__branches
-          sql_on: >-
-            (${facebook_performance.page} = ${dim__branches.local_page}
-            and ${facebook_performance.page_type}='local_page') or
-            (${facebook_performance.page} = ${dim__branches.region_page}
-            and ${facebook_performance.page_type}='region_page')
 
         - join: stg_kiotviet__categories
           sql_on: >-
@@ -32,6 +25,8 @@ models:
             ${facebook_performance.promoted_productline}
         - join: stg_facebookads__accounts
           sql_on: ${stg_facebookads__accounts.account_id} = ${facebook_performance.account_id}
+        - join: dim__campaigns
+          sql_on: ${dim__campaigns.ad_key} = ${facebook_performance.ad_key}
     columns:
       - name: date_start
         description: ""
