@@ -1,3 +1,4 @@
+
 select
 bills.bill_id,
 bills.bill_date,
