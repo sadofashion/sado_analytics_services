@@ -9,19 +9,15 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - date
-            - page
-            - pic
+            - local_page_code
+            - ad_pic
     meta:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_dashboard.date}
-        - join: dim__branches
+        - join: dim__location_groups
           sql_on: >
-            (${dim__branches.local_page} = ${facebook_dashboard.page})  or
-            (${dim__branches.region_page} = ${facebook_dashboard.page} and
-            ${dim__branches.local_page} <> ${dim__branches.region_page})
-        - join: stg_facebookads__accounts
-          sql_on: ${stg_facebookads__accounts.account_id} = ${facebook_dashboard.account_id}
+            (${dim__location_groups.local_page_code} = ${facebook_dashboard.local_page_code})
     columns:
       - name: impressions
         data_type: numeric
@@ -459,7 +455,7 @@ models:
           metrics:
             m_num_pages_days:
               type: count_distinct
-              sql: concat(${TABLE}.date,page)
+              sql: concat(${TABLE}.date,local_page_code)
               label: No. Pages Days
               group_label: Misc
               filters:
@@ -468,42 +464,6 @@ models:
               type: count_distinct
               label: No. Days
               group_label: Misc
-      - name: page
-        data_type: string
-        description: Tên page để chạy
-        tests:
-          - not_null
-        meta:
-          dimension:
-            type: string
-          metrics:
-            m_num_pages:
-              type: count_distinct
-              label: No. Pages
-              group_label: Misc
-      - name: asm_name
-        data_type: string
-        description: Tên ASM quản lý CH
-        meta:
-          dimension:
-            type: string
-      - name: pic
-        description: ""
-        meta:
-          dimension:
-            type: string
-            hidden: true
-          additional_dimensions:
-            d_pic:
-              type: string
-              sql: |
-                case ${TABLE}.page 
-                when '5SFTHA' then 'Thắng'
-                when '5SFTIE' then 'Tiến'
-                when '5SFTUN' then 'Tùng'
-                when '5SFTRA' then 'Trang'
-                else ${TABLE}.pic end
-              label: PIC
       - name: num_stores
         description: ""
         meta:
@@ -515,14 +475,32 @@ models:
               type: sum
               label: No. Stores Days
               group_label: Misc
-      - name: page_type
+      - name: local_page_code
+        description: "Mã local page"
+        data_type: string
+        meta:
+          dimension:
+            type: string
+          metrics:
+            m_num_pages:
+              type: count_distinct
+              label: No. Pages
+              group_label: Misc
+      - name: ad_pic
         description: ""
         meta:
           dimension:
             type: string
-      - name: account_id
-        description: ""
-        meta:
-          dimension:
-            type: number
             hidden: true
+          additional_dimensions:
+            d_pic:
+              type: string
+              sql: |
+                case 
+                when ${TABLE}.local_page_code ='5SFTHA' or regexp_contains(lower(${TABLE}.ad_pic),r'thang|thắng')  then 'Thắng'
+                when ${TABLE}.local_page_code ='5SFTIE' or regexp_contains(lower(${TABLE}.ad_pic),r'tien|tiến') then 'Tiến'
+                when ${TABLE}.local_page_code ='5SFTUN' or regexp_contains(lower(${TABLE}.ad_pic),r'tung|tùng')  then 'Tùng'
+                when ${TABLE}.local_page_code = '5SFTRA' or regexp_contains(lower(${TABLE}.ad_pic),r'trang|ht') then 'Trang'
+                when ${TABLE}.local_page_code = '5SFTUY' or  regexp_contains(lower(${TABLE}.ad_pic),r'tuyen|tuyền') then 'Tuyền'
+                else ${TABLE}.ad_pic end
+              label: PIC

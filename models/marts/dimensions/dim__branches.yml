@@ -11,6 +11,17 @@ models:
         description: This is the name of the branch. It provides a human-readable
           identifier for each branch and is used in various reports and
           analyses.
+        meta:
+          additional_dimensions:
+            d_source:
+              type: string
+              sql: |
+                case when ${channel} = 'Offline' then ${asm_name} 
+                when ${channel} = 'Online & Ecom' and ${branch_name} in ('Website','FB - WEB') then 'Website'
+                when ${channel} = 'Online & Ecom' and ${branch_name} in ('Facebook','Instagram') then 'Social'
+                when ${channel} = 'Online & Ecom' and ${branch_name} in ('Tiktok Shop','Lazada.vn','Shopee.vn','Tiki.vn','Sàn','Zalo Shop') then 'Sàn'
+                else ${branch_name} end
+              label: Source
         data_type: string
         quote: true
       - name: branch_code
