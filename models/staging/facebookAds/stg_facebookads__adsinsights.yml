@@ -93,3 +93,8 @@ models:
         meta:
           dimension:
             type: number
+      - name: ad_key
+        description: ""
+        meta:
+          dimension:
+            type: string

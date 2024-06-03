@@ -11,14 +11,6 @@ models:
       joins:
         - join: calendar
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
-          fields:
-            - date
-            - period
-            - year_month
-            - month_name
-            - no_days
-            - period_code
-
         - join: stg_kiotviet__categories
           sql_on: >-
             ${stg_kiotviet__categories.ads_product_mapping} =
