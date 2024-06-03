@@ -22,7 +22,7 @@ WITH facebook_performance AS (
     campaigns.content_edge as promoted_productline,
     campaigns.media_type,
     campaigns.campaign_category as ad_type,
-    campaigns.audience_source_name as funnel,
+    {# campaigns.audience_source_name as funnel, #}
     adsinsights.campaign_id,
     SUM(
       adsinsights.impressions
@@ -76,7 +76,7 @@ WITH facebook_performance AS (
 
     {% endif %}
 
-    {{ dbt_utils.group_by(11) }}
+    {{ dbt_utils.group_by(10) }}
 )
 SELECT
   DISTINCT fb.*
