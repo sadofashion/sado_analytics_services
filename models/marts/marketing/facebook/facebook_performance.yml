@@ -11,12 +11,10 @@ models:
       joins:
         - join: calendar
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
-        - join: stg_kiotviet__categories
-          sql_on: >-
-            ${stg_kiotviet__categories.ads_product_mapping} =
-            ${facebook_performance.promoted_productline}
         - join: stg_facebookads__accounts
-          sql_on: ${stg_facebookads__accounts.account_id} = ${facebook_performance.account_id}
+          sql_on: >-
+            ${stg_facebookads__accounts.account_id} =
+            ${facebook_performance.account_id}
         - join: dim__campaigns
           sql_on: ${dim__campaigns.ad_key} = ${facebook_performance.ad_key}
     columns:
@@ -26,74 +24,6 @@ models:
           dimension:
             type: date
             hidden: true
-      - name: campaign_name
-        description: campaign name based on convention
-        meta:
-          dimension:
-            type: string
-      - name: big_campaign
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: pic
-        description: ""
-        meta:
-          dimension:
-            type: string
-            hidden: true
-          additional_dimensions:
-            d_pic:
-              type: string
-              sql: >-
-                case ${TABLE}.page when '5SFTHA' then 'Thắng' when '5SFTIE' then
-                'Tiến' when '5SFTUN' then 'Tùng' when '5SFTRA' then 'Trang' else
-                ${TABLE}.pic end
-              label: PIC
-      - name: content_group
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: page
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: promoted_productline
-        description: ""
-        meta:
-          dimension:
-            type: string
-            sql: lower(promoted_productline)
-          additional_dimensions:
-            productline:
-              type: string
-              sql: >
-                case when
-                regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng
-                đông|áo gió|bomber|áo phao|áo thun|áo nỉ|áo len|polo dài tay|bộ
-                nỉ|quần nỉ|quần gió') then 'Hàng đông'
-                    when regexp_contains(lower(${TABLE}.promoted_productline),r'th hàng hè|polo|t-shirt|short tt|short kk|short gió|smc|áo chống nắng') then 'Hàng hè'
-                    when regexp_contains(lower(${TABLE}.promoted_productline),r'th quanh năm|smd|jeans|quần âu|kaki dài|phụ kiện|tanktop|quần dài') then 'Quanh năm'
-                    else 'Khác' end
-      - name: media_type
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: campaign_id
-        description: ""
-        meta:
-          metrics:
-            m_num_camps:
-              type: count_distinct
-              label: No. Campaigns
-              group_label: FB Ads
-              filters:
-                - impressions: ">=0"
-          dimension:
-            type: number
       - name: impressions
         description: ""
         meta:
@@ -275,24 +205,14 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
-      - name: ad_type
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: funnel
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: page_type
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: account_id
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+      - name: ad_key
+        description: ""
+        meta:
+          dimension:
+            type: string

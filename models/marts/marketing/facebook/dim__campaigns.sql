@@ -13,17 +13,21 @@ with store_group as (
     region_code,
     province_code,
     from {{ ref('dim__branches') }}
-)
-
-select 
-distinct
-    c.* except(ad_location),
-    case when c.ad_location_layer ="Country" then "Vietnam" 
-    else coalesce(s.local_page_code,p.province_code, r.region_code, b.branch_code,c.ad_location) end as ad_location,
-    case when c.ad_location_layer ="Store" then coalesce(s.local_page_code, b.local_page_code) end as ad_group_location,
-    coalesce(p.province_code,p2.province_code,p3.province_code) as province,
-    coalesce(r.region_code,r2.region_code, r3.region_code) as region,
-    "Vietnam" as country,
+),
+location_processing as 
+(
+    select 
+        distinct c.* except(ad_location),
+        case 
+            when c.ad_location_layer ="Country" then "Vietnam" 
+            else coalesce(s.local_page_code,p.province_code, r.region_code, b.branch_code,c.ad_location) 
+        end as ad_location,
+        case 
+            when c.ad_location_layer ="Store" then coalesce(s.local_page_code, b.local_page_code) 
+        end as ad_group_location,
+        coalesce(p.province_code,p2.province_code,p3.province_code) as province,
+        coalesce(r.region_code,r2.region_code, r3.region_code) as region,
+        "Vietnam" as country,
 from {{ ref('stg_facebookads__campaigns') }} c
 -- join store group base on convention version number
 left join store_group s on case when c.convention_version_number = 'B2406' then c.ad_location = s.local_page else c.ad_location = s.local_page_code end 
@@ -37,3 +41,14 @@ left join {{ ref("dim__provinces") }} p3 on b.province_code = p3.province_code
 left join {{ ref("dim__regions") }} r on c.ad_location = r.region_code
 left join {{ ref("dim__regions") }} r2 on s.region_code = r2.region_code
 left join {{ ref("dim__regions") }} r3 on b.region_code = r3.region_code
+)
+select 
+    * except(ad_pic),
+    case 
+        when ad_location in ('5SFTHA') or regexp_contains(lower(ad_pic),r'thang|thắng')  then 'Thắng'
+        when ad_location in ('5SFTIE','TIEN') or regexp_contains(lower(ad_pic),r'tien|tiến') then 'Tiến'
+        when ad_location in ('5SFTUN','TUNG') or regexp_contains(lower(ad_pic),r'tung|tùng')  then 'Tùng'
+        when ad_location in ('5SFTRA') or regexp_contains(lower(ad_pic),r'trang|ht') then 'Trang'
+        when ad_location in ('5SFTUY','TUYE') or  regexp_contains(lower(ad_pic),r'tuyen|tuyền') then 'Tuyền'
+    else ad_pic end as ad_pic
+    from location_processing
