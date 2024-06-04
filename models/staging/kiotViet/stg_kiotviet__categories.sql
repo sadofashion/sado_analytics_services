@@ -4,7 +4,7 @@
   )
 }}
 
-{% set mapping ={ "áo nỉ" :["áo nỉ rời"],
+{% set mapping = { "áo nỉ" :["áo nỉ rời"],
 "áo thun" :["áo thun dài tay"],
 "bomber" :['áo bomber'],
 "polo dài tay" :['áo polo dài tay'],

@@ -3,6 +3,40 @@
     tags = ['fb','dimension','view']
 ) }}
 
+{% set products_mapping = { 
+    "ACN":["áo chống nắng","áo cn"],
+    "AGN":["áo giữ nhiệt"],
+    "AKB":["bomber","akb"],
+    "AKC":["áo phao","phao","akc"],
+    "AKG":["áo gió","akg"],
+    "ALO":["áo len"],
+    "ANO":["áo nỉ","ani","ano"],
+    "APC":["polo","apc"],
+    "APD":["polo dài tay"],
+    "APO":["áo thun","thun nỉ"],
+    "ATS":["t-shirt","tshirt","shirt","ats"],
+    "ATT":["tanktop","áo ba lỗ","abl","att"],
+    "AVB":["áo vest","bộ đồ"],
+    "BNI":["bộ nỉ","bni"],
+    "PKN" :["phụ kiện","sịp"],
+    "QBD":["jeans"],
+    "QDT":["quần gió ","qdt"],
+    "QKD":["kaki dài","qkd"],
+    "QNI":["quần nỉ","qni"],
+    "QSC":["short casual","qsc"],
+    "QSG":["short gió","qsg"],
+    "QSK":["short kk","qsk"],
+    "QST":["short tt","short thể thao","bộ thể thao","qst"],
+    "SMC":["smc","sơ mi cộc"],
+    "SMD":["smd","sơ mi dài"],
+    }
+%}
+{%set compiled_products = {
+    "thu đông":["th hàng đông","thu đông","đông sang","đông th"],
+    "xuân hè":["th hàng hè","hè th"],
+    "quanh năm":["th quanh năm","quanh năm th"],
+}%}
+
 WITH 
 current_campaign_name AS (
 
@@ -44,14 +78,14 @@ new_naming_convention as (
 old_naming_convention as (
     SELECT
         *,
-        regexp_extract (campaign_name,r"^(?:.*?_){4}(.*?)_(?:.*?)$") AS big_campaign,
-        regexp_extract (campaign_name,r"^(?:.*?_){4}(.*?_.*?)_(?:.*?)$") AS content_group,
-        regexp_extract (campaign_name,r"^(?:.*?_){1}(.*?)_(?:.*?)$") AS pic,
-        regexp_extract (campaign_name,r"^(?:.*?_){6}(.*?)_(?:.*?)$") AS promoted_productline,
+        regexp_extract (lower(campaign_name),r"^(?:.*?_){4}(.*?)_(?:.*?)$") AS big_campaign,
+        regexp_extract (lower(campaign_name),r"^(?:.*?_){4}(.*?_.*?)_(?:.*?)$") AS content_group,
+        regexp_extract (lower(campaign_name),r"^(?:.*?_){1}(.*?)_(?:.*?)$") AS pic,
+        regexp_extract (lower(campaign_name),r"^(?:.*?_){6}(.*?)_(?:.*?)$") AS promoted_productline,
         regexp_extract (campaign_name,r"^(.*?)_") AS page,
-        regexp_extract (campaign_name,r"(?:.*?_){7}(.*?)_(?:.*?)") AS media_type,
-        regexp_extract (campaign_name,r"^(?:.*?_){2}(.*?)_(?:.*?)$") AS funnel,
-        regexp_extract (campaign_name,r"^(?:.*?_){3}(.*?)_(?:.*?)$") AS ad_type,
+        regexp_extract (lower(campaign_name),r"(?:.*?_){7}(.*?)_(?:.*?)") AS media_type,
+        regexp_extract (lower(campaign_name),r"^(?:.*?_){2}(.*?)_(?:.*?)$") AS funnel,
+        regexp_extract (lower(campaign_name),r"^(?:.*?_){3}(.*?)_(?:.*?)$") AS ad_type,
     from convention_version
     where convention_version.convention_version_number = 'B2406'
     ),
@@ -76,7 +110,14 @@ renaming_old_convention as (
     then "PIC Region" else "Store" end as ad_location_layer,
     o.ad_type as campaign_category,
     o.big_campaign as event_name,
-    o.promoted_productline as content_edge,
+    case 
+    {%for k, v in products_mapping.items() -%}
+        when regexp_contains(concat(o.promoted_productline,o.content_group),r"{{v|join('|')}}") then 'sp {{k|lower()}}'
+    {% endfor -%}
+    {%for k, v in compiled_products.items() -%}
+        when regexp_contains(concat(o.promoted_productline,o.content_group),r"{{v|join('|')}}") then 'th {{k|lower()}}'
+    {% endfor -%}
+    end as content_edge,
     o.pic as ad_pic,
     cast(null as string) as audience_type,
     cast(null as string) as target_method,
@@ -88,8 +129,6 @@ renaming_old_convention as (
     o.content_group as content_code
 from old_naming_convention o
 )
-
-
 
 select 
     * 
