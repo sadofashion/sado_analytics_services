@@ -42,29 +42,25 @@
 } %}
 
 
-SELECT
+{# with preprocess as ( #}
+  SELECT
     r1.categoryName category,
     r1.categoryId as category_id,
     coalesce(r2.categoryName,r1.categoryName) AS sub_productline,
     coalesce(r3.categoryName,r2.categoryName,r1.categoryName) AS productLine,
     CASE
-    {% for key,values in mapping.items() %}
-      WHEN LOWER(r2.categoryName) IN ('{{ values|join("','") }}') or LOWER(r1.categoryName) IN ('{{ values|join("','") }}') THEN '{{key}}'
-    {% endfor %}
+    {% for key,values in mapping.items() -%}
+      WHEN LOWER(r2.categoryName) IN ('{{ values|join("','") }}') or LOWER(r1.categoryName) IN ('{{ values|join("','") }}') THEN '{{key|lower()}}'
+    {% endfor -%}
     ELSE LOWER(
       r2.categoryName
     )
   END AS ads_product_mapping,
   CASE
-    WHEN regexp_contains(
-      lower(r3.categoryName),
-      r'thu đông'
-    ) THEN 'Hàng đông'
-    WHEN regexp_contains(
-      lower(r3.categoryName),
-      r'xuân hè'
-    ) THEN 'Hàng hè'
-    ELSE 'Quanh năm'
+    WHEN regexp_contains(lower(r3.categoryName),r'thu đông') THEN 'THU ĐÔNG'
+    WHEN regexp_contains(lower(r3.categoryName),r'xuân hè') THEN 'XUÂN HÈ'
+    WHEN regexp_contains(lower(r3.categoryName),r'xuân hè') THEN 'XUÂN HÈ'
+    ELSE 'QUANH NĂM'
   END AS product_group,
 FROM
     {{ ref('base_kiotViet__categories') }}
@@ -75,3 +71,7 @@ FROM
     left JOIN {{ ref('base_kiotViet__categories') }}
     r3
     ON r2.parentId = r3.categoryId
+    {# )
+
+  select 
+  from preprocess p1 #}

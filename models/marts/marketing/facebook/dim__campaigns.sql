@@ -19,15 +19,6 @@ with store_group as (
     province_code,
     from {{ ref('dim__branches') }}
 ),
-product_group as (
-    select distinct 
-    category_name,
-    lower(product_group_code) product_group_code,
-    product_group,
-    season,
-    from 
-    {{ ref("dim__product_categories") }}
-),
 preprocessing as 
 (
     select 
@@ -79,5 +70,5 @@ select
     upper(coalesce(pg.product_group,{{extract_product}}) ) as product_group,
     upper(coalesce(pg.season,{{extract_product}})) as season,
     from preprocessing p
-    left join product_group pg on regexp_extract(p.content_edge,r'\w{2} (\w{3})') = pg.product_group_code
+    left join {{ ref("int__product_group") }} pg on regexp_extract(p.content_edge,r'\w{2} (\w{3})') = pg.product_group_code
 

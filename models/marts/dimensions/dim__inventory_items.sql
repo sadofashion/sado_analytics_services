@@ -45,33 +45,22 @@ nhanhvn__products AS (
     WHERE 1=1
         {# and type_name NOT IN ('Combo') #}
         and product_code is not null
-)
+),
+items as (
 SELECT
-    coalesce(
-        p1.product_code,
-        p2.product_code
-    ) AS product_code,
-    coalesce(
-        p1.product_name,
-        p2.product_name
-    ) AS product_name,
-    coalesce(
-        p1.class_code,
-        p2.class_code
-    ) AS class_code,
+    coalesce(p1.product_code,p2.product_code) AS product_code,
+    coalesce(p1.product_name,p2.product_name) AS product_name,
+    coalesce(p1.class_code,p2.class_code) AS class_code,
     p1.class_name,
     coalesce(p1.sub_productline,p2.sub_productline) as sub_productline,
     coalesce(p1.productline,p2.productline) as productline,
-    CASE WHEN regexp_contains(lower(coalesce(p1.productline,p2.productline)),r'thu đông') THEN 'Hàng đông'
-    WHEN regexp_contains(lower(coalesce(p1.productline,p2.productline)),r'xuân hè') THEN 'Hàng hè'
+    {# CASE WHEN regexp_contains(lower(coalesce(p1.productline,p2.productline)),r'thu đông') THEN 'THU ĐÔNG'
+    WHEN regexp_contains(lower(coalesce(p1.productline,p2.productline)),r'xuân hè') THEN 'XUÂN HÈ'
     when coalesce(p1.productline,p2.productline) is not null then 'Quanh năm' 
-    else 'Chưa phân loại' END AS product_group,
+    else 'Chưa phân loại' END AS product_group, #}
     {# p1.product_group, #}
     coalesce(p1.ads_product_mapping,p2.ads_product_mapping) as ads_product_mapping,
-    coalesce(
-        p1.category,
-        p2.category_name
-    ) AS category,
+    coalesce(p1.category,p2.category_name) AS category,
     p1.kiotviet_product_id,
     p2.nhanhvn_product_id,
 FROM
@@ -79,4 +68,11 @@ FROM
     full OUTER JOIN nhanhvn__products p2
     ON p1.product_code = p2.product_code
     where (p1.productline not in ('ĐỒNG PHỤC') or p1.productline is null)
-    
+)
+
+select 
+it.*,
+p.* except(product_group_code)
+from items it 
+left join {{ ref("int__product_group") }} p 
+on it.ads_product_mapping =  p.product_group_code

@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: dim__product_categories
+  - name: stg__ad_product_categories
     columns:
       - name: season
         description: ""

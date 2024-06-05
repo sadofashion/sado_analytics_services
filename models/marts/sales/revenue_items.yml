@@ -12,40 +12,10 @@ models:
       joins:
         - join: dim__branches
           sql_on: ${dim__branches.branch_id} = ${revenue_items.branch_id}
-          fields:
-            - local_page
-            - region_page
-            - fb_ads_pic
-            - asm_name
-            - branch_name
-            - province
-            - region
-        - join: stg_kiotviet__customers
-          sql_on: ${stg_kiotviet__customers.customer_id} = ${revenue_items.customer_id}
-          fields:
-            - customer_id
-            - customer_group
-            - customer_type
-        - join: stg_kiotviet__products
-          sql_on: ${stg_kiotviet__products.product_id} = ${revenue_items.product_id}
-          fields:
-            - product_id
-            - product_name
-            - class_name
-            - sub_productline
-            - product_line
-            - category
-            - ads_product_mapping
-            - product_group
-        - join: stg_kiotviet__users
-          sql_on: ${stg_kiotviet__users.user_id} =${revenue_items.employee_id}
-          fields:
-            - user_id
-            - user_name
+        - join: dim__inventory_items
+          sql_on: ${dim__inventory_items.kiotviet_product_id} = ${revenue_items.product_id}
         - join: calendar
           sql_on: ${calendar.date} = date(revenue_items.transaction_date)
-        - join: revenue
-          sql_on: ${revenue_items.transaction_id} = ${revenue.transaction_id}
     columns:
       - name: transaction_id
         description: ""

@@ -85,7 +85,16 @@ facebook_performance as (
     date_start >= '2023-11-01'
   {% endif %}
   {# and cp.ad_group_location = 'Store' #}
-  and fb.account_id not in (311864311227191,622771789982135,3744530109108893,521606912204785,151869866811869,572603800939181)
+  and fb.account_id not in (
+    -- wookids
+    311864311227191,622771789982135,3744530109108893,
+    -- ecom
+    521606912204785,151869866811869,
+    -- HR
+    572603800939181,
+    -- branding
+    836481701438037
+    )
   {{dbt_utils.group_by(3)}}
 )
 

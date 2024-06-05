@@ -6,7 +6,8 @@
     incremental_strategy = 'merge',
     unique_key = ['payment_id','transaction_id'],
     on_schema_change = 'sync_all_columns',
-    tags = ['incremental', 'daily','fact','kiotviet']
+    tags = ['incremental', 'daily','fact','kiotviet'],
+    enabled = false
 ) }}
 
 SELECT

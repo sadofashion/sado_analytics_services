@@ -1,46 +1,50 @@
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-Overview," Build a monitor for Asian countries to identify macroeconomic trends and distortions in the assets. The aim of this tool will be to enable traders to identify trading opportunities on FX, rates and bonds.",,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,CHINA,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,Economic Data,,,,,To do:
-,,CPI MoM (%),,,,1,"For a 5 year period, from 2019 to 2024, plot a graph for each of it"
-,,CPI YoY (%),,,,2,compare it to how the currency has moved
-,,PPI MoM (%),,,,,
-,,PPI YoY (%),,,,,
-,,Real GDP YoY (%),,,,,
-,,Unemployment Rate (%),,,,,
-,,Exports (Billions),,,,,
-,,Exports YoY (%),,,,,
-,,Imports YoY (%),,,,,
-,,Imports YoY (Billions),,,,,
-,,BOP (Current Account) (Billions) - Non cumulative,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,Policy Rates,,,,,
-,,China Loan Prime Rate (Interest rate),,,,,
-,,China 7-Day Reverse Repo Rate,,,,,
-,,China Daily Fixing (SHIBOR O/N),,,,,
-,,USDCNH Spot,,,,,
-,,USDCNY Daily Fix (mid-rate),,,,,
+season,sub_category_name,category_name,product_group_code,product_group
+Xuân hè,Áo ba lỗ,Tanktop,ATT,Áo cộc tay
+Xuân hè,Áo bộ Polo,Áo bộ Polo,APB,Áo cộc tay
+Xuân hè,Polo,Polo,APC,Áo cộc tay
+Xuân hè,Áo bộ Tshirt,T-Shirt,ATS,Áo cộc tay
+Xuân hè,T-shirt cũ,T-Shirt,ATS,Áo cộc tay
+Xuân hè,T-shirt thể thao,T-Shirt,ATS,Áo cộc tay
+Xuân hè,T-Shirt thiết kế,T-Shirt,ATS,Áo cộc tay
+Xuân hè,Áo sát nách,Tanktop,ATT,Áo cộc tay
+Xuân hè,Sơ mi cộc,Sơ mi cộc,SMC,Áo cộc tay
+Thu đông,Áo len,Áo len,ALO,Áo dài tay
+Thu đông,Áo nỉ bộ,Áo nỉ bộ,ANB,Áo dài tay
+Thu đông,Áo nỉ rời,Áo nỉ rời,ANO,Áo dài tay
+Thu đông,Áo polo dài tay,Áo polo dài tay,APD,Áo dài tay
+Thu đông,Áo thun dài tay,Áo thun dài tay,APO,Áo dài tay
+Quanh năm,Sơ mi dài,Sơ mi dài,SMD,Áo dài tay
+Thu đông,Áo Blazer,Áo Blazer,ABZ,Áo khoác ngoài
+Xuân hè,Áo chống nắng,Áo chống nắng,ACN,Áo khoác ngoài
+Thu đông,Áo gió bộ,Áo gió bộ,AGB,Áo khoác ngoài
+Thu đông,Áo giữ nhiệt,Áo giữ nhiệt,AGN,Áo khoác ngoài
+Thu đông,Áo Bomber,Áo Bomber,AKB,Áo khoác ngoài
+Thu đông,Áo phao,Áo phao,AKC,Áo khoác ngoài
+Thu đông,Áo khoác da,Áo khoác da,AKD,Áo khoác ngoài
+Thu đông,Áo gió,Áo gió,AKG,Áo khoác ngoài
+Thu đông,Áo vest,Bộ Vest,AVB,Bộ đồ
+Thu đông,Bộ Vest,Bộ Vest,AVB,Bộ đồ
+Thu đông,Bộ nỉ,Bộ nỉ,BNI,Bộ đồ
+Phụ kiện,Ba lỗ lót,Phụ kiện,PKN,Phụ kiện
+Phụ kiện,Dây lưng,Phụ kiện,PKN,Phụ kiện
+Phụ kiện,Khẩu trang,Phụ kiện,PKN,Phụ kiện
+Phụ kiện,Sịp,Phụ kiện,PKN,Phụ kiện
+Phụ kiện,Tất,Phụ kiện,PKN,Phụ kiện
+Phụ kiện,Ví,Phụ kiện,PKN,Phụ kiện
+Quanh năm,Quần âu,Quần âu,QAU,Quần dài
+Quanh năm,Quần Jean,Quần Jean,QBD,Quần dài
+Thu đông,Quần gió dài,Quần gió dài,QDT,Quần dài
+Thu đông,Quần gió bộ,Quần gió bộ,QGB,Quần dài
+Quanh năm,Quần Khaki dài,Quần Khaki dài,QKD,Quần dài
+Thu đông,Quần nỉ bộ,Quần nỉ bộ,QNB,Quần dài
+Thu đông,Quần nỉ rời,Quần nỉ rời,QNI,Quần dài
+Quanh năm,Quần vest,Quần vest,QVE,Quần dài
+Xuân hè,Quần short âu,Quần short âu,QST,Quần short
+Xuân hè,Quần short casual,Quần short casual,QST,Quần short
+Xuân hè,Quần short gió,Quần short gió,QSG,Quần short
+Xuân hè,Quần short kaki,Quần short kaki,QSK,Quần short
+Xuân hè,Quần bộ Polo,Quần short,QST,Quần short
+Xuân hè,Quần bộ Tshirt,Quần short,QST,Quần short
+Xuân hè,Quần short thể thao cạp chun,Quần short,QST,Quần short
+Xuân hè,Quần short thể thao cạp cúc,Quần short,QST,Quần short
+Xuân hè,Quần short vải,Quần short,QST,Quần short

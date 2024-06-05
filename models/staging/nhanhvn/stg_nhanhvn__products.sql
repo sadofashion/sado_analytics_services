@@ -12,23 +12,45 @@
 "ÁO - THU ĐÔNG" :["Áo giữ nhiệt","Áo polo dài tay","Áo Blazer","Áo thun dài tay","Áo Bomber","Áo nỉ rời","Áo len","Áo phao","Áo gió"],
 "ÁO - XUÂN HÈ" :["Tshirt","Áo sát nách","Polo","Áo ba lỗ","Áo chống nắng","Sơ mi cộc"],
 "ĐỒ LÓT, PHỤ KIỆN" :["TẤT","BA LỖ LÓT","PHỤ KIỆN","SỊP"] } %}
-{% set ads_product_mapping ={ "áo nỉ" :["áo nỉ rời"],
-"áo thun" :["áo thun dài tay"],
-"bomber" :['áo bomber'],
-"polo dài tay" :['áo polo dài tay'],
-"quần gió " :['quần dài thể thao'],
-"quần nỉ" :['quần nỉ rời'],
-"polo" :['bộ polo','polo'],
-"short gió" :['quần short gió'],
-"short kk" :['quần short kaki'],
-"short tt" :['quần short thể thao cạp chun','quần short thể thao cạp cúc'],
-"smc" :['sơ mi cộc'],
-"t-shirt" :['bộ t-shirt','tshirt'],
-"tanktop" :['áo sát nách','áo ba lỗ'],
-"jeans" :['quần jean'],
-"kaki dài" :['quần khaki'],
-"phụ kiện" :['tất','ba lỗ lót','sịp','phụ kiện'],
-"smd" :['sơ mi dài'],} %}
+
+{% set ads_product_mapping ={ 
+  "ABZ":["áo blazer"],
+  "ACN":['áo chống nắng'],
+  "AGB":["áo gió bộ"],
+  "AGN":["áo giữ nhiệt"],
+  "AKB":['áo bomber'],
+  "AKC":["áo phao"],
+  "AKD":["áo khoác da"],
+  "AKG":["áo gió","bộ gió"],
+  "ALO":["áo len"],
+  "ANB":["áo nỉ bộ"],
+  "ANO":["áo nỉ rời"],
+  "APB":["áo bộ polo"],
+  "APC":['bộ polo','polo'],
+  "APD":['áo polo dài tay'],
+  "APO":["áo thun dài tay"],
+  "ATS":['bộ t-shirt','tshirt',"t-shirt cũ","t-shirt thể thao","t-shirt thiết kế","áo sát nách"],
+  "ATT":['áo sát nách','áo ba lỗ'],
+  "AVB":["áo vest","bộ đồ","bộ vest"],
+  "BNI":["bộ nỉ",],
+  "PKN":['tất','ba lỗ lót','sịp','phụ kiện'],
+  "QAU":["quần âu"],
+  "QBD":['quần jean'],
+  "QDT":['quần dài thể thao'],
+  "QGB":["quần gió bộ"],
+  "QKD":['quần khaki'],
+  "QNB":["quần nỉ bộ"],
+  "QNI":['quần nỉ rời'],
+  "QSG":['quần short gió'],
+  "QSK":['quần short kaki'],
+  "QST":['quần short thể thao cạp chun','quần short thể thao cạp cúc',"quần bộ polo","quần bộ tshirt","quần short vải","quần short âu"],
+  "QSC":["quần short casual"],
+  "QVE":["quần vest"],
+  "SMC":['sơ mi cộc'],
+  "SMD":['sơ mi dài'],
+} %}
+
+
 {% set sub_productline_patterns ={ "Bộ gió" :["bộ gió"],
 "Bộ Vest" :["bộ vest","vest"],
 "Bộ nỉ" :["bộ nỉ"],
@@ -79,33 +101,20 @@ WITH source AS (
 ),
 category AS (
   SELECT
-    safe_cast(
-      products.idNhanh AS int64
-    ) AS product_id,
+    safe_cast(products.idNhanh AS int64) AS product_id,
     products.typeName AS type_name,
-    safe_cast(
-      products.avgCost AS int64
-    ) AS avg_cost,
+    safe_cast(products.avgCost AS int64) AS avg_cost,
     products.code AS product_code,
-    COALESCE(
-      regexp_extract(
-        products.code,
-        r'([A-Za-z0-9-]+)(?:[A-Z]{3}\d{1,5}$)'
-      ),
-      products.code
-    ) AS class_code,
+    COALESCE(regexp_extract(products.code,r'([A-Za-z0-9-]+)(?:[A-Z]{3}\d{1,5}$)'),products.code) AS class_code,
     products.barcode,
     products.name AS product_name,
-    safe_cast(
-      products.price AS int64
-    ) price,
+    safe_cast(products.price AS int64) price,
     products.status AS product_status,
     categories.name AS category_name,
     CASE
-      {% for sub_productline,
-        pattern in sub_productline_patterns.items() %}
+      {% for sub_productline,pattern in sub_productline_patterns.items() -%}
         WHEN regexp_contains(LOWER(products.name), r'{{pattern|join("|")}}') THEN '{{sub_productline}}'
-      {% endfor %}
+      {% endfor -%}
     END AS sub_productline
   FROM
     source products
@@ -116,14 +125,14 @@ category AS (
 SELECT
   *,
   CASE
-    {% for product,values in ads_product_mapping.items() %}
-      WHEN LOWER(sub_productline) IN ('{{values|join("','")}}') THEN '{{product}}'
-    {% endfor %}
+    {% for product,values in ads_product_mapping.items() -%}
+      WHEN LOWER(sub_productline) IN ('{{values|join("','")}}') THEN '{{product | lower()}}'
+    {% endfor -%}
   END AS ads_product_mapping,
   CASE
-    {% for product,values in productline_mapping.items() %}
+    {% for product,values in productline_mapping.items() -%}
       WHEN sub_productline IN ('{{values|join("','")}}') THEN '{{product}}'
-    {% endfor %}
+    {% endfor -%}
   END AS productline,
 FROM
   category
