@@ -89,7 +89,7 @@ models:
             d_product_group:
               label: Product group
               type: string
-              sql: coalesce(${TABLE}.product_group, 'Chưa phân loại')
+              sql: coalesce(${TABLE}.product_group, "CHƯA PHÂN LOẠI")
         data_type: STRING
       - name: ads_product_mapping
         description: >-
@@ -135,6 +135,11 @@ models:
         meta:
           dimension:
             type: string
+          additional_dimensions:
+            d_category_name:
+              type: string
+              sql: coalesce(${TABLE}.category_name, "CHƯA PHÂN LOẠI")
+              label: Category Name
       - name: season
         description: ""
         meta:

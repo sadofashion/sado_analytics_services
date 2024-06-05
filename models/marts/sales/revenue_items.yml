@@ -16,6 +16,8 @@ models:
           sql_on: ${dim__inventory_items.kiotviet_product_id} = ${revenue_items.product_id}
         - join: calendar
           sql_on: ${calendar.date} = date(revenue_items.transaction_date)
+        - join: revenue
+          sql_on: ${revenue_items.transaction_id} = ${revenue.transaction_id}
     columns:
       - name: transaction_id
         description: ""

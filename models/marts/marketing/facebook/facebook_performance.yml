@@ -43,6 +43,13 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
+            m_cpm:
+              type: number
+              label: CPM
+              group_label: FB Ads
+              sql: safe_divide(${m_spend},${m_impressions}) * 1000
+              compact: thousands
+              round: 1
       - name: spend
         description: ""
         meta:
@@ -62,6 +69,24 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
+            m_ads_purchased:
+              type: number
+              label: Ads Purchased
+              sql: ${m_ocv} + ${m_pcv} + ${m_meta_purchase}
+              group_label: FB Ads
+              round: 0
+            m_ads_purchased_value:
+              type: number
+              label: Ads Purchased Value
+              sql: ${m_ocv_value} + ${m_pcv_value} + ${m_meta_purchase_value}
+              group_label: FB Ads
+              round: 0
+            m_ads_roas:
+              type: number
+              label: Ads ROAS
+              sql: safe_divide(${m_ocv_value} + ${m_pcv_value} + ${m_meta_purchase_value},${m_spend})
+              group_label: FB Ads
+              round: 0
       - name: clicks
         description: ""
         meta:
@@ -74,6 +99,20 @@ models:
               label: Clicks
               group_label: FB Ads
               compact: thousands
+              round: 1
+            m_cpc:
+              type: number
+              label: CPC
+              group_label: FB Ads
+              sql: safe_divide(${m_spend},${m_clicks})
+              compact: thousands
+              round: 1
+            m_ctr:
+              type: number
+              label: CTR
+              group_label: FB Ads
+              sql: safe_divide(${m_clicks},${m_impressions})
+              format: percent
               round: 1
       - name: reach
         description: ""
@@ -101,6 +140,20 @@ models:
               group_label: FB Ads
               compact: thousands
               round: 1
+            m_cpl:
+              type: number
+              label: Cost per Link click
+              group_label: FB Ads
+              sql: safe_divide(${m_spend},${m_link_click})
+              compact: thousands
+              round: 1
+            m_ctr_link_click:
+              type: number
+              label: CTR Link Click
+              group_label: FB Ads
+              sql: safe_divide(${m_link_click},${m_impressions})
+              format: percent
+              round: 1
       - name: post_engagement
         description: number of engagement with ad post
         meta:
@@ -112,6 +165,13 @@ models:
               type: sum
               label: Post engagement
               group_label: FB Ads
+              compact: thousands
+              round: 1
+            m_cost_per_engagement:
+              type: number
+              label: Cost per engagement
+              group_label: FB Ads
+              sql: safe_divide(${m_spend},${m_post_engagement})
               compact: thousands
               round: 1
       - name: offline_conversion_purchase
@@ -216,3 +276,4 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true

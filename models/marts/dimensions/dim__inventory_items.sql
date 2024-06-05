@@ -72,7 +72,9 @@ FROM
 
 select 
 it.*,
-p.* except(product_group_code)
+upper(p.category_name) category_name,
+upper(p.product_group) product_group,
+upper(p.season) season,
 from items it 
 left join {{ ref("int__product_group") }} p 
 on it.ads_product_mapping =  p.product_group_code
