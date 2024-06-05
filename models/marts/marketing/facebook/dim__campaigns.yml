@@ -157,3 +157,29 @@ models:
         meta:
           dimension:
             type: string
+      - name: content_edge_group
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_group
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: season
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          additional_dimensions:
+            d_season:
+              type: string
+              sql: case when ${TABLE}.season in ("XUÂN HÈ","THU ĐÔNG","QUANH NĂM", "PHỤ KIỆN") then ${TABLE}.season else "KHÁC" end
+              label: Seasonal

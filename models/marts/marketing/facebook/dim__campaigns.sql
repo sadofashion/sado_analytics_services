@@ -6,7 +6,7 @@
 }}
 
 {%- set extract_product -%}
-    regexp_replace(regexp_extract(p.content_edge,r'\w{2} (.*)'),r" \d+","")
+    regexp_replace(regexp_extract(p.content_edge,r'\w{2} (.*)'),r"\s+?\d+","")
     {# regexp_extract(p.content_edge,r'\w{2} (.*)(?:\d{2})') #}
 {%-endset-%}
 

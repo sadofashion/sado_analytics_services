@@ -23,7 +23,7 @@
     END AS ad_location_layer,
     SPLIT({{column_name}},"_") [safe_offset(3)] AS campaign_category,
     SPLIT({{extracted_campaign}}, "_") [safe_offset(0)] AS event_name,
-    REGEXP_REPLACE(REGEXP_EXTRACT({{extracted_campaign}}, r"_(.*)"),r"_","") AS content_edge,
+    REGEXP_REPLACE(REGEXP_EXTRACT({{extracted_campaign}}, r"_(.*)"),r"_"," ") AS content_edge,
     REGEXP_EXTRACT({{column_name}}, r"(?:.*)_(.*)$") AS ad_pic,
     {% endset -%}
     {% do return(extracted_fields) %}
