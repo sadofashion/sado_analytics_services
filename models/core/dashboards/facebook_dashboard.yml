@@ -486,6 +486,12 @@ models:
               type: count_distinct
               label: No. Pages
               group_label: Misc
+          additional_dimensions:
+            d_opening:
+              type: string
+              label: CH Khai trương
+              sql: >
+                case when ${TABLE}.local_page_code is not null and ${TABLE}.daily_sales_target is null then "Đang khai trương" else 'Đã khai trương' end
       - name: ad_pic
         description: ""
         meta:

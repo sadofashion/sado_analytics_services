@@ -38,7 +38,7 @@ with offline_performance as (
     ON r.branch_id = asm.branch_id
   WHERE
   {%- if is_incremental() %}
-    date(r.transaction_date) >= date_add(current_date, interval -3 day)
+    date(r.transaction_date) >= date_add(current_date, interval -7 day)
   {% else %}
     r.transaction_date >= '2023-11-01'
   {% endif -%}
@@ -61,7 +61,7 @@ facebook_budget AS (
   WHERE
     budget.date <= CURRENT_DATE()
     {%- if is_incremental() %}
-    and budget.date >= date_add(current_date, interval -3 day)
+    and budget.date >= date_add(current_date, interval -7 day)
     {% else %}
     and budget.date >= '2023-11-01'
   {% endif -%}
@@ -80,7 +80,7 @@ facebook_performance as (
     left join {{ref("dim__campaigns")}} cp on fb.ad_key = cp.ad_key
   WHERE 
   {% if is_incremental() %}
-    date_start >= date_add(current_date, interval -3 day)
+    date_start >= date_add(current_date, interval -7 day)
   {% else %}
     date_start >= '2023-11-01'
   {% endif %}

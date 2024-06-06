@@ -81,12 +81,13 @@ models:
               sql: ${m_ocv_value} + ${m_pcv_value} + ${m_meta_purchase_value}
               group_label: FB Ads
               round: 0
+              compact: millions
             m_ads_roas:
               type: number
               label: Ads ROAS
               sql: safe_divide(${m_ocv_value} + ${m_pcv_value} + ${m_meta_purchase_value},${m_spend})
               group_label: FB Ads
-              round: 0
+              round: 2
       - name: clicks
         description: ""
         meta:

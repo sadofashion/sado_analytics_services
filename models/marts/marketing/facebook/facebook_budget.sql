@@ -57,3 +57,5 @@ branch.local_page_code,
 from final
 left join {{ ref('dim__branches') }} branch
 on lower(final.branch) = lower(branch.branch_name)
+where 1= 1
+and branch.branch_id not in (select branch_id from {{ ref('kiotviet__removed_branch') }})

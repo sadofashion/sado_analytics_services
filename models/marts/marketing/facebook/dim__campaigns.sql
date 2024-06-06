@@ -31,7 +31,7 @@ preprocessing as
             when content_edge like "nd%" then "Nhận diện"
             when content_edge like "qt%" then "Quà tặng"
         end as content_edge_group,
-        case when event_name = 'KT' then 'khai trương' else event_name end as event_name,
+        case when lower(event_name) = 'kt' then 'KHAI TRƯƠNG' else upper(event_name) end as event_name,
         case 
             when c.ad_location_layer ="Country" then "Vietnam" 
             else coalesce(s.local_page_code,p.province_code, r.region_code, b.branch_code,c.ad_location) 

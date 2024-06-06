@@ -12,23 +12,25 @@
 "sales_target" :"doanh số",
 "traffic_target" :"lượt khách",
 "aov" :'gttb/kh' } %}
+
 WITH source AS (
 
     SELECT
-        * except(`ASM - Showroom`),
-        ROW_NUMBER() over (
-            PARTITION BY showroom,
-            MONTH
-            ORDER BY
-                _batched_at DESC
-        ) rn_
+        *
+    EXCEPT(`ASM - Showroom`)
     FROM
         {{ source(
             'gSheet',
             'facebook_budget'
         ) }}
     WHERE
-        MONTH >= '2023-11-01'
+        MONTH >= '2023-11-01' 
+    qualify ROW_NUMBER() over (
+            PARTITION BY showroom,
+            MONTH
+            ORDER BY
+                _batched_at DESC
+        ) = 1
 ),
 formated AS (
     SELECT
@@ -46,24 +48,20 @@ formated AS (
             STRUCT(
                 milestones.start,
                 milestones.end,
-            milestones.value,
-            regexp_extract(
-                milestones.key,
-                r'^(.*) -'
-            ) AS milestone_name,
-            CASE
-                LOWER(regexp_extract(milestones.key, r'- ([^()]+)$')) 
-                {% for key,value in targets.items() %}
-                    WHEN '{{ value }}' THEN '{{ key }}'
-                {% endfor %}
-            END AS budget_type
-        )
-) AS milestones
-FROM
-    source,
-    unnest(milestones) milestones
-WHERE
-    rn_ = 1 {{ dbt_utils.group_by(2) }}
+                milestones.value,
+                regexp_extract(milestones.key,r'^(.*) -') AS milestone_name,
+                CASE
+                    LOWER(regexp_extract(milestones.key, r'- ([^()]+)$')) 
+                    {% for key,value in targets.items() -%}
+                        WHEN '{{ value }}' THEN '{{ key }}'
+                    {% endfor -%}
+                END AS budget_type
+            )
+        ) AS milestones
+    FROM
+        source,
+        unnest(milestones) milestones 
+        {{ dbt_utils.group_by(2) }}
 )
 SELECT
     formated.*,
@@ -71,10 +69,9 @@ SELECT
     {# branch.local_page, #}
     {# branch.region_page #}
     {# asm.new_ads_page as page,
-    asm.new_ads_pic as pic, #}
+    asm.new_ads_pic AS pic,
+    #}
 FROM
-    formated
-    {# LEFT JOIN {{ ref('dim__offline_stores') }} #}
+    formated {# LEFT JOIN {{ ref('dim__offline_stores') }} #}
     {# branch #}
     {# ON lower(formated.branch) = lower(branch.branch_name) #}
-    
