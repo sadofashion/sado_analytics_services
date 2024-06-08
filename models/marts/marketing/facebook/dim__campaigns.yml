@@ -69,6 +69,11 @@ models:
         meta:
           dimension:
             type: string
+          additional_dimensions:
+            d_opening:
+              type: string
+              sql: case when ${TABLE}.event_name in ("KHAI TRƯƠNG","KT") then "Đang khai trương" else "Đã khai trương" end
+              label: Opening
       - name: content_edge
         description: ""
         meta:

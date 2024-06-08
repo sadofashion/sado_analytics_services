@@ -1,7 +1,7 @@
 {{
   config(
     materialized = 'incremental',
-    partition_by = {"field": "last_sync", "data_type": "datetime", "granularity": "day"},
+    partition_by = {"field": "created_date", "data_type": "datetime", "granularity": "day"},
     incremental_strategy = 'insert_overwrite',
     unique_key = 'order_id',
     on_schema_change = 'sync_all_columns',

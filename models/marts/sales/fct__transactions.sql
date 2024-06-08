@@ -1,6 +1,6 @@
 
 {{ config(
-    tags = ['incremental', 'hourly','fact','nhanhvn']
+    tags = ['hourly','fact','nhanhvn']
 ) }}
 
 SELECT
