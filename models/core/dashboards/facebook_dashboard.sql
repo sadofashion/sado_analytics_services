@@ -52,6 +52,7 @@ facebook_budget AS (
   SELECT
     budget.local_page_code,
     budget.date,
+    budget.fb_ads_pic,
     {%- for target in targets %}
       SUM(daily_{{ target }}) AS daily_{{ target }},
     {% endfor -%}
@@ -65,7 +66,7 @@ facebook_budget AS (
     {% else %}
     and budget.date >= '2023-11-01'
   {% endif -%}
-  {{dbt_utils.group_by(2)}}
+  {{dbt_utils.group_by(3)}}
 ),
 facebook_performance as (
   SELECT
@@ -100,14 +101,16 @@ facebook_performance as (
 
 select f.* except(date_start,ad_group_location,ad_pic),
   o.* except(transaction_date,local_page_code,pic),
-  b.* except(date,local_page_code),
+  b.* except(date,local_page_code,fb_ads_pic),
   coalesce(f.date_start, o.transaction_date,b.date) as date,
   coalesce(f.ad_group_location, o.local_page_code, b.local_page_code) as local_page_code,
-  coalesce(f.ad_pic,o.pic) as ad_pic
+  coalesce(o.pic,f.ad_pic) as ad_pic
 from facebook_performance f
 full outer join  offline_performance o 
 on f.date_start = o.transaction_date 
-and f.ad_group_location = o.local_page_code 
+and f.ad_group_location = o.local_page_code
+and f.ad_pic = o.pic
 left join facebook_budget b
-on coalesce(f.date_start,o.transaction_date) = b.date
-and coalesce(f.ad_group_location,o.local_page_code) = b.local_page_code
+on coalesce(o.transaction_date,f.date_start) = b.date
+and coalesce(o.local_page_code,f.ad_group_location) = b.local_page_code
+and coalesce(o.pic,f.ad_pic) = b.fb_ads_pic

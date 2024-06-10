@@ -53,6 +53,7 @@ WHERE
 select final.*,
 branch.branch_id,
 branch.local_page_code,
+branch.fb_ads_pic,
 {# branch.region_page_code, #}
 from final
 left join {{ ref('dim__branches') }} branch
