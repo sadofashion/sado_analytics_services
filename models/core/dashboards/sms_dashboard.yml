@@ -5,23 +5,17 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - sent_month
+            - sent_time
             - segment
             - previous_segment
             - campaign
     meta:
       joins:
         - join: calendar
-          sql_on: ${calendar.date} = ${sms_dashboard.sent_month}
+          sql_on: ${calendar.date} = ${sms_dashboard.sent_time}
         - join: dim__sms_campaigns
           sql_on: ${dim__sms_campaigns.campaign} = ${sms_dashboard.campaign}
     columns:
-      - name: sent_month
-        description: ""
-        meta:
-          dimension:
-            type: date
-            hidden: true
       - name: segment
         description: ""
         meta:
@@ -108,3 +102,9 @@ models:
               sql: safe_divide(${m_customer_converted},${m_customer_sent})
               format: percent
               round: 2
+      - name: sent_time
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
