@@ -1,3 +1,8 @@
+{{
+  config(
+    enabled=false,
+    )
+}}
 WITH source AS (
     {{ dbt_utils.deduplicate(
         relation = source(

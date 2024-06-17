@@ -59,13 +59,10 @@ current_campaign_name AS (
         campaign_id,adset_id, ad_id,
         {{dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id'])}} as ad_key,
     FROM
-        {{ source(
-            'facebookAds',
-            'p_AdsInsights__*'
-        ) }}
-    window campaign_window as (partition by campaign_id order by _batched_at desc),
-         adset_window as (partition by campaign_id, adset_id order by _batched_at desc),
-         ad_window as (partition by campaign_id, adset_id,ad_id order by _batched_at desc)
+        {{ source("facebookAds","p_AdsInsights__*") }}
+    window campaign_window as (partition by campaign_id order by _batched_at desc rows between unbounded preceding and unbounded following ),
+         adset_window as (partition by campaign_id, adset_id order by _batched_at desc rows between unbounded preceding and unbounded following),
+         ad_window as (partition by campaign_id, adset_id,ad_id order by _batched_at desc rows between unbounded preceding and unbounded following)
         {# account_window as (partition by account_id order by _batched_at desc), #}
         {# campaign_window as (partition by campaign_id) #}
 
