@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: fct__post_impressions_by_age_gender
+  - name: fct__video_view_time_by_age_gender
     columns:
       - name: metric_id
         description: The unique identifier for each metric. This is a primary key in the

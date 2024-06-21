@@ -6,4 +6,4 @@
 SELECT
     *
 FROM
-    {{ ref("fct_fb__page_insights") }}
+    {{ ref("fct_fb__video_retention") }}

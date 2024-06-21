@@ -6,4 +6,4 @@
 SELECT
     *
 FROM
-    {{ ref("fct_fb__page_impressions_by_city") }}
+    {{ ref("fct_fb__video_view_time_by_age_gender") }}

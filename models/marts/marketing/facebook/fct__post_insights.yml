@@ -10,22 +10,25 @@ models:
             hidden: true
         data_type: string
       - name: post_id
-        description: The unique identifier for each post. This is a foreign key that
-          links to the post table.
+        description: >-
+          The unique identifier for each post. This is a foreign key that links
+          to the post table.
         meta:
           dimension:
             type: string
             hidden: true
         data_type: string
       - name: metric_name
-        description: The name of the metric. This is a descriptive field that indicates
-          the type of metric being recorded.
+        description: >-
+          The name of the metric. This is a descriptive field that indicates the
+          type of metric being recorded.
         meta:
           dimension:
             type: string
         data_type: string
       - name: aggregate_period
-        description: The 'aggregate_period' column represents the time period over which
+        description: >-
+          The 'aggregate_period' column represents the time period over which
           the metric is aggregated. This could be daily, weekly, monthly, etc.
         meta:
           dimension:
@@ -33,7 +36,8 @@ models:
             hidden: true
         data_type: string
       - name: metric_title
-        description: The 'metric_title' column contains the title of the metric being
+        description: >-
+          The 'metric_title' column contains the title of the metric being
           reported. This could be any metric related to post insights such as
           'post_engagement', 'post_reach', etc.
         meta:
@@ -41,7 +45,8 @@ models:
             type: string
         data_type: string
       - name: metric_description
-        description: The 'metric_description' column provides a detailed description of
+        description: >-
+          The 'metric_description' column provides a detailed description of
           what the metric represents. This helps users understand the context
           and significance of the metric.
         meta:
@@ -49,18 +54,21 @@ models:
             type: string
         data_type: string
       - name: metric_time
-        description: The 'metric_time' column represents the timestamp at which the
-          metric was recorded. It is of type TIMESTAMP and is in UTC.
+        description: >-
+          The 'metric_time' column represents the timestamp at which the metric
+          was recorded. It is of type TIMESTAMP and is in UTC.
         meta:
           dimension:
             type: timestamp
         data_type: timestamp
       - name: metric_value
-        description: The 'metric_value' column represents the value of the metric
-          recorded. It is of type FLOAT and can contain decimal values.
+        description: >-
+          The 'metric_value' column represents the value of the metric recorded.
+          It is of type FLOAT and can contain decimal values.
         meta:
           dimension:
             type: number
         data_type: float64
-    description: The model is a fact table that contains metrics related to Facebook
-      post insights
+    description: >-
+      The model is a fact table that contains metrics related to Facebook post
+      insights
