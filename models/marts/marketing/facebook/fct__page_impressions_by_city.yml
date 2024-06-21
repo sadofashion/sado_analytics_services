@@ -1,0 +1,65 @@
+version: 2
+models:
+  - name: fct__page_impressions_by_city
+    columns:
+      - name: metric_id
+        description: The unique identifier for each metric. This is a primary key in the
+          table.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: page_id
+        description: The unique identifier for each page. This is a foreign key that
+          links to the page dimension table.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: metric_name
+        description: The name of the metric. This is a descriptive field that provides
+          more context about the metric.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: aggregate_period
+        description: The period over which the metric is aggregated. This could be
+          daily, weekly, monthly, etc.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: metric_title
+        description: The title of the metric being measured. This is a human-readable
+          name for the metric.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: metric_description
+        description: A detailed description of what the metric measures. This provides
+          more context about the metric and how it should be interpreted.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: metric_time
+        description: The 'metric_time' column represents the timestamp of when the
+          metric was recorded. It is of datetime type and is in UTC format.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: timestamp
+      - name: metric_value
+        description: The 'metric_value' column represents the value of the metric
+          recorded. It is of integer type and represents the number of page
+          impressions.
+        meta:
+          dimension:
+            type: number
+        data_type: float64
+    description: The model is a fact table that contains metrics related to Facebook
+      page impressions categorized by city.

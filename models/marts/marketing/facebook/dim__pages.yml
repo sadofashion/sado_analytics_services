@@ -1,0 +1,116 @@
+version: 2
+models:
+  - name: dim__pages
+    columns:
+      - name: page_id
+        description: The unique identifier for each page. This is a primary key.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: page_name
+        description: The name of the page. This is a descriptive field that provides the
+          name as it appears on the platform.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: page_about
+        description: A brief description or about section of the page. This field
+          provides additional information about the page.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: page_category
+        description: The category of the page. This field is used to classify the page
+          into a specific category based on its content and purpose.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: global_brand_page_name
+        description: The global brand name associated with the page. This field is used
+          to identify the global brand that the page represents.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: has_transitioned_to_new_page_experience
+        description: A boolean field indicating whether the page has transitioned to a
+          new page experience. If the value is true, it means the page has
+          transitioned to a new page experience; if false, it has not.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: page_link
+        description: The 'page_link' column contains the URL of the page. This is a
+          unique identifier for each page and can be used to directly access the
+          page.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: page_phone
+        description: The 'page_phone' column contains the phone number associated with
+          the page. This could be the contact number for the business or
+          individual the page represents.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: page_website
+        description: The 'page_website' column contains the website associated with the
+          page. This could be the official website of the business or individual
+          the page represents.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: store_code
+        description: The 'store_code' column represents the unique code assigned to each
+          store associated with the page. This code is used for internal
+          tracking and identification purposes.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: store_number
+        description: The 'store_number' column represents the unique number assigned to
+          each store associated with the page. This number is used for internal
+          tracking and identification purposes.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: single_line_address
+        description: The 'single_line_address' column represents the physical address of
+          the store associated with the page. The address is presented in a
+          single line format.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: bm_id
+        description: The bm_id column represents the unique identifier for the business
+          manager associated with the page.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: bm_name
+        description: The bm_name column represents the name of the business manager
+          associated with the page.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+    description: The model is a dimension table that contains information about
+      different pages.

@@ -51,6 +51,10 @@ models:
     marts:
       core:
         +schema: marketing
+  fb:
+    marts:
+        +schema: marketing
+        +materialized: table
 
 vars:
   "dbt_date.time_zone": "Asia/Saigon"
@@ -82,3 +86,9 @@ vars:
       - event_parameter: "location"
         user_property_name: "searched_branch"
         value_type: "string_value"
+  fb:
+    source_dataset: "Facebook_v2"
+    lookback_period: 7
+    is_interactive_actions_enabled: true
+    is_ecommerce_actions_enabled: true
+    json_transform_schema: analytics

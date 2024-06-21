@@ -1,0 +1,71 @@
+version: 2
+models:
+  - name: fct__page_insights
+    columns:
+      - name: metric_id
+        description: The unique identifier for each metric. This is a primary key in the
+          table.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: post_id
+        description: The unique identifier for each Facebook post. This is a foreign key
+          that links to the `post_id` in the `dim__posts` table.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: metric_name
+        description: The name of the metric. This is a descriptive field that provides
+          the name of the metric being measured, such as 'likes', 'shares',
+          'comments', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: aggregate_period
+        description: The aggregate_period column represents the time period over which
+          the metric data was aggregated. This could be daily, weekly, monthly,
+          etc.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: metric_title
+        description: The metric_title column contains the title of the metric being
+          reported. This could be any of the various metrics that Facebook
+          provides for post insights, such as 'post_engagement', 'post_reach',
+          etc.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: metric_description
+        description: The metric_description column provides a detailed description of
+          what the metric represents. This is useful for understanding the
+          context and significance of the metric value.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: metric_time
+        description: The 'metric_time' column represents the timestamp at which the
+          metric was recorded. It is of type TIMESTAMP and is in UTC.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: timestamp
+      - name: metric_value
+        description: The 'metric_value' column represents the value of the metric at the
+          given 'metric_time'. It is of type FLOAT and can take any numerical
+          value.
+        meta:
+          dimension:
+            type: number
+        data_type: float64
+    description: The model is a fact table that contains metrics related to Facebook
+      post insights.

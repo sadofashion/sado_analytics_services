@@ -1,0 +1,67 @@
+version: 2
+models:
+  - name: fct__page_impressions_by_age_gender
+    columns:
+      - name: metric_id
+        description: The unique identifier for each metric. This is a string value.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: page_id
+        description: The unique identifier for each Facebook page. This is a string value.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: metric_name
+        description: The name of the metric. This is a string value that describes the
+          type of metric being recorded, such as 'page_views', 'likes',
+          'shares', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: aggregate_period
+        description: The aggregate_period column represents the time period over which
+          the metrics are aggregated. This could be daily, weekly, monthly, etc.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: metric_title
+        description: The metric_title column contains the title of the metric being
+          reported. This could be 'Page Impressions', 'Page Views', 'Page
+          Likes', etc.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: metric_description
+        description: The metric_description column provides a detailed description of
+          what the metric represents. This could include information on how the
+          metric is calculated, what it measures, and any other relevant
+          details.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: metric_time
+        description: The timestamp indicating when the metric was recorded. This is
+          typically the end of the aggregate period.
+        meta:
+          dimension:
+            type: timestamp
+        data_type: timestamp
+      - name: metric_value
+        description: The value of the metric for the given period. This is a floating
+          point number that represents the number of page impressions.
+        meta:
+          dimension:
+            type: number
+        data_type: float64
+    description: The model contains metrics related to Facebook page impressions
+      segmented by age and gender.

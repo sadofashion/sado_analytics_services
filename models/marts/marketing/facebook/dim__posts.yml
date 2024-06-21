@@ -1,0 +1,77 @@
+version: 2
+models:
+  - name: dim__posts
+    columns:
+      - name: post_id
+        description: The unique identifier for each post. This is a primary key.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: page_id
+        description: The unique identifier for the Facebook page where the post was
+          made. This can be used to join with other tables containing page-level
+          information.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+      - name: created_time
+        description: The timestamp indicating when the post was created. This is in UTC.
+        meta:
+          dimension:
+            type: timestamp
+            hidden: true
+        data_type: timestamp
+      - name: permalink_url
+        description: The 'permalink_url' column contains the permanent URL of the post.
+          This URL can be used to directly access the post on the platform.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: tag_line
+        description: The 'tag_line' column contains the tag line of the post. This is a
+          short, catchy phrase designed to summarize the post's content and
+          attract readers.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: main_body
+        description: The 'main_body' column contains the main content of the post. This
+          is where the bulk of the information or message of the post is
+          conveyed.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: first_footer
+        description: The 'first_footer' column contains the initial footer text that
+          appears at the bottom of a post. This could include additional
+          information, disclaimers, or links related to the post.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: second_footer
+        description: The 'second_footer' column contains the secondary footer text that
+          appears at the bottom of a post, following the first footer. This
+          could include further details, additional links, or follow-up
+          information to the content in the first footer.
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: content_id
+        description: The 'content_id' column contains a unique identifier for the
+          content of the post. This ID is used to link the post content with
+          other related data in the database.
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
+    description: "The model is a dimension table that contains information about posts. "
