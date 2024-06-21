@@ -3,7 +3,8 @@ models:
   - name: fct__video_view_time_by_age_gender
     columns:
       - name: metric_id
-        description: The unique identifier for each metric. This is a primary key in the
+        description: >-
+          The unique identifier for each metric. This is a primary key in the
           table.
         meta:
           dimension:
@@ -11,7 +12,8 @@ models:
             hidden: true
         data_type: string
       - name: post_id
-        description: The unique identifier for each Facebook post. This is a foreign key
+        description: >-
+          The unique identifier for each Facebook post. This is a foreign key
           that links to the posts table.
         meta:
           dimension:
@@ -19,30 +21,34 @@ models:
             hidden: true
         data_type: string
       - name: metric_name
-        description: The name of the metric. This column describes the type of metric
-          being recorded, such as 'impressions', 'clicks', 'likes', etc.
+        description: >-
+          The name of the metric. This column describes the type of metric being
+          recorded, such as 'impressions', 'clicks', 'likes', etc.
         meta:
           dimension:
             type: string
         data_type: string
       - name: aggregate_period
-        description: The aggregate_period column represents the time period over which
-          the metrics are aggregated. This could be daily, weekly, monthly, etc.
+        description: >-
+          The aggregate_period column represents the time period over which the
+          metrics are aggregated. This could be daily, weekly, monthly, etc.
         meta:
           dimension:
             type: string
             hidden: true
         data_type: string
       - name: metric_title
-        description: The metric_title column contains the title of the metric being
+        description: >-
+          The metric_title column contains the title of the metric being
           measured. This could be impressions, clicks, likes, shares, etc.
         meta:
           dimension:
             type: string
         data_type: string
       - name: metric_description
-        description: The metric_description column provides a detailed description of
-          the metric being measured. This could include information on how the
+        description: >-
+          The metric_description column provides a detailed description of the
+          metric being measured. This could include information on how the
           metric is calculated, what it represents, and any other relevant
           details.
         meta:
@@ -50,7 +56,8 @@ models:
             type: string
         data_type: string
       - name: metric_time
-        description: The 'metric_time' column represents the time period for which the
+        description: >-
+          The 'metric_time' column represents the time period for which the
           metrics are aggregated. This could be a specific date, week, month, or
           year depending on the aggregate period.
         meta:
@@ -58,24 +65,27 @@ models:
             type: timestamp
         data_type: timestamp
       - name: gender_group
-        description: The 'gender_group' column categorizes the impressions by the gender
-          of the Facebook users who viewed the post. The categories include
-          'male', 'female', and 'unknown'.
+        description: >-
+          The 'gender_group' column categorizes the impressions by the gender of
+          the Facebook users who viewed the post. The categories include 'male',
+          'female', and 'unknown'.
         meta:
           dimension:
             type: string
         data_type: string
       - name: age_group
-        description: The 'age_group' column categorizes the impressions by the age group
-          of the Facebook users who viewed the post. The age groups are defined
-          by Facebook and can range from '13-17', '18-24', '25-34', '35-44',
+        description: >-
+          The 'age_group' column categorizes the impressions by the age group of
+          the Facebook users who viewed the post. The age groups are defined by
+          Facebook and can range from '13-17', '18-24', '25-34', '35-44',
           '45-54', '55-64', '65+' and 'unknown'.
         meta:
           dimension:
             type: string
         data_type: string
       - name: metric_value
-        description: The 'metric_value' column represents the actual value of the metric
+        description: >-
+          The 'metric_value' column represents the actual value of the metric
           being measured. This could be the number of impressions, clicks,
           likes, shares, etc. depending on the 'metric_name'. The value is
           aggregated over the specified 'aggregate_period'.
@@ -83,5 +93,6 @@ models:
           dimension:
             type: string
         data_type: string
-    description: The model is a fact table that contains metrics related to Facebook
-      post impressions segmented by age and gender.
+    description: >-
+      The model is a fact table that contains metrics related to Facebook post
+      impressions segmented by age and gender.
