@@ -82,48 +82,77 @@ models:
             m_clicks:
               type: sum
               label: Clicks
+              compact: thousands
+              round: 1
               filters:
                 - metric_name: post_clicks
             m_impressions:
               type: sum
               label: Impressions
+              compact: thousands
+              round: 1
               filters:
                 - metric_name: post_impressions
             m_clicks_unique:
               type: sum
               label: Unique Clicks
+              compact: thousands
+              round: 1
               filters:
                 - metric_name: post_clicks_unique
-            m_impressions_unique:
-              type: sum
-              label: Unique Impressions
-              filters:
-                - metric_name: post_impressions_unique
             m_paid_impressions:
               type: sum
               label: Paid Impressions
+              compact: thousands
+              round: 1
               filters:
                 - metric_name: post_impressions_paid
             m_organic_impressions:
               type: sum
               label: Organic Impressions
+              compact: thousands
+              round: 1
               filters:
                 - metric_name: post_impressions_organic
             m_viral_impressions:
               type: sum
               label: Viral Impressions
+              compact: thousands
+              round: 1
               filters:
                 - metric_name: post_impressions_viral
             m_click_rate:
               type: number
               label: Click Rate
               format: percent
+              round: 2
               sql: safe_divide(${m_clicks}, ${m_impressions})
             m_paid_click_rate:
               type: number
               label: Paid Click Rate
               format: percent
+              round: 2
               sql: safe_divide(${m_clicks}, ${m_paid_impressions})
+            m_engaged_users:
+              type: sum
+              label: Engaged Users
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_engaged_users
+            m_unique_impressions:
+              type: sum
+              label: Reach
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_impressions_unique
+            m_engagement_rate:
+              type: number
+              label: Engagement Rate
+              format: percent
+              round: 2
+              sql: safe_divide(${m_engaged_users}, ${m_unique_impressions})
         data_type: float64
       - name: page_id
         description: ""

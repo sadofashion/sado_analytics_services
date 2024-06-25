@@ -1,6 +1,12 @@
 version: 2
 models:
   - name: fct__video_view_time_by_age_gender
+    meta:
+      joins:
+        - join: dim__posts
+          sql_on: ${fct__post_insights.post_id} = ${dim__posts.post_id}
+        - join: dim__pages
+          sql_on: ${fct__post_insights.page_id} = ${dim__pages.page_id}
     columns:
       - name: metric_id
         description: >-

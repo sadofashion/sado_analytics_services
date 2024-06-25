@@ -1,6 +1,10 @@
 version: 2
 models:
   - name: dim__posts
+    meta:
+      joins:
+        - join: dim__pages
+          sql_on: ${dim__posts.page_id} = ${dim__pages.page_id}
     columns:
       - name: post_id
         description: The unique identifier for each post. This is a primary key.
