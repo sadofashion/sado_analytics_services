@@ -1,6 +1,16 @@
 version: 2
 models:
   - name: fct__post_insights
+    meta:
+      joins:
+        - join: calendar
+          sql_on: >-
+            date(${fct__post_insights.metric_time}) = ${calendar.date} and
+            ${fct__post_insights.aggregate_period} = 'day'
+        - join: dim__posts
+          sql_on: ${fct__post_insights.post_id} = ${dim__posts.post_id}
+        - join: dim__pages
+          sql_on: ${fct__post_insights.page_id} = ${dim__pages.page_id}
     columns:
       - name: metric_id
         description: The unique identifier for each metric. This is a primary key.
@@ -68,7 +78,59 @@ models:
         meta:
           dimension:
             type: number
+          metrics:
+            m_clicks:
+              type: sum
+              label: Clicks
+              filters:
+                - metric_name: post_clicks
+            m_impressions:
+              type: sum
+              label: Impressions
+              filters:
+                - metric_name: post_impressions
+            m_clicks_unique:
+              type: sum
+              label: Unique Clicks
+              filters:
+                - metric_name: post_clicks_unique
+            m_impressions_unique:
+              type: sum
+              label: Unique Impressions
+              filters:
+                - metric_name: post_impressions_unique
+            m_paid_impressions:
+              type: sum
+              label: Paid Impressions
+              filters:
+                - metric_name: post_impressions_paid
+            m_organic_impressions:
+              type: sum
+              label: Organic Impressions
+              filters:
+                - metric_name: post_impressions_organic
+            m_viral_impressions:
+              type: sum
+              label: Viral Impressions
+              filters:
+                - metric_name: post_impressions_viral
+            m_click_rate:
+              type: number
+              label: Click Rate
+              format: percent
+              sql: safe_divide(${m_clicks}, ${m_impressions})
+            m_paid_click_rate:
+              type: number
+              label: Paid Click Rate
+              format: percent
+              sql: safe_divide(${m_clicks}, ${m_paid_impressions})
         data_type: float64
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
     description: >-
       The model is a fact table that contains metrics related to Facebook post
       insights

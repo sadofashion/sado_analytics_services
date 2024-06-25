@@ -37,7 +37,7 @@ preprocessing as
             else coalesce(s.local_page_code,p.province_code, r.region_code, b.branch_code,c.ad_location) 
         end as ad_location,
         case 
-            when c.ad_location_layer ="Store" then coalesce(s.local_page_code, b.local_page_code) 
+            when c.ad_location_layer ="Store" then coalesce(s.local_page_code, b.local_page_code, c.ad_location) 
         end as ad_group_location,
         coalesce(p.province_code,p2.province_code,p3.province_code) as province,
         coalesce(r.region_code,r2.region_code, r3.region_code) as region,

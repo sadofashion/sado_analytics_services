@@ -74,8 +74,8 @@ budget AS (
 SELECT
   o.* except(branch_id,transaction_date),
   b.* except(branch_id, date),
-  o.transaction_date as date,
-o.branch_id,
+  coalesce(o.transaction_date,b.date) as date,
+coalesce(o.branch_id,b.branch_id) as branch_id,
 FROM
   offline_performance o
-  left outer join budget b on o.branch_id = b.branch_id and o.transaction_date = b.date
+  full outer join budget b on o.branch_id = b.branch_id and o.transaction_date = b.date

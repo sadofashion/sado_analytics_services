@@ -30,7 +30,7 @@ WITH source AS (
 
 {% if is_incremental() %}
 WHERE
-    DATE(_batched_at) >= DATE(_dbt_max_partition)
+    _batched_at >= _dbt_max_partition
 {% endif %}
 {# UNION ALL
 SELECT
@@ -48,12 +48,12 @@ FROM
     {{ source(
         'kiotViet',
         'p_products_inventory'
-    ) }}
+    ) }} #}
 
-{% if is_incremental() %}
+{# {% if is_incremental() %}
 WHERE
     DATE(_batched_at) >= DATE(_dbt_max_partition)
-{% endif %} #}
+{% endif %}  #}
 )
 {{ 
     dbt_utils.deduplicate(

@@ -293,6 +293,13 @@ models:
               label: No. Invoices
               group_label: Sales metrics
               round: 0
+            m_aov:
+              type: number
+              label: AOV
+              group_label: Sales metrics
+              sql: safe_divide(${m_invoice_val},${m_num_invoices})
+              compact: thousands
+              round: 0
             m_ads_cost_invoice:
               type: number
               sql: safe_divide(${m_spend},${m_num_invoices})

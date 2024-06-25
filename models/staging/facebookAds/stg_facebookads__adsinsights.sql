@@ -16,7 +16,7 @@ WITH source AS (
             'p_AdsInsights__*'
         )}}
         {% if is_incremental() %}
-          where date_start >= date_add(current_date, INTERVAL -1 DAY)
+          where date_start >= date_add(current_date, INTERVAL -7 DAY)
         {% endif %}
     
 ),

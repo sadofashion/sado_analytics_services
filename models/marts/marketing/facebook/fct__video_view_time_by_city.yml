@@ -3,52 +3,72 @@ models:
   - name: fct__video_view_time_by_city
     columns:
       - name: metric_id
-        description: ""
+        description: The unique identifier for each metric. This is a primary key in the
+          table.
         meta:
           dimension:
             type: string
+            hidden: true
+        data_type: string
       - name: post_id
-        description: ""
+        description: The unique identifier for each post. This is a foreign key that
+          links to the posts table.
         meta:
           dimension:
             type: string
+            hidden: true
+        data_type: string
       - name: metric_name
-        description: ""
+        description: The name of the metric. This describes the type of metric being
+          recorded, such as 'video view time'.
         meta:
           dimension:
             type: string
+        data_type: string
       - name: aggregate_period
-        description: ""
+        description: The time period over which the metric is aggregated. This could be
+          daily, weekly, monthly, etc.
         meta:
           dimension:
             type: string
+        data_type: string
       - name: metric_title
-        description: ""
+        description: The title of the metric being measured. This is a human-readable
+          name that describes the metric.
         meta:
           dimension:
             type: string
+        data_type: string
       - name: metric_description
-        description: ""
+        description: A detailed description of the metric. This provides more context
+          about what the metric is measuring and how it is calculated.
         meta:
           dimension:
             type: string
+        data_type: string
       - name: metric_time
-        description: ""
+        description: The 'metric_time' column represents the time at which the metric
+          was recorded. This is typically in the format of a timestamp.
         meta:
           dimension:
             type: timestamp
-      - name: gender_group
-        description: ""
+        data_type: timestamp
+      - name: city
+        description: The city column represents the city where the video was viewed. It
+          is a string type column.
         meta:
           dimension:
             type: string
-      - name: age_group
-        description: ""
-        meta:
-          dimension:
-            type: string
+        data_type: string
       - name: metric_value
-        description: ""
+        description: The 'metric_value' column represents the value of the metric being
+          measured. For this model, it represents the total time users spent
+          watching the video. The value is aggregated based on the age and
+          gender group, and the time period specified in the 'aggregate_period'
+          column.
         meta:
           dimension:
             type: string
+        data_type: string
+    description: The model is a fact table that contains metrics related to the
+      video view time on Facebook, breakdown by city
