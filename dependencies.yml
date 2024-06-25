@@ -13,6 +13,6 @@ packages:
   - git: "https://github.com/chienazazaz/dbt-ga4.git"
     revision: main
   - git: "https://github.com/chienazazaz/dbt-facebook-insights.git"
-    revision: 0.0.1
+    revision: 0.0.2
 projects:
   - name: sado_analytics_services

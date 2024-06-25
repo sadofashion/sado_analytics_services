@@ -4,9 +4,9 @@ models:
     meta:
       joins:
         - join: dim__posts
-          sql_on: ${fct__post_insights.post_id} = ${dim__posts.post_id}
+          sql_on: ${fct__video_view_time_by_age_gender.post_id} = ${dim__posts.post_id}
         - join: dim__pages
-          sql_on: ${fct__post_insights.page_id} = ${dim__pages.page_id}
+          sql_on: ${fct__video_view_time_by_age_gender.page_id} = ${dim__pages.page_id}
     columns:
       - name: metric_id
         description: >-
@@ -98,6 +98,18 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
+          metrics:
+            m_total_view_time:
+              type: sum
+              label: Total View Time
+              compact: thousands
+              round: 1
+            m_avg_view_time:
+              type: average
+              label: Average View Time
+              compact: thousands
+              round: 1
         data_type: string
     description: >-
       The model is a fact table that contains metrics related to Facebook post

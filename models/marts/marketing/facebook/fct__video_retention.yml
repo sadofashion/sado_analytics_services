@@ -4,9 +4,9 @@ models:
     meta:
       joins:
         - join: dim__posts
-          sql_on: ${fct__post_insights.post_id} = ${dim__posts.post_id}
+          sql_on: ${fct__video_retention.post_id} = ${dim__posts.post_id}
         - join: dim__pages
-          sql_on: ${fct__post_insights.page_id} = ${dim__pages.page_id}
+          sql_on: ${fct__video_retention.page_id} = ${dim__pages.page_id}
     columns:
       - name: metric_id
         description: >-
@@ -66,6 +66,28 @@ models:
         meta:
           dimension:
             type: number
+          metrics:
+            m_percent_retention:
+              type: average
+              label: Percent Retention
+              round: 1
+              format: percent
+              filter:
+                - metric_name: post_video_retention_graph
+            m_percent_retention_autoplayed:
+              type: average
+              label: Percent Retention (autoplayed)
+              round: 1
+              format: percent
+              filter:
+                - metric_name: post_video_retention_graph_autoplayed
+            m_percent_retention_clicked:
+              type: average
+              label: Percent Retention (clicked)
+              round: 1
+              format: percent
+              filter:
+                - metric_name: post_video_retention_graph_clicked_to_play
         data_type: float64
       - name: post_id
         description: ""
