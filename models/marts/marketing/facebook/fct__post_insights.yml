@@ -74,7 +74,9 @@ models:
           additional_dimensions:
             d_days_since_publish:
               type: number
-              sql: date_diff(${fct__post_insights.metric_time}, ${dim__posts.created_time},'day')
+              sql: >-
+                date_diff(${fct__post_insights.metric_time},
+                ${dim__posts.created_time},'day')
               label: Days since published
         data_type: timestamp
       - name: metric_value
@@ -173,7 +175,7 @@ models:
               label: Average View Time
               sql: ${TABLE}.metric_value/1000
               round: 1
-              filters: 
+              filters:
                 - metric_name: post_video_avg_time_watched
                 - aggregate_period: lifetime
             m_video_views:
@@ -251,7 +253,7 @@ models:
               round: 1
               filters:
                 - metric_name: post_video_views
-                - aggregate_period: daily
+                - aggregate_period: day
             m_daily_unique_video_views:
               type: sum
               label: Daily Unique Video Views
@@ -259,7 +261,7 @@ models:
               round: 1
               filters:
                 - metric_name: post_video_views_unique
-                - aggregate_period: daily
+                - aggregate_period: day
             m_daily_paid_video_views:
               type: sum
               label: Daily Paid Video Views
@@ -267,7 +269,7 @@ models:
               round: 1
               filters:
                 - metric_name: post_video_views_paid
-                - aggregate_period: daily
+                - aggregate_period: day
             m_daily_organic_video_views:
               type: sum
               label: Daily Organic Video Views
@@ -275,7 +277,7 @@ models:
               round: 1
               filters:
                 - metric_name: post_video_views_organic
-                - aggregate_period: daily
+                - aggregate_period: day
             m_daily_avg_view_time:
               type: average
               label: Daily Average View Time
@@ -283,7 +285,7 @@ models:
               round: 1
               filters:
                 - metric_name: post_video_avg_time_watched
-                - aggregate_period: daily
+                - aggregate_period: day
         data_type: float64
       - name: page_id
         description: ""

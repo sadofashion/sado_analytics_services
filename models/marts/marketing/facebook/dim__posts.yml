@@ -27,7 +27,6 @@ models:
         meta:
           dimension:
             type: timestamp
-            hidden: true
           additional_dimensions:
             d_created_date:
               type: date
