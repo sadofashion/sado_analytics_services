@@ -70,6 +70,12 @@ models:
         meta:
           dimension:
             type: timestamp
+            hidden: true
+          additional_dimensions:
+            d_days_since_publish:
+              type: number
+              sql: date_diff(${fct__post_insights.metric_time}, ${dim__posts.created_time},'day')
+              label: Days since published
         data_type: timestamp
       - name: metric_value
         description: >-
@@ -153,6 +159,131 @@ models:
               format: percent
               round: 2
               sql: safe_divide(${m_engaged_users}, ${m_unique_impressions})
+            m_video_view_time:
+              type: sum
+              label: Lifetime View Time
+              compact: thousands
+              sql: ${TABLE}.metric_value/1000
+              round: 1
+              filters:
+                - metric_name: post_video_view_time
+                - aggregate_period: lifetime
+            m_avg_view_time:
+              type: average
+              label: Average View Time
+              sql: ${TABLE}.metric_value/1000
+              round: 1
+              filters: 
+                - metric_name: post_video_avg_time_watched
+                - aggregate_period: lifetime
+            m_video_views:
+              type: sum
+              label: Lifetime Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views
+                - aggregate_period: lifetime
+            m_unique_video_views:
+              type: sum
+              label: Lifetime Unique Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_unique
+                - aggregate_period: lifetime
+            m_paid_video_views:
+              type: sum
+              label: Lifetime Paid Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_paid
+                - aggregate_period: lifetime
+            m_unique_paid_video_views:
+              type: sum
+              label: Unique Paid Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_paid_unique
+            m_video_views_active:
+              type: sum
+              label: Active Videos Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_clicked_to_play
+            m_video_views_autoplayed:
+              type: sum
+              label: Autoplayed Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_autoplayed
+            m_organic_video_views:
+              type: sum
+              label: Organic Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_organic
+            m_unique_organic_video_views:
+              type: sum
+              label: Unique Organic Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_organic_unique
+            m_organic_view_time:
+              type: sum
+              sql: ${TABLE}.metric_value/1000
+              label: Organic View Time
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_view_time_organic
+                - aggregate_period: lifetime
+            m_daily_video_views:
+              type: sum
+              label: Daily Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views
+                - aggregate_period: daily
+            m_daily_unique_video_views:
+              type: sum
+              label: Daily Unique Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_unique
+                - aggregate_period: daily
+            m_daily_paid_video_views:
+              type: sum
+              label: Daily Paid Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_paid
+                - aggregate_period: daily
+            m_daily_organic_video_views:
+              type: sum
+              label: Daily Organic Video Views
+              compact: thousands
+              round: 1
+              filters:
+                - metric_name: post_video_views_organic
+                - aggregate_period: daily
+            m_daily_avg_view_time:
+              type: average
+              label: Daily Average View Time
+              sql: ${TABLE}.metric_value/1000
+              round: 1
+              filters:
+                - metric_name: post_video_avg_time_watched
+                - aggregate_period: daily
         data_type: float64
       - name: page_id
         description: ""

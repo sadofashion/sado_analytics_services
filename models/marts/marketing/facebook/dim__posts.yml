@@ -31,6 +31,7 @@ models:
           additional_dimensions:
             d_created_date:
               type: date
+              label: Published Date
               sql: date(${created_time}, 'Asia/Ho_Chi_Minh')
         data_type: timestamp
       - name: permalink_url

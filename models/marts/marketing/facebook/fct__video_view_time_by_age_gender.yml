@@ -4,9 +4,13 @@ models:
     meta:
       joins:
         - join: dim__posts
-          sql_on: ${fct__video_view_time_by_age_gender.post_id} = ${dim__posts.post_id}
+          sql_on: >-
+            ${fct__video_view_time_by_age_gender.post_id} =
+            ${dim__posts.post_id}
         - join: dim__pages
-          sql_on: ${fct__video_view_time_by_age_gender.page_id} = ${dim__pages.page_id}
+          sql_on: >-
+            ${fct__video_view_time_by_age_gender.page_id} =
+            ${dim__pages.page_id}
     columns:
       - name: metric_id
         description: >-
@@ -111,6 +115,11 @@ models:
               compact: thousands
               round: 1
         data_type: string
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
     description: >-
       The model is a fact table that contains metrics related to Facebook post
       impressions segmented by age and gender.

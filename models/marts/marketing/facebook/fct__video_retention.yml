@@ -94,16 +94,17 @@ models:
         meta:
           dimension:
             type: string
-      - name: gender_group
-        description: ""
-        meta:
-          dimension:
-            type: string
       - name: second
         description: ""
         meta:
           dimension:
             type: string
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
     description: >-
       The model is a fact table that contains metrics related to Facebook page
       impressions by city.

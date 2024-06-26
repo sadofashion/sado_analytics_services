@@ -9,7 +9,8 @@ models:
           sql_on: ${fct__video_view_time_by_city.page_id} = ${dim__pages.page_id}
     columns:
       - name: metric_id
-        description: The unique identifier for each metric. This is a primary key in the
+        description: >-
+          The unique identifier for each metric. This is a primary key in the
           table.
         meta:
           dimension:
@@ -17,57 +18,65 @@ models:
             hidden: true
         data_type: string
       - name: post_id
-        description: The unique identifier for each post. This is a foreign key that
-          links to the posts table.
+        description: >-
+          The unique identifier for each post. This is a foreign key that links
+          to the posts table.
         meta:
           dimension:
             type: string
             hidden: true
         data_type: string
       - name: metric_name
-        description: The name of the metric. This describes the type of metric being
+        description: >-
+          The name of the metric. This describes the type of metric being
           recorded, such as 'video view time'.
         meta:
           dimension:
             type: string
         data_type: string
       - name: aggregate_period
-        description: The time period over which the metric is aggregated. This could be
+        description: >-
+          The time period over which the metric is aggregated. This could be
           daily, weekly, monthly, etc.
         meta:
           dimension:
             type: string
         data_type: string
       - name: metric_title
-        description: The title of the metric being measured. This is a human-readable
-          name that describes the metric.
+        description: >-
+          The title of the metric being measured. This is a human-readable name
+          that describes the metric.
         meta:
           dimension:
             type: string
         data_type: string
       - name: metric_description
-        description: A detailed description of the metric. This provides more context
-          about what the metric is measuring and how it is calculated.
+        description: >-
+          A detailed description of the metric. This provides more context about
+          what the metric is measuring and how it is calculated.
         meta:
           dimension:
             type: string
         data_type: string
       - name: metric_time
-        description: The 'metric_time' column represents the time at which the metric
-          was recorded. This is typically in the format of a timestamp.
+        description: >-
+          The 'metric_time' column represents the time at which the metric was
+          recorded. This is typically in the format of a timestamp.
         meta:
           dimension:
             type: timestamp
         data_type: timestamp
       - name: city
-        description: The city column represents the city where the video was viewed. It
-          is a string type column.
+        description: >-
+          The city column represents the city where the video was viewed. It is
+          a string type column.
         meta:
           dimension:
             type: string
         data_type: string
       - name: metric_value
-        description: The 'metric_value' column represents the value of the metric being
+        description: >-
+          The 'metric_value' column represents the value of the metric being
           measured. For this model, it represents the total time users spent
           watching the video. The value is aggregated based on the age and
           gender group, and the time period specified in the 'aggregate_period'
@@ -86,5 +95,16 @@ models:
               label: Average View Time (seconds)
               round: 1
         data_type: string
-    description: The model is a fact table that contains metrics related to the
-      video view time on Facebook, breakdown by city
+      - name: page_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: country
+        description: ""
+        meta:
+          dimension:
+            type: string
+    description: >-
+      The model is a fact table that contains metrics related to the video view
+      time on Facebook, breakdown by city
