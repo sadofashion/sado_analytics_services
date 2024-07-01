@@ -33,16 +33,19 @@ with offline_performance AS (
     
     COUNT( DISTINCT r.branch_id) AS num_stores,
     FROM
-    {{ ref("revenue") }}
-    r
+    {{ ref("fct__transactions") }} r
+    INNER JOIN {{ ref("dim__branches") }} asm
+     ON r.branch_id = asm.branch_id
   WHERE
-    
     {% if is_incremental() %}
       date(r.transaction_date) >= date_add(date(_dbt_max_partition), interval -3 day)
       {# r.transaction_date >='2024-02-01' #}
     {% else %}
       r.transaction_date >= '2023-01-01'
     {% endif %}
+    AND r.branch_id NOT IN (1000087891)
+    and asm.asm_name is not null
+    and asm.channel = 'Offline'
   GROUP BY
     1,
     2
