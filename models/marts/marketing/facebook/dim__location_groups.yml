@@ -1,6 +1,12 @@
 version: 2
 models:
   - name: dim__location_groups
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${calendar.date} >= ${dim__location_groups.opening_day}
+          type: full
+          always: true
     columns:
       - name: local_page_code
         description: ""
@@ -42,10 +48,11 @@ models:
             type: date
             hidden: true
           additional_dimensions:
-            is_opening:
+            d_opening:
               type: string
-              sql: case when date_diff(current_date, opening_day,day) <30 then "Đang khai trương" else "Đang hoạt động" end
-              label: Is Opening Branch
+              label: CH Khai trương
+              sql: >
+                case when date_diff( ${calendar.date},${TABLE}.opening_day,day) <10 then "Đang khai trương" else 'Đã khai trương' end
       - name: close_date
         description: ""
         meta:

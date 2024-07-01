@@ -15,9 +15,11 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = ${facebook_dashboard.date}
+          always: true
         - join: dim__location_groups
           sql_on: >
             (${dim__location_groups.local_page_code} = ${facebook_dashboard.local_page_code})
+          always: true
     columns:
       - name: impressions
         data_type: numeric
@@ -496,9 +498,9 @@ models:
           additional_dimensions:
             d_opening:
               type: string
-              label: CH Khai trương
+              label: is_opening
               sql: >
-                case when ${TABLE}.local_page_code is not null and ${TABLE}.daily_sales_target is null then "Đang khai trương" else 'Đã khai trương' end
+                case when date_diff( ${calendar.date},${dim__location_groups.opening_day},day) <10 then "CH khai trương" else 'Đã khai trương' end
       - name: ad_pic
         description: ""
         meta:
