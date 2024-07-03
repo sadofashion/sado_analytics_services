@@ -92,3 +92,5 @@ vars:
     is_interactive_actions_enabled: true
     is_ecommerce_actions_enabled: true
     json_transform_schema: analytics
+    additional_ad_interact_actions:
+      - onsite_conversion.messaging_conversation_started_7d

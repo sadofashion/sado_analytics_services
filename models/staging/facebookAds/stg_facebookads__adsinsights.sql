@@ -15,8 +15,10 @@ WITH source AS (
             'facebookAds',
             'p_AdsInsights__*'
         )}}
+          where 1=1
+          and date_start <'2024-07-01'
         {% if is_incremental() %}
-          where date_start >= date_add(current_date, INTERVAL -7 DAY)
+          and date_start >= date_add(current_date, INTERVAL -7 DAY)
         {% endif %}
     
 ),
@@ -111,6 +113,58 @@ SELECT
                 unnest (action_values) action_values
             WHERE
                 action_values.action_type = 'onsite_conversion.purchase'
-        ) AS meta_purchase_value
+        ) AS meta_purchase_value,
+        (
+            SELECT
+                actions.value
+            FROM
+                unnest (actions) actions
+            WHERE
+                actions.action_type = 'purchase'
+        ) AS purchase,
+        (
+            SELECT
+                action_values.value
+            FROM
+                unnest (action_values) action_values
+            WHERE
+                action_values.action_type = 'purchase'
+        ) AS purchase_value
     FROM
         deduplicate
+
+union all
+select 
+    account_id,
+    campaign_id,
+    adset_id,
+    ad_id,
+    {{dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id'])}} as ad_key,
+    date_start,
+    clicks,
+    impressions,
+    reach,
+    spend,
+    no__link_click,
+    no__post_engagement,
+    no__onsite_conversion__messaging_conversation_started_7d,
+
+    no__offline_conversion__purchase,
+    offline_conversion__purchase__value,
+
+    no__offsite_conversion__fb_pixel_purchase,
+    offsite_conversion__fb_pixel_purchase__value,
+
+    no__onsite_conversion__purchase,
+    onsite_conversion__purchase__value,
+
+    no__purchase,
+    purchase__value,
+
+from {{ ref("stg_fb__ad_insights") }}
+where 1=1 
+{% if is_incremental() %}
+  and date_start >= date_add(current_date, INTERVAL -7 DAY)
+{% else %}
+  and date_start >= '2024-07-01'
+{% endif %}

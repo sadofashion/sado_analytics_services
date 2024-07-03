@@ -73,3 +73,34 @@ SELECT
     *
 FROM
     source
+
+union all 
+select 
+account_id ,
+        campaign_id,
+        adset_id ,
+        ad_id ,
+        date_start ,
+        region,
+        clicks,
+        impressions,
+        reach,
+        spend,
+        
+    no__link_click,
+    no__post_engagement,
+    no__onsite_conversion__messaging_conversation_started_7d,
+
+    no__offline_conversion__purchase,
+    offline_conversion__purchase__value,
+
+    no__offsite_conversion__fb_pixel_purchase,
+    offsite_conversion__fb_pixel_purchase__value,
+
+    no__onsite_conversion__purchase,
+    onsite_conversion__purchase__value,
+
+    no__purchase,
+    purchase__value,
+
+from {{ ref( "stg_fb__region_demographic") }}
