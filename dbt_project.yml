@@ -63,6 +63,7 @@ vars:
     is_user_id_implemented: false
     property_ids: [336884118,444838415]
     start_date: "20231001"
+    combined_dataset: "analytics"
     static_incremental_days: 1
     query_parameter_exclusions: ["gclid", "fbclid", "_ga"]
     query_parameter_extraction: ["gclid", "fbclid", "keyword"]

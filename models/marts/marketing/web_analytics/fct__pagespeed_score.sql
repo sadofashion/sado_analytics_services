@@ -14,10 +14,7 @@ url,
 strategy,
 -- metrics
 overall_speed_category,
-{# {%for cat in score_categories%}
-{{cat}},
-{%endfor%} #}
 {{score_categories| join(',')}}, 
-{# ({%for cat in score_categories%} {{cat}} {{'+' if not loop.last}} {%endfor%} #}
-({{score_categories | join('+')}})/5 as overall_score
+{%- set _ = score_categories.remove("pwa_score") %}
+({{score_categories | join('+')}})/{{score_categories|length}} as overall_score
 from {{ ref('stg_pagespeed__metrics') }}
