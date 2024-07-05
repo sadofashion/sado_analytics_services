@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'view',
-    tags = ['fb','dimension','view']
+    tags = ['fb','dimension','view'],
     enabled =False
 ) }}
 

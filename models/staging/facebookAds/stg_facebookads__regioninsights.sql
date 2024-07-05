@@ -1,9 +1,7 @@
 WITH source AS (
     SELECT
-        account_id ,
-        campaign_id,
-        adset_id ,
-        ad_id ,
+        safe_cast(account_id as string) account_id,
+        safe_cast(campaign_id as string) campaign_id,
         date_start ,
         region,
         clicks,
@@ -66,6 +64,38 @@ WITH source AS (
             WHERE
                 action_values.action_type = 'offsite_conversion.fb_pixel_purchase'
         ) AS pixel_purchase_value,
+        (
+            SELECT
+                actions.value
+            FROM
+                unnest (actions) actions
+            WHERE
+                actions.action_type = 'onsite_conversion.purchase'
+        ) AS meta_purchase,
+        (
+            SELECT
+                action_values.value
+            FROM
+                unnest (action_values) action_values
+            WHERE
+                action_values.action_type = 'onsite_conversion.purchase'
+        ) AS meta_purchase_value,
+        (
+            SELECT
+                actions.value
+            FROM
+                unnest (actions) actions
+            WHERE
+                actions.action_type = 'purchase'
+        ) AS purchase,
+        (
+            SELECT
+                action_values.value
+            FROM
+                unnest (action_values) action_values
+            WHERE
+                action_values.action_type = 'purchase'
+        ) AS purchase_value
     FROM
         {{ ref('base_facebookAds__regionInsights') }}
 )
@@ -76,16 +106,14 @@ FROM
 
 union all 
 select 
-account_id ,
-        campaign_id,
-        adset_id ,
-        ad_id ,
-        date_start ,
-        region,
-        clicks,
-        impressions,
-        reach,
-        spend,
+    account_id ,
+    campaign_id,
+    date_start ,
+    region,
+    clicks,
+    impressions,
+    reach,
+    spend,
         
     no__link_click,
     no__post_engagement,

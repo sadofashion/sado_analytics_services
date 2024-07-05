@@ -32,10 +32,10 @@ deduplicate as ({{ dbt_utils.deduplicate(
         order_by = "_batched_at desc",
     ) }})
 SELECT
-        account_id ,
-        campaign_id ,
-        adset_id ,
-        ad_id ,
+        safe_cast(account_id as string) account_id ,
+        safe_cast(campaign_id as string) campaign_id,
+        safe_cast(adset_id as string) adset_id ,
+        safe_cast(ad_id as string) ad_id ,
         {{dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id'])}} as ad_key,
         date_start ,
         clicks,

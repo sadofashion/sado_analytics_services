@@ -46,12 +46,17 @@
 WITH 
 campaign_names as (
     select 
-    _batched_at, account_id, campaign_id, adset_id, ad_id, campaign_name, adset_name, ad_name
+    _batched_at, 
+    safe_cast(account_id as string) account_id ,
+    safe_cast(campaign_id as string) campaign_id,
+    safe_cast(adset_id as string) adset_id ,
+    safe_cast(ad_id as string) ad_id ,
+    campaign_name, adset_name, ad_name
     from {{ source("facebookAds","p_AdsInsights__*") }}
     where date_start < '2024-07-01'
     union all
     select 
-    _batched_at, account_id, campaign_id, adset_id, ad_id, campaign_name, adset_name, ad_name
+    cast(null as timestamp) as _batched_at, account_id, campaign_id, adset_id, ad_id, campaign_name, adset_name, ad_name
     from {{ ref("dim_fb__campaigns") }}
 ),
 current_campaign_name AS (
@@ -93,8 +98,6 @@ current_campaign_name AS (
         ) 
         {# account_window as (partition by account_id order by _batched_at desc), #}
         {# campaign_window as (partition by campaign_id) #}
-    WHERE
-        date_start < '2024-07-01'
 ),
 convention_version AS (
     SELECT
@@ -118,7 +121,6 @@ new_naming_convention AS (
         convention_version
     WHERE
         convention_version.convention_version_number = '2406'
-    union distinct
 
 ),
 old_naming_convention AS (
@@ -172,7 +174,8 @@ old_naming_convention AS (
                 END AS ad_location_layer,
                 o.ad_type AS campaign_category,
                 o.big_campaign AS event_name,
-                CASE{% for k, v in products_mapping.items() -%}
+                CASE
+                {% for k, v in products_mapping.items() -%}
                     WHEN regexp_contains(CONCAT(o.promoted_productline, o.content_group), r"{{v|join('|')}}") THEN 'sp {{k|lower()}}'
                 {% endfor -%}
                 {% for k, v in compiled_products.items() -%}

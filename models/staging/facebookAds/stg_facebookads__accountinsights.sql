@@ -1,6 +1,6 @@
 WITH source AS (
     SELECT
-        account_id ,
+        safe_cast(account_id as string) account_id,
         date_start,
         clicks,
         impressions,
@@ -68,6 +68,22 @@ WITH source AS (
             FROM
                 unnest (actions) actions
             WHERE
+                actions.action_type = 'onsite_conversion.purchase'
+        ) AS meta_purchase,
+        (
+            SELECT
+                action_values.value
+            FROM
+                unnest (action_values) action_values
+            WHERE
+                action_values.action_type = 'onsite_conversion.purchase'
+        ) AS meta_purchase_value,
+        (
+            SELECT
+                actions.value
+            FROM
+                unnest (actions) actions
+            WHERE
                 actions.action_type = 'purchase'
         ) AS purchase,
         (
@@ -77,7 +93,7 @@ WITH source AS (
                 unnest (action_values) action_values
             WHERE
                 action_values.action_type = 'purchase'
-        ) AS purchase_value
+        ) AS purchase_value,
     FROM
         {{ ref('base_facebookAds__accountInsights') }}
 )
