@@ -24,45 +24,19 @@
     campaigns.campaign_category as ad_type, #}
     {# campaigns.audience_source_name as funnel, #}
     adsinsights.ad_key,
-    SUM(
-      adsinsights.impressions
-    ) impressions,
-    SUM(
-      adsinsights.spend
-    ) spend,
-    SUM(
-      adsinsights.clicks
-    ) clicks,
-    SUM(
-      adsinsights.reach
-    ) reach,
-    SUM(
-      adsinsights.link_click
-    ) link_click,
-    SUM(
-      adsinsights.post_engagement
-    ) post_engagement,
-    SUM(
-      adsinsights.offline_conversion_purchase
-    ) offline_conversion_purchase,
-    SUM(
-      adsinsights.offline_conversion_purchase_value
-    ) offline_conversion_purchase_value,
-    SUM(
-      adsinsights.pixel_purchase
-    ) pixel_purchase,
-    SUM(
-      adsinsights.pixel_purchase_value
-    ) pixel_purchase_value,
-    SUM(
-      adsinsights.meta_purchase
-    ) meta_purchase,
-    SUM(
-      adsinsights.meta_purchase_value
-    ) meta_purchase_value,
-    SUM(
-      adsinsights.messaging_conversation_started_7d
-    ) _results_message
+    SUM(adsinsights.impressions) impressions,
+    SUM(adsinsights.spend) spend,
+    SUM(adsinsights.clicks) clicks,
+    SUM(adsinsights.reach) reach,
+    SUM(adsinsights.link_click) link_click,
+    SUM(adsinsights.post_engagement) post_engagement,
+    SUM(adsinsights.offline_conversion_purchase) offline_conversion_purchase,
+    SUM(adsinsights.offline_conversion_purchase_value) offline_conversion_purchase_value,
+    SUM(adsinsights.pixel_purchase) pixel_purchase,
+    SUM(adsinsights.pixel_purchase_value) pixel_purchase_value,
+    SUM(adsinsights.meta_purchase) meta_purchase,
+    SUM(adsinsights.meta_purchase_value) meta_purchase_value,
+    SUM(adsinsights.messaging_conversation_started_7d) _results_message
   FROM
     {{ ref('stg_facebookads__adsinsights') }}
     adsinsights

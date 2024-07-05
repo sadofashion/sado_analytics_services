@@ -1,16 +1,18 @@
 WITH source AS (
-
-     {{ dbt_utils.deduplicate(
-        relation = source(
+    SELECT
+        *
+    FROM
+        {{ source(
             'facebookAds',
             'p_RegionInsights__*'
-        ),
-        partition_by = 'account_id,
-            campaign_id,
-            adset_id,
-            ad_id,
-            date_start,
-            region',
+        ) }}
+    WHERE
+        date_start < '2024-07-01'
+),
+deduplicate AS (
+    {{ dbt_utils.deduplicate(
+        relation = "source",
+        partition_by = 'account_id, campaign_id, adset_id, ad_id, date_start, region',
         order_by = "_batched_at desc",
     ) }}
 )

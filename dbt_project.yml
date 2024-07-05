@@ -63,6 +63,7 @@ vars:
     is_user_id_implemented: false
     property_ids: [336884118,444838415]
     start_date: "20231001"
+    combined_dataset: "analytics"
     static_incremental_days: 1
     query_parameter_exclusions: ["gclid", "fbclid", "_ga"]
     query_parameter_extraction: ["gclid", "fbclid", "keyword"]
@@ -92,3 +93,5 @@ vars:
     is_interactive_actions_enabled: true
     is_ecommerce_actions_enabled: true
     json_transform_schema: analytics
+    additional_ad_interact_actions:
+      - onsite_conversion.messaging_conversation_started_7d

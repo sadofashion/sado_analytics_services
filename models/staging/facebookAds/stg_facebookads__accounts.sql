@@ -1,6 +1,7 @@
 {{ config(
     materialized = 'view',
-    tags = ['fb','dimension','view']
+    tags = ['fb','dimension','view'],
+    enabled =False
 ) }}
 
     SELECT
@@ -13,3 +14,6 @@
         ) }}
         window account_window as (partition by account_id order by _batched_at desc)
         
+
+    {# select * 
+    from {{ ref("stg_fb__ad_accounts") }} #}
