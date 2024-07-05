@@ -12,6 +12,15 @@ WITH source AS (
             'facebookAds',
             'p_AccountInsights__*'
         ) }}
+    where date_start <'2024-07-01'
+)
+
+deduplicate AS (
+    {{ dbt_utils.deduplicate(
+        relation = "source",
+        partition_by = 'account_id',
+        order_by = "_batched_at desc",
+    ) }}
 )
 SELECT
     account_id,

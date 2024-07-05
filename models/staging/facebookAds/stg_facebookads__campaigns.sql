@@ -39,7 +39,22 @@
 {% set compiled_products ={ "thu đông" :["th hàng đông","thu đông","đông sang","đông th"],
 "xuân hè" :["th hàng hè","hè th"],
 "quanh năm" :["th quanh năm","quanh năm th"],} %}
-WITH current_campaign_name AS (
+
+
+
+
+WITH 
+campaign_names as (
+    select 
+    _batched_at, account_id, campaign_id, adset_id, ad_id, campaign_name, adset_name, ad_name
+    from {{ source("facebookAds","p_AdsInsights__*") }}
+    where date_start < '2024-07-01'
+    union all
+    select 
+    _batched_at, account_id, campaign_id, adset_id, ad_id, campaign_name, adset_name, ad_name
+    from {{ ref("dim_fb__campaigns") }}
+),
+current_campaign_name AS (
 
     SELECT
         DISTINCT account_id,
@@ -54,10 +69,7 @@ WITH current_campaign_name AS (
         ad_id,
         {{ dbt_utils.generate_surrogate_key(['account_id','campaign_id','adset_id','ad_id']) }} AS ad_key,
     FROM
-        {{ source(
-            "facebookAds",
-            "p_AdsInsights__*"
-        ) }}
+        campaign_names
         window campaign_window AS (
             PARTITION BY campaign_id
             ORDER BY
