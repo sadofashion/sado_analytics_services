@@ -52,10 +52,11 @@ SELECT
     {% endfor -%}
   END AS sent_status,
   sentresult AS sent_result,
-  COALESCE(
-    DATE(parse_datetime('%d/%m/%Y %H:%M:%S',COALESCE(senttime, MIN(senttime) over (PARTITION BY campaign)))),
-    DATE(regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(0)])
-  ) AS sent_time,
+  case 
+    when senttime like "/Date%" then date(timestamp_millis(safe_cast(regexp_extract(senttime,r'(\d+)\+') as int64)),"Asia/Saigon")
+    when senttime is null then DATE(regexp_extract_all(campaign,r'\d{4}-\d{2}-\d{2}')[safe_offset(0)])
+    else DATE(parse_datetime('%d/%m/%Y %H:%M:%S',COALESCE(senttime, MIN(senttime) over (PARTITION BY campaign))))
+    end AS sent_time,
   smsid AS sms_id,
   CASE
     smstype
