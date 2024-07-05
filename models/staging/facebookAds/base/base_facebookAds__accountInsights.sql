@@ -13,7 +13,7 @@ WITH source AS (
             'p_AccountInsights__*'
         ) }}
     where date_start <'2024-07-01'
-)
+),
 
 deduplicate AS (
     {{ dbt_utils.deduplicate(
