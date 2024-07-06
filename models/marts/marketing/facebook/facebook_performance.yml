@@ -11,9 +11,9 @@ models:
       joins:
         - join: calendar
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
-        - join: stg_facebookads__accounts
+        - join: dim__ad_accounts
           sql_on: >-
-            ${stg_facebookads__accounts.account_id} =
+            ${dim__ad_accounts.id} =
             ${facebook_performance.account_id}
         - join: dim__campaigns
           sql_on: ${dim__campaigns.ad_key} = ${facebook_performance.ad_key}
