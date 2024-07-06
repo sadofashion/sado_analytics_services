@@ -37,6 +37,10 @@ preprocessing as
             else coalesce(s.local_page_code,p.province_code, r.region_code, b.branch_code,c.ad_location) 
         end as ad_location,
         case 
+            when c.ad_location_layer ="Store" 
+            and coalesce(s.local_page_code, b.local_page_code, c.ad_location) = "TBH12" 
+            and convention_version_number ='2406'
+            and lower(event_name) in ('kt','khai trương') then 'TBH13'
             when c.ad_location_layer ="Store" then coalesce(s.local_page_code, b.local_page_code, c.ad_location) 
         end as ad_group_location,
         coalesce(p.province_code,p2.province_code,p3.province_code) as province,
