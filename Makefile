@@ -33,3 +33,7 @@ run-generate-all:
 	dbt run -s ${MODELS} ${FLAGS}
 	@echo "Generating Lightdash all model yamls..."
 	lightdash generate ${FLAGS}
+
+val:
+	@echo "Validating yamls..."
+	lightdash validate

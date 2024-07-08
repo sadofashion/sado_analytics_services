@@ -46,6 +46,12 @@ models:
           dimension:
             type: date
             hidden: true
+          additional_dimensions:
+            d_days_since_opening:
+              type: number
+              sql: DATE_DIFF(${calendar.date}, ${dim__branches.opening_day},day)
+              label: Days Since Opening
+              group_label: Opening
         data_type: DATE
       - name: reference_transaction_id
         description:
