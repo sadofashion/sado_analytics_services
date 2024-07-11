@@ -1,6 +1,28 @@
 {{ config(
-  tags = ['view', 'dimension','kiotviet']
+    materialized='incremental',
+    incremental_strategy='merge',
+    unique_key='product_id',
+    partition_by = {'field': 'product_id', 'data_type': 'int'},
+    on_schema_change='sync_all_columns',
+    tags = ['incremental', 'dimension','kiotviet']
 ) }}
+
+
+WITH source AS (
+    select * from {{source(
+            'kiotViet',
+            'p_products_list'
+        )}}
+        where parse_date('%Y%m%d', _TABLE_SUFFIX) >= date_add(current_date, interval -1 day)
+),
+
+deduplicate as (
+  {{ dbt_utils.deduplicate(
+        relation = 'source',
+        partition_by = 'id',
+        order_by = "modifiedDate DESC,_batched_at desc",
+    ) }}
+)
 
 SELECT
   p.id AS product_id,
@@ -19,7 +41,6 @@ SELECT
   c.ads_product_mapping,
   C.product_group,
 FROM
-  {{ ref('base_kiotViet__products') }}
-  p
+  deduplicate p
   INNER JOIN {{ ref('stg_kiotviet__categories') }} AS C
   ON p.categoryId = C.category_id

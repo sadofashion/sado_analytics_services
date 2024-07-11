@@ -41,6 +41,13 @@
   "SMD":['sơ mi dài'],
 } %}
 
+WITH source AS (
+
+    {{ dbt_utils.deduplicate(relation = source(
+            'kiotViet',
+            'p_categories_list'
+        ), partition_by = 'categoryId', order_by = "modifiedDate DESC,_batched_at desc",) }}
+)
 
 {# with preprocess as ( #}
   SELECT
@@ -63,12 +70,12 @@
     ELSE 'QUANH NĂM'
   END AS product_group,
 FROM
-    {{ ref('base_kiotViet__categories') }}
+    source
     r1
-    left JOIN {{ ref('base_kiotViet__categories') }}
+    left JOIN source
     r2
     ON r1.parentId = r2.categoryId
-    left JOIN {{ ref('base_kiotViet__categories') }}
+    left JOIN source
     r3
     ON r2.parentId = r3.categoryId
     {# )

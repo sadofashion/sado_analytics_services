@@ -4,6 +4,19 @@
   )
 }}
 
+WITH source AS (
+        {{ dbt_utils.deduplicate(
+        relation = source(
+            'kiotViet',
+            'p_locations_list'
+        ),
+        partition_by = 'id',
+        order_by = "_batched_at desc",
+    ) }}
+)
+
+
+
 SELECT
     NAME,
     normalName,
@@ -16,4 +29,4 @@ SELECT
         r'^(?:.*)\s-\s(.*)'
     ) AS district,
 FROM
-    {{ ref('base_kiotViet__locations') }}
+    source

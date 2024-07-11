@@ -32,7 +32,8 @@ WITH source AS (
 WHERE
     _batched_at >= _dbt_max_partition
 {% endif %}
-{# UNION ALL
+{# 
+UNION ALL
 SELECT
     branchId AS branch_id,
     productCode AS product_code,
@@ -48,12 +49,13 @@ FROM
     {{ source(
         'kiotViet',
         'p_products_inventory'
-    ) }} #}
+    ) }}
 
-{# {% if is_incremental() %}
+{% if is_incremental() %}
 WHERE
     DATE(_batched_at) >= DATE(_dbt_max_partition)
-{% endif %}  #}
+{% endif %}  
+#}
 )
 {{ 
     dbt_utils.deduplicate(
