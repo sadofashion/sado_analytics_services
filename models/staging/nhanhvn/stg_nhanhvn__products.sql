@@ -99,6 +99,19 @@ WITH source AS (
     order_by = "_batched_at desc",
   ) }}
 ),
+
+base_cat as (
+
+  {{ dbt_utils.deduplicate(
+    relation = source(
+        'nhanhvn',
+        'p_categories'
+    ),
+    partition_by = 'id',
+    order_by = "_batched_at desc",
+) }}
+
+)
 category AS (
   SELECT
     safe_cast(products.idNhanh AS int64) AS product_id,
@@ -118,7 +131,7 @@ category AS (
     END AS sub_productline
   FROM
     source products
-    LEFT JOIN {{ ref('base_nhanhvn__categories') }}
+    LEFT JOIN base_cat
     categories
     ON products.categoryId = categories.id
 )

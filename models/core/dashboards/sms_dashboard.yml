@@ -41,8 +41,7 @@ models:
             m_sms_sent:
               type: sum
               label: No. SMS sent
-              compact: thousands
-              round: 2
+              round: 0
       - name: customer_sent
         description: ""
         meta:
@@ -53,8 +52,7 @@ models:
             m_customer_sent:
               type: sum
               label: No. customer sent
-              compact: thousands
-              round: 2
+              round: 0
       - name: sms_cost
         description: ""
         meta:
@@ -65,8 +63,8 @@ models:
             m_sms_cost:
               type: sum
               label: SMS Cost
-              compact: millions
-              round: 2
+              compact: thousands
+              round: 1
       - name: total
         description: ""
         meta:
@@ -77,8 +75,8 @@ models:
             m_sms_revenue:
               type: sum
               label: SMS Revenue
-              compact: millions
-              round: 2
+              compact: thousands
+              round: 1
             m_sms_roi:
               type: number
               label: SMS ROI
@@ -94,8 +92,7 @@ models:
             m_customer_converted:
               type: sum
               label: No. Customer converted
-              compact: thousands
-              round: 2
+              round: 0
             m_customer_conversion_rate:
               type: number
               label: Customer conversion rate
