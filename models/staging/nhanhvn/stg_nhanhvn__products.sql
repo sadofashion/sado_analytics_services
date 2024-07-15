@@ -111,7 +111,7 @@ base_cat as (
     order_by = "_batched_at desc",
 ) }}
 
-)
+),
 category AS (
   SELECT
     safe_cast(products.idNhanh AS int64) AS product_id,

@@ -2,7 +2,6 @@
     materialized='incremental',
     incremental_strategy='merge',
     unique_key='product_id',
-    partition_by = {'field': 'product_id', 'data_type': 'int'},
     on_schema_change='sync_all_columns',
     tags = ['incremental', 'dimension','kiotviet']
 ) }}
@@ -13,7 +12,10 @@ WITH source AS (
             'kiotViet',
             'p_products_list'
         )}}
+      {% if is_incremental() %}
         where parse_date('%Y%m%d', _TABLE_SUFFIX) >= date_add(current_date, interval -1 day)
+      {% endif %}
+        
 ),
 
 deduplicate as (
