@@ -51,7 +51,7 @@ SELECT
     WHEN {{ key }} THEN "{{status}}"
     {% endfor -%}
   END AS sent_status,
-  sentresult AS sent_result,
+  safe_cast(sentresult as int64) AS sent_result,
   least(date(CASE
     WHEN campaign IN ('Chiến dịch 02/02/2024','Chiến dịch 01/02/2024') THEN '2024-02-02'
     WHEN campaign IN ('KM tháng 3 - 8000 ngày 1','KM T3 dot 2- 8000') THEN '2024-03-01'
