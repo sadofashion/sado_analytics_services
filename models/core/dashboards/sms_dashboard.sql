@@ -38,6 +38,7 @@ sms_sent_data AS (
         else c.previous_segment end previous_segment,
         COUNT(DISTINCT sent_id) AS sms_sent,
         COUNT(DISTINCT phone) AS customer_sent,
+        {# count(distinct case when sent_result = 1 then phone end) as customer_received, #}
         SUM(sms_cost) sms_cost,
     FROM
         {{ ref("stg_esms__sent_data") }} sms
