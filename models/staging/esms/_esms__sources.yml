@@ -4,5 +4,7 @@ sources:
     schema: Esms
     description: "data pulled from esms via API"
     tables:
-      - identifier: p__sms_sent_data_v1__*
+      - identifier: p__sms_sent_data_v2__*
         name: sms_sent_data
+      - identifier: p__sms_sent_data_v1__*
+        name: sms_sent_data_history
