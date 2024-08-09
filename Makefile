@@ -37,3 +37,7 @@ run-generate-all:
 val:
 	@echo "Validating yamls..."
 	lightdash validate
+
+gh:
+	git push origin head
+	gh run watch && git pull origin master

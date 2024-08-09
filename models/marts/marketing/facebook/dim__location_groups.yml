@@ -52,7 +52,7 @@ models:
               type: string
               label: CH Khai trương
               sql: >
-                case when date_diff( ${calendar.date},${TABLE}.opening_day,day) <10 then "Đang khai trương" else 'Đã khai trương' end
+                case when date_diff( ${calendar.date},${TABLE}.opening_day,day) <10 then "CH khai trương" else 'Đã khai trương' end
       - name: close_date
         description: ""
         meta:

@@ -94,7 +94,9 @@ facebook_performance as (
     -- HR
     "572603800939181",
     -- branding
-    "836481701438037"
+    "836481701438037",
+    -- web
+    "382523215230249"
     )
   {{dbt_utils.group_by(3)}}
 )
