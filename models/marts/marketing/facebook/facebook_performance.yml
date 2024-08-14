@@ -17,6 +17,10 @@ models:
             ${facebook_performance.account_id}
         - join: dim__campaigns
           sql_on: ${dim__campaigns.ad_key} = ${facebook_performance.ad_key}
+          always: true
+        - join: dim__contents
+          sql_on: ${dim__contents.content_code} = ${dim__campaigns.content_code}
+          always: true
     columns:
       - name: date_start
         description: ""

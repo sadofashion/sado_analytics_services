@@ -69,7 +69,7 @@
     {%-for code, media_type in media_types.items() %}
     when {{media_type_code}} = '{{code}}' then '{{media_type}}'
     {%endfor-%} end AS media_type,
-    SPLIT({{column_name}},"_") [safe_offset(1)] AS content_code,
+    regexp_extract({{column_name}},r"_(\w+)") AS content_code,
     {% endset -%}
     {% do return(extracted_fields) %}
 {% endmacro -%}

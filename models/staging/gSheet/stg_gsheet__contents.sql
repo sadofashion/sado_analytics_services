@@ -1,8 +1,9 @@
 with source as (
 select 
-    *
+    *, 
+    parse_date('%Y%m%d',_TABLE_SUFFIX) as content_month
 from {{ source('gSheet', 'content') }}
-where approval_status is not null
+where approval_status = 'Posted'
 )
 
 {{dbt_utils.deduplicate(

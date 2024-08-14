@@ -1,0 +1,10 @@
+version: 1
+sources:
+  - name: shopee
+    schema: SHOPEE
+    description: data pulled from Shopee
+    tables:
+      - name: order_list
+      - name: item_list
+      - name: ad_daily_performance
+      - name: ad_hourly_performance

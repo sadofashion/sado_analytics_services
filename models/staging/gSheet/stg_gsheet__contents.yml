@@ -1,0 +1,42 @@
+models:
+  - name: stg_gsheet__contents
+    columns:
+      - name: event_name
+        data_type: string
+        quote: true
+      - name: content_angle
+        data_type: string
+        quote: true
+      - name: promotion
+        data_type: string
+        quote: true
+      - name: product
+        data_type: string
+        quote: true
+      - name: headline
+        data_type: string
+        quote: true
+      - name: body
+        data_type: string
+        quote: true
+      - name: pic
+        data_type: string
+        quote: true
+      - name: media_type
+        data_type: string
+        quote: true
+      - name: approval_status
+        data_type: string
+        quote: true
+      - name: sheet_name
+        data_type: string
+        quote: true
+      - name: content_code
+        data_type: string
+        quote: true
+      - name: _batched_at
+        data_type: timestamp
+        quote: true
+      - name: content_month
+        data_type: date
+        quote: true
