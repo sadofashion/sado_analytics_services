@@ -3,10 +3,29 @@
     tags=['fact', 'shopee'],
     )
 }}
+{# {
+  "broad_conversions": 0,
+  "broad_gmv": 0,
+  "broad_item_sold": 0,
+  "broad_order": 0,
+  "broad_roas": 0,
+  "clicks": 22,
+  "cost_per_conversion": 0,
+  "ctr": 0.03,
+  "date": "11-08-2024",
+  "direct_conversions": 0,
+  "direct_gmv": 0,
+  "direct_item_sold": 0,
+  "direct_order": 0,
+  "direct_roas": 0,
+  "expense": 29774,
+  "hour": 2,
+  "impression": 796
+} #}
 WITH source AS (
     {{ dbt_utils.deduplicate(
-        relation = source('shopee','ad_daily_performance'),
-        partition_by = 'id',
+        relation = source('shopee','ad_hourly_performance'),
+        partition_by = 'json_value(data, "$.date"), json_value(data, "$.hour")',
         order_by = '_batched_at desc'
     ) }}
 )
@@ -26,5 +45,6 @@ SELECT
     safe_cast(json_value(s.data,'$.broad_conversions') as float64) as broad_conversions,
     safe_cast(json_value(s.data,'$.direct_conversions') as float64) as direct_conversions,
     safe_cast(json_value(s.data,'$.cost_per_conversion') as float64) as cost_per_conversion,
+    safe_cast(json_value(s.data, '$.hour') as int64) as hour,
 FROM
     source s

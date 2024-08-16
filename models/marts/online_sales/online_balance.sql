@@ -1,5 +1,6 @@
 {{ config(
-  tags = ['table', 'fact','nhanhvn']
+  tags = ['table', 'fact','nhanhvn'],
+  enabled=false
 ) }}
 
 SELECT

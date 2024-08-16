@@ -7,6 +7,7 @@
   unique_key = 'concat(product_id,date)',
   on_schema_change = 'sync_all_columns',
   tags = ['incremental', 'daily','nhanhvn'],
+  enabled=false
 ) }}
 
 WITH inventory AS (

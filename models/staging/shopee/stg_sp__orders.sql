@@ -29,9 +29,9 @@ with source as (
 select 
 json_value(o.data,'$.cancel_by') as cancel_by,
 json_value(o.data,'$.cancel_reason') as cancel_reason,
-timestamp_seconds(json_value(o.data,'$.create_time')) as create_time,
-timestamp_seconds(json_value(o.data,'$.update_time')) as update_time,
-json_value(o.data,'$.total_amount') as total_amount,
+timestamp_seconds(safe_cast(json_value(o.data,'$.create_time') as int64)) as create_time,
+timestamp_seconds(safe_cast(json_value(o.data,'$.update_time') as int64)) as update_time,
+safe_cast(json_value(o.data,'$.total_amount') as float64) as total_amount,
 json_value(o.data,'$.order_sn') as order_sn,
 json_value(o.data,'$.order_status') as order_status,
 json_value(o.data,'$.payment_method') as payment_method,

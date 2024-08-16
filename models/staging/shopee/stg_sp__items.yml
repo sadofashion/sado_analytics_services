@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: stg_sp__items
+    columns:
+      - name: item_id
+        data_type: string
+        quote: true
+      - name: item_name
+        data_type: string
+        quote: true
+      - name: item_sku
+        data_type: string
+        quote: true
+      - name: item_status
+        data_type: string
+        quote: true
+      - name: category_id
+        data_type: string
+        quote: true
+      - name: brand_id
+        data_type: string
+        quote: true
+      - name: brand_name
+        data_type: string
+        quote: true

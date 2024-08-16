@@ -1,36 +1,82 @@
+version: 2
 models:
   - name: dim__contents
     columns:
       - name: event_name
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
       - name: content_angle
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
       - name: promotion
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
       - name: product
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
       - name: headline
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
       - name: body
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
       - name: pic
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
       - name: media_type
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
       - name: approval_status
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
+      - name: content_code
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_num_contents:
+              type: count_distinct
+              label: Num Contents
+              group_label: FB Ads
       - name: content_month
         data_type: date
         quote: true
+        meta:
+          dimension:
+            type: date
       - name: content_type
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string

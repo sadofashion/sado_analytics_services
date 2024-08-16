@@ -1,0 +1,49 @@
+version: 2
+models:
+  - name: dim__inventory_classes
+    columns:
+      - name: class_code
+        data_type: string
+        quote: true
+        tests:
+          - unique
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: sub_productline
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: productline
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: category
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_group
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: season
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string

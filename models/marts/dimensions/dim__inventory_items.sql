@@ -10,7 +10,7 @@ WITH kiotviet_products AS (
         kiot.product_name,
         kiot.product_code,
 
-        kiot.class_code,
+        {# kiot.class_code, #}
         kiot.class_name,
 
         kiot.category,
@@ -31,7 +31,7 @@ nhanhvn__products AS (
         product_id AS nhanhvn_product_id,
         product_name,
         product_code,
-        class_code,
+        {# class_code, #}
         category_name,
         sub_productline,
         productline,
@@ -50,7 +50,7 @@ items as (
 SELECT
     coalesce(p1.product_code,p2.product_code) AS product_code,
     coalesce(p1.product_name,p2.product_name) AS product_name,
-    coalesce(p1.class_code,p2.class_code) AS class_code,
+    {# coalesce(p1.class_code,p2.class_code) AS class_code, #}
     p1.class_name,
     coalesce(p1.sub_productline,p2.sub_productline) as sub_productline,
     coalesce(p1.productline,p2.productline) as productline,
@@ -72,6 +72,7 @@ FROM
 
 select 
 it.*,
+regexp_extract(it.product_code,r'(?:YY|Y0|00|YB)?(\w{3}[0-9S]{3,5})') class_code,
 upper(p.category_name) category_name,
 upper(p.product_group) product_group,
 upper(p.season) season,

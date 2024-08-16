@@ -1,0 +1,34 @@
+version: 2
+models:
+  - name: stg_sp__orders
+    columns:
+      - name: cancel_by
+        data_type: string
+        quote: true
+      - name: cancel_reason
+        data_type: string
+        quote: true
+      - name: create_time
+        data_type: timestamp
+        quote: true
+      - name: update_time
+        data_type: timestamp
+        quote: true
+      - name: total_amount
+        data_type: float64
+        quote: true
+      - name: order_sn
+        data_type: string
+        quote: true
+      - name: order_status
+        data_type: string
+        quote: true
+      - name: payment_method
+        data_type: string
+        quote: true
+      - name: item_list
+        data_type: json
+        quote: true
+      - name: package_list
+        data_type: json
+        quote: true

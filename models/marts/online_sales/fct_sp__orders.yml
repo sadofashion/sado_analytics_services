@@ -1,0 +1,323 @@
+version: 2
+models:
+  - name: fct_sp__orders
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${fct_sp__orders.transaction_date} = ${calendar.date}
+        - join: dim__inventory_classes
+          sql_on: ${dim__inventory_classes.class_code} = ${fct_sp__orders.class_code}
+    columns:
+      - name: order_number
+        description: Unique identifier for each order placed
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_num_orders:
+              type: count_distinct
+              label: Orders
+              group_label: Orders
+            m_num_completed_orders:
+              type: count_distinct
+              label: Completed Orders
+              group_label: Orders
+              filters:
+                - order_status: COMPLETED
+            m_num_cancelled_orders:
+              type: count_distinct
+              label: Cancelled Orders
+              group_label: Orders
+              filters:
+                - order_status: CANCELLED
+            m_num_shipped_orders:
+              type: count_distinct
+              label: Shipped Orders
+              group_label: Orders
+              filters:
+                - order_status: SHIPPED
+            m_num_pending_orders:
+              type: count_distinct
+              label: Wait for Confirm Orders
+              group_label: Orders
+              filters:
+                - order_status: TO_CONFIRM_RECEIVE
+            m_num_to_return_orders:
+              type: count_distinct
+              label: Wait for Return Orders
+              group_label: Orders
+              filters:
+                - order_status: TO_RETURN
+            m_num_unpaid_orders:
+              type: count_distinct
+              label: Unpaid Orders
+              group_label: Orders
+              filters:
+                - order_status: UNPAID
+            m_num_fulfilled_orders:
+              type: number
+              sql: ${m_num_completed_orders}+${m_num_shipped_orders}
+              label: Fulfilled Orders
+              group_label: Orders
+            m_num_failed_orders:
+              type: number
+              sql: ${m_num_cancelled_orders}+${m_num_to_return_orders}
+              label: Failed Orders
+              group_label: Orders
+            m_canceled_rate:
+              type: number
+              sql: safe_divide(${m_num_cancelled_orders},${m_num_orders})
+              label: Canceled Rate
+              group_label: Orders
+              format: percent
+              round: 2
+      - name: order_status
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+      - name: cancel_by
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+      - name: cancel_reason
+        description: This field provides the reason for the cancellation of an order
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+      - name: transaction_date
+        data_type: date
+        quote: true
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: payment_method
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+      - name: add_on_deal
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+      - name: add_on_deal_id
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: item_id
+        description: Unique identifier for the item that was purchased in the order
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: item_name
+        description: The name of the item that was purchased in the order
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+      - name: item_sku
+        description: Stock Keeping Unit (SKU) of the item that was purchased
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: main_item
+        description: Indicates whether the item is the main item in the order or an add-on
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+      - name: model_id
+        description: The unique identifier for the product model
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: model_name
+        description: The name of the product model
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+      - name: model_discounted_price
+        description: The price of the product model after any discounts have been applied
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_item_value:
+              type: sum
+              label: Item Sold Value
+              group_label: Orders
+              compact: millions
+              round: 1
+            m_discounted_value:
+              type: sum
+              label: Discounted Value
+              sql: ${TABLE}.model_original_price-${TABLE}.model_discounted_price
+              group_label: Orders
+            m_aov:
+              type: number
+              sql: safe_divide(${m_item_value},${m_num_orders})
+              round: 2
+              group_label: Orders
+              label: AOV
+              compact: thousands
+              description: Average Order Value
+            m_ausp:
+              type: number
+              sql: safe_divide(${m_item_value},${m_quantity_sold})
+              round: 2
+              group_label: Orders
+              compact: thousands
+              label: AUSP
+              description: Average Unit Selling Price
+      - name: model_original_price
+        description: This field represents the original price of the product model
+          before any discounts or promotions are applied
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_item_original_value:
+              type: sum
+              label: Item Original Value
+              group_label: Orders
+              compact: millions
+              round: 1
+      - name: model_quantity_purchased
+        description: Indicates the quantity of a particular product model that was
+          purchased in a single order
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_quantity_sold:
+              type: sum
+              label: Quantity Sold
+              group_label: Orders
+            m_quantity_per_order:
+              type: number
+              sql: safe_divide(${m_quantity_sold},${m_num_orders})
+              label: Quantity per Order
+              group_label: Orders
+              round: 2
+              compact: thousands
+            m_quantity_sold_main:
+              type: sum
+              label: Quantity Sold Main
+              group_label: Orders
+              filters:
+                - main_item: "true"
+            m_quantity_sold_add_on:
+              type: sum
+              label: Quantity Sold Add On
+              group_label: Orders
+              filters:
+                - main_item: "false"
+      - name: model_sku
+        description: Stock Keeping Unit (SKU) of the product model
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: order_item_id
+        description: Unique identifier for each item in an order
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: promotion_group_id
+        description: Unique identifier for a group of promotions
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: promotion_id
+        description: Unique identifier for each promotion
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: line_amount
+        data_type: float64
+        quote: true
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_line_amount:
+              type: sum
+              label: Order Total Amount
+              group_label: Orders
+              compact: millions
+              round: 1
+            m_order_discount:
+              type: number
+              sql: ${m_line_amount}-${m_item_value}
+              label: Order Discount
+              group_label: Orders
+      - name: product_code
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: class_code
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: promotion_type
+        description: The type of promotion applied to the order
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string

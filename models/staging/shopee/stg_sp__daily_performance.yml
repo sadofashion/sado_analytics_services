@@ -1,0 +1,355 @@
+version: 2
+models:
+  - name: stg_sp__daily_performance
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${stg_sp__daily_performance.date} = ${calendar.date}
+    columns:
+      - name: date
+        data_type: date
+        quote: true
+        description: the date on which the data was collected
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: impression
+        data_type: float64
+        quote: true
+        description: >-
+          The number of times an advertisement was displayed on the platform. It
+          is a floating point number that provides a measure of the reach of the
+          advertisement. A higher number of impressions indicates that the
+          advertisement was displayed to a larger audience.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_impressions:
+              type: sum
+              label: Impressions
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cpm:
+              type: number
+              label: CPM
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_impressions}) * 1000
+              compact: thousands
+              round: 1
+            m_ctr:
+              type: number
+              label: CTR
+              group_label: Ads
+              sql: safe_divide(${m_clicks},${m_impressions})
+              round: 2
+              format: percent
+      - name: clicks
+        data_type: float64
+        quote: true
+        description: >-
+          The number of times users clicked on the advertisement. It is a
+          floating point number that provides a measure of user engagement with
+          the advertisement. A higher number of clicks indicates that the
+          advertisement was more engaging or appealing to the audience.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_clicks:
+              type: sum
+              label: Clicks
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cpc:
+              type: number
+              label: CPC
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_clicks})
+              compact: thousands
+              round: 1
+      - name: expense
+        data_type: float64
+        quote: true
+        description: >-
+          The total amount of money spent on advertising for a given day. It is
+          measured in the currency of the ad account. This is a key metric to
+          track as it directly impacts the marketing budget and can be used to
+          calculate return on ad spend (ROAS).
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_spend:
+              type: sum
+              label: Spend
+              group_label: Ads
+              compact: thousands
+              round: 1
+      - name: broad_order
+        data_type: float64
+        quote: true
+        description: >-
+          The total number of orders that were attributed to the ads on a broad
+          level for a given day. This includes both direct orders (where the ad
+          directly led to a purchase) and indirect orders (where the ad played a
+          role in the purchase decision but was not the last interaction). This
+          metric is important for understanding the overall impact of the
+          advertising efforts.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_broad_orders:
+              type: sum
+              label: Broad Orders
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cost_per_broad_order:
+              type: number
+              label: Cost per Order
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_broad_orders})
+              round: 2
+      - name: broad_gmv
+        data_type: float64
+        quote: true
+        description: >-
+          This column represents the Gross Merchandise Value (GMV) attributed to
+          the ads on a broad level for a given day. GMV is the total value of
+          the merchandise sold through the platform. This includes both direct
+          and indirect sales resulting from the ads. This metric is crucial for
+          understanding the total revenue generated from the advertising
+          efforts.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_broad_gmv:
+              type: sum
+              label: Broad GMV
+              group_label: Ads
+              compact: millions
+              round: 1
+            m_broad_roas:
+              type: number
+              sql: safe_divide(${m_broad_gmv},${m_spend})
+              label: Broad ROAS
+              group_label: Ads
+              round: 2
+            m_broad_gmv_per_order:
+              type: number
+              sql: safe_divide(${m_broad_gmv},${m_broad_orders})
+              label: Broad GMV per Order
+              group_label: Ads
+              round: 2
+            m_broad_gmv_per_item:
+              type: number
+              sql: safe_divide(${m_broad_gmv},${m_broad_items_sold})
+              label: Broad GMV per Item
+              group_label: Ads
+              round: 2
+      - name: broad_item_sold
+        data_type: float64
+        quote: true
+        description: >-
+          This column represents the total number of items sold through broad
+          match type in our advertising campaigns. Broad match type allows your
+          ad to show whenever someone searches for that phrase, similar phrases,
+          singular or plural forms, misspellings, synonyms, stemmings (such as
+          floor and flooring), related searches, and other relevant variations.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_broad_items_sold:
+              type: sum
+              label: Broad Items Sold
+              group_label: Ads
+              compact: thousands
+              round: 1
+
+      - name: broad_roas
+        data_type: float64
+        quote: true
+        description: >-
+          This column represents the Return on Advertising Spend (ROAS) for the
+          broad match type in our advertising campaigns. ROAS is a marketing
+          metric that measures the efficacy of a digital advertising campaign.
+          ROAS helps online businesses measure which ad campaigns are working
+          and how they can improve future advertising efforts.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: direct_order
+        data_type: float64
+        quote: true
+        description: >-
+          This column represents the total number of direct orders received.
+          Direct orders are those where customers directly purchase from our
+          website without any third-party involvement or without coming from any
+          advertising campaigns. This metric helps us understand the
+          effectiveness of our direct marketing efforts.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_direct_orders:
+              type: sum
+              label: Direct Orders
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cost_per_direct_order:
+              type: number
+              label: Cost per Order
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_direct_orders})
+              round: 2
+      - name: direct_gmv
+        data_type: float64
+        quote: true
+        description: >-
+          This column represents the Gross Merchandise Value (GMV) generated
+          directly from the ads. It is a measure of the total value of all items
+          sold through the ad campaign. This value is important for
+          understanding the direct financial impact of the ad campaign.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_direct_gmv:
+              type: sum
+              label: Direct GMV
+              group_label: Ads
+              compact: millions
+              round: 1
+            m_direct_roas:
+              type: number
+              sql: safe_divide(${m_direct_gmv},${m_spend})
+              label: Direct ROAS
+              group_label: Ads
+              round: 2
+            m_direct_gmv_per_order:
+              type: number
+              sql: safe_divide(${m_direct_gmv},${m_direct_orders})
+              label: Direct GMV per Order
+              group_label: Ads
+              round: 2
+            m_direct_gmv_per_item:
+              type: number
+              sql: safe_divide(${m_direct_gmv},${m_direct_items_sold})
+              label: Direct GMV per Item
+              group_label: Ads
+              round: 2
+      - name: direct_item_sold
+        data_type: float64
+        quote: true
+        description: >-
+          This column indicates the number of items sold directly as a result of
+          the ad campaign. It provides insight into the effectiveness of the ad
+          in driving direct sales.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_direct_items_sold:
+              type: sum
+              label: Direct Items Sold
+              group_label: Ads
+              compact: thousands
+              round: 1
+      - name: direct_roas
+        data_type: float64
+        quote: true
+        description: >-
+          This column stands for Return on Ad Spend (ROAS) from direct sales. It
+          is calculated by dividing the revenue generated from direct sales by
+          the cost of the ad campaign. This metric helps in understanding the
+          profitability of the ad campaign.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: broad_conversions
+        data_type: float64
+        quote: true
+        description: >-
+          This column represents the total number of broad conversions. Broad
+          conversions are when a user interacts with an ad and then completes a
+          desired action, such as making a purchase or signing up for a
+          newsletter. This metric is important for understanding the overall
+          effectiveness of our advertising efforts.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_broad_conversions:
+              type: sum
+              label: Broad Conversions
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cost_per_broad_conversion:
+              type: number
+              label: Cost per Conversion
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_broad_conversions})
+              round: 2
+      - name: direct_conversions
+        data_type: float64
+        quote: true
+        description: >-
+          This column represents the total number of direct conversions. Direct
+          conversions are when a user clicks on an ad and then immediately
+          completes a desired action. This metric is crucial for understanding
+          the immediate impact of our ads on user behavior.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_direct_conversions:
+              type: sum
+              label: Direct Conversions
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cost_per_direct_conversion:
+              type: number
+              label: Cost per Conversion
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_direct_conversions})
+              round: 2
+      - name: cost_per_conversion
+        data_type: float64
+        quote: true
+        description: >-
+          This column represents the average cost per conversion. This is
+          calculated by dividing the total advertising expense by the total
+          number of conversions (both broad and direct). This metric is key for
+          understanding the cost-effectiveness of our advertising campaigns and
+          helps us optimize our advertising budget.
+        meta:
+          dimension:
+            type: number
+            hidden: true
+    description: >-
+      The  model is a comprehensive daily snapshot of advertising performance
+      metrics, crucial for evaluating campaign effectiveness and making
+      data-driven decisions

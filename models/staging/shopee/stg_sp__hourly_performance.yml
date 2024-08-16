@@ -1,0 +1,293 @@
+version: 2
+models:
+  - name: stg_sp__hourly_performance
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${stg_sp__hourly_performance.date} = ${calendar.date}
+    columns:
+      - name: date
+        data_type: date
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: impression
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_impressions:
+              type: sum
+              label: Impressions
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cpm:
+              type: number
+              label: CPM
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_impressions}) * 1000
+              compact: thousands
+              round: 1
+            m_ctr:
+              type: number
+              label: CTR
+              group_label: Ads
+              sql: safe_divide(${m_clicks},${m_impressions})
+              round: 2
+              format: percent
+      - name: clicks
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_clicks:
+              type: sum
+              label: Clicks
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cpc:
+              type: number
+              label: CPC
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_clicks})
+              compact: thousands
+              round: 1
+      - name: expense
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_spend:
+              type: sum
+              label: Spend
+              group_label: Shopee Ads
+              compact: thousands
+              round: 1
+      - name: broad_order
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_broad_orders:
+              type: sum
+              label: Broad Orders
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cost_per_broad_order:
+              type: number
+              label: Cost per Order
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_broad_orders})
+              round: 2
+      - name: broad_gmv
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_broad_gmv:
+              type: sum
+              label: Broad GMV
+              group_label: Ads
+              compact: millions
+              round: 1
+            m_broad_roas:
+              type: number
+              sql: safe_divide(${m_broad_gmv},${m_spend})
+              label: Broad ROAS
+              group_label: Ads
+              round: 2
+            m_broad_gmv_per_order:
+              type: number
+              sql: safe_divide(${m_broad_gmv},${m_broad_orders})
+              label: Broad GMV per Order
+              group_label: Ads
+              round: 2
+            m_broad_gmv_per_item:
+              type: number
+              sql: safe_divide(${m_broad_gmv},${m_broad_item_sold})
+              label: Broad GMV per Item
+              group_label: Ads
+              round: 2
+      - name: broad_item_sold
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_broad_item_sold:
+              type: sum
+              label: Broad Item Sold
+              group_label: Shopee Ads
+              compact: thousands
+              round: 1
+      - name: broad_roas
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: direct_order
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_direct_orders:
+              type: sum
+              label: Direct Orders
+              group_label: Ads
+              compact: thousands
+              round: 1
+            m_cost_per_direct_order:
+              type: number
+              label: Cost per Order
+              group_label: Ads
+              sql: safe_divide(${m_spend},${m_direct_orders})
+              round: 2
+      - name: direct_gmv
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_direct_gmv:
+              type: sum
+              label: Direct GMV
+              group_label: Ads
+              compact: millions
+              round: 1
+            m_direct_roas:
+              type: number
+              sql: safe_divide(${m_direct_gmv},${m_spend})
+              label: Direct ROAS
+              group_label: Ads
+              round: 2
+            m_direct_gmv_per_order:
+              type: number
+              sql: safe_divide(${m_direct_gmv},${m_direct_orders})
+              label: Direct GMV per Order
+              group_label: Ads
+              round: 2
+            m_direct_gmv_per_item:
+              type: number
+              sql: safe_divide(${m_direct_gmv},${m_direct_item_sold})
+              label: Direct GMV per Item
+              group_label: Ads
+              round: 2
+      - name: direct_item_sold
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_direct_item_sold:
+              type: sum
+              label: Direct Item Sold
+              group_label: Shopee Ads
+              compact: thousands
+              round: 1
+      - name: direct_roas
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: broad_conversions
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_broad_conversions:
+              type: sum
+              label: Broad Conversions
+              group_label: Shopee Ads
+              compact: thousands
+              round: 1
+            m_cost_per_broad_conversion:
+              type: number
+              label: Cost per Broad Conversion
+              group_label: Shopee Ads
+              sql: safe_divide(${m_spend},${m_broad_conversions})
+              round: 2
+      - name: direct_conversions
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_direct_conversions:
+              type: sum
+              label: Direct Conversions
+              group_label: Shopee Ads
+              compact: thousands
+              round: 1
+            m_cost_per_direct_conversion:
+              type: number
+              label: Cost per Direct Conversion
+              group_label: Shopee Ads
+              sql: safe_divide(${m_spend},${m_direct_conversions})
+              round: 2
+      - name: cost_per_conversion
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: hour
+        data_type: int64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
