@@ -3,25 +3,7 @@
     tags=['fact', 'shopee'],
     )
 }}
-{# {
-  "broad_conversions": 0,
-  "broad_gmv": 0,
-  "broad_item_sold": 0,
-  "broad_order": 0,
-  "broad_roas": 0,
-  "clicks": 22,
-  "cost_per_conversion": 0,
-  "ctr": 0.03,
-  "date": "11-08-2024",
-  "direct_conversions": 0,
-  "direct_gmv": 0,
-  "direct_item_sold": 0,
-  "direct_order": 0,
-  "direct_roas": 0,
-  "expense": 29774,
-  "hour": 2,
-  "impression": 796
-} #}
+
 WITH source AS (
     {{ dbt_utils.deduplicate(
         relation = source('shopee','ad_hourly_performance'),

@@ -2,7 +2,7 @@ with source as (
     {{
         dbt_utils.deduplicate(
             relation = source('shopee', 'item_list'), 
-            partition_by = 'id', 
+            partition_by = 'json_value(data,"$.item_id")', 
             order_by = '_batched_at desc'
             )
             }}

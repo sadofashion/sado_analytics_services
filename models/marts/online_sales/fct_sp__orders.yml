@@ -74,6 +74,13 @@ models:
               group_label: Orders
               format: percent
               round: 2
+            m_failed_rate:
+              type: number
+              sql: safe_divide(${m_num_failed_orders},${m_num_orders})
+              label: Failed Rate
+              group_label: Orders
+              format: percent
+              round: 2
       - name: order_status
         data_type: string
         quote: true
@@ -179,6 +186,14 @@ models:
               group_label: Orders
               compact: millions
               round: 1
+            m_item_collected_value:
+              type: sum
+              label: Collected Item Value
+              group_label: Orders
+              compact: millions
+              round: 1
+              filters:
+                - order_status: COMPLETED
             m_discounted_value:
               type: sum
               label: Discounted Value
@@ -186,7 +201,7 @@ models:
               group_label: Orders
             m_aov:
               type: number
-              sql: safe_divide(${m_item_value},${m_num_orders})
+              sql: safe_divide(${m_item_collected_value},${m_num_completed_orders})
               round: 2
               group_label: Orders
               label: AOV
@@ -194,7 +209,7 @@ models:
               description: Average Order Value
             m_ausp:
               type: number
-              sql: safe_divide(${m_item_value},${m_quantity_sold})
+              sql: safe_divide(${m_item_collected_value},${m_quantity_sold_completed})
               round: 2
               group_label: Orders
               compact: thousands
@@ -230,13 +245,18 @@ models:
               type: sum
               label: Quantity Sold
               group_label: Orders
+            m_quantity_sold_completed:
+              type: sum
+              label: Quantity Sold Completed
+              group_label: Orders
+              filters:
+                - order_status: COMPLETED
             m_quantity_per_order:
               type: number
-              sql: safe_divide(${m_quantity_sold},${m_num_orders})
+              sql: safe_divide(${m_quantity_sold_completed},${m_num_completed_orders})
               label: Quantity per Order
               group_label: Orders
               round: 2
-              compact: thousands
             m_quantity_sold_main:
               type: sum
               label: Quantity Sold Main
@@ -249,6 +269,30 @@ models:
               group_label: Orders
               filters:
                 - main_item: "false"
+            m_quantity_sold_cancelled:
+              type: sum
+              label: Quantity Sold Cancelled
+              group_label: Orders
+              filters:
+                - order_status: CANCELLED
+            m_quantity_sold_return:
+              type: sum
+              label: Quantity Sold Return
+              group_label: Orders
+              filters:
+                - order_status: TO_RETURN
+            m_lost_quantity_sold:
+              type: number
+              sql: ${m_quantity_sold_cancelled}+${m_quantity_sold_return}
+              label: Lost Quantity Sold
+              group_label: Orders
+            m_lost_sold_rate:
+              type: number
+              sql: safe_divide(${m_lost_quantity_sold},${m_quantity_sold})
+              label: Lost Sold Rate
+              group_label: Orders
+              format: percent
+              round: 2
       - name: model_sku
         description: Stock Keeping Unit (SKU) of the product model
         data_type: string
@@ -300,6 +344,60 @@ models:
               sql: ${m_line_amount}-${m_item_value}
               label: Order Discount
               group_label: Orders
+            m_revenue:
+              type: sum
+              label: Collected Revenue
+              group_label: Orders
+              compact: millions
+              round: 1
+              filters:
+                - order_status: COMPLETED
+            m_revenue_shipped:
+              type: sum
+              label: Revenue (Shipped)
+              group_label: Orders
+              compact: millions
+              round: 1
+              filters:
+                - order_status: SHIPPED
+            m_revenue_wait_for_confirm:
+              type: sum
+              label: Revenue (Wait for Confirm)
+              group_label: Orders
+              compact: millions
+              round: 1
+              filters:
+                - order_status: TO_CONFIRM_RECEIVE
+            m_pending_revenue:
+              type: number
+              sql: ${m_revenue_shipped}+${m_revenue_wait_for_confirm}
+              label: Pending Revenue
+              group_label: Orders
+              compact: millions
+              round: 1
+            m_lost_revenue_to_return:
+              type: sum
+              label: Wait for return Revenue
+              group_label: Orders
+              compact: millions
+              round: 1
+              filters:
+                - order_status: TO_RETURN
+            m_lost_revenue_cancelled:
+              type: sum
+              label: Cancelled Revenue
+              group_label: Orders
+              compact: millions
+              round: 1
+              filters:
+                - order_status: CANCELLED
+            m_lost_revenue:
+              type: number
+              sql: ${m_lost_revenue_to_return}+${m_lost_revenue_cancelled}
+              label: Lost Revenue
+              group_label: Orders
+              compact: millions
+              round: 1
       - name: product_code
         data_type: string
         quote: true
