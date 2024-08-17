@@ -111,14 +111,20 @@ models:
               type: sum
               label: Broad Orders
               group_label: Ads
-              compact: thousands
-              round: 1
+            m_broad_cvr:
+              type: number
+              label: Broad Conversion rate
+              group_label: Ads
+              sql: safe_divide(${m_broad_orders},${m_clicks})
+              format: percent
+              round: 2
             m_cost_per_broad_order:
               type: number
-              label: Cost per Order
+              label: Cost per Broad Order
               group_label: Ads
               sql: safe_divide(${m_spend},${m_broad_orders})
               round: 2
+              compact: thousands
       - name: broad_gmv
         data_type: float64
         quote: true
@@ -151,13 +157,15 @@ models:
               sql: safe_divide(${m_broad_gmv},${m_broad_orders})
               label: Broad GMV per Order
               group_label: Ads
-              round: 2
+              compact: thousands
+              round: 1
             m_broad_gmv_per_item:
               type: number
               sql: safe_divide(${m_broad_gmv},${m_broad_items_sold})
               label: Broad GMV per Item
               group_label: Ads
-              round: 2
+              compact: thousands
+              round: 1
       - name: broad_item_sold
         data_type: float64
         quote: true
@@ -176,9 +184,6 @@ models:
               type: sum
               label: Broad Items Sold
               group_label: Ads
-              compact: thousands
-              round: 1
-
       - name: broad_roas
         data_type: float64
         quote: true
@@ -210,13 +215,31 @@ models:
               type: sum
               label: Direct Orders
               group_label: Ads
-              compact: thousands
-              round: 1
+            m_direct_cvr:
+              type: number
+              label: Direct Conversion Rate
+              group_label: Ads
+              sql: safe_divide(${m_direct_orders},${m_clicks})
+              format: percent
+              round: 2
+            m_indirect_orders:
+              type: number
+              label: Indirect Orders
+              sql: ${m_broad_orders} - ${m_direct_orders}
+              group_label: Ads
+            m_indirect_cvr:
+              type: number
+              label: Indirect Conversion Rate
+              sql: safe_divide(${m_indirect_orders},${m_clicks})
+              group_label: Ads
+              format: percent
+              round: 2
             m_cost_per_direct_order:
               type: number
-              label: Cost per Order
+              label: Cost per Direct Order
               group_label: Ads
               sql: safe_divide(${m_spend},${m_direct_orders})
+              compact: thousands
               round: 2
       - name: direct_gmv
         data_type: float64
@@ -237,6 +260,13 @@ models:
               group_label: Ads
               compact: millions
               round: 1
+            m_indirect_gmv:
+              type: number
+              label: Indirect GMV
+              sql: ${m_broad_gmv} - ${m_direct_gmv}
+              group_label: Ads
+              compact: millions
+              round: 1
             m_direct_roas:
               type: number
               sql: safe_divide(${m_direct_gmv},${m_spend})
@@ -248,13 +278,29 @@ models:
               sql: safe_divide(${m_direct_gmv},${m_direct_orders})
               label: Direct GMV per Order
               group_label: Ads
-              round: 2
+              compact: thousands
+              round: 1
+            m_indirect_gmv_per_order:
+              type: number
+              sql: safe_divide(${m_indirect_gmv},${m_indirect_orders})
+              label: Indirect GMV per Order
+              group_label: Ads
+              compact: thousands
+              round: 1
             m_direct_gmv_per_item:
               type: number
               sql: safe_divide(${m_direct_gmv},${m_direct_items_sold})
               label: Direct GMV per Item
               group_label: Ads
-              round: 2
+              compact: thousands
+              round: 1
+            m_indrect_gmv_per_item:
+              type: number
+              sql: safe_divide(${m_indirect_gmv},${m_indirect_items_sold})
+              label: Indirect GMV per Item
+              group_label: Ads
+              compact: thousands
+              round: 1
       - name: direct_item_sold
         data_type: float64
         quote: true
@@ -271,8 +317,11 @@ models:
               type: sum
               label: Direct Items Sold
               group_label: Ads
-              compact: thousands
-              round: 1
+            m_indirect_items_sold:
+              type: number
+              label: Indirect Items Sold
+              sql: ${m_broad_items_sold} - ${m_direct_items_sold}
+              group_label: Ads
       - name: direct_roas
         data_type: float64
         quote: true
@@ -304,12 +353,13 @@ models:
               label: Broad Conversions
               group_label: Ads
               compact: thousands
-              round: 1
+              round: 2
             m_cost_per_broad_conversion:
               type: number
-              label: Cost per Conversion
+              label: Cost per Broad Conversion
               group_label: Ads
               sql: safe_divide(${m_spend},${m_broad_conversions})
+              compact: thousands
               round: 2
       - name: direct_conversions
         data_type: float64
@@ -328,11 +378,16 @@ models:
               type: sum
               label: Direct Conversions
               group_label: Ads
-              compact: thousands
+              round: 1
+            m_indirect_conversions:
+              type: number
+              label: Indirect Conversions
+              sql: ${m_broad_conversions} - ${m_direct_conversions}
+              group_label: Ads
               round: 1
             m_cost_per_direct_conversion:
               type: number
-              label: Cost per Conversion
+              label: Cost per Direct Conversion
               group_label: Ads
               sql: safe_divide(${m_spend},${m_direct_conversions})
               round: 2
