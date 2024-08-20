@@ -37,7 +37,8 @@ kiotviet_details AS (
         sum(discount) as discount,
         sum(case when subtotal= 0 then quantity end) as gift_qty,
         sum(subtotal) subtotal,
-        count(distinct transaction_id) as num_transactions,
+        count(distinct transaction_id) as num_transaction_lines,
+        count(distinct product_code) as num_products,
     FROM
         {{ ref('revenue_items') }}
         where 1=1
@@ -69,7 +70,8 @@ nhanhvn_details AS (
         sum(item_discount) as discount,
         sum(case when item_gross_amount= 0 then quantity end) as gift_qty,
         sum(item_gross_amount) as subtotal,
-        count(distinct order_id) as num_transactions,
+        count(distinct order_id) as num_transaction_lines,
+        count(distinct product_code) as num_products,
     FROM
         {{ ref("orders_items") }} s 
         left join customer_id_converter on s.customer_id = customer_id_converter.nhanhvn_customer_id

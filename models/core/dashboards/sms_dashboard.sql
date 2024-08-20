@@ -32,6 +32,7 @@ sms_sent_data AS (
         {# DATE_TRUNC(DATE(sent_time), MONTH) sent_month, #}
         DATE(sent_time) sent_time,
         sms.campaign,
+        sms.sms_id,
         coalesce(c.segment,'Cold Data') segment,
         case 
             when (c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) >= DATE(sent_time)) or c.first_purchase is null then 'Cold Data' 
@@ -53,7 +54,7 @@ sms_sent_data AS (
         {% if is_incremental() -%}
         and sms.sent_time >= date_trunc(current_date, month)
         {% endif -%}
-    {{dbt_utils.group_by(4)}}
+    {{dbt_utils.group_by(5)}}
 ),
 
 sms_revenue as (
@@ -61,6 +62,7 @@ sms_revenue as (
         {# date_trunc(date(sent_time),month) sent_month, #}
         date(sent_time) sent_time,
         r.campaign,
+        r.sms_id,
         coalesce(c.segment,'Cold Data') segment,
         case when c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) >= DATE(sent_time) then 'Cold Data' else c.previous_segment end previous_segment,
         sum(total) total,
@@ -72,7 +74,7 @@ sms_revenue as (
     {% if is_incremental() -%}
         where r.sent_time >= date_trunc(current_date, month)
     {% endif -%}
-    {{dbt_utils.group_by(4)}}
+    {{dbt_utils.group_by(5)}}
 )
 
 select 
@@ -84,4 +86,4 @@ left join sms_revenue sr
 on ss.sent_time = sr.sent_time 
 and ss.segment = sr.segment 
 and ss.previous_segment = sr.previous_segment
-and ss.campaign = sr.campaign
+and ss.sms_id = sr.sms_id

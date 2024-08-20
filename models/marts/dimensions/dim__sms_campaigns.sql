@@ -8,6 +8,8 @@ SELECT
     DISTINCT campaign,
     date(start_date) start_date,
     date(end_date) end_date,
-    audience
+    audience,
+    sms_type,
+    sms_id
 FROM
     {{ ref('stg_esms__sent_data') }}

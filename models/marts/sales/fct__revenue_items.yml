@@ -60,7 +60,6 @@ models:
         meta:
           dimension:
             type: string
-            hidden: true
         data_type: STRING
       - name: transaction_source
         description: This column identifies the source of the transaction

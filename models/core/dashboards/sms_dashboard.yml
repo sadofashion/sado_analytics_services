@@ -14,7 +14,7 @@ models:
         - join: calendar
           sql_on: ${calendar.date} = ${sms_dashboard.sent_time}
         - join: dim__sms_campaigns
-          sql_on: ${dim__sms_campaigns.campaign} = ${sms_dashboard.campaign}
+          sql_on: ${dim__sms_campaigns.sms_id} = ${sms_dashboard.sms_id}
     columns:
       - name: segment
         description: ""
@@ -104,4 +104,11 @@ models:
         meta:
           dimension:
             type: date
+            hidden: true
+      - name: sms_id
+        description: ""
+        data_type: int64
+        meta:
+          dimension:
+            type: number
             hidden: true

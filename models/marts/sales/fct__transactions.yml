@@ -11,8 +11,14 @@ models:
       joins:
         - join: calendar
           sql_on: ${calendar.date} = ${fct__transactions.transaction_date}
+          always: true
         - join: dim__branches
           sql_on: ${dim__branches.branch_id} = ${fct__transactions.branch_id}
+        - join: fct__customers
+          sql_on: ${fct__customers.universal_customer_id} = ${fct__transactions.customer_id}
+        - join: rfm_movement
+          sql_on: >-
+            ${rfm_movement.customer_id} = ${fct__transactions.customer_id} and ${rfm_movement.start_of_month} = date_trunc(transaction_date,month)
     columns:
       - name: transaction_id
         description:
@@ -52,6 +58,11 @@ models:
               sql: DATE_DIFF(${calendar.date}, ${dim__branches.opening_day},day)
               label: Days Since Opening
               group_label: Opening
+            d_is_opening:
+              type: string
+              sql: case when date_diff( ${calendar.date},${dim__branches.opening_day},day) <10 then "CH khai trương" else 'Đã khai trương' end
+              label: Is Opening Period
+              group_label: Opening
         data_type: DATE
       - name: reference_transaction_id
         description:
@@ -76,7 +87,7 @@ models:
           metrics:
             m_working_days:
               type: count_distinct
-              sql:  (${transaction_date}||${branch_id})
+              sql: (${transaction_date}||${branch_id})
               label: Working Days
               round: 0
               group_label: Working Days
@@ -110,6 +121,19 @@ models:
               round: 0
               compact: thousands
               group_label: Sales Metrics
+            m_customers_bday:
+              type: count_distinct
+              label: Customer Birthday
+              group_label: Customers
+              sql: case when ${fct__customers.birth_month} =extract(month from ${TABLE}.transaction_date) then ${TABLE}.customer_id else 0 end
+              round: 1
+            m_percent_customers_bday:
+              type: number
+              label: "% Customer Birthday"
+              group_label: Customers
+              sql: safe_divide(${m_customers_bday},${m_active_customers})
+              format: percent
+              round: 1
         data_type: BIGNUMERIC
       - name: employee_id
         description:
@@ -152,15 +176,6 @@ models:
               group_label: Revenue Metrics
               filters:
                 - transaction_type: invoice
-            m_aov:
-              label: AOV
-              type: average
-              group_label: Sales Metrics
-              compact: thousands
-              round: 0
-              filters:
-                - transaction_type: invoice
-                - total: ">0"
         data_type: FLOAT64
       - name: total_payment
         description:
@@ -216,7 +231,7 @@ models:
               label: Online Revenue
               group_label: Revenue Metrics
               filters:
-                - dim__branches.channel: 'Online & Ecom'
+                - dim__branches.channel: "Online & Ecom"
             m_offline_revenue:
               type: sum
               compact: millions
@@ -224,7 +239,7 @@ models:
               label: Offline Revenue
               group_label: Revenue Metrics
               filters:
-                - dim__branches.channel: 'Offline'
+                - dim__branches.channel: "Offline"
             m_online_attribution_pct:
               type: number
               format: percent
@@ -232,6 +247,15 @@ models:
               label: Online Attribution Pct
               group_label: Revenue Metrics
               sql: safe_divide(${m_online_revenue}, ${m_total_payment})
+            m_aov:
+              label: AOV
+              type: average
+              group_label: Sales Metrics
+              compact: thousands
+              round: 0
+              filters:
+                - transaction_type: invoice
+                - total: ">0"
         data_type: FLOAT64
       - name: discount
         description:
@@ -303,7 +327,6 @@ models:
         meta:
           dimension:
             type: string
-            hidden: true
         data_type: STRING
         tests:
           - accepted_values:

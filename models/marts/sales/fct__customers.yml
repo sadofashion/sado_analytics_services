@@ -1,6 +1,14 @@
 version: 2
 models:
   - name: fct__customers
+    meta:
+      joins:
+        - join: fct__transactions
+          sql_on: ${fct__transactions.customer_id} = ${fct__customers.universal_customer_id}
+        - join: calendar
+          sql_on: ${calendar.date} = ${fct__transactions.transaction_date}
+        - join: dim__branches
+          sql_on: ${dim__branches.branch_id} = ${fct__transactions.branch_id}
     columns:
       - name: contact_number
         description: customer phone number
@@ -18,6 +26,34 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_customers:
+              type: count_distinct
+              label: Total Customers
+              compact: thousands
+              round: 1
+              group_label: Customer Metrics
+            m_percent_customer_converted:
+              type: number
+              label: Customer Conversion Rate
+              sql: safe_divide(${fct__transactions.m_active_customers} , ${m_num_customers})
+              format: percent
+              round: 2
+              group_label: Customer Metrics
+            m_customers_bday:
+              type: count_distinct
+              label: Customers Purchase Birthdays
+              sql: case when ${TABLE}.birth_month=extract(month from ${fct__transactions.transaction_date}) then ${TABLE}.universal_customer_id else 0 end
+              compact: thousands
+              round: 1
+              group_label: Customer Metrics
+            m_bday_cvr:
+              type: number
+              label: Birthday Conversion Rate
+              sql: safe_divide(${m_customers_bday} , ${m_num_customers})
+              format: percent
+              round: 2
+              group_label: Customer Metrics
         tests:
           - not_null
           - unique
@@ -27,7 +63,6 @@ models:
         meta:
           dimension:
             type: number
-            hidden: true
         data_type: NUMERIC
       - name: nhanhvn_customer_id
         description: This is the unique identifier for each customer in the Nhanh.vn system
@@ -53,6 +88,11 @@ models:
           dimension:
             type: boolean
             hidden: true
+          additional_dimensions:
+            d_gender:
+              type: string
+              sql: case when ${TABLE}.gender then 'Nam' else 'Nữ' end
+              label: Giới tính
         data_type: BOOLEAN
       - name: birth_date
         description: This column represents the birth date of the customer. The date is
