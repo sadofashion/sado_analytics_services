@@ -1,7 +1,7 @@
 {{
   config(
     materialized = 'table',
-    tags = ['fb','dimensions','table']
+    tags = ['fb','dimension','table']
     )
 }}
 

@@ -8,7 +8,7 @@ models:
             - sent_time
             - segment
             - previous_segment
-            - campaign
+            - sms_id
     meta:
       joins:
         - join: calendar
