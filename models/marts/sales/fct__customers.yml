@@ -3,12 +3,24 @@ models:
   - name: fct__customers
     meta:
       joins:
-        - join: fct__transactions
-          sql_on: ${fct__transactions.customer_id} = ${fct__customers.universal_customer_id}
-        - join: calendar
-          sql_on: ${calendar.date} = ${fct__transactions.transaction_date}
+        - join: fct__customers_attributes
+          alias: attributes
+          sql_on: ${fct__customers.universal_customer_id} = ${attributes.customer_id}
+          type: inner
+          always: true
         - join: dim__branches
-          sql_on: ${dim__branches.branch_id} = ${fct__transactions.branch_id}
+          alias: registered_branches
+          sql_on: ${registered_branches.branch_id} = ${fct__customers_attributes.registered_branch_id}
+        - join: dim__branches
+          alias: last_visited_branches
+          sql_on: ${last_visited_branches.branch_id} = ${fct__customers_attributes.last_purchase_branch_id}
+        - join: rfm_movement
+          sql_on: ${rfm_movement.customer_id} = ${fct__customers.universal_customer_id}
+          type: left
+        - join: calendar
+          alias: calculated_month
+          sql_on: ${calculated_month.date} = ${rfm_movement.start_of_month}
+          type: left
     columns:
       - name: contact_number
         description: customer phone number
@@ -32,27 +44,6 @@ models:
               label: Total Customers
               compact: thousands
               round: 1
-              group_label: Customer Metrics
-            m_percent_customer_converted:
-              type: number
-              label: Customer Conversion Rate
-              sql: safe_divide(${fct__transactions.m_active_customers} , ${m_num_customers})
-              format: percent
-              round: 2
-              group_label: Customer Metrics
-            m_customers_bday:
-              type: count_distinct
-              label: Customers Purchase Birthdays
-              sql: case when ${TABLE}.birth_month=extract(month from ${fct__transactions.transaction_date}) then ${TABLE}.universal_customer_id else 0 end
-              compact: thousands
-              round: 1
-              group_label: Customer Metrics
-            m_bday_cvr:
-              type: number
-              label: Birthday Conversion Rate
-              sql: safe_divide(${m_customers_bday} , ${m_num_customers})
-              format: percent
-              round: 2
               group_label: Customer Metrics
         tests:
           - not_null

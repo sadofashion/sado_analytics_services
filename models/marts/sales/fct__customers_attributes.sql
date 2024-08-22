@@ -16,7 +16,7 @@ with updated_customers as (
     from {{ ref("fct__transactions") }}
     where customer_id is not null
     {% if is_incremental() %}
-       and transaction_date >= date(_dbt_max_partition)
+       and transaction_date >= date_add(current_date(), interval -7 day)
     {% endif %}
 ),
 

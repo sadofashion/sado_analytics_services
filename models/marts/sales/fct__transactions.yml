@@ -125,7 +125,7 @@ models:
               type: count_distinct
               label: Customer Birthday
               group_label: Customers
-              sql: case when ${fct__customers.birth_month} =extract(month from ${TABLE}.transaction_date) then ${TABLE}.customer_id else 0 end
+              sql: case when ${fct__customers.birth_month} = extract(month from ${TABLE}.transaction_date) then ${TABLE}.customer_id end
               round: 1
             m_percent_customers_bday:
               type: number
@@ -193,6 +193,20 @@ models:
               round: 1
               label: Total Collected Revenue
               group_label: Revenue Metrics
+            m_total_payment_bday:
+              type: sum
+              compact: millions
+              round: 1
+              label: Total Collected Revenue (Birthday)
+              group_label: Revenue Metrics
+              sql: case when ${fct__customers.birth_month} = extract(month from ${TABLE}.transaction_date) then ${TABLE}.total end
+            m_percent_total_payment_bday:
+              type: number
+              label: "% Total Payment Birthday"
+              group_label: Revenue Metrics
+              sql: safe_divide(${m_total_payment_bday},${m_total_payment})
+              format: percent
+              round: 1
             m_customer_total_payment:
               type: sum
               compact: millions
@@ -256,6 +270,13 @@ models:
               filters:
                 - transaction_type: invoice
                 - total: ">0"
+            m_aov_bday:
+              label: AOV (Birthday)
+              type: average
+              group_label: Sales Metrics
+              compact: thousands
+              round: 0
+              sql: case when ${fct__customers.birth_month} = extract(month from ${TABLE}.transaction_date) and ${TABLE}.transaction_type ='invocie' and ${TABLE}.total>0 then ${TABLE}.total end
         data_type: FLOAT64
       - name: discount
         description:
