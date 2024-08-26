@@ -1,5 +1,10 @@
 WITH source AS (
-    {{ dbt_utils.deduplicate(relation = source('pancake', 'customers'), partition_by = 'id, psid', order_by = "_batched_at desc",) }}
+    {{ 
+        dbt_utils.deduplicate(
+            relation = source('pancake', 'customers'), 
+            partition_by = 'id, psid', 
+            order_by = "_batched_at desc",) 
+            }}
 )
 SELECT
     source.id AS customer_id,

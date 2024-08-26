@@ -276,7 +276,7 @@ models:
               group_label: Sales Metrics
               compact: thousands
               round: 0
-              sql: case when ${fct__customers.birth_month} = extract(month from ${TABLE}.transaction_date) and ${TABLE}.transaction_type ='invocie' and ${TABLE}.total>0 then ${TABLE}.total end
+              sql: case when ${fct__customers.birth_month} = extract(month from ${TABLE}.transaction_date) and ${TABLE}.transaction_type ='invoice' and ${TABLE}.total_payment>0 then ${TABLE}.total_payment end
         data_type: FLOAT64
       - name: discount
         description:

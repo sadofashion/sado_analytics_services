@@ -60,6 +60,13 @@ models:
               label: No. Returns
               group_label: Sales metrics
               round: 0
+            m_return_rate:
+              type: number
+              sql: safe_divide(${m_num_returns},${m_num_transactions})
+              label: Return Rate
+              group_label: Sales metrics
+              format: percent
+              round: 1
       - name: val_total
         data_type: float64
         description: giá trị giao dịch

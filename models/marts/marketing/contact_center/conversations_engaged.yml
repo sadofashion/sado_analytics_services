@@ -41,7 +41,7 @@ models:
               type: string
               sql: >
                 case when ${stg_pancake__customers.inserted_at} <
-                ${TABLE}.inserted_at then 'Khách mới' else 'Khách cũ' end
+                ${TABLE}.inserted_at then 'Khách cũ' else 'Khách mới' end
               label: Customer group
       - name: conversation_id
         description: ""
@@ -152,27 +152,27 @@ models:
             d_stage:
               type: string
               sql: >
-                case when ${TABLE}.stage like '%Chưa phản hồi%' then '[2] Chưa phản hồi'
-                when ${TABLE}.stage like '%Tham khảo%' then '[3] Tham khảo'
-                when regexp_contains(${TABLE}.stage,r'Chăm sóc lần') then '[3.1] Chăm sóc lại'
-                when regexp_contains(${TABLE}.stage,r'Đang chổt|Đang chốt') then '[4] Đang chốt'
-                when regexp_contains(${TABLE}.stage,r'chuyển CH|Khách ra SR|Đã mua hàng') then '[5] Chốt đơn'
-                when regexp_contains(${TABLE}.stage,r'Đã gửi|Kiểm hàng') then '[0] Đang giao hàng'
-                when regexp_contains(${TABLE}.stage,r'Giá Cao|Hết hàng') then 'Huỷ'
+                case when lower(${TABLE}.stage) like '%chưa phản hồi%' then '[2] Chưa phản hồi'
+                when lower(${TABLE}.stage) like '%tham khảo%' then '[3] Tham khảo'
+                when regexp_contains(lower(${TABLE}.stage),r'chăm sóc lần') then '[3.1] Chăm sóc lại'
+                when regexp_contains(lower(${TABLE}.stage),r'đang chổt|đang chốt') then '[4] Đang chốt'
+                when regexp_contains(lower(${TABLE}.stage),r'chuyển ch|khách ra sr|đã mua hàng') then '[5] Chốt đơn'
+                when regexp_contains(lower(${TABLE}.stage),r'đã gửi|kiểm hàng') then '[0] Đang giao hàng'
+                when regexp_contains(lower(${TABLE}.stage),r'giá cao|hết hàng') then 'Huỷ'
                 else '[1] Hội thoại mới' end
               label: Stage
             d_closed_state:
               type: string
               sql: >
-                case  when ${TABLE}.stage like '%Đã mua hàng%' then 'Đã mua hàng' 
-                when ${TABLE}.stage like '%chuyển CH%' then 'chuyển CH'
-                when ${TABLE}.stage like '%Khách ra SR%' then 'Khách ra SR' end
+                case  when lower(${TABLE}.stage) like '%đã mua hàng%' then 'Đã mua hàng' 
+                when lower(${TABLE}.stage) like '%chuyển ch%' then 'chuyển CH'
+                when lower(${TABLE}.stage) like '%khách ra sr%' then 'Khách ra SR' end
               label: Closed State
             d_refuse_reason:
               type: string
               sql: >
-                case  when ${TABLE}.stage like '%Giá Cao%' then 'Giá Cao' when
-                ${TABLE}.stage like '%Hết hàng%' then 'Hết hàng' end
+                case  when lower(${TABLE}.stage) like '%giá cao%' then 'Giá Cao' when
+                lower(${TABLE}.stage) like '%hết hàng%' then 'Hết hàng' end
               label: Refuse Reason
       - name: claim_status
         description: ""
