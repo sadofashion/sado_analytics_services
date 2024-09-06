@@ -123,3 +123,9 @@ sources:
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
+      - name: "p_transfers_list"
+        identifier: "p_transfers_list__*"
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: { count: 12, period: day }
+          error_after: { count: 16, period: day }

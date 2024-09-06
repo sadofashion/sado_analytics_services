@@ -1,0 +1,59 @@
+models:
+  - name: stg_kiotviet__transfers_details
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - transfer_id
+            - product_id
+    columns:
+      - name: sent_date
+        data_type: timestamp
+        quote: true
+      - name: received_date
+        data_type: timestamp
+        quote: true
+      - name: transfer_code
+        data_type: string
+        quote: true
+      - name: description
+        data_type: string
+        quote: true
+      - name: transfer_branch_id
+        data_type: numeric
+        quote: true
+      - name: receipt_branch_id
+        data_type: numeric
+        quote: true
+      - name: is_active
+        data_type: boolean
+        quote: true
+      - name: transfer_status
+        data_type: numeric
+        quote: true
+      - name: transfer_id
+        data_type: numeric
+        quote: true
+      - name: product_id
+        data_type: numeric
+        quote: true
+      - name: product_code
+        data_type: string
+        quote: true
+      - name: product_name
+        data_type: string
+        quote: true
+      - name: send_quantity
+        data_type: numeric
+        quote: true
+      - name: receive_quantity
+        data_type: numeric
+        quote: true
+      - name: send_price
+        data_type: numeric
+        quote: true
+      - name: receive_price
+        data_type: numeric
+        quote: true
+      - name: price
+        data_type: numeric
+        quote: true

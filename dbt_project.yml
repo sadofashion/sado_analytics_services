@@ -89,7 +89,7 @@ vars:
         value_type: "string_value"
   fb:
     source_dataset: "Facebook_v2"
-    lookback_period: 7
+    lookback_period: 3
     is_interactive_actions_enabled: true
     is_ecommerce_actions_enabled: true
     json_transform_schema: analytics
