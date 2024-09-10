@@ -1,6 +1,9 @@
-{{ config(
-    tags = ['table', 'fact','nhanhvn']
-) }}
+{{
+  config(
+    tags = ["fact","kiotviet","inventory"]
+    )
+}}
+
 with source as ({{ 
     dbt_utils.deduplicate(
     relation = ref('stg_kiotviet__inventories'), 

@@ -4,7 +4,7 @@
     partition_by ={ 'field': '_batched_at',
     'data_type': 'timestamp',
     'granularity': 'day' },
-    incremental_strategy = 'merge',
+    incremental_strategy = 'insert_overwrite',
     on_schema_change = 'sync_all_columns',
     tags = ['incremental', 'hourly','fact','kiotviet']
 ) }}
@@ -28,11 +28,11 @@ WITH source AS (
             'p_webhook_inventory_update'
         ) }}
 
+WHERE 1=1
 {% if is_incremental() %}
-WHERE
-    _batched_at >= _dbt_max_partition
+    and date(_batched_at) >= current_date
 {% endif %}
-{# 
+
 UNION ALL
 SELECT
     branchId AS branch_id,
@@ -51,16 +51,16 @@ FROM
         'p_products_inventory'
     ) }}
 
+WHERE 1=1
 {% if is_incremental() %}
-WHERE
-    DATE(_batched_at) >= DATE(_dbt_max_partition)
+    and DATE(_batched_at) >= DATE(_dbt_max_partition)
 {% endif %}  
-#}
+
 )
 {{ 
     dbt_utils.deduplicate(
     relation = 'source', 
-    partition_by = 'product_id,branch_id', 
+    partition_by = 'product_id,branch_id, date(_batched_at)', 
     order_by = "_batched_at desc",
     ) 
     }}

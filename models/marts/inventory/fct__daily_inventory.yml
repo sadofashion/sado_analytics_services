@@ -1,0 +1,25 @@
+models:
+  - name: fct__daily_inventory
+    columns:
+      - name: product_id
+        data_type: numeric
+        quote: true
+      - name: product_code
+        data_type: string
+        quote: true
+      - name: branch_id
+        data_type: numeric
+        quote: true
+      - name: inventory_date
+        data_type: date
+        quote: true
+      - name: max_daily_inventory
+        data_type: numeric
+        quote: true
+      - name: ending_inventory
+        data_type: numeric
+        quote: true
+      - name: last_inventory_date
+        data_type: date
+        quote: true
+    description: Daily record of inventory

@@ -1,0 +1,34 @@
+models:
+  - name: fct__curent_inventory
+    description: Current inventory on hand
+    columns:
+      - name: branch_id
+        data_type: numeric
+        quote: true
+      - name: product_code
+        data_type: string
+        quote: true
+      - name: product_id
+        data_type: numeric
+        quote: true
+      - name: product_name
+        data_type: string
+        quote: true
+      - name: on_hand
+        data_type: numeric
+        quote: true
+      - name: reserved
+        data_type: numeric
+        quote: true
+      - name: actual_reserved
+        data_type: numeric
+        quote: true
+      - name: max_quantity
+        data_type: numeric
+        quote: true
+      - name: min_quantity
+        data_type: numeric
+        quote: true
+      - name: _batched_at
+        data_type: timestamp
+        quote: true
