@@ -1,4 +1,5 @@
 {{ config(
+    enabled=false,
     materialized = 'incremental',
     partition_by ={ 'field': 'transaction_date',
     'data_type': 'date',

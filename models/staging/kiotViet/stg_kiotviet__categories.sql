@@ -5,40 +5,53 @@
 }}
 
 {% set mapping = { 
-  "ABZ":["áo blazer"],
-  "ACN":['áo chống nắng'],
-  "AGB":["áo gió bộ"],
-  "AGN":["áo giữ nhiệt"],
-  "AKB":['áo bomber'],
-  "AKC":["áo phao"],
-  "AKD":["áo khoác da"],
-  "AKG":["áo gió","bộ gió"],
-  "ALO":["áo len"],
-  "ANB":["áo nỉ bộ"],
-  "ANO":["áo nỉ rời"],
-  "APB":["áo bộ polo"],
-  "APC":['bộ polo','polo'],
-  "APD":['áo polo dài tay'],
-  "APO":["áo thun dài tay"],
-  "ATS":['bộ t-shirt','tshirt',"t-shirt cũ","t-shirt thể thao","t-shirt thiết kế","áo sát nách"],
-  "ATT":['áo sát nách','áo ba lỗ'],
-  "AVB":["áo vest","bộ đồ","bộ vest"],
-  "BNI":["bộ nỉ",],
-  "PKN":['tất','ba lỗ lót','sịp','phụ kiện'],
-  "QAU":["quần âu"],
-  "QBD":['quần jean'],
-  "QDT":['quần dài thể thao'],
-  "QGB":["quần gió bộ"],
-  "QKD":['quần khaki'],
-  "QNB":["quần nỉ bộ"],
-  "QNI":['quần nỉ rời'],
-  "QSG":['quần short gió'],
-  "QSK":['quần short kaki'],
-  "QST":['quần short thể thao cạp chun','quần short thể thao cạp cúc',"quần bộ polo","quần bộ tshirt","quần short vải","quần short âu"],
-  "QSC":["quần short casual"],
-  "QVE":["quần vest"],
-  "SMC":['sơ mi cộc'],
-  "SMD":['sơ mi dài'],
+  "Quà tặng" : {
+    "QTA":['^quà tặng',"nl qùa tặng túi xách balo"],
+  },
+  "Phụ kiện" : {
+    "PKN":['tất','ba lỗ lót','sịp','phụ kiện',"áo lót cộc tay", "dây lưng","giày","khẩu trang","ví","carvat"],
+  },
+  "Quanh năm": {
+    "SMD":['sơ mi dài'],
+    "QKD":['quần khaki'],
+    "QBD":['quần jean'],
+    "QAU":["quần âu"],
+  },
+  "Thu đông": {
+    "AKB":['áo bomber'],
+    "ABZ":["áo blazer"],
+    "AGB":["áo gió bộ"],
+    "AKG":["áo gió","bộ gió"],
+    "AGN":["áo giữ nhiệt"],
+    "AKD":["áo khoác da"],
+    "ALO":["áo len"],
+    "ANO":["áo nỉ rời"],
+    "AKC":["áo phao"],
+    "APD":['áo polo dài tay'],
+    "APO":["áo thun dài tay"],
+    "ANB":["áo nỉ bộ"],
+    "AVB":["áo vest","bộ đồ","bộ vest"],
+    "BNI":["bộ nỉ",],
+    "QGB":["quần gió bộ"],
+    "QNB":["quần nỉ bộ"],
+    "QVE":["quần vest"],
+    "QDT":['quần dài thể thao'],
+    "QNI":['quần nỉ rời'],
+  },
+  "Xuân hè" : {
+    "ABL":['áo ba lỗ'],
+    "ACN":['áo chống nắng'],
+    "ASN": ['áo sát nách',],
+    "ATS":['bộ t-shirt','tshirt',"t-shirt cũ","t-shirt thể thao","t-shirt thiết kế"],
+    "QSG":['quần short gió'],
+    "QSK":['quần short kaki'],
+    "QST":['quần short thể thao cạp chun','quần short thể thao cạp cúc',"quần bộ polo","quần bộ tshirt","quần short vải","quần short âu"],
+    "QSC":["quần short casual"],
+    "SMC":['sơ mi cộc'],
+    "APB":["áo bộ polo","bộ polo"],
+    "APC":['polo'],
+  },
+  
 } %}
 
 WITH source AS (
@@ -53,22 +66,27 @@ WITH source AS (
   SELECT
     r1.categoryName category,
     r1.categoryId as category_id,
-    coalesce(r2.categoryName,r1.categoryName) AS sub_productline,
+    case when coalesce(r2.categoryName,r1.categoryName) = coalesce(r3.categoryName,r2.categoryName,r1.categoryName) then r1.categoryName else coalesce(r2.categoryName,r1.categoryName) end as sub_productline,
+    {# coalesce(r2.categoryName,r1.categoryName) AS sub_productline, #}
     coalesce(r3.categoryName,r2.categoryName,r1.categoryName) AS productLine,
     CASE
-    {% for key,values in mapping.items() -%}
-      WHEN LOWER(r2.categoryName) IN ('{{ values|join("','") }}') or LOWER(r1.categoryName) IN ('{{ values|join("','") }}') THEN '{{key|lower()}}'
+    {% for season,product_groups in mapping.items() -%}
+      {% for key,values in product_groups.items() -%}
+      WHEN LOWER(r2.categoryName) IN ('{{ values|join("','") }}') 
+      or LOWER(r1.categoryName) IN ('{{ values|join("','") }}') THEN '{{key|lower()}}'
+      {% endfor -%}
     {% endfor -%}
     ELSE LOWER(
       r2.categoryName
     )
   END AS ads_product_mapping,
   CASE
-    WHEN regexp_contains(lower(r3.categoryName),r'thu đông') THEN 'THU ĐÔNG'
-    WHEN regexp_contains(lower(r3.categoryName),r'xuân hè') THEN 'XUÂN HÈ'
-    WHEN regexp_contains(lower(r3.categoryName),r'xuân hè') THEN 'XUÂN HÈ'
-    ELSE 'QUANH NĂM'
-  END AS product_group,
+    {% for season,product_groups in mapping.items() -%}
+      {% for key,values in product_groups.items() -%}
+    WHEN regexp_contains(lower(r1.categoryName),r'{{ values|join("|") }}') THEN '{{season|upper()}}'
+      {% endfor -%}
+    {% endfor -%}
+    ELSE 'KHÔNG PHÂN LOẠI' END AS product_group,
 FROM
     source
     r1
