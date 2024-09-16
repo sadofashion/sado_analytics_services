@@ -1,7 +1,7 @@
 {{ config(
     materialized = 'incremental',
     on_schema_change = 'sync_all_columns',
-    partition_by ={ "field": "received_date",
+    partition_by ={ "field": "sent_date",
     "data_type": "timestamp",
     "granularity": "day" },
     incremental_strategy = 'insert_overwrite',
@@ -22,9 +22,9 @@ with source as (
     WHERE
         1=1
     {% if is_incremental() %}
-        and date(dispatchedDate) in (
+        and date(sent_date) in (
             select 
-                distinct date(dispatchedDate) 
+                distinct date(sent_date) 
             from {{ source('kiotViet','p_transfers_list') }} 
                 where parse_date('%Y%m%d',_TABLE_SUFFIX) >= current_date
             )
@@ -39,7 +39,7 @@ raw_ as (
     ) }}
 )
 
-select 
+select
     dispatchedDate as sent_date,
     receivedDate as received_date,
     code as transfer_code,
