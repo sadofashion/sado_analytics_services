@@ -112,7 +112,7 @@ full outer join  offline_performance o
 on f.date_start = o.transaction_date 
 and f.ad_group_location = o.local_page_code
 and f.ad_pic = o.pic
-left join facebook_budget b
+full outer join facebook_budget b
 on coalesce(o.transaction_date,f.date_start) = b.date
 and coalesce(o.local_page_code,f.ad_group_location) = b.local_page_code
 and coalesce(o.pic,f.ad_pic) = b.fb_ads_pic
