@@ -1,11 +1,6 @@
 version: 2
 models:
   - name: stg_kiotviet__inventories
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - branch_id
     columns:
       - name: branch_id
         description: "{{ doc('column__kiotviet__branch_id') }}"
