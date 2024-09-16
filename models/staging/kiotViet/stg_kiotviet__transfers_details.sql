@@ -22,9 +22,9 @@ with source as (
     WHERE
         1=1
     {% if is_incremental() %}
-        and date(sent_date) in (
+        and date(dispatchedDate) in (
             select 
-                distinct date(sent_date) 
+                distinct date(dispatchedDate) 
             from {{ source('kiotViet','p_transfers_list') }} 
                 where parse_date('%Y%m%d',_TABLE_SUFFIX) >= current_date
             )
