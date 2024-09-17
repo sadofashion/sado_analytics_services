@@ -13,17 +13,8 @@ SELECT
         )
     ) transaction_date,
     invoices.total,
-    to_hex(
-        sha256(REGEXP_REPLACE(customers.contact_number, "^0", "84"))
-    ) AS contact_number,
-    to_hex(
-        sha256(
-            CASE
-                WHEN customers.gender THEN 'm'
-                ELSE 'f'
-            END
-        )
-    ) AS gender,
+    REGEXP_REPLACE(customers.contact_number, "^0", "84") AS contact_number,
+    CASE WHEN customers.gender THEN 'm' ELSE 'f' END AS gender,
     branches.branch_name,
 FROM
     {{ ref('stg_kiotviet__invoices') }}
