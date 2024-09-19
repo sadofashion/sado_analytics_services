@@ -24,15 +24,17 @@
 "7": "Thất bại",} %}
 WITH 
 increment as (
-  select * except(sentresult) from 
-  {{source('esms', 'sms_sent_data')}}
+  select * except(sentresult, campaign),
+  first_value(campaign ignore nulls) over (partition by smsid order by _batched_at desc) as campaign, 
+  from {{source('esms', 'sms_sent_data')}}
   where (campaign not in ('ZNS||2024-03-15-2024-17-03|| WK 84 LL - 5S mua hàng 6 tháng') or campaign is null)
   {% if is_incremental() %}
    and parse_date('%Y%m%d', _TABLE_SUFFIX) >= date_add(current_date, interval -1 day)
   {% endif %}
   union all 
-  select * except(sentresult) from 
-  {{source('esms', 'sms_sent_data_history')}}
+  select * except(sentresult,campaign) ,
+  first_value(campaign ignore nulls) over (partition by smsid order by _batched_at desc) as campaign, 
+  from {{source('esms', 'sms_sent_data_history')}}
   where (campaign not in ('ZNS||2024-03-15-2024-17-03|| WK 84 LL - 5S mua hàng 6 tháng') or campaign is null)
   {% if is_incremental() %}
    and parse_date('%Y%m%d', _TABLE_SUFFIX) >= date_add(current_date, interval -1 day)
