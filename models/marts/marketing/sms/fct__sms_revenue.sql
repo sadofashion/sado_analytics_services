@@ -37,7 +37,7 @@ WITH revenue AS (
             sms
         WHERE
             sms.sent_time IS NOT NULL
-            AND sent_status = 'Thành công'
+            AND sent_status in ('Thành công')
             and (audience not in ('TUYEN DUNG','THONG BAO DON HANG') or audience is null)
         {% if is_incremental() %}
         AND DATE(sms.sent_time) >= date_add(current_date, INTERVAL -7 DAY)

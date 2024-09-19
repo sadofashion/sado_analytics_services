@@ -49,7 +49,7 @@ sms_sent_data AS (
     WHERE
         sms.sent_time IS NOT NULL
             {# AND sms.campaign LIKE 'QC%' #}
-        AND sent_status = 'Thành công'
+        AND sent_status in ('Thành công','Chờ gửi')
         and (audience not in ('TUYEN DUNG','THONG BAO DON HANG') or audience is null)
         {% if is_incremental() -%}
         and sms.sent_time >= date_trunc(current_date, month)
