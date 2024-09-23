@@ -38,9 +38,9 @@ sms_sent_data AS (
             when (c.previous_segment = 'First-time Purchaser' and date(c.first_purchase) >= DATE(sent_time)) or c.first_purchase is null then 'Cold Data' 
         else c.previous_segment end previous_segment,
         COUNT(DISTINCT sent_id) AS sms_sent,
-        COUNT(DISTINCT phone) AS customer_sent,
+        COUNT(DISTINCT case when sent_status = 'Thành công' then phone end) AS customer_sent,
         {# count(distinct case when sent_result = 1 then phone end) as customer_received, #}
-        SUM(sms_cost) sms_cost,
+        SUM(case when sent_status = 'Thành công' then sms_cost end) sms_cost,
     FROM
         {{ ref("stg_esms__sent_data") }} sms
     left join customer_data c 
