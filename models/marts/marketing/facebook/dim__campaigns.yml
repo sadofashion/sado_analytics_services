@@ -4,186 +4,186 @@ models:
     meta:
       joins:
         - join: dim__pages
-          sql_on: ${dim__campaigns}.ad_page_id = dim__pages.page_id
+          sql_on: ${dim__campaigns.ad_page_id} = ${dim__pages.page_id}
           always: true
         - join: dim__ad_accounts
-          sql_on: ${dim__campaigns}.account_id = dim__ad_accounts.account_id
+          sql_on: ${dim__campaigns.account_id} = ${dim__ad_accounts.account_id}
           always: true
     columns:
       - name: account_id
-        description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: string
       - name: campaign_name
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: adset_name
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: ad_name
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: campaign_id
-        description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: string
       - name: adset_id
-        description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: string
       - name: ad_id
-        description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: string
+      - name: ad_key
+        meta:
+          dimension:
+            type: string
+        data_type: string
+        tests:
+          - not_null
+          - unique
       - name: convention_version_number
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: channel
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
+      - name: brand_name
+        meta:
+          dimension:
+            type: string
+        data_type: string
       - name: ad_location_layer
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: campaign_category
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
+      - name: content_edge
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: audience_type
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: target_method
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: original_audience_name
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: audience_demographic
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: audience_region
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: audience_source_name
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: media_type
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: content_code
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: content_edge_group
+        meta:
+          dimension:
+            type: string
+        data_type: string
       - name: event_name
-        description: ""
         meta:
           dimension:
             type: string
           additional_dimensions:
             d_opening:
               type: string
-              sql: case when ${TABLE}.event_name in ("KHAI TRƯƠNG","KT") then "CH khai trương" else "Đã khai trương" end
+              sql: case when ${TABLE}.event_name in ("KHAI TRƯƠNG","KT") then "CH khai trương"
+                else "Đã khai trương" end
               label: Opening
-      - name: content_edge
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: ad_pic
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: audience_type
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: target_method
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: original_audience_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: audience_demographic
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: audience_region
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: audience_source_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: media_type
-        description: ""
-        meta:
-          dimension:
-            type: string
-      - name: content_code
-        description: ""
-        meta:
-          dimension:
-            type: string
+        data_type: string
       - name: ad_location
-        description: ""
         meta:
           dimension:
             type: string
-      - name: ad_key
-        description: ""
-        meta:
-          dimension:
-            type: string
-        tests:
-          - unique
-          - not_null
-      - name: brand_name
-        description: ""
-        meta:
-          dimension:
-            type: string
+        data_type: string
       - name: ad_group_location
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: province
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: region
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: country
-        description: ""
         meta:
           dimension:
             type: string
-      - name: content_edge_group
-        description: ""
+        data_type: string
+      - name: ad_pic
         meta:
           dimension:
             type: string
+        data_type: string
       - name: category_name
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: product_group
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: season
-        description: ""
         meta:
           dimension:
             type: string
@@ -191,5 +191,10 @@ models:
           additional_dimensions:
             d_season:
               type: string
-              sql: case when ${TABLE}.season in ("XUÂN HÈ","THU ĐÔNG","QUANH NĂM", "PHỤ KIỆN") then ${TABLE}.season else "KHÁC" end
+              sql: case when ${TABLE}.season in ("XUÂN HÈ","THU ĐÔNG","QUANH NĂM", "PHỤ KIỆN")
+                then ${TABLE}.season else "KHÁC" end
               label: Seasonal
+        data_type: string
+      - name: ad_page_id
+        data_type: string
+        quote: true
