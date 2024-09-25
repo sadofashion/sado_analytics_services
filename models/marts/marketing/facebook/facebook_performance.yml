@@ -14,10 +14,13 @@ models:
         - join: dim__ad_accounts
           sql_on: >-
             ${dim__ad_accounts.id} =
-            ${facebook_performance.account_id}
+            ${dim__campaigns.account_id}
         - join: dim__campaigns
           sql_on: ${dim__campaigns.ad_key} = ${facebook_performance.ad_key}
           always: true
+        - join: dim__pages
+          sql_on: ${dim__pages.page_id} = ${dim__campaigns.ad_page_id}
+
         - join: dim__contents
           sql_on: ${dim__contents.content_code} = ${dim__campaigns.content_code}
           always: true

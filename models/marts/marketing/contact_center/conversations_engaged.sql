@@ -5,13 +5,13 @@
         'data_type': 'datetime',
         'granularity': 'day',
         },
-    unique_key = ['conversation_id'],
+    unique_key = ['conversation_id','ad_id'],
     incremental_strategy = 'insert_overwrite',
     on_schema_change = 'sync_all_columns',
     tags = ['pancake','fact','incremental','daily']
 ) }}
 
-{% set tag_fields ={ 
+{% set tag_fields = {
     "agent" :"Nhân sự",
     "conversation_type" :"Phân loại",
     "promotion_type" :"Phân loại chương trình",
@@ -37,6 +37,9 @@ raw_ AS (
         conversations.message_count,
         conversations.snippet,
         conversations.type,
+        conversations.ad_id,
+        conversations.ad_post_id,
+        conversations.ad_inserted_at,
         CASE
             WHEN COUNT(ad_id) over(
                 PARTITION BY conversations.ad_id

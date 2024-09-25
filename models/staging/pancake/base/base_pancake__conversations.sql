@@ -51,6 +51,8 @@ SELECT
     tags.text AS tag_value,
     source.snippet,
     ads.ad_id,
+    ads.post_id as ad_post_id,
+    ads.inserted_at AS ad_inserted_at,
     source.tag_histories
 FROM
     deduplicate as source

@@ -18,6 +18,8 @@ SELECT
     conversations.type,
     coalesce(conversations.updated_at, conversations.inserted_at) as updated_at,
     conversations.ad_id,
+    conversations.ad_inserted_at,
+    conversations.ad_post_id,
     conversations.tag_histories
 FROM
     {{ ref("base_pancake__conversations") }}
