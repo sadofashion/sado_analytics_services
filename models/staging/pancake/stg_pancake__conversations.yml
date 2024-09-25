@@ -4,8 +4,7 @@ models:
     meta:
       joins:
         - join: stg_pancake__customers
-          sql_on: >-
-            ${stg_pancake__conversations.customer_id} =
+          sql_on: ${stg_pancake__conversations.customer_id} =
             ${stg_pancake__customers.customer_id}
           fields:
             - customer_id
@@ -13,23 +12,17 @@ models:
             - gender
             - inserted_at
         - join: stg_pancake__pages
-          sql_on: >-
-            ${stg_pancake__pages.page_id} =
-            ${stg_pancake__conversations.page_id}
+          sql_on: ${stg_pancake__pages.page_id} = ${stg_pancake__conversations.page_id}
           fields:
             - page_id
             - page_name
         - join: stg_pancake__posts
-          sql_on: >-
-            ${stg_pancake__posts.post_id} =
-            ${stg_pancake__conversations.post_id}
+          sql_on: ${stg_pancake__posts.post_id} = ${stg_pancake__conversations.post_id}
           fields:
             - post_id
             - post_title
         - join: stg_pancake__users
-          sql_on: >-
-            ${stg_pancake__users.user_id} =
-            ${stg_pancake__conversations.user_id}
+          sql_on: ${stg_pancake__users.user_id} = ${stg_pancake__conversations.user_id}
           fields:
             - user_id
             - user_name
@@ -41,7 +34,6 @@ models:
             - period_code
     columns:
       - name: inserted_at
-        description: ""
         meta:
           dimension:
             type: timestamp
@@ -53,8 +45,8 @@ models:
                 case when ${stg_pancake__customers.inserted_at} <
                 ${TABLE}.inserted_at then 'Khách mới' else 'Khách cũ' end
               label: Conversation type
+        data_type: datetime
       - name: conversation_id
-        description: ""
         meta:
           dimension:
             type: string
@@ -65,8 +57,13 @@ models:
               label: No. Conversations
               group_label: Pancake metrics
               compact: thousands
+        data_type: string
+      - name: chat_id
+        meta:
+          dimension:
+            type: string
+        data_type: string
       - name: customer_id
-        description: ""
         meta:
           dimension:
             type: string
@@ -77,31 +74,31 @@ models:
               label: No. Engaged Customers
               group_label: Pancake metrics
               compact: thousands
+        data_type: string
       - name: user_id
-        description: ""
         meta:
           dimension:
             type: string
             hidden: true
+        data_type: string
       - name: page_id
-        description: ""
         meta:
           dimension:
             type: string
             hidden: true
+        data_type: string
       - name: post_id
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: tag_id
-        description: ""
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: int64
       - name: message_count
-        description: ""
         meta:
           dimension:
             type: number
@@ -112,34 +109,36 @@ models:
               label: No. Messages
               group_label: Pancake metrics
               compact: thousands
+        data_type: numeric
       - name: snippet
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: type
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: updated_at
-        description: ""
         meta:
           dimension:
             type: timestamp
             hidden: true
-      - name: chat_id
-        description: ""
-        meta:
-          dimension:
-            type: string
+        data_type: datetime
       - name: ad_id
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
+      - name: ad_inserted_at
+        data_type: datetime
+        quote: true
+      - name: ad_post_id
+        data_type: string
+        quote: true
       - name: tag_histories
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: record

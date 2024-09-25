@@ -83,8 +83,8 @@ SELECT
     safe_cast(orders.createdById AS int64) AS created_by_id,
     safe_cast(orders.saleId AS int64) AS sale_id,
     orders.createdDateTime AS created_date,
-    DATE(orders.deliveryDate) AS delivery_date,
-    DATE(orders.sendCarrierDate) AS send_carrier_date,
+    DATE(nullif(orders.deliveryDate,'0000-00-00')) AS delivery_date,
+    DATE(nullif(orders.sendCarrierDate,'0000-00-00')) AS send_carrier_date,
     orders.statusName AS order_status,
     safe_cast(orders.calcTotalMoney AS int64) AS receivables,
     farm_fingerprint(

@@ -1,12 +1,21 @@
 version: 2
 models:
   - name: dim__campaigns
+    meta:
+      joins:
+        - join: dim__pages
+          sql_on: ${dim__campaigns}.ad_page_id = dim__pages.page_id
+          always: true
+        - join: dim__ad_accounts
+          sql_on: ${dim__campaigns}.account_id = dim__ad_accounts.account_id
+          always: true
     columns:
       - name: account_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: campaign_name
         description: ""
         meta:
@@ -27,16 +36,19 @@ models:
         meta:
           dimension:
             type: number
+            hidden: true
       - name: adset_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: ad_id
         description: ""
         meta:
           dimension:
             type: number
+            hidden: true
       - name: convention_version_number
         description: ""
         meta:

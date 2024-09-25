@@ -4,8 +4,7 @@ models:
     meta:
       joins:
         - join: stg_pancake__customers
-          sql_on: >-
-            ${conversations_engaged.customer_id} =
+          sql_on: ${conversations_engaged.customer_id} =
             ${stg_pancake__customers.customer_id}
           fields:
             - customer_id
@@ -29,9 +28,13 @@ models:
             - user_name
         - join: calendar
           sql_on: ${calendar.date} = date(${conversations_engaged.inserted_at})
+        - join: calendar
+          alias: ad_calendar
+          sql_on: ${ad_calendar.date} = date(${conversations_engaged.ad_inserted_at})
+        - join: dim__campaigns
+          sql_on: ${dim__campaigns.ad_id} = ${conversations_engaged.ad_id}
     columns:
       - name: inserted_at
-        description: ""
         meta:
           dimension:
             type: timestamp
@@ -43,8 +46,8 @@ models:
                 case when ${stg_pancake__customers.inserted_at} <
                 ${TABLE}.inserted_at then 'Khách cũ' else 'Khách mới' end
               label: Customer group
+        data_type: datetime
       - name: conversation_id
-        description: ""
         meta:
           dimension:
             type: string
@@ -55,11 +58,11 @@ models:
               label: No. conversations
               group_label: Pancake metrics
               round: 0
+        data_type: string
         tests:
           - not_null
           - unique
       - name: customer_id
-        description: ""
         meta:
           dimension:
             type: string
@@ -70,26 +73,27 @@ models:
               label: No. Engaged Customers
               group_label: Pancake metrics
               compact: thousands
+              round: 1
+        data_type: string
       - name: user_id
-        description: ""
         meta:
           dimension:
             type: string
             hidden: true
+        data_type: string
       - name: page_id
-        description: ""
         meta:
           dimension:
             type: string
             hidden: true
+        data_type: string
       - name: post_id
-        description: ""
         meta:
           dimension:
             type: string
             hidden: true
+        data_type: string
       - name: message_count
-        description: ""
         meta:
           dimension:
             type: number
@@ -100,29 +104,36 @@ models:
               label: No. Messages
               group_label: Pancake metrics
               compact: thousands
+              round: 1
+            m_avg_messages_per_convo:
+              type: number
+              label: Avg. Messages per conversation
+              group_label: Pancake metrics
+              sql: safe_divide(${m_num_messages},${m_num_conversations})
+              round: 1
+        data_type: numeric
       - name: snippet
-        description: ""
         meta:
           dimension:
             type: string
             hidden: true
+        data_type: string
       - name: type
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: ads_assisted
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: agent
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: conversation_type
-        description: ""
         meta:
           dimension:
             type: string
@@ -132,18 +143,18 @@ models:
               type: string
               label: Conversation type
               sql: coalesce(${TABLE}.conversation_type,"Mua hàng")
+        data_type: string
       - name: promotion_type
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: customer_type
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
       - name: stage
-        description: ""
         meta:
           dimension:
             type: string
@@ -152,30 +163,58 @@ models:
             d_stage:
               type: string
               sql: >
-                case when lower(${TABLE}.stage) like '%chưa phản hồi%' then '[2] Chưa phản hồi'
-                when lower(${TABLE}.stage) like '%tham khảo%' then '[3] Tham khảo'
-                when regexp_contains(lower(${TABLE}.stage),r'chăm sóc lần') then '[3.1] Chăm sóc lại'
-                when regexp_contains(lower(${TABLE}.stage),r'đang chổt|đang chốt') then '[4] Đang chốt'
-                when regexp_contains(lower(${TABLE}.stage),r'chuyển ch|khách ra sr|đã mua hàng') then '[5] Chốt đơn'
-                when regexp_contains(lower(${TABLE}.stage),r'đã gửi|kiểm hàng') then '[0] Đang giao hàng'
-                when regexp_contains(lower(${TABLE}.stage),r'giá cao|hết hàng') then 'Huỷ'
-                else '[1] Hội thoại mới' end
+                case when lower(${TABLE}.stage) like '%chưa phản hồi%' then '[2]
+                Chưa phản hồi' when lower(${TABLE}.stage) like '%tham khảo%'
+                then '[3] Tham khảo' when
+                regexp_contains(lower(${TABLE}.stage),r'chăm sóc lần') then
+                '[3.1] Chăm sóc lại' when
+                regexp_contains(lower(${TABLE}.stage),r'đang chổt|đang chốt')
+                then '[4] Đang chốt' when
+                regexp_contains(lower(${TABLE}.stage),r'chuyển ch|khách ra sr|đã
+                mua hàng') then '[5] Chốt đơn' when
+                regexp_contains(lower(${TABLE}.stage),r'đã gửi|kiểm hàng') then
+                '[0] Đang giao hàng' when
+                regexp_contains(lower(${TABLE}.stage),r'giá cao|hết hàng') then
+                'Huỷ' else '[1] Hội thoại mới' end
               label: Stage
             d_closed_state:
               type: string
               sql: >
-                case  when lower(${TABLE}.stage) like '%đã mua hàng%' then 'Đã mua hàng' 
-                when lower(${TABLE}.stage) like '%chuyển ch%' then 'chuyển CH'
-                when lower(${TABLE}.stage) like '%khách ra sr%' then 'Khách ra SR' end
+                case  when lower(${TABLE}.stage) like '%đã mua hàng%' then 'Đã
+                mua hàng'  when lower(${TABLE}.stage) like '%chuyển ch%' then
+                'chuyển CH' when lower(${TABLE}.stage) like '%khách ra sr%' then
+                'Khách ra SR' end
               label: Closed State
             d_refuse_reason:
               type: string
               sql: >
-                case  when lower(${TABLE}.stage) like '%giá cao%' then 'Giá Cao' when
-                lower(${TABLE}.stage) like '%hết hàng%' then 'Hết hàng' end
+                case  when lower(${TABLE}.stage) like '%giá cao%' then 'Giá Cao'
+                when lower(${TABLE}.stage) like '%hết hàng%' then 'Hết hàng' end
               label: Refuse Reason
+        data_type: string
       - name: claim_status
-        description: ""
         meta:
           dimension:
             type: string
+        data_type: string
+      - name: ad_id
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: ad_post_id
+        data_type: string
+        quote: true
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: ad_inserted_at
+        data_type: datetime
+        quote: true
+        meta:
+          dimension:
+            type: timestamp
+            hidden: true

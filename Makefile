@@ -41,3 +41,7 @@ val:
 gh:
 	git push origin head
 	gh run watch && git pull origin master
+
+run-modified:
+	@echo "Running modified models..."
+	dbt run --select state:modified --defer --state prod ${FLAGS}
