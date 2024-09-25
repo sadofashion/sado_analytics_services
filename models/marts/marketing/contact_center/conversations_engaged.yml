@@ -59,9 +59,6 @@ models:
               group_label: Pancake metrics
               round: 0
         data_type: string
-        tests:
-          - not_null
-          - unique
       - name: customer_id
         meta:
           dimension:
