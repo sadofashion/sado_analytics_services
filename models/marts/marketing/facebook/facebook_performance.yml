@@ -11,19 +11,17 @@ models:
       joins:
         - join: calendar
           sql_on: ${facebook_performance.date_start} = ${calendar.date}
+        - join: dim__campaigns
+          sql_on: ${dim__campaigns.ad_key} = ${facebook_performance.ad_key}
+          always: true
         - join: dim__ad_accounts
           sql_on: >-
             ${dim__ad_accounts.id} =
             ${dim__campaigns.account_id}
-        - join: dim__campaigns
-          sql_on: ${dim__campaigns.ad_key} = ${facebook_performance.ad_key}
-          always: true
         - join: dim__pages
           sql_on: ${dim__pages.page_id} = ${dim__campaigns.ad_page_id}
-
         - join: dim__contents
           sql_on: ${dim__contents.content_code} = ${dim__campaigns.content_code}
-          always: true
     columns:
       - name: date_start
         description: ""
@@ -42,7 +40,7 @@ models:
               type: sum
               label: Impressions
               group_label: FB Ads
-              compact: millions
+              compact: thousands
               round: 1
             m_avg_impressions:
               type: average
@@ -69,7 +67,7 @@ models:
               label: Spend
               group_label: FB Ads
               compact: millions
-              round: 1
+              round: 2
             m_avg_spend:
               type: average
               label: Avg Spend
@@ -79,22 +77,43 @@ models:
             m_ads_purchased:
               type: number
               label: Ads Purchased
-              sql: ${m_ocv} + ${m_pcv} + ${m_meta_purchase}
+              sql: ifnull(${m_ocv},0) + ifnull(${m_pcv},0) + ifnull(${m_meta_purchase},0)
               group_label: FB Ads
               round: 0
             m_ads_purchased_value:
               type: number
               label: Ads Purchased Value
-              sql: ${m_ocv_value} + ${m_pcv_value} + ${m_meta_purchase_value}
+              sql: ifnull(${m_ocv_value},0) + ifnull(${m_pcv_value},0) + ifnull(${m_meta_purchase_value},0)
               group_label: FB Ads
-              round: 0
+              round: 1
               compact: millions
             m_ads_roas:
               type: number
               label: Ads ROAS
-              sql: safe_divide(${m_ocv_value} + ${m_pcv_value} + ${m_meta_purchase_value},${m_spend})
+              sql: safe_divide(${m_ads_purchased_value},${m_spend})
               group_label: FB Ads
               round: 2
+            m_ads_aov:
+              type: number
+              label: Ads AOV
+              sql: safe_divide(${m_ads_purchased_value},${m_ads_purchased})
+              group_label: FB Ads
+              round: 1
+              compact: thousands
+            m_ads_cost_per_purchase:
+              type: number
+              label: Ads Cost per Purchase
+              sql: safe_divide(${m_spend},${m_ads_purchased})
+              group_label: FB Ads
+              round: 1
+              compact: thousands
+            m_ads_cost_over_value:
+              type: number
+              label: Ads Cost over Value
+              sql: safe_divide(${m_spend},${m_ads_purchased_value})
+              group_label: FB Ads
+              round: 2
+              format: percent
       - name: clicks
         description: ""
         meta:
@@ -121,7 +140,7 @@ models:
               group_label: FB Ads
               sql: safe_divide(${m_clicks},${m_impressions})
               format: percent
-              round: 1
+              round: 2
       - name: reach
         description: ""
         meta:
@@ -208,6 +227,13 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
+            m_ocv_aov:
+              type: number
+              label: Offline AOV
+              group_label: FB Ads
+              sql: safe_divide(${m_ocv_value},${m_ocv})
+              compact: thousands
+              round: 1
       - name: pixel_purchase
         description: website purchase attributed to ads
         meta:
@@ -234,6 +260,13 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
+            m_pcv_aov:
+              type: number
+              label: Online AOV
+              group_label: FB Ads
+              sql: safe_divide(${m_pcv_value},${m_pcv})
+              compact: thousands
+              round: 1
       - name: meta_purchase
         description: number of purchase generated directly on facebook
         meta:
@@ -245,8 +278,7 @@ models:
               type: sum
               label: Message CV
               group_label: FB Ads
-              compact: thousands
-              round: 1
+              round: 0
       - name: meta_purchase_value
         description: purchase value generated directly on facebook
         meta:
@@ -260,6 +292,19 @@ models:
               group_label: FB Ads
               compact: millions
               round: 1
+            m_meta_purchase_aov:
+              type: number
+              label: Message AOV
+              group_label: FB Ads
+              sql: safe_divide(${m_meta_purchase_value},${m_meta_purchase})
+              compact: thousands
+              round: 1
+            m_meta_purchase_roas:
+              type: number
+              label: Message ROAS
+              group_label: FB Ads
+              sql: safe_divide(${m_meta_purchase_value},${m_spend})
+              round: 2
       - name: _results_message
         description: ""
         meta:
@@ -271,8 +316,22 @@ models:
               type: sum
               label: Messages
               group_label: FB Ads
+              round: 0
+            m_cost_per_message:
+              type: number
+              label: Cost per message
+              group_label: FB Ads
+              sql: safe_divide(${m_spend},${m_messages})
               compact: thousands
               round: 1
+            m_message_cr:
+              type: number
+              label: Message CR
+              group_label: FB Ads
+              sql: safe_divide(${m_meta_purchase},${m_messages})
+              format: percent
+              round: 2
+            
       - name: account_id
         description: ""
         meta:
