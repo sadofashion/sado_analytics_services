@@ -106,7 +106,7 @@ select f.* except(date_start,ad_group_location,ad_pic),
   b.* except(date,local_page_code,fb_ads_pic),
   coalesce(f.date_start, o.transaction_date,b.date) as date,
   coalesce(f.ad_group_location, o.local_page_code, b.local_page_code) as local_page_code,
-  coalesce(o.pic,f.ad_pic) as ad_pic
+  coalesce(o.pic,f.ad_pic, b.fb_ads_pic) as ad_pic
 from facebook_performance f
 full outer join  offline_performance o 
 on f.date_start = o.transaction_date 
