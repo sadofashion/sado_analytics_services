@@ -58,6 +58,7 @@ models:
 
 vars:
   "dbt_date.time_zone": "Asia/Saigon"
+  json_transform_schema: analytics
   ga4:
     source_project: "agile-scheme-394814"
     is_user_id_implemented: false
@@ -92,6 +93,5 @@ vars:
     lookback_period: 3
     is_interactive_actions_enabled: true
     is_ecommerce_actions_enabled: true
-    json_transform_schema: analytics
     additional_ad_interact_actions:
       - onsite_conversion.messaging_conversation_started_7d

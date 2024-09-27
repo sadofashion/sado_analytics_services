@@ -1,0 +1,59 @@
+models:
+  - name: stg_gsheet__maintainance
+    columns:
+      - name: created_at
+        data_type: date
+        quote: true
+      - name: branch_code
+        data_type: string
+        quote: true
+      - name: request_category
+        data_type: string
+        quote: true
+      - name: request_sub_category
+        data_type: string
+        quote: true
+      - name: description
+        data_type: string
+        quote: true
+      - name: related_documents
+        data_type: string
+        quote: true
+      - name: priority
+        data_type: string
+        quote: true
+      - name: maintainance_approval
+        data_type: boolean
+        quote: true
+      - name: execution_plan
+        data_type: string
+        quote: true
+      - name: estimated_cost
+        data_type: int64
+        quote: true
+      - name: pic
+        data_type: string
+        quote: true
+      - name: duration
+        data_type: int64
+      - name: deadline
+        data_type: date
+        quote: true
+      - name: actual_finish_date
+        data_type: date
+        quote: true
+      - name: status
+        data_type: string
+        quote: true
+      - name: actual_cost
+        data_type: int64
+        quote: true
+      - name: acceptance_date
+        data_type: date
+        quote: true
+      - name: acceptance_state
+        data_type: string
+        quote: true
+      - name: requester_type
+        data_type: string
+        quote: true

@@ -1,0 +1,27 @@
+SELECT
+    created_at,
+    branch_code,
+    requested_category AS request_category,
+    request_sub_category,
+    description,
+    related_documents,
+    priority,
+    maintainance_approval,
+    execution_plan,
+    safe_cast(estimated_cost AS int64) AS estimated_cost,
+    pic,
+    DURATION,
+    deadline,
+    actual_finish_date,
+    status,
+    safe_cast(actual_cost AS int64) AS actual_cost,
+    acceptance_date,
+    acceptance_state,
+    requester_type
+FROM
+    {{ source(
+        'gSheet',
+        'maintainance_sheet'
+    ) }}
+WHERE
+    created_at >= '2024-01-01'

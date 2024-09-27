@@ -1,0 +1,30 @@
+models:
+  - name: stg_gsheet__construction
+    columns:
+      - name: branch_name
+        data_type: string
+        quote: true
+      - name: asm
+        data_type: string
+        quote: true
+      - name: created_at
+        data_type: string
+        quote: true
+      - name: province
+        data_type: string
+        quote: true
+      - name: review_start_date
+        data_type: date
+        quote: true
+      - name: actual_start_contruction_date
+        data_type: date
+        quote: true
+      - name: paper_works
+        data_type: record
+        quote: true
+      - name: procedure
+        data_type: record
+        quote: true
+      - name: setup_cost
+        data_type: record
+        quote: true
