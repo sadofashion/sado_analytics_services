@@ -33,7 +33,7 @@ SELECT
         json_value(procedure,'$.value.step_flag') as step_flag,
         safe_cast(json_value(procedure,'$.value.step_num') as int64) as step_num,
     from unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.procedure'))) as procedure
-    where json_value(procedure,'$.key') not in ('review_notes','construction_notes')
+    where json_value(procedure,'$.key') not in ('review_notes','constructing_notes')
     ) as procedure,
     array(
         select as struct
@@ -44,7 +44,8 @@ SELECT
     unnest({{var("json_transform_schema")}}.json_transform(json_extract(setup_cost,'$.value'))) as value_type
     where json_value(setup_cost,'$.key') not in ('description','flag','total_invest_ment')
     group by json_value(value_type,'$.key')
-    ) as setup_cost
+    ) as setup_cost,
+
 FROM
     {{ source('gSheet','constructing') }}
 {# left join unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.paper_works'))) as paper_works #}
