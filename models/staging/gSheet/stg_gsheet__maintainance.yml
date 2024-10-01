@@ -1,5 +1,11 @@
 models:
   - name: stg_gsheet__maintainance
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - branch_code
+            - created_at
+            - description
     columns:
       - name: created_at
         data_type: date
