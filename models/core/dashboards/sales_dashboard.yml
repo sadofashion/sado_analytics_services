@@ -8,6 +8,11 @@ models:
         - join: dim__branches
           sql_on: |
             ${dim__branches.branch_id} = ${sales_dashboard.branch_id}
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - branch_id
+            - date
     columns:
       - name: val_transaction_id
         data_type: int64
@@ -204,6 +209,13 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_operating_days:
+              type: count_distinct
+              sql: ${TABLE}.date||${TABLE}.branch_id
+              label: No. Operating Days
+              group_label: Misc
+              round: 0
       - name: num_stores
         description: ""
         meta:
@@ -213,7 +225,7 @@ models:
           metrics:
             m_num_stores:
               type: sum
-              label: No. Stores
+              label: No. Days with Revenue
               group_label: Misc
               round: 0
     description: >-

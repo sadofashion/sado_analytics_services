@@ -11,7 +11,7 @@ WITH branches AS (
         {{ ref("stg_kiotviet__branches") }}
     WHERE
         branch_name LIKE '5S%'
-        and branch_id not in (1000087891)
+        and branch_id not in (1000087891,86414)
 ),
 
 asm_list as ( 

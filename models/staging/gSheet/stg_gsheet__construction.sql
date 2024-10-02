@@ -9,6 +9,8 @@ with source as (
 )
 
 SELECT
+    nullif(json_value(data,'$.row_number'),'') ||"-"|| branch_name as project_id,
+
     nullif(json_value(data,'$.branch_name'),'') as branch_name,
     nullif(json_value(data,'$.asm'),'') as asm,
     nullif(json_value(data,'$.created_at'),'') as created_at,
@@ -51,4 +53,4 @@ FROM
 {# left join unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.paper_works'))) as paper_works #}
 {# left join unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.procedure'))) as procedure #}
 WHERE
-    nullif(json_value(data,'$.branch_name'),'') is not null
+    nullif(json_value(data,'$.row_number'),'') is not null

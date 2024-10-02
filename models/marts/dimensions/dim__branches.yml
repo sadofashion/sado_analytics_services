@@ -27,6 +27,10 @@ models:
       - name: branch_code
         data_type: string
         quote: true
+        meta:
+          dimension:
+            type: string
+        
       - name: channel
         description: This column indicates the channel through which the branch
           operates. It can be either 'Offline' for physical branches or 'Online
