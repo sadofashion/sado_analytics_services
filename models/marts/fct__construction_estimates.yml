@@ -1,0 +1,73 @@
+version: 2
+models:
+  - name: fct__construction_estimates
+    columns:
+      - name: project_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+          metrics:
+            m_num_projects:
+              type: count_distinct
+              label: Num Projects
+      - name: branch_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+            label: Project Name
+      - name: asm
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: cost_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: actual
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_actual:
+              type: sum
+              label: Actual cost
+              compact: thousands
+              round: 0
+              filters:
+                - cost_category: "!total"
+            m_pct_overrun:
+              type: number
+              label: "% Overrun"
+              formula: safe_divide(${m_actual},${m_estimate}) - 1
+              format: percent
+              round: 2
+      - name: estimate
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_estimate:
+              type: sum
+              label: Estimated cost
+              compact: thousands
+              round: 0
+              filters:
+                - cost_category: "!total"

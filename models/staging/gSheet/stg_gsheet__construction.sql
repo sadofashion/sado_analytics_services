@@ -1,5 +1,23 @@
 {%set timezone = 'Asia/Saigon'%}
 
+{% set paper_work_steps = {
+    "constructing":"Xây dựng",
+    "electricity":"Hệ thống điện/ĐH",
+    "signboard":"Biển bảng",
+    "interior":"Nội thất",
+} %}
+
+
+{% set procedure_steps = {
+    "site_review":"Khảo sát mặt bằng",
+    "construction_estimate":"Dự toán & PA Thi công",
+    "start_construction":"Bắt đầu thi công",
+    "facility_transfer":"Bàn giao",
+    "preliminary_acceptance_review":"Nghiệm thu lần 1",
+    "defect_fix":"Sửa chữa lỗi (nếu có)",
+    "final_acceptance_review":"Nghiệm thu cuối",
+} %}
+
 with source as (
     {{dbt_utils.deduplicate(
         relation = source('gSheet','constructing'),
@@ -9,7 +27,12 @@ with source as (
 )
 
 SELECT
-    nullif(json_value(data,'$.row_number'),'') ||"-"|| branch_name as project_id,
+    {{dbt_utils.generate_surrogate_key(
+        [
+            "nullif(json_value(data,'$.row_number'),'')" , 
+            "nullif(json_value(data,'$.branch_name'),'')"
+            ]
+        )}} as project_id,
 
     nullif(json_value(data,'$.branch_name'),'') as branch_name,
     nullif(json_value(data,'$.asm'),'') as asm,
@@ -22,14 +45,18 @@ SELECT
     {# date(nullif(json_value(data,'$.bd_info.actual_start_contruction_date'),''),'{{timezone}}') as actual_start_contruction_date, #}
     array(
        select as struct
-        json_value(paper_works,'$.key') as type,
+       case {% for k,v in paper_work_steps.items() %}
+        when json_value(paper_works,'$.key') = '{{k}}' then '{{v}}'
+       {%endfor%} end as type,
         date(timestamp(nullif(json_value(paper_works,'$.value.deadline'),"")),'{{timezone}}') as deadline,
         date(timestamp(nullif(json_value(paper_works,'$.value.finish_date'),"")),'{{timezone}}') as finish_date,
         json_value(paper_works,'$.value.step_flag') as step_flag,
     from unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.paper_works'))) as paper_works) as paper_works,
     array(
        select as struct
-        json_value(procedure,'$.key') as type,
+       case {% for k,v in procedure_steps.items() %}
+        when json_value(procedure,'$.key') = '{{k}}' then '{{v}}'
+       {%endfor%} end as type,
         date(timestamp(nullif(json_value(procedure,'$.value.deadline'),"")),'{{timezone}}') as deadline,
         date(timestamp(nullif(json_value(procedure,'$.value.finish_date'),"")),'{{timezone}}') as finish_date,
         json_value(procedure,'$.value.step_flag') as step_flag,
@@ -53,4 +80,4 @@ FROM
 {# left join unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.paper_works'))) as paper_works #}
 {# left join unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.procedure'))) as procedure #}
 WHERE
-    nullif(json_value(data,'$.row_number'),'') is not null
+    nullif(json_value(data,'$.row_num'),'') is not null

@@ -1,0 +1,166 @@
+version: 2
+models:
+  - name: fct__constructing_tasks
+    meta:
+      joins:
+        - join: calendar
+          type: right
+          sql_on: ${fct__constructing_tasks.deadline} = ${calendar.date}
+        
+    columns:
+      - name: project_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_num_projects:
+              type: count_distinct
+              label: Num Projects
+            m_num_accepted_on_first_review:
+              type: count_distinct
+              label: "#Tasks accepted on first review"
+              filters:
+                - task_name: defect_fix
+                - deadline: "null"
+            m_num_accepted_on_second_review:
+              type: count_distinct
+              label: "#Tasks accepted on second review"
+              filters:
+                - task_name: final_acceptance_review
+                - deadline: "!null"
+      - name: branch_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+            label: Project Name
+      - name: asm
+        description: ""
+        meta:
+          dimension:
+            type: string
+            label: ASM Region
+      - name: created_at
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: province
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: task_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_num_tasks:
+              type: count_distinct
+              label: "#Tasks"
+              filters:
+                - deadline: "!null"
+            m_num_finished_tasks:
+              type: count_distinct
+              label: "#Tasks finished"
+              filters:
+                - finish_date: "!null"
+            m_pct_task_finished:
+              type: number
+              label: "%Tasks finished"
+              sql: safe_divide(${m_num_finished_tasks},${m_num_tasks})
+              format: percent
+              round: 2
+            m_num_unfinished_tasks:
+              type: count_distinct
+              label: "#Tasks unfinished"
+              filters:
+                - finish_date: "null"
+            m_num_tasks_late:
+              type: count_distinct
+              label: "#Tasks missed deadline"
+              filters:
+                - flag: Trễ Deadline
+            m_num_tasks_on_time:
+              type: count_distinct
+              label: "#Tasks meet deadline"
+              filters:
+                - flag:
+                    - Đúng Deadline
+                    - Trước Deadline
+            m_pct_tasks_on_time:
+              type: number
+              label: "%Tasks meet deadline"
+              sql: safe_divide(${m_num_tasks_on_time},${m_num_tasks})
+              format: percent
+              round: 2
+            
+      - name: task_group_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: task_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: deadline
+        description: ""
+        meta:
+          dimension:
+            type: date
+          metrics:
+            m_num_deadlines:
+              type: count
+              label: Num Deadlines
+      - name: finish_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+          metrics:
+            m_acceptance_date:
+              type: date
+              label: Acceptance date
+              sql: max(case when ${TABLE}.task_name in ('preliminary_acceptance_review','final_acceptance_review') then ${TABLE}.finish_date end)
+              
+            m_avg_days_to_finish:
+              type: average
+              label: Avg days to finish
+              sql: date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+            m_avg_days_to_construct:
+              type: average
+              label: Avg days to construct
+              sql: date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+              filters:
+                - task_name: 
+                  - facility_transfer
+                  - defect_fix
+            m_avg_days_to_fix_defect:
+              type: average
+              label: Avg days to fix defect
+              sql: date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+              filters:
+                - task_name: defect_fix
+      - name: step_num
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: flag
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: previous_task_finish_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+
