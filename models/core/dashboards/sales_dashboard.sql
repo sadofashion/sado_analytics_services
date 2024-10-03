@@ -88,6 +88,7 @@ operating_days as (
     AND b.branch_id NOT IN (1000087891)
     and b.asm_name is not null
     and b.channel = 'Offline'
+    and c.date <= CURRENT_DATE()
 )
 
 
