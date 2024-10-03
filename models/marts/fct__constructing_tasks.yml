@@ -6,7 +6,6 @@ models:
         - join: calendar
           type: right
           sql_on: ${fct__constructing_tasks.deadline} = ${calendar.date}
-        
     columns:
       - name: project_id
         description: ""
@@ -99,7 +98,6 @@ models:
               sql: safe_divide(${m_num_tasks_on_time},${m_num_tasks})
               format: percent
               round: 2
-            
       - name: task_group_name
         description: ""
         meta:
@@ -119,40 +117,61 @@ models:
             m_num_deadlines:
               type: count
               label: Num Deadlines
+            m_deadline:
+              type: date
+              label: Deadline
+              sql: max(${TABLE}.deadline)
+            m_deadline_status:
+              type: string
+              label: Deadline status
+              sql: >-
+                max(case when ${TABLE}.finish_date is null then 'Chưa hoàn
+                thành' when ${TABLE}.finish_date > ${TABLE}.deadline then 'Trễ
+                Deadline' when ${TABLE}.finish_date <= ${TABLE}.deadline then
+                'Đúng Deadline' end)
       - name: finish_date
         description: ""
         meta:
           dimension:
             type: date
           metrics:
+            m_finish_date:
+              type: date
+              label: Finish date
+              sql: max(${TABLE}.finish_date)
             m_acceptance_date:
               type: date
               label: Acceptance date
-              sql: max(case when ${TABLE}.task_name in ('preliminary_acceptance_review','final_acceptance_review') then ${TABLE}.finish_date end)
-              
+              sql: >-
+                max(case when ${TABLE}.task_name in
+                ('preliminary_acceptance_review','final_acceptance_review') then
+                ${TABLE}.finish_date end)
             m_avg_days_to_finish:
               type: average
               label: Avg days to finish
-              sql: date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+              sql: >-
+                date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+            m_total_days_to_finish:
+              type: sum
+              label: Total days till acceptance
+              sql: >-
+                date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
             m_avg_days_to_construct:
               type: average
               label: Avg days to construct
-              sql: date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+              sql: >-
+                date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
               filters:
-                - task_name: 
-                  - facility_transfer
-                  - defect_fix
+                - task_name:
+                    - facility_transfer
+                    - defect_fix
             m_avg_days_to_fix_defect:
               type: average
               label: Avg days to fix defect
-              sql: date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+              sql: >-
+                date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
               filters:
                 - task_name: defect_fix
-      - name: step_num
-        description: ""
-        meta:
-          dimension:
-            type: number
       - name: flag
         description: ""
         meta:
@@ -163,4 +182,13 @@ models:
         meta:
           dimension:
             type: date
-
+      - name: construction_type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: review_start_date
+        description: ""
+        meta:
+          dimension:
+            type: date

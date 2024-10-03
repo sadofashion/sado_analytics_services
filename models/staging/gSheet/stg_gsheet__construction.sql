@@ -5,6 +5,7 @@
     "electricity":"Hệ thống điện/ĐH",
     "signboard":"Biển bảng",
     "interior":"Nội thất",
+    "others":"Khác",
 } %}
 
 
@@ -16,6 +17,7 @@
     "preliminary_acceptance_review":"Nghiệm thu lần 1",
     "defect_fix":"Sửa chữa lỗi (nếu có)",
     "final_acceptance_review":"Nghiệm thu cuối",
+    "post_transfer_review":"Feedback sau bàn giao",
 } %}
 
 with source as (
@@ -38,6 +40,7 @@ SELECT
     nullif(json_value(data,'$.asm'),'') as asm,
     nullif(json_value(data,'$.created_at'),'') as created_at,
     nullif(json_value(data,'$.province'),'') as province,
+    "Thi công" as construction_type,
 
     date(timestamp(nullif(json_value(data,'$.bd_info.review_start_date'),"")),'{{timezone}}') as review_start_date,
     date(timestamp(nullif(json_value(data,'$.bd_info.actual_start_contruction_date'),"")),'{{timezone}}') as actual_start_contruction_date,
@@ -66,13 +69,17 @@ SELECT
     ) as procedure,
     array(
         select as struct
-            json_value(value_type,'$.key') as cost_category,
+            case {% for k,v in paper_work_steps.items() %}
+            when json_value(value_type,'$.key') = '{{k}}' then '{{v}}'
+            {%endfor%} else json_value(value_type,'$.key') end as cost_category,
             sum(case when json_value(setup_cost,'$.key') ='actual' then safe_cast(json_value(value_type,'$.value') as int64) end)  as actual,
             sum(case when json_value(setup_cost,'$.key') ='estimate' then safe_cast(json_value(value_type,'$.value') as int64) end) as estimate
     from unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.setup_cost'))) as setup_cost,
     unnest({{var("json_transform_schema")}}.json_transform(json_extract(setup_cost,'$.value'))) as value_type
     where json_value(setup_cost,'$.key') not in ('description','flag','total_invest_ment')
-    group by json_value(value_type,'$.key')
+    group by case {% for k,v in paper_work_steps.items() %}
+            when json_value(value_type,'$.key') = '{{k}}' then '{{v}}'
+            {%endfor%} else json_value(value_type,'$.key') end
     ) as setup_cost,
 
 FROM
