@@ -1,0 +1,260 @@
+version: 2
+models:
+  - name: stg_gsheet__maintainance
+    meta:
+      joins:
+        - join: dim__branches
+          sql_on: >-
+            ${stg_gsheet__maintainance.branch_code} =
+            ${dim__branches.branch_code}
+          always: true
+        - join: calendar
+          sql_on: ${stg_gsheet__maintainance.created_at} = ${calendar.date}
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - branch_code
+            - created_at
+            - description
+    columns:
+      - name: created_at
+        data_type: date
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+          metrics:
+            m_num_request:
+              type: count
+              label: Number of Requests
+              round: 0
+            m_approved_request:
+              type: count
+              label: Number of Approved Requests
+              filters:
+                - maintainance_approval: "true"
+            m_rejected_request:
+              type: count
+              label: Number of Rejected Requests
+              filters:
+                - maintainance_approval: "!true"
+            m_finished_request:
+              type: number
+              label: Number of Finished Requests
+              sql: ${m_approved_request}-${m_on_going_request}
+            m_on_going_request:
+              type: count
+              label: Number of On Going Requests
+              filters:
+                - status: Đang thực hiện
+            m_meet_deadline_requests:
+              type: count
+              label: Number of Requests Meet Deadline
+              filters:
+                - status: Đúng Deadline
+                - maintainance_approval: "true"
+            m_late_deadline_requests:
+              type: count
+              label: Number of Requests Late Deadline
+              filters:
+                - status: Trễ Deadline
+                - maintainance_approval: "true"
+            m_meet_deadline_rate:
+              type: number
+              label: Meet Deadline Rate
+              format: percent
+              round: 2
+              sql: safe_divide(${m_meet_deadline_requests},${m_approved_request})
+            m_late_deadline_rate:
+              type: number
+              label: Late Deadline Rate
+              format: percent
+              round: 2
+              sql: safe_divide(${m_late_deadline_requests},${m_approved_request})
+      - name: branch_code
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          additional_dimensions:
+            d_branch_name:
+              type: string
+              sql: coalesce(${dim__branches.branch_name},${TABLE}.branch_code)
+              label: Branch Name
+      - name: request_category
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: request_sub_category
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: description
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: related_documents
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+            urls:
+              - name: Hình ảnh/Video
+                url: ${TABLE}.related_documents
+      - name: priority
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: maintainance_approval
+        data_type: boolean
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+            hidden: true
+      - name: execution_plan
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: estimated_cost
+        data_type: int64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_estimated_cost:
+              type: sum
+              label: Estimated Cost
+              compact: thousands
+              round: 0
+      - name: pic
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: duration
+        data_type: int64
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: deadline
+        data_type: date
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: actual_finish_date
+        data_type: date
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: status
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: actual_cost
+        data_type: int64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_actual_cost:
+              type: sum
+              label: Actual Cost
+              compact: thousands
+              round: 0
+              filters:
+                - maintainance_approval: "true"
+            m_avg_cost:
+              type: average
+              label: Avg Cost
+              compact: thousands
+              round: 0
+              filters:
+                - maintainance_approval: "true"
+            m_pct_over:
+              type: number
+              label: Over Estimated Rate
+              format: percent
+              round: 2
+              sql: safe_divide(${m_actual_cost},${m_estimated_cost})
+      - name: acceptance_date
+        data_type: date
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: acceptance_state
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: requester_type
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+            label: Nhóm yêu cầu
+      - name: duration_to_finish
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_days_to_finish:
+              type: average
+              label: Avg Days to Finish
+              round: 0
+              filters:
+                - maintainance_approval: "true"
+                - status: 
+                    - Đúng Deadline
+                    - Trễ Deadline

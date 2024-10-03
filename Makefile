@@ -6,7 +6,7 @@ deploy:
 	lightdash deploy --target prod --ignore-errors
 
 preview:
-	lightdash preview ${FLAGS}
+	lightdash preview ${FLAGS} --ignore-errors
 	
 ifdef MODELS
 generate:

@@ -11,3 +11,7 @@ sources:
       - name: "_ext_pancake_tags"
       - name: "content"
         identifier: "_ext_content__*"
+      - name: "maintainance_sheet"
+        identifier: "_ext_maintainance_sheet"
+      - name: "constructing"
+        identifier: "_ext_constructing_procedure"

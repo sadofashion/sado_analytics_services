@@ -38,7 +38,7 @@ with offline_performance AS (
      ON r.branch_id = asm.branch_id
   WHERE
     {% if is_incremental() %}
-      date(r.transaction_date) >= date_add(date(_dbt_max_partition), interval -3 day)
+      date(r.transaction_date) >= date_add(current_date, interval -3 day)
       {# r.transaction_date >='2024-02-01' #}
     {% else %}
       r.transaction_date >= '2023-01-01'
@@ -66,19 +66,39 @@ budget AS (
   WHERE
   budget.date <= CURRENT_DATE()
      {% if is_incremental() %}
-      and budget.date >= date_add(date(_dbt_max_partition), interval -3 day)
+      and budget.date >= date_add(current_date, interval -3 day)
       {# and budget.date >= '2024-02-01' #}
     {% endif %}
   GROUP BY
     1,
     2
+),
+operating_days as (
+  select b.branch_id, c.date
+  from {{ ref("dim__branches") }} b
+  left join {{ ref("calendar") }} c 
+    on b.opening_day <= c.date 
+      and (b.close_date >= c.date or b.close_date is null)
+  WHERE
+    {% if is_incremental() %}
+      date(c.date) >= date_add(current_date, interval -3 day)
+    {% else %}
+      c.date >= '2023-01-01'
+    {% endif %}
+    AND b.branch_id NOT IN (1000087891)
+    and b.asm_name is not null
+    and b.channel = 'Offline'
+    and c.date <= CURRENT_DATE()
 )
+
+
 
 SELECT
   o.* except(branch_id,transaction_date),
   b.* except(branch_id, date),
-  coalesce(o.transaction_date,b.date) as date,
-coalesce(o.branch_id,b.branch_id) as branch_id,
+  coalesce(o.transaction_date,b.date, c.date) as date,
+  coalesce(o.branch_id,b.branch_id,c.branch_id) as branch_id,
 FROM
   offline_performance o
   full outer join budget b on o.branch_id = b.branch_id and o.transaction_date = b.date
+  full outer join operating_days c on coalesce(o.branch_id,b.branch_id) = c.branch_id and coalesce(o.transaction_date,b.date) = c.date

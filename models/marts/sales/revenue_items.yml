@@ -13,7 +13,9 @@ models:
         - join: dim__branches
           sql_on: ${dim__branches.branch_id} = ${revenue_items.branch_id}
         - join: dim__inventory_items
-          sql_on: ${dim__inventory_items.kiotviet_product_id} = ${revenue_items.product_id}
+          sql_on: >-
+            ${dim__inventory_items.kiotviet_product_id} =
+            ${revenue_items.product_id}
         - join: calendar
           sql_on: ${calendar.date} = date(revenue_items.transaction_date)
         - join: revenue
@@ -25,6 +27,26 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_transactions:
+              type: count_distinct
+              label: Num Transactions
+              compact: thousands
+              round: 0
+            m_num_invoices:
+              type: count_distinct
+              label: Num Invoices
+              compact: thousands
+              round: 0
+              filters:
+                - transaction_type: invoice
+            m_num_returns:
+              type: count_distinct
+              label: Num Returns
+              compact: thousands
+              round: 0
+              filters:
+                - transaction_type: return
         data_type: BIGNUMERIC
       - name: transaction_code
         description: ""
@@ -87,12 +109,6 @@ models:
             type: string
             hidden: true
         data_type: STRING
-      - name: price
-        description: ""
-        meta:
-          dimension:
-            type: number
-        data_type: FLOAT64
       - name: transaction_type
         description: ""
         meta:
@@ -106,20 +122,35 @@ models:
             m_item_sold:
               type: sum
               label: Num Items Sold
-              group_label: Sales Metrics
+              round: 0
+              filters:
+                - transaction_type: invoice
+                - subtotal: "> 0"
+            m_item_gift:
+              type: sum
+              label: Num Items Gift
               compact: thousands
               round: 1
               filters:
                 - transaction_type: invoice
-                - subtotal: "> 0"
+                - subtotal: "0"
             m_item_return:
               type: sum
               label: Num Items Return
-              group_label: Sales Metrics
-              compact: thousands
-              round: 1
+              round: 0
               filters:
                 - transaction_type: return
+            m_gift_ratio:
+              type: number
+              label: Gift Ratio
+              sql: safe_divide(${m_item_gift},${m_item_sold})
+              format: percent
+              round: 2
+            m_quantity_item_per_order:
+              type: number
+              label: Quantity Item per Order
+              sql: safe_divide(${m_item_sold},${m_num_invoices})
+              round: 2
           dimension:
             type: number
       - name: price
@@ -140,11 +171,22 @@ models:
             m_item_discount_value:
               type: sum
               label: Value discount on Items
-              group_label: Sales Metrics
               filters:
                 - transaction_type: invoice
               compact: millions
               round: 1
+            m_discount_per_invoice:
+              type: number
+              label: Discount per Invoice
+              sql: safe_divide(${m_item_discount_value},${m_num_invoices})
+              round: 1
+              compact: thousands
+            m_discount_pct:
+              type: number
+              label: Discount Rate
+              sql: safe_divide(${m_item_discount_value},${m_item_value})
+              format: percent
+              round: 2
           dimension:
             type: number
         data_type: FLOAT64
@@ -154,12 +196,30 @@ models:
           metrics:
             m_item_value:
               type: sum
-              label: Item Value
-              group_label: Sales Metrics
+              label: Item Sold Value
               compact: millions
               round: 1
               filters:
                 - transaction_type: invoice
+            m_value_per_item_sold:
+              type: number
+              label: Value per Item Sold
+              sql: safe_divide(${m_item_value},${m_item_sold})
+              round: 1
+              compact: thousands
+            m_value_per_item_returned:
+              type: number
+              label: Value per Item Returned
+              sql: safe_divide(${m_item_return_value},${m_item_return})
+              round: 1
+              compact: thousands
+            m_item_return_value:
+              type: sum
+              label: Item Return Value
+              compact: millions
+              round: 1
+              filters:
+                - transaction_type: return
           dimension:
             type: number
       - name: transaction_type
@@ -167,3 +227,8 @@ models:
         meta:
           dimension:
             type: string
+      - name: modified_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp

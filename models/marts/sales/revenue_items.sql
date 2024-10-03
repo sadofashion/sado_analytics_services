@@ -35,7 +35,7 @@ SELECT
         0
     )) discount_ratio,
     avg(invoices.discount) discount,
-    sum(invoices.subTotal) subTotal,
+    sum(invoices.subtotal) subTotal,
 FROM
     {{ ref('stg_kiotviet__invoicedetails') }}
     invoices
