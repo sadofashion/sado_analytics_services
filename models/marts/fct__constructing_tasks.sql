@@ -50,7 +50,10 @@ with raw_ as (
     from {{ ref("stg_gsheet__construction") }} c
     left join unnest(c.procedure) procedure
 )
-select *,
-coalesce(lag(finish_date) over (partition by project_id,task_group_name order by task_name),review_start_date) as previous_task_finish_date
-from raw_
+select raw_.*,
+coalesce(lag(finish_date) over (partition by project_id,task_group_name order by task_name),review_start_date) as previous_task_finish_date,
+b.area_sqm,
+b.frontage,
+from raw_ 
+left join {{ ref("dim__branches") }} b on raw_.branch_name = b.branch_name
 where deadline is not null

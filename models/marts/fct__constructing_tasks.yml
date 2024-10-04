@@ -6,13 +6,14 @@ models:
         - join: calendar
           type: right
           sql_on: ${fct__constructing_tasks.deadline} = ${calendar.date}
+        - join: fct__construction_estimates
+          sql_on: ${fct__construction_estimates.project_id} = ${fct__constructing_tasks.project_id}
     columns:
       - name: project_id
         description: ""
         meta:
           dimension:
             type: string
-            hidden: true
           metrics:
             m_num_projects:
               type: count_distinct
@@ -21,14 +22,29 @@ models:
               type: count_distinct
               label: "#Tasks accepted on first review"
               filters:
-                - task_name: defect_fix
+                - task_name: 6.Sửa chữa lỗi (nếu có)
                 - deadline: "null"
             m_num_accepted_on_second_review:
               type: count_distinct
               label: "#Tasks accepted on second review"
               filters:
-                - task_name: final_acceptance_review
+                - task_name: 7.Nghiệm thu cuối
                 - deadline: "!null"
+            m_project_transfer_on_time:
+              type: count_distinct
+              label: "#Projects transferred on time"
+              filters:
+                - task_group_name: 1.Quy trình thi công
+                - task_name: 4.Bàn giao
+                - flag:
+                    - Đúng Deadline
+                    - Trước Deadline
+            m_pct_project_transfer_on_time:
+              type: number
+              label: "%Projects transferred on time"
+              sql: safe_divide(${m_project_transfer_on_time},${m_num_projects})
+              format: percent
+              round: 2
       - name: branch_name
         description: ""
         meta:
@@ -98,6 +114,25 @@ models:
               sql: safe_divide(${m_num_tasks_on_time},${m_num_tasks})
               format: percent
               round: 2
+            m_document_task:
+              type: count_distinct
+              label: "#Document tasks"
+              filters:
+                - task_group_name: 2.Hoàn thiện hồ sơ quyết toán
+            m_document_task_on_time:
+              type: count_distinct
+              label: "#Document tasks meet deadline"
+              filters:
+                - task_group_name: 2.Hoàn thiện hồ sơ quyết toán
+                - flag:
+                    - Đúng Deadline
+                    - Trước Deadline
+            m_pct_document_task_on_time:
+              type: number
+              label: "%Document tasks meet deadline"
+              sql: safe_divide(${m_document_task_on_time},${m_document_task})
+              format: percent
+              round: 2
       - name: task_group_name
         description: ""
         meta:
@@ -150,7 +185,7 @@ models:
               type: average
               label: Avg days to finish
               sql: >-
-                date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+                greatest(date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day),0)
             m_total_days_to_finish:
               type: sum
               label: Total days till acceptance
@@ -160,18 +195,19 @@ models:
               type: average
               label: Avg days to construct
               sql: >-
-                date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
+                greatest(date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day),0)
               filters:
                 - task_name:
-                    - facility_transfer
-                    - defect_fix
+                    - 4.Bàn giao
+                    - 6.Sửa chữa lỗi (nếu có)
+                - deadline: "!null"
             m_avg_days_to_fix_defect:
               type: average
               label: Avg days to fix defect
               sql: >-
                 date_diff(${TABLE}.finish_date,${TABLE}.previous_task_finish_date,day)
               filters:
-                - task_name: defect_fix
+                - task_name: 6.Sửa chữa lỗi (nếu có)
       - name: flag
         description: ""
         meta:
@@ -192,3 +228,18 @@ models:
         meta:
           dimension:
             type: date
+      - name: area_sqm
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            m_total_area:
+              type: sum
+              label: Total area
+              round: 0
+      - name: frontage
+        description: ""
+        meta:
+          dimension:
+            type: number

@@ -28,7 +28,7 @@ SELECT
     case when asm_list.asm_name is null then 'Kho & CH khác Kiotviet' else 'Offline' end as channel,
 
     asm_list.asm_name,
-    asm_list.phone,
+    safe_cast(asm_list.phone as string) phone,
     asm_list.email,
 
     asm_list.local_page,
@@ -42,7 +42,10 @@ SELECT
     asm_list.region_code,
 
     asm_list.opening_day,
-    asm_list.close_date
+    asm_list.close_date,
+
+    asm_list.frontage,
+    asm_list.area_sqm,
 FROM
     asm_list
     LEFT JOIN  branches
@@ -70,4 +73,7 @@ select
 
     cast(null as date) as opening_day,
     cast(null as date) as close_date,
+
+    cast(null as float64) as frontage,
+    cast(null as float64) as area_sqm,
     from {{ ref("stg_nhanhvn__sales_channels") }}

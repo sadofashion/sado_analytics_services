@@ -36,6 +36,11 @@ models:
         meta:
           dimension:
             type: string
+          additional_dimensions:
+            d_day_nam_short:
+              type: string
+              sql: format_date('%a',${TABLE}.date)
+              label: Day name short
         data_type: STRING
       - name: start_of_month
         description: ""
@@ -54,6 +59,11 @@ models:
         meta:
           dimension:
             type: date
+          additional_dimensions:
+            d_week:
+              type: string
+              sql: format_date('%g',${TABLE}.start_of_week)||"T"||format_date('%W',${TABLE}.start_of_week)||" "||format_date('%d/%m',${TABLE}.start_of_week)||"-"||format_date('%d/%m',${TABLE}.end_of_week)
+              label: Week range
         data_type: DATE
       - name: end_of_week
         description: ""

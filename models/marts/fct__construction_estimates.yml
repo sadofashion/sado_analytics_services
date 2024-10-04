@@ -77,3 +77,29 @@ models:
               round: 0
               filters:
                 - cost_category: "!total"
+      - name: area_sqm
+        description: ""
+        meta:
+          dimension:
+            type: number
+          metrics:
+            m_total_area:
+              type: sum
+              label: Total Area
+              round: 0
+            m_avg_area_per_project:
+              type: number
+              label: Avg Area per project
+              sql: safe_divide(${m_total_area},${m_num_projects})
+              round: 0
+            m_cost_per_sqm:
+              type: number
+              label: Cost per sqm
+              sql: safe_divide(${m_actual},${m_total_area})
+              compact: thousands
+              round: 1
+      - name: frontage
+        description: ""
+        meta:
+          dimension:
+            type: number
