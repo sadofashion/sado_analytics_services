@@ -87,6 +87,7 @@ models:
               type: sum
               label: Total Area
               round: 0
+              sql: ${TABLE}.area_sqm/6
             m_avg_area_per_project:
               type: number
               label: Avg Area per project

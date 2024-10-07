@@ -45,7 +45,7 @@ models:
               label: No. Invoices PSD
               group_label: Sales metrics
               sql: safe_divide(${m_num_invoices},${m_num_stores})
-              round: 0
+              round: 2
             m_aov:
               type: number
               sql: safe_divide(${m_invoice_val},${m_num_invoices})

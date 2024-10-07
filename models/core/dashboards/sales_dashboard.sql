@@ -78,7 +78,7 @@ operating_days as (
   from {{ ref("dim__branches") }} b
   left join {{ ref("calendar") }} c 
     on b.opening_day <= c.date 
-      and (b.close_date >= c.date or b.close_date is null)
+      and (b.close_date > c.date or b.close_date is null)
   WHERE
     {% if is_incremental() %}
       date(c.date) >= date_add(current_date, interval -3 day)

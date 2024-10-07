@@ -41,14 +41,16 @@ models:
               filters:
                 - maintainance_approval: "!true"
             m_finished_request:
-              type: number
-              label: Number of Finished Requests
-              sql: ${m_approved_request}-${m_on_going_request}
+              type: count
+              label: Number of finished Requests
+              filters:
+                - actual_finish_date: "!null"
             m_on_going_request:
               type: count
               label: Number of On Going Requests
               filters:
-                - status: Đang thực hiện
+                - status: "null"
+                - maintainance_approval: "true"
             m_meet_deadline_requests:
               type: count
               label: Number of Requests Meet Deadline

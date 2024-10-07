@@ -1,6 +1,7 @@
 {{
   config(
     materialized = 'table',
+    tags = ['table', 'fact','daily']
     )
 }}
 
@@ -20,7 +21,7 @@ SELECT
     pic,
     coalesce(DURATION, {{default_duration}}) as duration,
     coalesce(deadline, DATE_ADD(created_at, INTERVAL {{default_duration}} DAY)) AS deadline,
-    coalesce(actual_finish_date, CURRENT_DATE()) AS actual_finish_date,
+    actual_finish_date,
     case 
         when  actual_finish_date is null then "Đang thực hiện"
         when coalesce(actual_finish_date, CURRENT_DATE()) > deadline then "Trễ Deadline" 
