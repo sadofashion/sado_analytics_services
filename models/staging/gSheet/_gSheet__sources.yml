@@ -15,3 +15,5 @@ sources:
         identifier: "_ext_maintainance_sheet"
       - name: "constructing"
         identifier: "_ext_constructing_procedure"
+      - name: cs_calls
+        identifier: "_ext_cscalls__*"
