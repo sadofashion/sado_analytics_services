@@ -15,7 +15,7 @@ WITH staging AS (
                 C.birthDate
         ) AS birth_month,
         C.birthDate AS birth_date,
-        regexp_replace(C.contactNumber,r'\W','') AS contact_number,
+        regexp_replace(C.contactNumber,r'\D','') AS contact_number,
         C.branchId AS branch_id,
         C.TYPE AS customer_type,
         C.groups AS customer_groups,

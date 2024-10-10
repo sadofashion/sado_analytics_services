@@ -22,12 +22,12 @@ with offline_performance AS (
       r.transaction_date
     ) transaction_date,
     {% for col,cal in rev_calcols.items() %}
-      {{ cal }} {{ col }}{{ ")" }} AS val_{{ col }},
+      {{ cal +" "+ col + ")" }} AS {{ "val_"+col }},
       {% for type in rev_types %}
         {{ cal }}
         CASE
           WHEN transaction_type = '{{type}}' THEN {{ col }}
-        END {{ ")" }} AS num_{{ type }}_{{ col }},
+        END {{ ")" }} AS {{"num_"+ type +"_"+ col }},
       {% endfor %}
     {% endfor %}
     

@@ -1,0 +1,51 @@
+version: 2
+models:
+  - name: fct__cs_calls
+    columns:
+      - name: call_status
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: call_month
+        meta:
+          dimension:
+            type: date
+        data_type: date
+      - name: customer_id
+        meta:
+          dimension:
+            type: number
+        data_type: numeric
+      - name: transaction_date
+        meta:
+          dimension:
+            type: date
+        data_type: date
+      - name: val_transaction_id
+        data_type: int64
+        quote: true
+      - name: num_invoice_transaction_id
+        data_type: int64
+        quote: true
+      - name: num_return_transaction_id
+        data_type: int64
+        quote: true
+      - name: val_total
+        data_type: float64
+        quote: true
+      - name: num_invoice_total
+        data_type: float64
+        quote: true
+      - name: num_return_total
+        data_type: float64
+        quote: true
+      - name: val_total_payment
+        data_type: float64
+        quote: true
+      - name: num_invoice_total_payment
+        data_type: float64
+        quote: true
+      - name: num_return_total_payment
+        data_type: float64
+        quote: true
