@@ -2,7 +2,7 @@ with source as (
   {{dbt_utils.deduplicate(
     relation= source('gSheet', 'cs_calls'),
     partition_by = "json_value(data,'$.customer_phone'),json_value(data,'$.call_month')",
-    order_by = "_batched_at"
+    order_by = "_batched_at desc"
     )
   }}
 ),
