@@ -5,21 +5,21 @@ models:
       joins:
         - join: calendar
           alias: call_calendar
-          sql_on: ${fct__cs_calls}.call_month = ${call_calendar}.date
+          sql_on: ${fct__cs_calls.call_month} = ${call_calendar.date}
         - join: dim__branches
           alias: call_branch
-          sql_on: ${fct__cs_calls}.branch_name = ${call_branch}.branch_name
+          sql_on: ${fct__cs_calls.branch_name} = ${call_branch.branch_name}
         - join: fct__customers
-          sql_on: ${fct__cs_calls}.customer_id = ${fct__customers}.universal_customer_id
+          sql_on: ${fct__cs_calls.customer_id} = ${fct__customers.universal_customer_id}
         - join: rfm_movement
-          sql_on: ${fct__cs_calls}.customer_id = ${rfm_movement}.customer_id and
-            ${fct__cs_calls}.call_month = ${rfm_movement}.start_of_month
+          sql_on: ${fct__cs_calls.customer_id} = ${rfm_movement.customer_id} and
+            ${fct__cs_calls.call_month} = ${rfm_movement.start_of_month}
         - join: calendar
           alias: transaction_calendar
-          sql_on: ${fct__cs_calls}.transaction_date = ${transaction_calendar}.date
+          sql_on: ${fct__cs_calls.transaction_date} = ${transaction_calendar.date}
         - join: dim__branches
           alias: transaction_branch
-          sql_on: ${fct__cs_calls}.branch_id = ${transaction_branch}.branch_id
+          sql_on: ${fct__cs_calls.branch_id} = ${transaction_branch.branch_id}
     columns:
       - name: call_status
         meta:
@@ -37,12 +37,61 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_num_cusotomers:
+              type: count_distinct
+              label: No. Customers
+              group_label: Sales metrics
+              round: 0
+            m_num_customer_called:
+              type: count_distinct
+              label: No. Customers Called
+              group_label: Sales metrics
+              round: 0
+              filters:
+                - call_status: "!null"
+            m_num_successful_calls:
+              type: count_distinct
+              label: No. Successful Calls
+              group_label: Sales metrics
+              round: 0
+              filters:
+                - call_status: 
+                  - Hẹn ra cửa hàng
+            m_calls_with_transactions:
+              type: count_distinct
+              label: No. Calls with Transactions
+              group_label: Sales metrics
+              round: 0
+              filters:
+                - transaction_date: "!null"
+            m_call_cvr:
+              type: number
+              sql: safe_divide(${m_calls_with_transactions},${m_num_customer_called})
+              label: Call Conversion Rate
+              group_label: Sales metrics
+              format: percent
+              round: 2
+            m_call_progress:
+              type: number
+              sql: safe_divide(${m_num_customer_called},${m_num_cusotomers})
+              label: Call Progress
+              group_label: Sales metrics
+              format: percent
+              round: 2
+                             
         data_type: numeric
       - name: branch_name
         meta:
           dimension:
             type: string
             hidden: true
+          metrics:
+            m_num_stores:
+              type: count_distinct
+              label: No. Stores
+              group_label: Sales metrics
+              round: 0
         data_type: string
       - name: transaction_date
         meta:
@@ -82,17 +131,12 @@ models:
               label: No. Invoices
               group_label: Sales metrics
               round: 0
-            m_num_invoices_psd:
-              type: number
-              label: No. Invoices PSD
-              group_label: Sales metrics
-              sql: safe_divide(${m_num_invoices},${m_num_stores})
-              round: 2
             m_aov:
               type: number
               sql: safe_divide(${m_invoice_val},${m_num_invoices})
               label: AOV
               group_label: Sales metrics
+              compact: thousands
               round: 0
       - name: num_return_transaction_id
         data_type: int64
@@ -170,20 +214,6 @@ models:
               group_label: Sales metrics
               compact: millions
               round: 1
-            m_run_rate:
-              label: Sales Run rate
-              group_label: Sales metrics
-              type: number
-              sql: safe_divide(${m_payment_val},${m_sales_target})
-              format: percent
-              round: 2
-            m_payment_psd:
-              label: Revenue PSD
-              group_label: Sales metrics
-              type: number
-              sql: safe_divide(${m_payment_val},${m_num_stores})
-              compact: millions
-              round: 2
       - name: num_invoice_total_payment
         data_type: float64
         description: doanh thu thuần bán hàng

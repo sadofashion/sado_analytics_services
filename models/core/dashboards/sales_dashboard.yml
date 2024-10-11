@@ -51,6 +51,7 @@ models:
               sql: safe_divide(${m_invoice_val},${m_num_invoices})
               label: AOV
               group_label: Sales metrics
+              compact: thousands
               round: 0
       - name: num_return_transaction_id
         data_type: int64
