@@ -7,6 +7,7 @@
 "total" :"sum(",
 "total_payment" :"sum(" } %}
 {% set rev_types = ["invoice", "return"] %}
+
 WITH calls AS (
 
     SELECT
@@ -25,6 +26,7 @@ transactions AS (
     SELECT
         customer_id,
         transaction_date,
+        branch_id, 
         {% for col,cal in rev_calcols.items() %}
             {{ cal +" " +col + ")" }} AS {{ "val_"+col }},
             {% for type in rev_types %}
@@ -38,7 +40,7 @@ transactions AS (
     WHERE
         source = 'kiotviet'
         AND transaction_date >= '2024-10-01'
-    {{dbt_utils.group_by(2)}}
+    {{dbt_utils.group_by(3)}}
 )
 SELECT
     c.call_status,

@@ -7,48 +7,55 @@ models:
           alias: call_calendar
           sql_on: ${fct__cs_calls}.call_month = ${call_calendar}.date
         - join: dim__branches
-          sql_on: ${fct__cs_calls}.branch_name = ${dim__branches}.branch_name
+          alias: call_branch
+          sql_on: ${fct__cs_calls}.branch_name = ${call_branch}.branch_name
         - join: fct__customers
           sql_on: ${fct__cs_calls}.customer_id = ${fct__customers}.universal_customer_id
         - join: rfm_movement
-          sql_on: ${fct__cs_calls}.customer_id = ${rfm_movement}.customer_id and ${fct__cs_calls}.call_month = ${rfm_movement}.start_of_month
+          sql_on: ${fct__cs_calls}.customer_id = ${rfm_movement}.customer_id and
+            ${fct__cs_calls}.call_month = ${rfm_movement}.start_of_month
         - join: calendar
           alias: transaction_calendar
           sql_on: ${fct__cs_calls}.transaction_date = ${transaction_calendar}.date
+        - join: dim__branches
+          alias: transaction_branch
+          sql_on: ${fct__cs_calls}.branch_id = ${transaction_branch}.branch_id
     columns:
       - name: call_status
         meta:
           dimension:
             type: string
         data_type: string
-        description: ""
-      - name: branch_name
-        description: ""
-        meta:
-          dimension:
-            type: string
-            hidden: true
       - name: call_month
         meta:
           dimension:
             type: date
             hidden: true
         data_type: date
-        description: ""
       - name: customer_id
         meta:
           dimension:
             type: number
             hidden: true
         data_type: numeric
-        description: ""
+      - name: branch_name
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string
       - name: transaction_date
         meta:
           dimension:
             type: date
             hidden: true
         data_type: date
-        description: ""
+      - name: branch_id
+        meta:
+          dimension:
+            type: number
+            hidden: true
+        data_type: numeric
       - name: val_transaction_id
         data_type: int64
         description: số lượng giao dịch
@@ -62,7 +69,7 @@ models:
               label: No. Transactions
               group_label: Sales metrics
               round: 0
-       - name: num_invoice_transaction_id
+      - name: num_invoice_transaction_id
         data_type: int64
         description: số lượng invoice
         meta:
