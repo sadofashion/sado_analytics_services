@@ -1,51 +1,193 @@
 version: 2
 models:
   - name: fct__cs_calls
+    meta:
+      joins:
+        - join: calendar
+          alias: call_calendar
+          sql_on: ${fct__cs_calls}.call_month = ${call_calendar}.date
+        - join: dim__branches
+          sql_on: ${fct__cs_calls}.branch_name = ${dim__branches}.branch_name
+        - join: fct__customers
+          sql_on: ${fct__cs_calls}.customer_id = ${fct__customers}.universal_customer_id
+        - join: rfm_movement
+          sql_on: ${fct__cs_calls}.customer_id = ${rfm_movement}.customer_id and ${fct__cs_calls}.call_month = ${rfm_movement}.start_of_month
+        - join: calendar
+          alias: transaction_calendar
+          sql_on: ${fct__cs_calls}.transaction_date = ${transaction_calendar}.date
     columns:
       - name: call_status
         meta:
           dimension:
             type: string
         data_type: string
+        description: ""
+      - name: branch_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
       - name: call_month
         meta:
           dimension:
             type: date
+            hidden: true
         data_type: date
+        description: ""
       - name: customer_id
         meta:
           dimension:
             type: number
+            hidden: true
         data_type: numeric
+        description: ""
       - name: transaction_date
         meta:
           dimension:
             type: date
+            hidden: true
         data_type: date
+        description: ""
       - name: val_transaction_id
         data_type: int64
-        quote: true
-      - name: num_invoice_transaction_id
+        description: số lượng giao dịch
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_transactions:
+              type: sum
+              label: No. Transactions
+              group_label: Sales metrics
+              round: 0
+       - name: num_invoice_transaction_id
         data_type: int64
-        quote: true
+        description: số lượng invoice
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_invoices:
+              type: sum
+              label: No. Invoices
+              group_label: Sales metrics
+              round: 0
+            m_num_invoices_psd:
+              type: number
+              label: No. Invoices PSD
+              group_label: Sales metrics
+              sql: safe_divide(${m_num_invoices},${m_num_stores})
+              round: 2
+            m_aov:
+              type: number
+              sql: safe_divide(${m_invoice_val},${m_num_invoices})
+              label: AOV
+              group_label: Sales metrics
+              round: 0
       - name: num_return_transaction_id
         data_type: int64
-        quote: true
+        description: số lượng trả
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_returns:
+              type: sum
+              label: No. Returns
+              group_label: Sales metrics
+              round: 0
+            m_return_rate:
+              type: number
+              sql: safe_divide(${m_num_returns},${m_num_transactions})
+              label: Return Rate
+              group_label: Sales metrics
+              format: percent
+              round: 1
       - name: val_total
         data_type: float64
-        quote: true
+        description: giá trị giao dịch
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_transaction_val:
+              type: sum
+              label: Transaction Value
+              group_label: Sales metrics
+              compact: millions
+              round: 1
       - name: num_invoice_total
         data_type: float64
-        quote: true
+        description: giá trị bán
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_invoice_val:
+              type: sum
+              label: Invoice Value
+              group_label: Sales metrics
+              compact: millions
+              round: 1
       - name: num_return_total
         data_type: float64
-        quote: true
+        description: giá trị trả
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_return_val:
+              type: sum
+              label: Return Value
+              group_label: Sales metrics
+              compact: millions
+              round: 1
       - name: val_total_payment
         data_type: float64
-        quote: true
+        description: doanh thu thuần
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_payment_val:
+              type: sum
+              label: Payment
+              group_label: Sales metrics
+              compact: millions
+              round: 1
+            m_run_rate:
+              label: Sales Run rate
+              group_label: Sales metrics
+              type: number
+              sql: safe_divide(${m_payment_val},${m_sales_target})
+              format: percent
+              round: 2
+            m_payment_psd:
+              label: Revenue PSD
+              group_label: Sales metrics
+              type: number
+              sql: safe_divide(${m_payment_val},${m_num_stores})
+              compact: millions
+              round: 2
       - name: num_invoice_total_payment
         data_type: float64
-        quote: true
+        description: doanh thu thuần bán hàng
+        meta:
+          dimension:
+            type: number
+            hidden: true
       - name: num_return_total_payment
         data_type: float64
-        quote: true
+        description: doanh thu thuần trả hàng
+        meta:
+          dimension:
+            type: number
+            hidden: true

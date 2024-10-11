@@ -1,5 +1,6 @@
 {{ config(
-    materialized = 'view',
+    materialized = 'table',
+    tags = ['table','fact','marketing','calls']
 ) }}
 
 {% set rev_calcols ={ "transaction_id" :"count(distinct ",
@@ -12,6 +13,7 @@ WITH calls AS (
         cs.call_status,
         cs.call_month,
         c.kiotviet_customer_id AS customer_id,
+        cs.branch_name,
     FROM
         {{ ref("stg_gsheet__cs_calls") }}
         cs
@@ -42,6 +44,7 @@ SELECT
     c.call_status,
     c.call_month,
     c.customer_id AS customer_id,
+    c.branch_name,
     t.* except(customer_id)
 FROM
     calls c
