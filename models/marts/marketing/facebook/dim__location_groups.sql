@@ -14,4 +14,5 @@ SELECT
 FROM
     {{ ref('dim__branches') }}
 WHERE
-    channel = 'Offline' {{ dbt_utils.group_by(6) }}
+    channel = 'Offline' 
+    {{ dbt_utils.group_by(6) }}

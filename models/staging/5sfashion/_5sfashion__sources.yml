@@ -1,59 +1,18 @@
 version: 1
 sources:
-  - name: 5sfashion
+  - name: web
     schema: WebsiteDB
     description: "data pulled from 5S fashion web database"
     tables:
-      - name: products
-        identifier: "p_products_*"
-        loaded_at_field: _batched_at
-        freshness:
-          warn_after: { count: 1, period: day }
-          error_after: { count: 0, period: day }
-      - name: product_variants
-        identifier: "p_product_variants_*"
-        loaded_at_field: _batched_at
-        freshness:
-          warn_after: { count: 1, period: day }
-          error_after: { count: 0, period: day }
-
-      - name: product_ratings
-        identifier: "p_product_ratings_*"
-        loaded_at_field: _batched_at
-        freshness:
-          warn_after: { count: 1, period: day }
-          error_after: { count: 0, period: day }
-
-      - name: order_items
-        identifier: "p_order_items_*"
-        loaded_at_field: _batched_at
-        freshness:
-          warn_after: { count: 12, period: day }
-          error_after: { count: 6, period: day }
-
       - name: orders
-        identifier: "p_orders_*"
-        loaded_at_field: _batched_at
-        freshness:
-          warn_after: { count: 12, period: day }
-          error_after: { count: 6, period: day }
-
+        identifier: p_websitev2__orders
+      - name: order_details
+        identifier: p_websitev2__order_details
       - name: categories
-        identifier: "p_categories_*"
-        loaded_at_field: _batched_at
-        freshness:
-          warn_after: { count: 1, period: day }
-          error_after: { count: 0, period: day }
-
-      - name: districts
-        identifier: "p_districts_*"
-
-      - name: wards
-        identifier: "p_wards_*"
-
-      - name: provinces
-        identifier: "p_provinces_*"
-
-      - name: cms_menu_items
-        identifier: "p_cms_menu_items_*"
-
+        identifier: p_websitev2__categories
+      - name: order_shipings
+        identifier: p_websitev2__order_shipings
+      - name: products
+        identifier: p_websitev2__products
+      - name: product_details
+        identifier: p_websitev2__product_details

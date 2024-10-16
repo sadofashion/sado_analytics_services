@@ -18,6 +18,7 @@ with store_group as (
     region_code,
     province_code,
     from {{ ref('dim__branches') }}
+    where local_page_code is not null
 ),
 preprocessing as 
 (

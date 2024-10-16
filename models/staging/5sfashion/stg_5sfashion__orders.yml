@@ -1,0 +1,42 @@
+models:
+  - name: stg_5sfashion__orders
+    columns:
+      - name: order_id
+        data_type: string
+        quote: true
+        tests:
+          - unique
+          - not_null
+      - name: order_code
+        data_type: string
+        quote: true
+      - name: token
+        data_type: string
+        quote: true
+      - name: created_at
+        data_type: timestamp
+        quote: true
+      - name: updated_at
+        data_type: timestamp
+        quote: true
+      - name: total_price
+        data_type: float64
+        quote: true
+      - name: total_ship
+        data_type: float64
+        quote: true
+      - name: total
+        data_type: float64
+        quote: true
+      - name: customer_phone
+        data_type: string
+        quote: true
+      - name: customer_name
+        data_type: string
+        quote: true
+      - name: customer_email
+        data_type: string
+        quote: true
+      - name: location_id
+        data_type: string
+        quote: true

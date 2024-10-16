@@ -1,3 +1,10 @@
+{{
+  config(
+    materialized = 'table',
+    enabled = false
+    )
+}}
+
 WITH products AS (
     SELECT
         product_name,

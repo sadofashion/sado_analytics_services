@@ -10,11 +10,7 @@ SELECT
     totalPayment as total_payment,
     discount,
     discountRatio as discount_ratio ,
-    CASE
-        WHEN status = 3 THEN "Đã nhập hàng"
-        WHEN status = 1 THEN "Phiếu tạm"
-        WHEN status = 4 THEN "Đã huỷ"
-    END AS transaction_status,
+    transaction_status,
     createdDate as created_date,
 FROM
     {{ ref('base_kiotViet__purchaseOrders') }}

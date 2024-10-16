@@ -1,35 +1,41 @@
 {{
     config(
-        tags=['website','dimensions','view']
+        tags=['website','dimensions','view'],
+        enabled = false
     )
 }}
 
-with products as (
+with base_products as (
     {{dbt_utils.deduplicate(
         relation = source(
-            '5sfashion',
+            'web',
             'products'
         ),
-        partition_by = '_id',
+        partition_by = 'id',
+        order_by = '_batched_at desc'
+    )}}
+),
+base_product_details as (
+    {{dbt_utils.deduplicate(
+        relation = source(
+            'web',
+            'product_details'
+        ),
+        partition_by = 'id',
+        order_by = '_batched_at desc'
+    )}}
+),
+base_categories as (
+    {{dbt_utils.deduplicate(
+        relation = source(
+            'web',
+            'categories'
+        ),
+        partition_by = 'id',
         order_by = '_batched_at desc'
     )}}
 )
 
-SELECT
-_id as product_id,
-name as product_name,
-case product_type_id
-    when "63e5ee4fa056b1c6920ed269" then 'Áo'
-    when "63e5ee4fa056b1c6920ed269" then "Quần"
-    when "63e5ee4fa056b1c6920ed26b" then "Khác"
-    else "Chưa phân loại" end as product_type,
-keyword as product_keyword,
-updated_at,
-created_at,
-published_at,
-regexp_replace(code,r'\W','') as product_code,
-categories,
-FROM
-    products
-{# left join unnest(categories) categories #}
-where _id is not null
+select * 
+from base_product_details pd 
+left join base_products p on pd.product_id = p.id

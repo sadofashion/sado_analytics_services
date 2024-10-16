@@ -9,8 +9,8 @@ WITH branches AS (
         *
     FROM
         {{ ref("stg_kiotviet__branches") }}
-    WHERE
-        branch_name LIKE '5S%'
+    WHERE 1=1
+        {# branch_name LIKE '5S%' #}
         and branch_id not in (1000087891,86414)
 ),
 
@@ -23,9 +23,9 @@ from {{ ref("stg_gsheet__asms") }}
 
 SELECT
     branches.branch_id,
-    branches.branch_name,
+    coalesce(branches.branch_name, asm_list.store_name) as branch_name,
     asm_list.branch_code,
-    case when asm_list.asm_name is null then 'Kho & CH khác Kiotviet' else 'Offline' end as channel,
+    branches.channel,
 
     asm_list.asm_name,
     safe_cast(asm_list.phone as string) phone,
@@ -48,7 +48,7 @@ SELECT
     asm_list.area_sqm,
 FROM
     asm_list
-    LEFT JOIN  branches
+full outer JOIN  branches
     ON asm_list.store_name = branches.branch_name
 union all 
 select 

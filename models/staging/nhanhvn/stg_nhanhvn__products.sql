@@ -12,45 +12,40 @@
 "ÁO - THU ĐÔNG" :["Áo giữ nhiệt","Áo polo dài tay","Áo Blazer","Áo thun dài tay","Áo Bomber","Áo nỉ rời","Áo len","Áo phao","Áo gió"],
 "ÁO - XUÂN HÈ" :["Tshirt","Áo sát nách","Polo","Áo ba lỗ","Áo chống nắng","Sơ mi cộc"],
 "ĐỒ LÓT, PHỤ KIỆN" :["TẤT","BA LỖ LÓT","PHỤ KIỆN","SỊP"] } %}
-
-{% set ads_product_mapping ={ 
-  "ABZ":["áo blazer"],
-  "ACN":['áo chống nắng'],
-  "AGB":["áo gió bộ"],
-  "AGN":["áo giữ nhiệt"],
-  "AKB":['áo bomber'],
-  "AKC":["áo phao"],
-  "AKD":["áo khoác da"],
-  "AKG":["áo gió","bộ gió"],
-  "ALO":["áo len"],
-  "ANB":["áo nỉ bộ"],
-  "ANO":["áo nỉ rời"],
-  "APB":["áo bộ polo"],
-  "APC":['bộ polo','polo'],
-  "APD":['áo polo dài tay'],
-  "APO":["áo thun dài tay"],
-  "ATS":['bộ t-shirt','tshirt',"t-shirt cũ","t-shirt thể thao","t-shirt thiết kế","áo sát nách"],
-  "ATT":['áo sát nách','áo ba lỗ'],
-  "AVB":["áo vest","bộ đồ","bộ vest"],
-  "BNI":["bộ nỉ",],
-  "PKN":['tất','ba lỗ lót','sịp','phụ kiện'],
-  "QAU":["quần âu"],
-  "QBD":['quần jean'],
-  "QDT":['quần dài thể thao'],
-  "QGB":["quần gió bộ"],
-  "QKD":['quần khaki'],
-  "QNB":["quần nỉ bộ"],
-  "QNI":['quần nỉ rời'],
-  "QSG":['quần short gió'],
-  "QSK":['quần short kaki'],
-  "QST":['quần short thể thao cạp chun','quần short thể thao cạp cúc',"quần bộ polo","quần bộ tshirt","quần short vải","quần short âu"],
-  "QSC":["quần short casual"],
-  "QVE":["quần vest"],
-  "SMC":['sơ mi cộc'],
-  "SMD":['sơ mi dài'],
-} %}
-
-
+{% set ads_product_mapping ={ "ABZ" :["áo blazer"],
+"ACN" :['áo chống nắng'],
+"AGB" :["áo gió bộ"],
+"AGN" :["áo giữ nhiệt"],
+"AKB" :['áo bomber'],
+"AKC" :["áo phao"],
+"AKD" :["áo khoác da"],
+"AKG" :["áo gió","bộ gió"],
+"ALO" :["áo len"],
+"ANB" :["áo nỉ bộ"],
+"ANO" :["áo nỉ rời"],
+"APB" :["áo bộ polo"],
+"APC" :['bộ polo','polo'],
+"APD" :['áo polo dài tay'],
+"APO" :["áo thun dài tay"],
+"ATS" :['bộ t-shirt','tshirt',"t-shirt cũ","t-shirt thể thao","t-shirt thiết kế","áo sát nách"],
+"ATT" :['áo sát nách','áo ba lỗ'],
+"AVB" :["áo vest","bộ đồ","bộ vest"],
+"BNI" :["bộ nỉ",],
+"PKN" :['tất','ba lỗ lót','sịp','phụ kiện'],
+"QAU" :["quần âu"],
+"QBD" :['quần jean'],
+"QDT" :['quần dài thể thao'],
+"QGB" :["quần gió bộ"],
+"QKD" :['quần khaki'],
+"QNB" :["quần nỉ bộ"],
+"QNI" :['quần nỉ rời'],
+"QSG" :['quần short gió'],
+"QSK" :['quần short kaki'],
+"QST" :['quần short thể thao cạp chun','quần short thể thao cạp cúc',"quần bộ polo","quần bộ tshirt","quần short vải","quần short âu"],
+"QSC" :["quần short casual"],
+"QVE" :["quần vest"],
+"SMC" :['sơ mi cộc'],
+"SMD" :['sơ mi dài'],} %}
 {% set sub_productline_patterns ={ "Bộ gió" :["bộ gió"],
 "Bộ Vest" :["bộ vest","vest"],
 "Bộ nỉ" :["bộ nỉ"],
@@ -87,7 +82,8 @@
 "PHỤ KIỆN" :["phụ kiện","ví"],
 "SỊP" :["sịp","quần lót"] } %}
 
-
+{% set product_design_code ={ "custom":{ "24" :'^(?:[ZXY0]{0,3})([BC0][A-Z]{3}[0-9]{3,5})' },
+"default": '^(?:[ZXY0]{0,2})([BC0]?[A-Z]{3}[0-9]{3,5})',} %}
 
 WITH source AS (
   {{ dbt_utils.deduplicate(
@@ -99,18 +95,15 @@ WITH source AS (
     order_by = "_batched_at desc",
   ) }}
 ),
-
-base_cat as (
-
+base_cat AS (
   {{ dbt_utils.deduplicate(
     relation = source(
-        'nhanhvn',
-        'p_categories'
+      'nhanhvn',
+      'p_categories'
     ),
     partition_by = 'id',
     order_by = "_batched_at desc",
-) }}
-
+  ) }}
 ),
 category AS (
   SELECT
@@ -118,6 +111,7 @@ category AS (
     products.typeName AS type_name,
     safe_cast(products.avgCost AS int64) AS avg_cost,
     products.code AS product_code,
+    COALESCE(regexp_extract(products.code, r'[A-Z]{3}(2[1-5])'), "Cũ") AS YEAR,
     COALESCE(regexp_extract(products.code,r'([A-Za-z0-9-]+)(?:[A-Z]{3}\d{1,5}$)'),products.code) AS class_code,
     products.barcode,
     products.name AS product_name,
@@ -131,12 +125,16 @@ category AS (
     END AS sub_productline
   FROM
     source products
-    LEFT JOIN base_cat
-    categories
+    LEFT JOIN base_cat categories
     ON products.categoryId = categories.id
 )
 SELECT
   *,
+  CASE
+    {% for key,pattern in product_design_code.items() -%}
+      WHEN year = "{{key}}" THEN regexp_extract(product_code,r"{{ pattern }}")
+    {% endfor -%}
+    ELSE regexp_extract(product_code,r"{{ product_design_code['default'] }}") END AS product_design_code,
   CASE
     {% for product,values in ads_product_mapping.items() -%}
       WHEN LOWER(sub_productline) IN ('{{values|join("','")}}') THEN '{{product | lower()}}'

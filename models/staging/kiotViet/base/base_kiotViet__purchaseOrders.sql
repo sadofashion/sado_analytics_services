@@ -64,7 +64,11 @@ SELECT
     totalPayment,
     discount,
     discountRatio,
-    status,
+    CASE
+        WHEN status = 3 THEN "Đã nhập hàng"
+        WHEN status = 1 THEN "Phiếu tạm"
+        WHEN status = 4 THEN "Đã huỷ"
+    END AS transaction_status,
     createdDate,
     purchaseOrderDetails,
 FROM

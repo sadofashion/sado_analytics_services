@@ -17,7 +17,7 @@ models:
               type: string
               sql: |
                 case when ${channel} = 'Offline' then ${asm_name} 
-                when ${channel} = 'Online & Ecom' and ${branch_name} in ('Website','FB - WEB') then 'Website'
+                when ${channel} = 'Online & Ecom' and ${branch_name} in ('Website','FB - WEB','5S Web') then 'Website'
                 when ${channel} = 'Online & Ecom' and ${branch_name} in ('Facebook','Instagram') then 'Social'
                 when ${channel} = 'Online & Ecom' and ${branch_name} in ('Tiktok Shop','Lazada.vn','Shopee.vn','Tiki.vn','Sàn','Zalo Shop') then 'Sàn'
                 else ${branch_name} end

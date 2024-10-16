@@ -22,5 +22,11 @@ SELECT
     b.email,
     b.createdDate as created_Date,
     b.modifiedDate as modified_date,
+    case 
+        when b.branchName = '5S Web' then 'Online'
+        when b.branchName like 'DX%' then "Điểm xả"
+        when b.branchName like 'PU%' then "Popup"
+        when b.branchName like '5S%' then "Offline"
+        else "Kho & CH khác Kiotviet" end as channel
 FROM
     source b

@@ -69,7 +69,7 @@ models:
               label: Ads Cost/Revenue
               group_label: Ads metrics
               format: percent
-              round: 1
+              round: 2
             m_ads_roas:
               type: number
               sql: safe_divide(${m_payment_val},${m_spend})

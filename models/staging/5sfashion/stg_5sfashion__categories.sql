@@ -1,11 +1,12 @@
 {{ config(
-    tags = ['website','dimensions','view']
+    tags = ['website','dimensions','view'],
+    enabled = false
 ) }}
 
 WITH categories AS (
     {{ dbt_utils.deduplicate(
         relation = source(
-            '5sfashion',
+            'web',
             'categories'
         ),
         partition_by = '_id',
@@ -15,7 +16,7 @@ WITH categories AS (
 menu_items AS (
     {{ dbt_utils.deduplicate(
         relation = source(
-            '5sfashion',
+            'web',
             'cms_menu_items'
         ),
         partition_by = '_id',

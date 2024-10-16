@@ -57,7 +57,7 @@ models:
         +materialized: table
 
 vars:
-  "dbt_date.time_zone": "Asia/Saigon"
+  time_zone: "Asia/Saigon"
   json_transform_schema: analytics
   ga4:
     source_project: "agile-scheme-394814"
