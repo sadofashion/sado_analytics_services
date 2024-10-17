@@ -22,10 +22,6 @@ models:
             - campaign_name
             - advertising_channel
             - bidding_stategy
-        - join: stg_5sfashion__products
-          sql_on: >-
-            ${stg_googleads__shopping_product_stats.item_id} = 
-            ${stg_5sfashion__products.product_code}
           fields:
             - product_code
             - product_name

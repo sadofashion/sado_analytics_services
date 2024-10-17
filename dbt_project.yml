@@ -36,6 +36,8 @@ models:
         +schema: marketing
       online_sales:
         +schema: online_sales
+      merchandise:
+        +schema: merchandise
     utilities:
       +materialized: view
       docs:

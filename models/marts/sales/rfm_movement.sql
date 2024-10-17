@@ -6,7 +6,7 @@
   incremental_strategy = 'insert_overwrite',
   unique_key = ['customer_id', 'start_of_month'],
   on_schema_change = 'sync_all_columns',
-  partition_expiration_days = 90,
+  partition_expiration_days = 720,
   tags = ['incremental','table', 'fact', 'kiotviet','daily']
 ) }}
 
@@ -37,14 +37,7 @@ source AS (
     DATE(transaction_date) transaction_date,
     DATE_TRUNC(DATE(transaction_date), MONTH) transaction_month,
     SUM(total) total,
-    COUNT(
-      DISTINCT CASE
-        WHEN transaction_type = 'invoice' THEN DATE_TRUNC(
-          transaction_date,
-          DAY
-        )
-      END
-    ) num_transactions,
+    COUNT( DISTINCT CASE WHEN transaction_type = 'invoice' THEN DATE_TRUNC(transaction_date, DAY) END) num_transactions,
   FROM
     {{ ref('fct__transactions') }}
   WHERE
@@ -59,21 +52,9 @@ aggregated_and_cross_join AS (
   SELECT
     calendar.start_of_month,
     source.customer_id,
-    SUM(
-      CASE
-        WHEN calendar.start_of_month = source.transaction_month THEN total
-      END
-    ) total,
-    SUM(
-      CASE
-        WHEN calendar.start_of_month = source.transaction_month THEN num_transactions
-      END
-    ) num_transactions,
-    MAX(
-      CASE
-        WHEN calendar.start_of_month = source.transaction_month THEN transaction_date
-      END
-    ) transaction_date
+    SUM(CASE WHEN calendar.start_of_month = source.transaction_month THEN total END) total,
+    SUM(CASE WHEN calendar.start_of_month = source.transaction_month THEN num_transactions END) num_transactions,
+    MAX(CASE WHEN calendar.start_of_month = source.transaction_month THEN transaction_date END ) transaction_date
   FROM
     calendar
     CROSS JOIN source
@@ -213,10 +194,7 @@ aggregated_cumulative AS (
           {%endfor%}
         END AS segment,
         CASE
-          WHEN DATE_TRUNC(
-            first_purchase,
-            MONTH
-          ) = start_of_month THEN "Khách mới"
+          WHEN DATE_TRUNC(first_purchase,MONTH) = start_of_month THEN "Khách mới"
           WHEN recency > 360 THEN '>1Y năm chưa quay lại'
           WHEN recency > 180 THEN '6T-1Y chưa quay lại'
           WHEN recency > 90 THEN '3-6T chưa quay lại'

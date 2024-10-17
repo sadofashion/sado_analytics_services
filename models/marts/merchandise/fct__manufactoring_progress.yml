@@ -1,0 +1,140 @@
+version: 2
+models:
+  - name: fct__manufactoring_progress
+    meta:
+      joins:
+        - join: calendar
+          alias: planned_calendar
+          sql_on: >-
+            ${calendar.date} =
+            ${fct__manufactoring_progress.expected_deliver_date}
+        - join: stg_kiotviet__suppliers
+          sql_on: >-
+            ${stg_kiotviet__suppliers.supplier_id} =
+            ${fct__manufactoring_progress.supplier_id}
+    columns:
+      - name: product_code
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: original_code
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: expected_deliver_amount
+        data_type: float64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_expected_deliver_amount:
+              type: sum
+              label: Expected Deliver Amount
+              group_label: Manufacturing Progress
+              sql: >-
+                safe_divide(${TABLE}.expected_deliver_amount,${TABLE}.num_receipt_count)
+              round: 0
+      - name: expected_deliver_date
+        data_type: date
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: date
+          additional_dimensions:
+            d_late_delivery:
+              type: string
+              label: Delivery Status
+              sql: >-
+                CASE WHEN ${TABLE}.expected_deliver_date <
+                ${TABLE}.transaction_date THEN 'Giao trễ' ELSE 'Giao theo hẹn'
+                END
+      - name: transaction_code
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: transaction_status
+        data_type: string
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: supplier_id
+        data_type: bignumeric
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: transaction_date
+        data_type: date
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: actual_receipt_amount
+        data_type: numeric
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_actual_receipt_amount:
+              type: sum
+              label: Actual Receipt Amount
+              group_label: Manufacturing Progress
+              round: 0
+            m_actual_receipt_amount_rate:
+              type: number
+              sql: >-
+                safe_divide(${m_actual_receipt_amount},
+                ${m_expected_deliver_amount})
+              label: Actual Receipt Amount Rate
+              group_label: Manufacturing Progress
+              format: percent
+            m_to_be_deliver_amount:
+              type: number
+              sql: >-
+                greatest(${m_expected_deliver_amount} -
+                ${m_actual_receipt_amount},0)
+              label: To Be Deliver Amount
+              group_label: Manufacturing Progress
+              round: 0
+      - name: num_receipt_count
+        data_type: int64
+        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: product_group
+        description: ""
+        meta:
+          dimension:
+            type: string
+            label: "Nhóm sản phẩm"
+      - name: seasonal
+        description: ""
+        meta:
+          dimension:
+            type: string
+            label: "Phân loại SP"

@@ -17,3 +17,5 @@ sources:
         identifier: "_ext_constructing_procedure"
       - name: cs_calls
         identifier: "_ext_cscalls__*"
+      - name: manufacture_plan
+        identifier: "_ext_manufacture_plan__*"

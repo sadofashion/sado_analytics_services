@@ -1,0 +1,28 @@
+version: 2
+models:
+  - name: stg_gsheet__manufacture_plan
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - plan_month
+            - product_code
+            - vendor
+    columns:
+      - name: product_code
+        data_type: string
+        quote: true
+      - name: vendor
+        data_type: string
+        quote: true
+      - name: expected_deliver_date
+        data_type: date
+        quote: true
+      - name: expected_deliver_amount
+        data_type: float64
+        quote: true
+      - name: po_code
+        data_type: string
+        quote: true
+      - name: plan_month
+        data_type: string
+        quote: true
