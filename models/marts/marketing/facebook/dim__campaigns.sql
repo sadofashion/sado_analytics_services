@@ -74,8 +74,8 @@ select
     upper(coalesce(pg.category_name,{{extract_product}}) ) as category_name,
     upper(case when coalesce(pg.product_group,{{extract_product}}) = 'atb' then 'ats' else coalesce(pg.product_group,{{extract_product}}) end ) as product_group,
     upper(coalesce(pg.season,{{extract_product}})) as season,
-    ap.ad_page_id,
+    {# ap.ad_page_id, #}
     from preprocessing p
     left join {{ ref("int__product_group") }} pg on regexp_extract(p.content_edge,r'\w{2} (\w{3})') = pg.product_group_code
-    left join {{ ref("int_pancake__ad_post_id") }} ap on p.ad_id = ap.ad_id
+    {# left join {{ ref("int_pancake__ad_post_id") }} ap on p.ad_id = ap.ad_id #}
 

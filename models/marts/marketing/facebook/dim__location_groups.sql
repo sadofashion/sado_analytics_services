@@ -14,5 +14,8 @@ SELECT
 FROM
     {{ ref('dim__branches') }}
 WHERE
-    channel = 'Offline' 
+    1=1 
+    and channel = 'Offline' 
+    and local_page_code is not null
     {{ dbt_utils.group_by(6) }}
+

@@ -9,6 +9,8 @@ WITH kiotviet_products AS (
         kiot.product_id AS kiotviet_product_id,
         kiot.product_name,
         kiot.product_code,
+        kiot.product_code_prefix,
+        kiot.extended_code,
 
         kiot.product_design_code,
         kiot.class_name,
@@ -48,6 +50,7 @@ nhanhvn__products AS (
 ),
 items as (
 SELECT
+    coalesce(p1.extended_code,p2.product_code) AS extended_code,
     coalesce(p1.product_code,p2.product_code) AS product_code,
     coalesce(p1.product_name,p2.product_name) AS product_name,
     coalesce(p1.product_design_code,p2.product_design_code) AS product_design_code,
@@ -66,7 +69,7 @@ SELECT
 FROM
     kiotviet_products p1 
     full OUTER JOIN nhanhvn__products p2
-    ON p1.product_code = p2.product_code
+    ON p1.extended_code = p2.product_code
     where (p1.productline not in ('ĐỒNG PHỤC') or p1.productline is null)
 )
 
