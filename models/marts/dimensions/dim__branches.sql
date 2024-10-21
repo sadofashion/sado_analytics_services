@@ -46,11 +46,15 @@ SELECT
 
     asm_list.frontage,
     asm_list.area_sqm,
+
+    asm_list.type,
 FROM
     asm_list
 full outer JOIN  branches
     ON asm_list.store_name = branches.branch_name
+
 union all 
+
 select 
     channel_id as branch_id,
     channel as branch_name,
@@ -76,4 +80,6 @@ select
 
     cast(null as float64) as frontage,
     cast(null as float64) as area_sqm,
+
+    "Sàn" as type,
     from {{ ref("stg_nhanhvn__sales_channels") }}

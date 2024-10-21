@@ -3,6 +3,7 @@
     tags=['view', 'dimension','kiotviet']
   )
 }}
+
 with source AS (
     {{ dbt_utils.deduplicate(
         relation = source(
@@ -13,6 +14,7 @@ with source AS (
         order_by = "modifiedDate DESC,_batched_at desc",
     ) }}
 )
+
 SELECT
     b.id as branch_id,
     b.branchName as branch_name,

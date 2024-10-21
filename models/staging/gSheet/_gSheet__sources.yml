@@ -4,7 +4,8 @@ sources:
     schema: GSheet
     description: "data pulled from google sheets, spreadsheets"
     tables:
-      - name: "_ext_asm_list"
+      - name: "asm_list"
+        identifier: "_ext_asm_list_2"
       - name: "_ext_asm_list2"
       - name: "facebook_budget"
         identifier: "_ext_facebook_budget__*"

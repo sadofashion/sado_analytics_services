@@ -18,7 +18,7 @@ SELECT
 FROM
     {{ source(
         'gSheet',
-        '_ext_asm_list'
+        'asm_list'
     ) }}
 WHERE
     asm <> "ASM"
