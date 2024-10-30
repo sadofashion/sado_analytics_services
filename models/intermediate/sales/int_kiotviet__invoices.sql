@@ -12,12 +12,8 @@
 SELECT
         invoices.transaction_id,
         invoices.transaction_code,
-        DATE(
-            invoices.transaction_date
-        ) transaction_date,
-        CAST(
-            NULL AS int64
-        ) AS reference_transaction_id,
+        DATE(invoices.transaction_date) transaction_date,
+        CAST(NULL AS int64) AS reference_transaction_id,
         invoices.branch_id,
         invoices.customer_id,
         invoices.employee_id,
@@ -25,9 +21,7 @@ SELECT
         invoices.total_payment,
         invoices.discount,
         invoices.discount_ratio,
-        CAST(
-            NULL AS int64
-        ) AS return_fee,
+        CAST(NULL AS int64) AS return_fee,
         invoices.transaction_type,
         DATE(
             COALESCE(

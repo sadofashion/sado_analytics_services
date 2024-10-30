@@ -12,21 +12,15 @@
 SELECT
     returns.transaction_id,
     returns.transaction_code,
-    DATE(
-        returns.transaction_date
-    ) transaction_date,
+    DATE(returns.transaction_date) transaction_date,
     returns.reference_transaction_id,
     returns.branch_id,
     returns.customer_id,
     returns.employee_id,
-    (
-        - returns.total
-    ) AS total,
+    (- returns.total) AS total,
     returns.total_payment,
     returns.return_discount,
-    CAST(
-        NULL AS float64
-    ) discount_ratio,
+    CAST(NULL AS float64) discount_ratio,
     returns.return_fee,
     returns.transaction_type,
     DATE(

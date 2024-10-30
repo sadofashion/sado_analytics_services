@@ -37,9 +37,7 @@ SELECT
         ) AS customer_id,
         created_by_id AS employee_id,
         receivables AS total,
-        (
-            receivables + money_transfer - customer_ship_fee
-        ) AS total_payment,
+        (receivables + money_transfer - customer_ship_fee) AS total_payment,
         order_discount AS discount,
         safe_divide(
             order_discount,

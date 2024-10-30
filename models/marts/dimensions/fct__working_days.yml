@@ -1,6 +1,11 @@
 version: 2
 models:
   - name: fct__working_days
+    meta:
+      joins:
+        - join: fct__transactions
+          sql_on: ${fct__transactions.branch_revenue_id} = ${fct__working_days.branch_working_day_id}
+        - join: 
     columns:
       - name: branch_working_day_id
         description: >-
@@ -13,6 +18,7 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
       - name: branch_id
         description: >-
           This is a unique numeric identifier for each branch. It is used to
