@@ -5,23 +5,10 @@ models:
     meta:
       joins:
         - join: dim__branches
-          sql_on: >-
-            ${dim__branches.branch_id} = ${stg_kiotviet__customers.branch_id}
+          sql_on: ${dim__branches.branch_id} = ${stg_kiotviet__customers.branch_id}
     columns:
-      - name: branch_id
-        description: "{{ doc('column__kiotviet__branch_id') }}"
-        meta:
-          dimension:
-            type: number
-            hidden: true
-      - name: branch_name
-        description: "{{ doc('column__kiotviet__branch_name') }}"
-        meta:
-          dimension:
-            type: string
-            hidden: true
       - name: customer_id
-        description: "{{ doc('column__kiotviet__customer_id') }}"
+        description: ID khách hàng trên Kiot
         meta:
           dimension:
             type: number
@@ -33,24 +20,37 @@ models:
               group_label: Customer Metrics
               compact: thousands
               round: 1
+        data_type: numeric
       - name: customer_name
-        description: "{{ doc('column__kiotviet__customer_name') }}"
         meta:
           dimension:
             type: string
             hidden: true
+        data_type: string
       - name: gender
-        description: "{{ doc('column__kiotviet__gender') }}"
+        description: true = Nam, false = Nữ, Null = Chưa xác định
         meta:
           dimension:
             type: boolean
+        data_type: boolean
       - name: birth_month
-        description: "{{ doc('column__kiotviet__birth_month') }}"
+        description: Tháng sinh nhật
         meta:
           dimension:
             type: number
+        data_type: int64
+      - name: birth_date
+        meta:
+          dimension:
+            type: timestamp
+          metrics:
+            m_bday:
+              type: count
+              label: num_bday
+              group_label: Customer Metrics
+        data_type: timestamp
       - name: contact_number
-        description: "{{ doc('column__kiotviet__contact_number') }}"
+        description: Số điện thoại
         meta:
           dimension:
             type: string
@@ -62,31 +62,38 @@ models:
               group_label: Customer Metrics
               compact: thousands
               round: 1
-      - name: customer_type
-        description: "{{ doc('column__kiotviet__customer_type') }}"
+        data_type: string
+      - name: branch_id
+        description: ID Cửa hàng trên Kiot
         meta:
           dimension:
             type: number
+            hidden: true
+        data_type: numeric
+      - name: customer_type
+        meta:
+          dimension:
+            type: number
+        data_type: numeric
       - name: customer_groups
-        description: "{{ doc('column__kiotviet__customer_groups') }}"
         meta:
           dimension:
             type: string
-            sql: |
+            sql: >
               case 
                 when lower(customer_groups) like '%bạc%' then 'Hạng Bạc'
                 when lower(customer_groups) like '%vàng%' then 'Hạng Vàng'
                 when lower(customer_groups) like '%kim cương%' then 'Hạng Kim Cương'
                 when lower(customer_groups) like '%vip%' then 'Hạng VIP'
                 else 'Hạng thường' end
+        data_type: string
       - name: debt
-        description: "{{ doc('column__kiotviet__debt') }}"
         meta:
           dimension:
             type: number
             hidden: true
+        data_type: float64
       - name: total_invoiced
-        description: "{{ doc('column__kiotviet__total_invoiced') }}"
         meta:
           dimension:
             type: number
@@ -98,8 +105,8 @@ models:
               group_label: Customer Metrics
               compact: millions
               round: 1
+        data_type: float64
       - name: total_point
-        description: "{{ doc('column__kiotviet__total_point') }}"
         meta:
           dimension:
             type: number
@@ -111,43 +118,8 @@ models:
               group_label: Customer Metrics
               compact: thousands
               round: 1
-      - name: rewardpoint
-        description: "{{ doc('column__kiotviet__rewardpoint') }}"
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_rewarded_points:
-              type: sum
-              label: Total Rewarded Points
-              group_label: Customer Metrics
-              compact: thousands
-              round: 1
-      - name: created_date
-        description: "{{ doc('column__kiotviet__created_date') }}"
-        meta:
-          dimension:
-            type: timestamp
-            hidden: true
-      - name: customer_recency_group
-        description: "{{ doc('column__kiotviet__customer_recency_group') }}"
-        meta:
-          dimension:
-            type: string
-            hidden: true
-      - name: birth_date
-        description: ""
-        meta:
-          dimension:
-            type: timestamp
-          metrics:
-            m_bday:
-              type: count
-              label: num_bday
-              group_label: Customer Metrics
+        data_type: numeric
       - name: total_revenue
-        description: ""
         meta:
           dimension:
             type: number
@@ -159,3 +131,39 @@ models:
               group_label: Customer Metrics
               compact: millions
               round: 1
+        data_type: numeric
+      - name: rewardpoint
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_rewarded_points:
+              type: sum
+              label: Total Rewarded Points
+              group_label: Customer Metrics
+              compact: thousands
+              round: 1
+        data_type: numeric
+      - name: created_date
+        description: Ngày tạo
+        meta:
+          dimension:
+            type: timestamp
+            hidden: true
+        data_type: timestamp
+      - name: branch_name
+        description: Tên cửa hàng trên Kiot
+        meta:
+          dimension:
+            type: string
+        data_type: string
+      - name: modified_date
+        data_type: timestamp
+        quote: true
+      - name: customer_recency_group
+        meta:
+          dimension:
+            type: string
+            hidden: true
+        data_type: string

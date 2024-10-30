@@ -47,7 +47,7 @@ SELECT
     asm_list.frontage,
     asm_list.area_sqm,
 
-    asm_list.type,
+    coalesce(asm_list.type,branches.channel) as model_type,
 FROM
     asm_list
 full outer JOIN  branches
@@ -75,7 +75,7 @@ select
     "Online & Ecom" as region,
     "HNO" as region_code,
 
-    cast(null as date) as opening_day,
+    date("2022-10-10") as opening_day,
     cast(null as date) as close_date,
 
     cast(null as float64) as frontage,
