@@ -34,6 +34,7 @@ safe_cast(json_value(item_list,'$.model_discounted_price') as float64) as model_
 safe_cast(json_value(item_list,'$.model_original_price') as float64) as model_original_price,
 safe_cast(json_value(item_list,'$.model_quantity_purchased') as int64) as model_quantity_purchased,
 json_value(item_list,'$.model_sku') as model_sku,
+COALESCE(regexp_extract(json_value(item_list,'$.model_sku'), r'[A-Z]{3}(2[1-5])'), "Cũ") AS year,
 json_value(item_list,'$.order_item_id') as order_item_id,
 json_value(item_list,'$.promotion_group_id') as promotion_group_id,
 json_value(item_list,'$.promotion_id') as promotion_id,
@@ -45,12 +46,16 @@ left join unnest(item_list) as item_list
 select 
     * except(promotion_type),
     regexp_extract(model_sku,r'-?(\w+)') as product_code,
-    COALESCE(
+    {# COALESCE(
         REGEXP_EXTRACT(
             regexp_extract(model_sku,r'-?(\w+)$'),
             r'(?:Y0|YY|00|YB)?([A-Z]{3}\d{5})'), 
             REGEXP_EXTRACT(model_sku,r'(?:Y0|YY|00|YB)?([A-Z]{3}\d{5})')
-            ) as class_code,
+            ) as class_code, #}
+    CASE
+        WHEN year = "24" THEN regexp_extract(model_sku, r"^(?:[ZXY0]{0,3})([BC0][A-Z]{3}[0-9]{3,5})")
+        else regexp_extract(model_sku, r"^(?:[ZXY0]{0,2})([BC0]?[A-Z]{3}[0-9]{3,5})") end
+    AS class_code,
     case  {% for k,v in promotion_types.items() -%}
     when promotion_type = "{{k}}" then "{{v}}"
     {% endfor -%}

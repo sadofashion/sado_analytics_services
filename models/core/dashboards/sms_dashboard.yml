@@ -75,7 +75,7 @@ models:
             m_sms_revenue:
               type: sum
               label: SMS Revenue
-              compact: thousands
+              compact: millions
               round: 1
             m_sms_roi:
               type: number

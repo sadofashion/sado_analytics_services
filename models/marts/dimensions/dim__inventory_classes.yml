@@ -2,16 +2,6 @@ version: 2
 models:
   - name: dim__inventory_classes
     columns:
-      - name: class_code
-        data_type: string
-        quote: true
-        tests:
-          - unique
-        description: ""
-        meta:
-          dimension:
-            type: string
-            hidden: true
       - name: sub_productline
         data_type: string
         quote: true
@@ -47,3 +37,10 @@ models:
         meta:
           dimension:
             type: string
+      - name: class_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+        tests:
+          - unique

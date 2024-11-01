@@ -137,7 +137,9 @@ models:
             m_avg_dct_pct:
               type: number
               label: Avg Discount Pct
-              sql: safe_divide(${m_total_dct_value} , ${m_total_sold_value}+ ${m_total_dct_value})
+              sql: >-
+                safe_divide(${m_total_dct_value} , ${m_total_sold_value}+
+                ${m_total_dct_value})
               format: percent
               round: 2
               group_label: Sales Metrics
@@ -177,51 +179,6 @@ models:
               round: 2
               group_label: Sales Metrics
         data_type: FLOAT64
-      - name: num_transactions
-        description: >-
-          This column represents the total number of unique transactions made by
-          a customer for a specific product on a particular date.
-        data_type: INT64
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_num_invoices:
-              type: sum
-              label: Num Invoices
-              group_label: Sales Metrics
-              compact: thousands
-              round: 1
-              filters:
-                - transaction_type: invoice
-            m_num_returns:
-              type: sum
-              label: Num Returns
-              group_label: Sales Metrics
-              compact: thousands
-              round: 1
-              filters:
-                - transaction_type: return
-            m_items_per_invoice:
-              type: number
-              label: Items per Invoice
-              sql: safe_divide(${m_units_sold} , ${m_num_invoices})
-              round: 1
-              group_label: Sales Metrics
-            m_items_per_return:
-              type: number
-              label: Items per Return
-              sql: safe_divide(${m_units_returned} , ${m_num_returns})
-              round: 1
-              group_label: Sales Metrics
-            m_item_dct_per_invoice:
-              type: number
-              label: Item Discount per Invoice
-              sql: safe_divide(${m_total_dct_value} , ${m_num_invoices})
-              compact: thousands
-              round: 1
-              group_label: Sales Metrics
       - name: gift_qty
         description: >-
           This field is useful for understanding the total qty of gifts or
@@ -246,6 +203,26 @@ models:
               sql: safe_divide(${m_gift_amount} , ${m_units_sold})
               format: percent
               round: 1
+      - name: num_transaction_lines
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: num_products
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: revenue_item_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: transaction_id
+        description: ""
+        meta:
+          dimension:
+            type: string
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and
       nhanhvn sources, providing details such as branch, customer, product,
