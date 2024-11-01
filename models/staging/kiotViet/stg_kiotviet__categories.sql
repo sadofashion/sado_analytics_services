@@ -21,7 +21,7 @@
     "AKB":['áo bomber'],
     "ABZ":["áo blazer"],
     "AGB":["áo gió bộ"],
-    "AKG":["áo gió","bộ gió"],
+    "AKG":["áo gió","bộ gió","áo khoác gió","áo khoác"],
     "AGN":["áo giữ nhiệt"],
     "AKD":["áo khoác da"],
     "ALO":["áo len"],

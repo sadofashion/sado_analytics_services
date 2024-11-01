@@ -84,7 +84,5 @@ SELECT
 
 FROM
     {{ source('gSheet','constructing') }}
-{# left join unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.paper_works'))) as paper_works #}
-{# left join unnest({{var("json_transform_schema")}}.json_transform(json_extract(data,'$.procedure'))) as procedure #}
 WHERE
     nullif(json_value(data,'$.row_num'),'') is not null
