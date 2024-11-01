@@ -1,5 +1,5 @@
 {{ config(
-    materialized = 'incremental',
+    materialized = 'table',
     partition_by ={ 'field': 'transaction_date',
     'data_type': 'date',
     'granularity': 'day' },
@@ -37,18 +37,18 @@ kiotviet_details AS (
         sum(discount) as discount,
         sum(case when subtotal= 0 then quantity end) as gift_qty,
         sum(subtotal) subtotal,
-        count(distinct transaction_id) as num_transaction_lines,
-        count(distinct product_code) as num_products,
+        {# count(distinct transaction_id) as num_transaction_lines, #}
+        {# count(distinct product_code) as num_products, #}
     FROM
         {{ ref('revenue_items') }}
         where 1=1
-        {% if is_incremental() %}
+        {# {% if is_incremental() %}
           and date(transaction_date) in (
             select distinct date(transaction_date) 
             from {{ ref('revenue_items') }} 
             where date(modified_date) >= date(_dbt_max_partition)
             )
-        {% endif %}
+        {% endif %} #}
     {{dbt_utils.group_by(7)}}
 ),
 nhanhvn_details AS (
@@ -64,32 +64,35 @@ nhanhvn_details AS (
             WHEN 'Khách trả lại hàng' THEN 'return'
         END AS transaction_type,
         'nhanhvn' AS transaction_source,
-
         price AS price,
         sum(quantity) AS quantity,
         sum(item_discount) as discount,
         sum(case when item_gross_amount= 0 then quantity end) as gift_qty,
         sum(item_gross_amount) as subtotal,
-        count(distinct order_id) as num_transaction_lines,
-        count(distinct product_code) as num_products,
+        {# count(distinct order_id) as num_transaction_lines, #}
+        {# count(distinct product_code) as num_products, #}
     FROM
         {{ ref("orders_items") }} s 
         left join customer_id_converter on s.customer_id = customer_id_converter.nhanhvn_customer_id
         where s.order_status IN ("Thành công")
-        {% if is_incremental() %}
+        {# {% if is_incremental() %}
           and delivery_date in (
             select distinct delivery_date from {{ ref("orders_items") }} 
             where date(last_sync) >= date(_dbt_max_partition)
             )
-        {% endif %}
+        {% endif %} #}
     {{dbt_utils.group_by(7)}}
 )
 
 select *,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'transaction_source'])}} as revenue_item_id,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
 FROM
     kiotviet_details
 UNION ALL
 SELECT
     *,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'transaction_source'])}} as revenue_item_id,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
 FROM
     nhanhvn_details
