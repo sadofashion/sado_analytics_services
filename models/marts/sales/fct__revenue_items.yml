@@ -61,13 +61,6 @@ models:
           dimension:
             type: string
         data_type: STRING
-      - name: transaction_source
-        description: This column identifies the source of the transaction
-        meta:
-          dimension:
-            type: string
-            hidden: true
-        data_type: STRING
       - name: price
         description: >-
           The 'price' column represents the original price of the product sold
@@ -94,6 +87,15 @@ models:
               round: 0
               filters:
                 - transaction_type: invoice
+                - subtotal: "> 0"
+            m_units_gift:
+              type: sum
+              label: Units Gift
+              group_label: Sales Metrics
+              round: 0
+              filters:
+                - transaction_type: invoice
+                - subtotal: "= 0"
             m_units_returned:
               type: sum
               label: Units Returned
@@ -179,50 +181,74 @@ models:
               round: 2
               group_label: Sales Metrics
         data_type: FLOAT64
-      - name: gift_qty
-        description: >-
-          This field is useful for understanding the total qty of gifts or
-          promotional items given to customers.
-        data_type: FLOAT64
-        meta:
-          dimension:
-            type: number
-            hidden: true
-          metrics:
-            m_gift_amount:
-              type: sum
-              label: Gift Quantity
-              group_label: Sales Metrics
-              round: 1
-              filters:
-                - transaction_type: invoice
-            m_gift_pct:
-              type: number
-              label: Gift Pct
-              group_label: Sales Metrics
-              sql: safe_divide(${m_gift_amount} , ${m_units_sold})
-              format: percent
-              round: 1
-      - name: num_transaction_lines
-        description: ""
-        meta:
-          dimension:
-            type: number
-      - name: num_products
-        description: ""
-        meta:
-          dimension:
-            type: number
       - name: revenue_item_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
       - name: transaction_id
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
+          metrics:
+            m_num_transactions:
+              type: count_distinct
+              label: No. Transactions
+              group_label: Sales Metrics
+              round: 0
+            m_aov:
+              type: number
+              label: AOV
+              group_label: Sales Metrics
+              sql: safe_divide(${m_total_sold_value} , ${m_num_transactions})
+              compact: thousands
+              round: 1
+            m_quantity_per_transaction:
+              type: number
+              label: Quantity per Transaction
+              group_label: Sales Metrics
+              sql: safe_divide(${m_units_sold} , ${m_num_transactions})
+              round: 2
+      - name: product_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: source
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: discount_ratio
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: cogs
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_cogs:
+              type: sum
+              label: Total COGS
+              group_label: Sales Metrics
+              compact: millions
+              round: 1
+            m_gross_margin:
+              type: number
+              label: Gross Margin
+              group_label: Sales Metrics
+              sql: safe_divide(${m_total_sold_value} -${m_total_cogs}, ${m_total_sold_value})
+              format: percent
+              round: 2
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and
       nhanhvn sources, providing details such as branch, customer, product,

@@ -110,6 +110,7 @@ models:
               label: Actual Receipt Amount Rate
               group_label: Manufacturing Progress
               format: percent
+              round: 2
             m_to_be_deliver_amount:
               type: number
               sql: >-
