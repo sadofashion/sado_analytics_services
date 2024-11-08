@@ -1,16 +1,6 @@
 version: 2
 models:
   - name: fct__working_days
-    meta:
-      joins:
-        - join: fct__transactions
-          sql_on: ${fct__transactions.branch_revenue_id} = ${fct__working_days.branch_working_day_id}
-        - join: calendar
-          sql_on: ${calendar.date} = ${fct__transactions.transaction_date}
-        - join: dim__branches
-          sql_on: ${dim__branches.branch_id} = ${fct__working_days.branch_id}
-        - join: stg_gsheet__traffic
-          sql_on: ${stg_gsheet__traffic.date} = ${fct__working_days.date} AND ${stg_gsheet__traffic.branch_name} = ${fct__working_days.branch_name}
     columns:
       - name: branch_working_day_id
         description: >-

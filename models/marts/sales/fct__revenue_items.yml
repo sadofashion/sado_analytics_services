@@ -11,6 +11,8 @@ models:
             ${fct__revenue_items.product_code}
         - join: calendar
           sql_on: ${calendar.date} = ${fct__revenue_items.transaction_date}
+        - join: fct__working_days
+          sql_on: ${fct__working_days.date} = ${fct__revenue_items.transaction_date} and ${fct__working_days.branch_id} = ${fct__revenue_items.branch_id}
     columns:
       - name: branch_id
         description: >-
