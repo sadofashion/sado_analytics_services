@@ -13,9 +13,7 @@ SELECT
     invoices.transaction_id,
     invoices.transaction_code,
     invoices.transaction_date,
-    CAST(
-        NULL AS int64
-    ) AS reference_transaction_id,
+    CAST(NULL AS int64) AS reference_transaction_id,
     invoices.branch_id,
     invoices.customer_id,
     invoices.employee_id,

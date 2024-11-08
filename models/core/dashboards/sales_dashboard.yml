@@ -52,7 +52,14 @@ models:
               label: AOV
               group_label: Sales metrics
               compact: thousands
-              round: 0
+              round: 1
+            m_revenue_per_customer:
+              type: number
+              sql: safe_divide(${m_invoice_val},${m_num_customers})
+              label: Revenue per Customer
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
       - name: num_return_transaction_id
         data_type: int64
         description: số lượng trả
@@ -229,6 +236,73 @@ models:
               label: No. Days with Revenue
               group_label: Misc
               round: 0
+      - name: total_traffic
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_traffic:
+              type: sum
+              label: Total Traffic
+              group_label: Traffic
+              round: 0
+            m_traffic_run_rate:
+              type: number
+              sql: safe_divide(${m_total_traffic},${m_traffic_target})
+              format: percent
+              label: Traffic Run rate
+              group_label: Traffic
+              round: 2
+      - name: total_working_hour
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_working_hour:
+              type: sum
+              label: Total Working Hour
+              group_label: Traffic
+              round: 0
+      - name: val_customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: num_invoice_customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_num_customers:
+              type: sum
+              label: No. Customers Purchased
+              group_label: Sales metrics
+              round: 0
+            m_conversion_rate:
+              type: number
+              sql: safe_divide(${m_num_customers},${m_total_traffic})
+              format: percent
+              label: Conversion Rate
+              round: 2
+      - name: num_return_customer_id
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: promotion
+        description: ""
+        meta:
+          dimension:
+            type: string
+            
     description: >-
       The sales_dashboard model combines offline sales performance data with
       budget data to provide a comprehensive view of branch-level sales

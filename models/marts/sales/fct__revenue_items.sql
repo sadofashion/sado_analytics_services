@@ -8,83 +8,7 @@
     tags = ['incremental', 'hourly','fact','kiotviet','nhanhvn']
 ) }}
 
-WITH customer_id_converter AS (
-
-    SELECT
-        kiotviet_customer_id,
-        nhanhvn_customer_id
-    FROM
-        {{ ref("fct__customers") }}
-    WHERE
-        kiotviet_customer_id IS NOT NULL
-        AND nhanhvn_customer_id IS NOT NULL
-),
-
-kiotviet_details AS (
-
-    SELECT
-        {# product_id AS kiotviet_product_id, #}
-        branch_id AS branch_id,
-        customer_id AS customer_id,
-        product_code,
-
-        date(transaction_date) as transaction_date,
-        transaction_type,
-        'kiotviet' AS transaction_source,
-
-        price AS price,
-        sum(quantity) AS quantity,
-        sum(discount) as discount,
-        sum(case when subtotal= 0 then quantity end) as gift_qty,
-        sum(subtotal) subtotal,
-        {# count(distinct transaction_id) as num_transaction_lines, #}
-        {# count(distinct product_code) as num_products, #}
-    FROM
-        {{ ref('revenue_items') }}
-        where 1=1
-        {# {% if is_incremental() %}
-          and date(transaction_date) in (
-            select distinct date(transaction_date) 
-            from {{ ref('revenue_items') }} 
-            where date(modified_date) >= date(_dbt_max_partition)
-            )
-        {% endif %} #}
-    {{dbt_utils.group_by(7)}}
-),
-nhanhvn_details AS (
-    SELECT
-        {# product_id AS nhanhvn_product_id, #}
-        traffic_source_id AS branch_id,
-        coalesce(customer_id_converter.kiotviet_customer_id, s.customer_id) customer_id,
-        product_code,
-        delivery_date AS transaction_date,
-        CASE
-            order_type
-            WHEN 'Giao hàng tận nhà' THEN 'invoice'
-            WHEN 'Khách trả lại hàng' THEN 'return'
-        END AS transaction_type,
-        'nhanhvn' AS transaction_source,
-        price AS price,
-        sum(quantity) AS quantity,
-        sum(item_discount) as discount,
-        sum(case when item_gross_amount= 0 then quantity end) as gift_qty,
-        sum(item_gross_amount) as subtotal,
-        {# count(distinct order_id) as num_transaction_lines, #}
-        {# count(distinct product_code) as num_products, #}
-    FROM
-        {{ ref("orders_items") }} s 
-        left join customer_id_converter on s.customer_id = customer_id_converter.nhanhvn_customer_id
-        where s.order_status IN ("Thành công")
-        {# {% if is_incremental() %}
-          and delivery_date in (
-            select distinct delivery_date from {{ ref("orders_items") }} 
-            where date(last_sync) >= date(_dbt_max_partition)
-            )
-        {% endif %} #}
-    {{dbt_utils.group_by(7)}}
-)
-
-select *,
+{# select *,
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'transaction_source'])}} as revenue_item_id,
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
 FROM
@@ -95,4 +19,32 @@ SELECT
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'transaction_source'])}} as revenue_item_id,
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
 FROM
-    nhanhvn_details
+    nhanhvn_details #}
+
+with preprocessed as (
+    select *,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+from {{ ref("int_kiotviet__revenue_items") }} 
+union all
+
+select *,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+from {{ ref("int_kiotviet__return_items") }}
+
+union all
+
+select *,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
+{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+from {{ ref("int_nhanhvn__revenue_items") }}
+)
+
+select p.*,
+c.inventory_value_per_unit*p.quantity as cogs
+from preprocessed p
+left join {{ ref("stg_gsheet__cogs") }} c 
+on p.product_code = c.product_code 
+and p.transaction_date >= date(c.dbt_valid_from) 
+and (p.transaction_date < date(c.dbt_valid_to) or c.dbt_valid_to is null)

@@ -1,0 +1,54 @@
+version: 2
+models:
+  - name: stg_gsheet__traffic
+    columns:
+      - name: date
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: branch_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: employee_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: traffic
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_traffic:
+              type: sum
+              label: Total Traffic
+
+      - name: working_hour
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_working_hour:
+              type: sum
+              label: Total Working Hour
+            m_traffic_per_working_hour:
+              type: number
+              label: Traffic per Working Hour
+              sql: safe_divide(${m_total_traffic} , ${m_total_working_hour})
+              round: 2
+      - name: _batched_at
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+            hidden: true

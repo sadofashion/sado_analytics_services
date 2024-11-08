@@ -12,9 +12,7 @@
 SELECT
     invoices.transaction_id,
     invoices.transaction_code,
-    CAST(
-        NULL AS int64
-    ) AS reference_transaction_id,
+    CAST(NULL AS int64) AS reference_transaction_id,
     invoices.transaction_date,
     invoices.transaction_status,
     invoices.branch_id,
@@ -70,12 +68,8 @@ SELECT
     returns.transaction_type,
     returns.modified_date,
     sum(returns.quantity) quantity, 
-    CAST(
-        NULL AS float64
-    ) AS discount_ratio,
-    CAST(
-        NULL AS float64
-    ) AS discount,
+    CAST(NULL AS float64) AS discount_ratio,
+    CAST(NULL AS float64) AS discount,
     sum(returns.price*returns.quantity) subtotal,
 FROM
     {{ ref('stg_kiotviet__returndetails') }}

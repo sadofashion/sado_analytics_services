@@ -9,17 +9,6 @@
     tags = ['incremental', 'hourly','fact','nhanhvn']
 ) }}
 
-WITH customer_id_converter AS (
-
-    SELECT
-        kiotviet_customer_id,
-        nhanhvn_customer_id
-    FROM
-        {{ ref("fct__customers") }}
-    WHERE
-        kiotviet_customer_id IS NOT NULL
-        AND nhanhvn_customer_id IS NOT NULL
-)
 
 SELECT
         order_id AS transaction_id,
@@ -32,7 +21,7 @@ SELECT
         return_from_order_id AS reference_transaction_id,
         traffic_source_id AS branch_id,
         COALESCE(
-            customer_id_converter.kiotviet_customer_id,
+            cic.kiotviet_customer_id,
             customer_id
         ) AS customer_id,
         created_by_id AS employee_id,
@@ -57,8 +46,8 @@ SELECT
         'nhanhvn' AS source,
     FROM
         {{ ref("stg_nhanhvn__ordersdetails") }} orders
-        LEFT JOIN customer_id_converter
-        ON orders.customer_id = customer_id_converter.nhanhvn_customer_id
+        LEFT JOIN {{ ref("int_customer_id_converter") }} cic
+        ON orders.customer_id = cic.nhanhvn_customer_id
     WHERE
         1 = 1
 {% if is_incremental() %}

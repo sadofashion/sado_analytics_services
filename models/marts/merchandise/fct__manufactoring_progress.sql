@@ -28,7 +28,7 @@
     "Áo phao": ["0APH","0AKC"],
     "Áo polo dài tay":['0APD'],
     "Áo thun dài tay":["0APO","0ATH"],
-    "Bộ nỉ": ["BANI","BQNI","BAKN"],
+    "Bộ nỉ": ["BANI","BQNI","BAKN","BANK","BANH"],
     "Quần gió (lẻ)": ["0QDT"],
     "Quần nỉ (lẻ)":['0QNI'],
     "Quần dài Casual":["0QDC"],
