@@ -3,14 +3,10 @@ models:
   - name: fct__revenue_items
     meta:
       joins:
-        - join: dim__branches
-          sql_on: ${dim__branches.branch_id} = ${fct__revenue_items.branch_id}
         - join: dim__inventory_items
           sql_on: >-
             ${dim__inventory_items.product_code} =
             ${fct__revenue_items.product_code}
-        - join: calendar
-          sql_on: ${calendar.date} = ${fct__revenue_items.transaction_date}
         - join: fct__working_days
           sql_on: ${fct__working_days.date} = ${fct__revenue_items.transaction_date} and ${fct__working_days.branch_id} = ${fct__revenue_items.branch_id}
     columns:
