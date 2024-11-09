@@ -47,7 +47,14 @@ models:
               type: sum
               label: "#Impressions"
               group_label: GG Ads metrics
-              compact: millions
+              compact: thousands
+              round: 1
+            m_cpm:
+              type: number
+              sql: safe_divide(${m_ads_cost},${m_ads_impressions}) * 1000
+              label: CPM
+              group_label: GG Ads metrics
+              compact: thousands
               round: 1
           dimension:
             type: number
@@ -60,6 +67,20 @@ models:
               label: "#Clicks"
               group_label: GG Ads metrics
               compact: thousands
+              round: 1
+            m_cpc:
+              type: number
+              sql: safe_divide(${m_ads_cost},${m_ads_clicks})
+              label: CPC
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
+            m_ctr:
+              type: number
+              sql: safe_divide(${m_ads_clicks},${m_ads_impressions})
+              label: CTR
+              group_label: GG Ads metrics
+              format: percent
               round: 1
           dimension:
             type: number
@@ -94,6 +115,13 @@ models:
               type: sum
               label: "#Web Purchases"
               group_label: GG Ads metrics
+            m_cost_per_purchase:
+              type: number
+              sql: safe_divide(${m_ads_cost},${m_ads_purchase})
+              label: Cost per Purchase
+              group_label: GG Ads metrics
+              compact: thousands
+              round: 1
           dimension:
             type: number
       - name: ads_purchase_value
@@ -106,6 +134,12 @@ models:
               group_label: GG Ads metrics
               compact: millions
               round: 1
+            m_roas:
+              type: number
+              sql: safe_divide(${m_ads_purchase_value},${m_ads_cost})
+              label: ROAS
+              group_label: GG Ads metrics
+              round: 2
           dimension:
             type: number
       - name: ads_contacts

@@ -58,6 +58,7 @@ models:
               filters:
                 - call_status: 
                   - Hẹn ra cửa hàng
+                  - Thành công
             m_calls_with_transactions:
               type: count_distinct
               label: No. Calls with Transactions

@@ -22,10 +22,10 @@ models:
             - campaign_name
             - advertising_channel
             - bidding_stategy
-          fields:
-            - product_code
-            - product_name
-            - product_type
+        - join: dim__inventory_classes
+          sql_on: >-
+            ${stg_googleads__shopping_product_stats.item_id} = 
+            regexp_extract(${dim__inventory_classes.class_code},r'[A-Z]{3}\d{5}')
     columns:
       - name: date
         description: "{{ doc('column__googleads__date') }}"

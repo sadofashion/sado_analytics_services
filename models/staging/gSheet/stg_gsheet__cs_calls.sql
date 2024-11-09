@@ -19,6 +19,7 @@ select
   json_value(data, '$.customer_total_purchasing_value') as customer_total_purchasing_value,
   json_value(data, '$.call_status') as call_status,
 from source
+where nullif(json_value(data, '$.branch_name'),'') is not null
 )
 
 select * except(customer_phone),
