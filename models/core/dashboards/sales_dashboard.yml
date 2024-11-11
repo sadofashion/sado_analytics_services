@@ -8,6 +8,10 @@ models:
         - join: dim__branches
           sql_on: |
             ${dim__branches.branch_id} = ${sales_dashboard.branch_id}
+        - join: fct__working_days
+          sql_on: |
+            ${fct__working_days.branch_id} = ${sales_dashboard.branch_id}
+            AND ${fct__working_days.date} = ${sales_dashboard.date}
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -302,7 +306,7 @@ models:
         meta:
           dimension:
             type: string
-            
+            hidden: true
     description: >-
       The sales_dashboard model combines offline sales performance data with
       budget data to provide a comprehensive view of branch-level sales

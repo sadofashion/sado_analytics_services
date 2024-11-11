@@ -23,4 +23,4 @@ sources:
       - name: traffic
         identifier: "_ext_traffic__*"
       - name: cogs
-        identifier: "_ext_cogs"
+        identifier: "_ext_cogs_v2"
