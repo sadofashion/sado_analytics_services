@@ -259,6 +259,12 @@ models:
               label: Traffic Run rate
               group_label: Traffic
               round: 2
+            m_traffic_psd:
+              label: Traffic PSD
+              group_label: Sales metrics
+              type: number
+              sql: safe_divide(${m_total_traffic},${m_num_stores})
+              round: 2
       - name: total_working_hour
         description: ""
         meta:

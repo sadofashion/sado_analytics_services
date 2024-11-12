@@ -14,6 +14,10 @@ models:
           dimension:
             type: string
             hidden: true
+          metrics:
+            m_operating_days:
+              type: count_distinct
+              label: Operating Days
       - name: branch_id
         description: >-
           This is a unique numeric identifier for each branch. It is used to
@@ -24,10 +28,6 @@ models:
           dimension:
             type: number
             hidden: true
-          metrics:
-            m_operating_days:
-              type: count
-              label: Operating Days
       - name: branch_name
         description: >-
           This is the name of the branch. It provides a human-readable

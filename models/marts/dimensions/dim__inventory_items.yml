@@ -1,24 +1,36 @@
 version: 2
 models:
   - name: dim__inventory_items
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+            combination_of_columns:
+              - extended_code
+              - kiotviet_product_id
+              - nhanhvn_product_id
     columns:
       - name: extended_code
         data_type: string
         quote: true
-
+        description: ""
+        meta:
+          dimension:
+            type: string
+        
       - name: product_code
-        description: "This is a unique identifier for each product. It is used to track
-          and manage inventory across different systems. "
+        description: >-
+          This is a unique identifier for each product. It is used to track and
+          manage inventory across different systems.
         meta:
           dimension:
             type: string
             hidden: true
         data_type: string
-
+        
       - name: product_name
-        description: This is the name of the product as it appears in the inventory. It
-          is used for easy identification of products and is usually descriptive
-          of the product's features or uses.
+        description: >-
+          This is the name of the product as it appears in the inventory. It is
+          used for easy identification of products and is usually descriptive of
+          the product's features or uses.
         meta:
           dimension:
             type: string
@@ -26,8 +38,13 @@ models:
       - name: product_design_code
         data_type: string
         quote: true
+        description: ""
+        meta:
+          dimension:
+            type: string
       - name: class_name
-        description: This column represents the name of the product class. It is a
+        description: >-
+          This column represents the name of the product class. It is a
           categorical variable that helps in grouping similar types of products
           together. This can be useful for inventory management and product
           categorization.
@@ -37,7 +54,8 @@ models:
             hidden: true
         data_type: string
       - name: sub_productline
-        description: This column represents the subcategory within a product line. It
+        description: >-
+          This column represents the subcategory within a product line. It
           provides a more granular level of product categorization, allowing for
           more specific product identification and management.
         meta:
@@ -51,7 +69,8 @@ models:
               sql: coalesce(${TABLE}.sub_productline, 'Chưa phân loại')
         data_type: string
       - name: productline
-        description: This column represents the main product line or category. It is a
+        description: >-
+          This column represents the main product line or category. It is a
           broad classification of the product, which helps in understanding the
           overall product assortment and aids in strategic decision making
           related to product management.
@@ -66,7 +85,8 @@ models:
               sql: coalesce(${TABLE}.productline, 'Chưa phân loại')
         data_type: string
       - name: ads_product_mapping
-        description: This column contains the mapping of the product with the
+        description: >-
+          This column contains the mapping of the product with the
           advertisements. It helps in tracking the performance of the product in
           different ad campaigns and understanding the impact of advertising on
           product sales.
@@ -81,8 +101,9 @@ models:
               sql: coalesce(${TABLE}.ads_product_mapping, "CHƯA PHÂN LOẠI")
         data_type: string
       - name: category
-        description: This column represents the category of the product. The category
-          can be used to compare similar products and understand market trends.
+        description: >-
+          This column represents the category of the product. The category can
+          be used to compare similar products and understand market trends.
         meta:
           dimension:
             type: string
@@ -103,9 +124,10 @@ models:
             hidden: true
         data_type: int64
       - name: class_code
-        description: This is a code that categorizes products into different classes. It
-          is used for organizing products and can be helpful in understanding
-          the product's nature or its place within the overall product range.
+        description: >-
+          This is a code that categorizes products into different classes. It is
+          used for organizing products and can be helpful in understanding the
+          product's nature or its place within the overall product range.
         meta:
           dimension:
             type: string
@@ -121,11 +143,13 @@ models:
               sql: coalesce(${TABLE}.category_name, "CHƯA PHÂN LOẠI")
               label: Category Name
         data_type: string
+        description: ""
       - name: product_group
-        description: This column represents the group to which the product belongs. It
-          is a broader classification of the product, which helps in
-          categorizing similar products under one umbrella for better management
-          and analysis.
+        description: >-
+          This column represents the group to which the product belongs. It is a
+          broader classification of the product, which helps in categorizing
+          similar products under one umbrella for better management and
+          analysis.
         meta:
           dimension:
             type: string
@@ -144,9 +168,47 @@ models:
           additional_dimensions:
             d_season:
               type: string
-              sql: coalesce(${TABLE}.season, "CHƯA PHÂN LOẠI")
+              sql: >-
+                case 
+                  when ${TABLE}.season = 'XUÂN HÈ' then '3.XUÂN HÈ' 
+                  when ${TABLE}.season = 'THU ĐÔNG' then '1.THU ĐÔNG' 
+                  when ${TABLE}.season = 'QUANH NĂM' then '2.QUANH NĂM' 
+                  else coalesce(${TABLE}.season, "CHƯA PHÂN LOẠI") end
               label: Seasonal
         data_type: string
-    description: The 'dim__inventory_items' model is a comprehensive view of the
-      inventory items, combining data from kiotviet and nhanhvn. This model
-      excludes items from the 'NGUYÊN PHỤ LIỆU' product line and 'Combo' type.
+        description: ""
+      - name: year
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          additional_dimensions:
+            d_year:
+              type: string
+              sql: case when ${TABLE}.year not in ('24','23') then 'Cũ' else coalesce(${TABLE}.year,'Cũ') end
+              label: Year
+      - name: color_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: size_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: form_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: weaving_method_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+    description: >-
+      The 'dim__inventory_items' model is a comprehensive view of the inventory
+      items, combining data from kiotviet and nhanhvn. This model excludes items
+      from the 'NGUYÊN PHỤ LIỆU' product line and 'Combo' type.

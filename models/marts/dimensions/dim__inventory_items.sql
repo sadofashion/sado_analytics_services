@@ -21,6 +21,11 @@ WITH kiotviet_products AS (
         kiot.product_group,
 
         kiot.ads_product_mapping,
+        kiot.year,
+        kiot.color_code,
+        kiot.size_code,
+        kiot.form_code,
+        kiot.weaving_method_code,
     FROM
         {{ ref("stg_kiotviet__products") }}
         kiot
@@ -66,6 +71,11 @@ SELECT
     coalesce(p1.category,p2.category_name) AS category,
     p1.kiotviet_product_id,
     p2.nhanhvn_product_id,
+    p1.year,
+    p1.color_code,
+    p1.size_code,
+    p1.form_code,
+    p1.weaving_method_code,
 FROM
     kiotviet_products p1 
     full OUTER JOIN nhanhvn__products p2

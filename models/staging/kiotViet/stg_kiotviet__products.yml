@@ -9,6 +9,8 @@ models:
           dimension:
             type: number
             hidden: true
+        tests:
+          - unique
       - name: category_id
         description: "{{ doc('column__kiotviet__category_id') }}"
         meta:
@@ -85,3 +87,58 @@ models:
           dimension:
             type: string
             label: Ads products
+      - name: product_code_prefix
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: year
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: is_alow_sale
+        description: ""
+        meta:
+          dimension:
+            type: boolean
+      - name: product_multiplier
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: tax_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_design_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: color_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: size_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: weaving_method_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: form_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: extended_code
+        description: ""
+        meta:
+          dimension:
+            type: string

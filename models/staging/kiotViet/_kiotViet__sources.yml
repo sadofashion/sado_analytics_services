@@ -129,3 +129,5 @@ sources:
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
+      - name: webhook_product_delete
+        identifier: p_webhook_product_delete

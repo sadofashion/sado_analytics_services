@@ -21,16 +21,14 @@
 WITH source AS (
 
   SELECT
-    *
+    p.*
   FROM
-    {{ source(
-      'kiotViet',
-      'p_products_list'
-    ) }}
+    {{ source('kiotViet','p_products_list') }} p 
+    left join {{ source('kiotViet', 'webhook_product_delete') }} wh on p.id = wh.id
 
+  WHERE wh.id is null
   {% if is_incremental() %}
-  WHERE
-    parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(CURRENT_DATE,INTERVAL -1 DAY)
+    and parse_date('%Y%m%d',_TABLE_SUFFIX) >= date_add(CURRENT_DATE,INTERVAL -1 DAY)
   {% endif %}
 ),
 deduplicate AS (

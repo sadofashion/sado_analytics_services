@@ -5,8 +5,7 @@ models:
       joins:
         - join: dim__inventory_items
           sql_on: >-
-            ${dim__inventory_items.product_code} =
-            ${fct__revenue_items.product_code}
+            ${dim__inventory_items.extended_code} = ${fct__revenue_items.product_code} 
         - join: fct__working_days
           sql_on: >-
             ${fct__working_days.date} = ${fct__revenue_items.transaction_date}
@@ -96,7 +95,7 @@ models:
               round: 0
               filters:
                 - transaction_type: invoice
-                - subtotal: "= 0"
+                - subtotal: "0"
             m_units_returned:
               type: sum
               label: Units Returned
@@ -111,6 +110,13 @@ models:
               format: percent
               round: 2
               group_label: Sales Metrics
+            m_net_item_sold:
+              type: sum
+              label: Net Items Sold
+              group_label: Sales Metrics
+              round: 0
+              filters:
+                - subtotal: "!0"
         data_type: NUMERIC
       - name: discount
         description: >-
@@ -122,30 +128,14 @@ models:
             type: number
             hidden: true
           metrics:
-            m_total_dct_value:
+            m_item_discount:
               type: sum
-              label: Total Discount Value
+              label: Item Discount Value
               group_label: Sales Metrics
               compact: millions
               round: 1
               filters:
                 - transaction_type: invoice
-            m_avg_dct_per_item:
-              type: number
-              label: Avg Discount per Unit
-              sql: safe_divide(${m_total_dct_value} , ${m_units_sold})
-              compact: thousands
-              round: 0
-              group_label: Sales Metrics
-            m_avg_dct_pct:
-              type: number
-              label: Avg Discount Pct
-              sql: >-
-                safe_divide(${m_total_dct_value} , ${m_total_sold_value}+
-                ${m_total_dct_value})
-              format: percent
-              round: 2
-              group_label: Sales Metrics
         data_type: FLOAT64
       - name: subtotal
         description: >-
@@ -292,6 +282,28 @@ models:
               group_label: Sales Metrics
               compact: millions
               round: 1
+            m_total_discount:
+              type: number
+              label: Total Discount
+              group_label: Sales Metrics
+              sql: ${m_item_discount} + ${m_order_discount}
+              compact: millions
+              round: 1
+            m_avg_dct_per_item:
+              type: number
+              label: Avg Discount per Unit
+              sql: safe_divide(${m_total_discount} , ${m_units_sold})
+              compact: thousands
+              round: 0
+              group_label: Sales Metrics
+            m_avg_dct_pct:
+              type: number
+              label: Avg Discount Pct
+              sql: >-
+                safe_divide(${m_total_discount} , ${m_total_sold_value}+${m_total_discount})
+              format: percent
+              round: 2
+              group_label: Sales Metrics
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and
       nhanhvn sources, providing details such as branch, customer, product,
