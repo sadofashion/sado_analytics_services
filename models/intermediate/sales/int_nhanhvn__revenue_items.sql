@@ -23,8 +23,10 @@ SELECT
         END AS transaction_type,
         'nhanhvn' AS source,
         sum(quantity) AS quantity,
+        safe_divide(sum(item_discount),sum(price*quantity)) as discount_ratio,
         sum(item_discount) as discount,
-        sum(case when item_gross_amount= 0 then quantity end) as gift_qty,
+        {# sum(case when item_gross_amount= 0 then quantity end) as gift_qty, #}
+        sum(item_discount) as order_discount,
         sum(item_gross_amount) as subtotal,
         {# count(distinct order_id) as num_transaction_lines, #}
         {# count(distinct product_code) as num_products, #}

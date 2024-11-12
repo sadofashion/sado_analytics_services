@@ -178,6 +178,12 @@ models:
               compact: thousands
               round: 2
               group_label: Sales Metrics
+            m_item_revenue:
+              type: sum
+              label: Item Revenue
+              group_label: Sales Metrics
+              compact: millions
+              round: 1
         data_type: FLOAT64
       - name: revenue_item_id
         description: ""

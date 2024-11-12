@@ -5,10 +5,11 @@
     'data_type': 'date',
     'granularity': 'day' },
     incremental_strategy = 'insert_overwrite',
-    unique_key = ['product_id','price'],
+    unique_key = ['product_id','price','branch_id'],
     on_schema_change = 'sync_all_columns'
 ) }}
 
+with pre_order_discount as (
 SELECT
     date(returns.transaction_date) transaction_date,
     returns.branch_id,
@@ -17,11 +18,11 @@ SELECT
     returns.product_code,
     returns.price,
     returns.transaction_type,
-    {# returns.modified_date, #}
     'kiotviet' as source,
     -sum(returns.quantity) quantity, 
     CAST(NULL AS float64) AS discount_ratio,
     CAST(NULL AS float64) AS discount,
+    -sum(returns.order_discount) as order_discount,
     -sum(returns.price*returns.quantity) subtotal,
 FROM
     {{ ref('stg_kiotviet__returndetails') }}
@@ -37,3 +38,8 @@ AND date(returns.transaction_date) in (
     )
 {% endif %}
 {{dbt_utils.group_by(8)}}
+)
+
+select * except(order_discount),
+safe_divide(subtotal*order_discount,sum(subtotal) over (partition by branch_id,customer_id, transaction_date,transaction_type )) as order_discount
+from pre_order_discount

@@ -25,6 +25,7 @@ SELECT
         safe_divide(invoices.discount * 100,invoices.price),0
         )) discount_ratio,
     avg(invoices.discount) discount,
+    sum(invoices.order_discount) order_discount,
     sum(invoices.subtotal) subTotal,
 FROM
     {{ ref('stg_kiotviet__invoicedetails') }} invoices

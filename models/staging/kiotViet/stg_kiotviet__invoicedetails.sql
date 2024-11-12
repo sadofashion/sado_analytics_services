@@ -7,6 +7,7 @@ SELECT
     invoices.branchId as branch_id,
     invoices.soldById AS employee_id,
     invoices.customerId as customer_id,
+    invoices.discount*safe_divide(invoiceDetails.subTotal,invoices.total+invoices.discount) as order_discount,
     invoiceDetails.productId as product_id,
     invoiceDetails.productCode as product_code,
     invoiceDetails.quantity,
