@@ -8,7 +8,10 @@ models:
             ${dim__inventory_items.product_code} =
             ${fct__revenue_items.product_code}
         - join: fct__working_days
-          sql_on: ${fct__working_days.date} = ${fct__revenue_items.transaction_date} and ${fct__working_days.branch_id} = ${fct__revenue_items.branch_id}
+          sql_on: >-
+            ${fct__working_days.date} = ${fct__revenue_items.transaction_date}
+            and ${fct__working_days.branch_id} = ${fct__revenue_items.branch_id}
+          always: true
     columns:
       - name: branch_id
         description: >-
@@ -184,6 +187,20 @@ models:
               group_label: Sales Metrics
               compact: millions
               round: 1
+            m_actual_revenue:
+              type: number
+              label: Revenue
+              group_label: Sales Metrics
+              compact: millions
+              round: 1
+              sql: ${m_item_revenue} - ${m_order_discount}
+            m_revenue_psd:
+              type: number
+              sql: safe_divide(${m_actual_revenue} , ${fct__working_days.m_operating_days})
+              round: 1
+              compact: millions
+              label: Revenue Per Day
+              group_label: Sales Metrics
         data_type: FLOAT64
       - name: revenue_item_id
         description: ""
@@ -250,9 +267,31 @@ models:
               type: number
               label: Gross Margin
               group_label: Sales Metrics
-              sql: safe_divide(${m_total_sold_value} -${m_total_cogs}, ${m_total_sold_value})
+              sql: >-
+                safe_divide(${m_actual_revenue} -${m_total_cogs},
+                ${m_actual_revenue})
               format: percent
               round: 2
+            m_gross_profit:
+              type: number
+              label: Gross Profit
+              group_label: Sales Metrics
+              sql: ${m_actual_revenue} - ${m_total_cogs}
+              compact: millions
+              round: 1
+      - name: order_discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_order_discount:
+              type: sum
+              label: Order Discount
+              group_label: Sales Metrics
+              compact: millions
+              round: 1
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and
       nhanhvn sources, providing details such as branch, customer, product,

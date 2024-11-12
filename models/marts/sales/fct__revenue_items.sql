@@ -21,23 +21,42 @@ SELECT
 FROM
     nhanhvn_details #}
 
+{% set list_cols = [
+    "transaction_date",
+    "branch_id",
+    "customer_id",
+    "product_id",
+    "product_code",
+    "price",
+    "transaction_type",
+    "source",
+    "quantity",
+    "discount_ratio",
+    "discount",
+    "order_discount",
+    "subTotal",
+]%}
+
 with preprocessed as (
-    select *,
+    select 
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+{{list_cols | join(',\n')}}
 from {{ ref("int_kiotviet__revenue_items") }} 
 union all
 
-select *,
+select 
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+{{list_cols | join(',\n')}}
 from {{ ref("int_kiotviet__return_items") }}
 
 union all
 
-select *,
+select 
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+{{list_cols | join(',\n')}}
 from {{ ref("int_nhanhvn__revenue_items") }}
 )
 
