@@ -3,7 +3,7 @@ ifeq (${TARGET},prod)
 endif
 
 deploy:
-	lightdash deploy --target prod --ignore-errors
+	lightdash deploy --target prod --ignore-errors --start-of-week=0
 
 preview:
 	lightdash preview ${FLAGS} --ignore-errors
