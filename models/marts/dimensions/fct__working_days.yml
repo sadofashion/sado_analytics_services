@@ -28,6 +28,22 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_operating_branches:
+              type: count_distinct
+              label: Operating branches
+              filters:
+                - channel: 'Offline'
+            m_operating_popups:
+              type: count_distinct
+              label: Operating popups
+              filters:
+                - channel: 'Popup'
+            m_operating_online_stores:
+              type: count_distinct
+              label: Operating online stores
+              filters:
+                - channel: 'Online & Ecom'
       - name: branch_name
         description: >-
           This is the name of the branch. It provides a human-readable
