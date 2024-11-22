@@ -5,7 +5,8 @@ models:
       joins:
         - join: dim__inventory_items
           sql_on: >-
-            ${dim__inventory_items.extended_code} = ${fct__revenue_items.product_code} 
+            ${dim__inventory_items.extended_code} =
+            ${fct__revenue_items.product_code} 
         - join: fct__working_days
           sql_on: >-
             ${fct__working_days.date} = ${fct__revenue_items.transaction_date}
@@ -88,6 +89,7 @@ models:
               filters:
                 - transaction_type: invoice
                 - subtotal: "> 0"
+                - transaction_code: "!%HDD%"
             m_units_gift:
               type: sum
               label: Units Gift
@@ -96,6 +98,13 @@ models:
               filters:
                 - transaction_type: invoice
                 - subtotal: "0"
+            m_units_exchanged:
+              type: sum
+              label: Units Exchanged
+              group_label: Sales Metrics
+              round: 0
+              filters:
+                - transaction_code: "%HDD%"
             m_units_returned:
               type: sum
               label: Units Returned
@@ -186,7 +195,9 @@ models:
               sql: ${m_item_revenue} - ${m_order_discount}
             m_revenue_psd:
               type: number
-              sql: safe_divide(${m_actual_revenue} , ${fct__working_days.m_operating_days})
+              sql: >-
+                safe_divide(${m_actual_revenue} ,
+                ${fct__working_days.m_operating_days})
               round: 1
               compact: millions
               label: Revenue Per Day
@@ -210,13 +221,6 @@ models:
               label: No. Transactions
               group_label: Sales Metrics
               round: 0
-            m_num_invoices:
-              type: count_distinct
-              label: No. Invoices
-              group_label: Sales Metrics
-              round: 0
-              filters:
-                - transaction_type: invoice
             m_aov:
               type: number
               label: AOV
@@ -307,10 +311,26 @@ models:
               type: number
               label: Avg Discount Pct
               sql: >-
-                safe_divide(${m_total_discount} , ${m_total_sold_value}+${m_total_discount})
+                safe_divide(${m_total_discount} ,
+                ${m_total_sold_value}+${m_total_discount})
               format: percent
               round: 2
               group_label: Sales Metrics
+      - name: transaction_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_num_invoices:
+              type: count_distinct
+              label: No. Invoices
+              group_label: Sales Metrics
+              round: 0
+              filters:
+                - transaction_type: invoice
+                - transaction_code: "!%HDD%"
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and
       nhanhvn sources, providing details such as branch, customer, product,

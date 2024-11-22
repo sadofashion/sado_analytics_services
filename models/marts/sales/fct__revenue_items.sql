@@ -23,6 +23,7 @@ FROM
 
 {% set list_cols = [
     "transaction_date",
+    "transaction_code",
     "branch_id",
     "customer_id",
     "product_id",

@@ -11,6 +11,7 @@
 
 SELECT
         delivery_date AS transaction_date,
+        cast(order_id as string) AS transaction_code,
         traffic_source_id AS branch_id,
         coalesce(cic.kiotviet_customer_id, s.customer_id) customer_id,
         product_id,
@@ -37,7 +38,7 @@ SELECT
         {% if is_incremental() %}
           and delivery_date in (
             select distinct delivery_date from {{ ref("orders_items") }} 
-            where date(last_sync) >= date(_dbt_max_partition)
+            where date(last_sync) >= date_add(current_date, interval -1 day)
             )
         {% endif %}
-    {{dbt_utils.group_by(7)}}
+    {{dbt_utils.group_by(8)}}

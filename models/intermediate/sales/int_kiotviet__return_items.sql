@@ -12,6 +12,7 @@
 with pre_order_discount as (
 SELECT
     date(returns.transaction_date) transaction_date,
+    returns.transaction_code,
     returns.branch_id,
     returns.customer_id,
     returns.product_id,
@@ -37,9 +38,9 @@ AND date(returns.transaction_date) in (
         where date(coalesce(modified_date,transaction_date)) >= date_add(current_date, interval -1 day)
     )
 {% endif %}
-{{dbt_utils.group_by(8)}}
+{{dbt_utils.group_by(9)}}
 )
 
 select * except(order_discount),
-safe_divide(subtotal*order_discount,sum(subtotal) over (partition by branch_id,customer_id, transaction_date,transaction_type )) as order_discount
+safe_divide(subtotal*order_discount,sum(subtotal) over (partition by transaction_code )) as order_discount
 from pre_order_discount
