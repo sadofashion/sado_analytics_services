@@ -210,18 +210,25 @@ models:
               label: No. Transactions
               group_label: Sales Metrics
               round: 0
+            m_num_invoices:
+              type: count_distinct
+              label: No. Invoices
+              group_label: Sales Metrics
+              round: 0
+              filters:
+                - transaction_type: invoice
             m_aov:
               type: number
               label: AOV
               group_label: Sales Metrics
-              sql: safe_divide(${m_total_sold_value} , ${m_num_transactions})
+              sql: safe_divide(${m_total_sold_value} , ${m_num_invoices})
               compact: thousands
               round: 1
             m_quantity_per_transaction:
               type: number
               label: Quantity per Transaction
               group_label: Sales Metrics
-              sql: safe_divide(${m_units_sold} , ${m_num_transactions})
+              sql: safe_divide(${m_units_sold} , ${m_num_invoices})
               round: 2
       - name: product_id
         description: ""

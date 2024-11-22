@@ -132,6 +132,17 @@ models:
               type: number
               sql: date_diff(current_date,${opening_day},month)
               label: Store age
+            d_opening_quarter:
+              type: string
+              sql: >-
+                extract(year from ${TABLE}.opening_day)||" Q"||extract(quarter from ${TABLE}.opening_day)
+              label: Opening Quarter
+            d_opening_period:
+              type: string
+              sql: >-
+                case when extract(year from ${TABLE}.opening_day) = extract(year from current_date) then ${d_opening_quarter}
+                else safe_cast(extract(year from ${TABLE}.opening_day) as string) end
+              label: Opening Period
         data_type: date
         description: The 'opening_day' column represents the date when the branch was
           opened. It is a date type column and can contain any valid date value

@@ -13,9 +13,7 @@ WITH source AS (
 
     SELECT
         branchId AS branch_id,
-        productCode AS product_code,
         productId AS product_id,
-        productName AS product_name,
         onhand AS on_hand,
         reserved,
         actualReserved AS actual_reserved,
@@ -23,10 +21,7 @@ WITH source AS (
         minQuantity AS min_quantity,
         _batched_at,
     FROM
-        {{ source(
-            'kiotViet',
-            'p_webhook_inventory_update'
-        ) }}
+        {{ source('kiotViet','p_webhook_inventory_update') }}
 
 WHERE 1=1
 {% if is_incremental() %}
@@ -36,9 +31,7 @@ WHERE 1=1
 UNION ALL
 SELECT
     branchId AS branch_id,
-    productCode AS product_code,
     productId AS product_id,
-    productName AS product_name,
     onhand AS on_hand,
     reserved,
     actualReserved AS actual_reserved,
@@ -46,16 +39,11 @@ SELECT
     minQuantity AS min_quantity,
     _batched_at,
 FROM
-    {{ source(
-        'kiotViet',
-        'p_products_inventory'
-    ) }}
-
+    {{ source('kiotViet','p_products_inventory') }}
 WHERE 1=1
 {% if is_incremental() %}
-    and DATE(_batched_at) >= DATE(_dbt_max_partition)
-{% endif %}  
-
+    and DATE(_batched_at) >= DATE(current_date)
+{% endif %}
 )
 {{ 
     dbt_utils.deduplicate(

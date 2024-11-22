@@ -9,18 +9,23 @@ models:
             - start_of_month
     meta:
       joins:
-        - join: stg_kiotviet__customers
-          alias: customers
-          sql_on: >-
-            ${rfm_movement.customer_id} = ${customers.customer_id} and
-            ${rfm_movement.start_of_month} = date_trunc(current_date(),month)
-          fields:
-            - customer_id
-            - customer_groups
-            - customer_type
-            - branch_name
+        - join: fct__customers_attributes
+          sql_on: ${rfm_movement.customer_id} = ${fct__customers_attributes.customer_id}
+          always: true
+          type: inner
         - join: dim__branches
-          sql_on: ${rfm_movement.last_purchase_branch} = ${dim__branches.branch_id}
+          alias: create_branch
+          sql_on: ${fct__customers_attributes.registered_branch_id} = ${create_branch.branch_id}
+        - join: dim__branches
+          alias: last_purchase_branch
+          sql_on: ${fct__customers_attributes.last_purchase_branch_id} = ${last_purchase_branch.branch_id}
+        - join: fct__customers
+          sql_on: ${rfm_movement.customer_id} = ${fct__customers.universal_customer_id}
+        - join: calendar
+          sql_on: ${rfm_movement.start_of_month} = ${calendar.date}
+        - join: calendar
+          alias: last_calendar
+          sql_on: ${fct__customers_attributes.last_purchase_date} = ${last_calendar.date}
     columns:
       - name: customer_id
         description: ""
@@ -32,18 +37,113 @@ models:
               group_label: Customer Metrics
               compact: thousands
               round: 1
+            m_new_customers:
+              type: count_distinct
+              label: New customers
+              sql: >-
+                case when ${recency_type} = 'Khách mới' then ${customer_id} end
+              group_label: Customer Metrics
+            m_new_customers_pct:
+              type: number
+              format: percent
+              label: New customers (%)
+              sql: >-
+                safe_divide(${m_new_customers} , ${m_num_customers})
+              round: 2
+            m_old_customers:
+              type: count_distinct
+              label: Returning customers
+              sql: >-
+                case when ${recency_type} <> 'Khách mới' then ${customer_id} end
+              group_label: Customer Metrics
+              compact: thousands
+              round: 1
+            m_customer_base_growth:
+              type: number
+              label: Customer base growth
+              sql: >-
+                safe_divide(${m_new_customers},${m_old_customers})
+              format: percent
+              round: 2
+            m_returned_customers:
+              type: count_distinct
+              label: Returned customers
+              sql: >-
+                case when ${recency_type} <> 'Khách mới' and ${start_of_month}=date_trunc(${last_purchase},month) then ${customer_id} end
+              group_label: Customer Metrics
+            m_returned_customers_pct:
+              type: number
+              format: percent
+              label: Returned customers (%)
+              sql: >-
+                safe_divide(${m_returned_customers},${m_old_customers})
+              round: 2
+              group_label: Customer Metrics
+            m_purchasing_customers:
+              type: number
+              label: Purchasing customers
+              sql: ${m_returned_customers} + ${m_new_customers}
+              group_label: Customer Metrics
+            m_new_customer_over_purchasing_total:
+              type: number
+              label: New customers / Purchasing total
+              sql: >-
+                safe_divide(${m_new_customers},${m_purchasing_customers})
+              format: percent
+              round: 2
+              group_label: Customer Metrics
+            m_returned_customer_over_purchasing_total:
+              type: number
+              label: Returned customers / Purchasing total
+              sql: >-
+                safe_divide(${m_returned_customers},${m_purchasing_customers})
+              format: percent
+              round: 2
+              group_label: Customer Metrics
+            m_lost_customers:
+              type: count_distinct
+              label: Lost customers
+              group_label: Customer Metrics
+              filters:
+                - segment: 
+                  - Lost customers
+                  - Hibernating customers
+            m_lost_pct:
+              type: number
+              label: Lost customers (%)
+              sql: >-
+                safe_divide(${m_lost_customers},${m_old_customers})
+              format: percent
+              round: 2
+              group_label: Customer Metrics
+            m_lost_over_new_acquired_ratio:
+              type: number
+              label: Lost customers / New acquired ratio
+              sql: >-
+                safe_divide(${m_new_lost_customers},${m_new_customers})
+              round: 2
+              group_label: Customer Metrics
+            m_new_lost_customers:
+              type: count_distinct
+              label: New lost customers
+              sql: >-
+                case when ${segment} in ('Lost customers','Hibernating customers') and previous_segment not in ('Lost customers','Hibernating customers') then ${customer_id} end
+              group_label: Customer Metrics
           dimension:
             type: number
+            hidden: true
       - name: last_purchase_branch
         description: lastest store customer made purchase
         meta:
           dimension:
             type: number
+            hidden: true
       - name: start_of_month
         description: month of rfm calculation
         meta:
           dimension:
             type: date
+            hidden: true
       - name: first_purchase
         description: ""
         meta:
@@ -69,6 +169,21 @@ models:
               label: Med of Recency
               group_label: Customer Metrics
               round: 1
+            m_avg_recency:
+              type: average
+              label: AVG of Recency
+              group_label: Customer Metrics
+              round: 1
+            m_max_recency:
+              type: max
+              label: Max of Recency
+              group_label: Customer Metrics
+              round: 1
+            m_min_recency:
+              type: min
+              label: Min of Recency
+              group_label: Customer Metrics
+              round: 1
           dimension:
             type: number
       - name: monetary
@@ -81,6 +196,12 @@ models:
               group_label: Customer Metrics
               compact: thousands
               round: 0
+            m_total_monetary:
+              type: sum
+              label: Total Monetary
+              group_label: Customer Metrics
+              compact: billions
+              round: 1
           dimension:
             type: number
       - name: frequency
@@ -94,6 +215,17 @@ models:
               round: 1
           dimension:
             type: number
+          additional_dimensions:
+            d_freq:
+              type: string
+              label: Frequency (Grouped)
+              sql: >-
+                case
+                ${frequency} when  1 then 'Mua 1 lần'
+                when 2 then 'Mua 2 lần'
+                when 3 then 'Mua 3 lần'
+                else 'Mua trên 3 lần'
+                end
       - name: recency_score
         description: >-
           calculate by dividing customer base into 5 groups by quantile range of

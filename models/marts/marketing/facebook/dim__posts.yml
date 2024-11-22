@@ -41,7 +41,7 @@ models:
             type: string
             urls:
               - label: "View Post"
-                url: ${permalink_url}
+                url: ${value.raw}
         data_type: string
       - name: tag_line
         description: The 'tag_line' column contains the tag line of the post. This is a
