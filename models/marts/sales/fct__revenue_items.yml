@@ -165,6 +165,7 @@ models:
               round: 1
               filters:
                 - transaction_type: invoice
+                - transaction_code: "!%HDD%"
             m_total_retuned_value:
               type: sum
               label: Total Returned Value
