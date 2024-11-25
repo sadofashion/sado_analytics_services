@@ -30,6 +30,7 @@ models:
               label: No. comments
               group_label: Pancake metrics
               compact: thousands
+              round: 1
       - name: hour
         description: ""
         meta:
@@ -53,6 +54,7 @@ models:
               label: No. inbox
               group_label: Pancake metrics
               compact: thousands
+              round: 1
       - name: new_customer
         description: ""
         meta:
@@ -65,6 +67,7 @@ models:
               label: No. new customer
               group_label: Pancake metrics
               compact: thousands
+              round: 1
       - name: new_customer_from_inbox
         description: ""
         meta:
