@@ -177,7 +177,7 @@ models:
             m_avg_sold_price:
               type: number
               label: Avg Sold Price
-              sql: safe_divide(${m_total_sold_value} , ${m_units_sold})
+              sql: safe_divide(${m_total_sold_value} - ${m_order_discount}, ${m_units_sold})
               compact: thousands
               round: 2
               group_label: Sales Metrics
@@ -226,7 +226,7 @@ models:
               type: number
               label: AOV
               group_label: Sales Metrics
-              sql: safe_divide(${m_total_sold_value} , ${m_num_invoices})
+              sql: safe_divide(${m_total_sold_value}-${m_order_discount} , ${m_num_invoices})
               compact: thousands
               round: 1
             m_quantity_per_transaction:
