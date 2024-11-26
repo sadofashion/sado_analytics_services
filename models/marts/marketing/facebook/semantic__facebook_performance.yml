@@ -210,7 +210,7 @@ metrics:
         - name: spend_7d
   - name: online_roas_7d
     type: derived
-    label: FB ROAS 7d
+    label: Online FB ROAS 7d
     type_params:
       expr: (online_cv_7d+meta_cv_7d)/spend_7d
       metrics:
