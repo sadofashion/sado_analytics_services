@@ -46,12 +46,6 @@ sources:
         freshness:
           warn_after: { count: 12, period: day }
           error_after: { count: 16, period: day }
-      - name: page
-        identifier: p_page__*
-        loaded_at_field: _batched_at
-        freshness:
-          warn_after: { count: 12, period: day }
-          error_after: { count: 16, period: day }
       - name: customers
         identifier: p_customers__*
         loaded_at_field: _batched_at

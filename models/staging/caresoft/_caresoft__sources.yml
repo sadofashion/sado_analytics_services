@@ -4,6 +4,8 @@ sources:
   - name: caresoft
     description: "Data pulled from caresoft contact center"
     schema: Caresoft
+    config:
+      enabled: true
     tables:
       - name: tickets
         identifier: p_tickets_*
