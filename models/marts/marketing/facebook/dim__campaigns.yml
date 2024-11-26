@@ -54,7 +54,7 @@ models:
           dimension:
             type: string
         data_type: string
-        tests:
+        data_tests:
           - not_null
           - unique
       - name: convention_version_number

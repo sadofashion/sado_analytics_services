@@ -23,7 +23,7 @@ models:
     columns:
       - name: row_id
         description: ""
-        tests:
+        data_tests:
           - unique
         meta:
           dimension:
@@ -37,7 +37,7 @@ models:
             hidden: true
       - name: date
         description: "{{ doc('column__googleads__date') }}"
-        tests:
+        data_tests:
           - not_null
         meta:
           dimension:

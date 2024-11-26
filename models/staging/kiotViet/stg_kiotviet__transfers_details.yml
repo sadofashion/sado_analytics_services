@@ -1,6 +1,6 @@
 models:
   - name: stg_kiotviet__transfers_details
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - transfer_id

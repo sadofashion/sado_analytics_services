@@ -24,7 +24,7 @@ models:
                 date_trunc(${calendar.date},month) then 'old' else 'new' end
       - name: contact_id
         description: ""
-        tests:
+        data_tests:
           - not_null
           - unique
         meta:

@@ -25,7 +25,7 @@ models:
             type: string
       - name: conversation_id
         description: ""
-        tests:
+        data_tests:
           - not_null
           - unique
         meta:

@@ -13,7 +13,7 @@ models:
         meta:
           dimension:
             type: string
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: local_page

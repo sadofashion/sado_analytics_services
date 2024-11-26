@@ -22,7 +22,7 @@ models:
               - YEAR
               - QUARTER
         data_type: DATE
-        tests:
+        data_tests:
           - not_null
           - unique
       - name: day_of_month

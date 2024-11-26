@@ -5,7 +5,7 @@ models:
     columns:
       - name: id
         description: ""
-        tests:
+        data_tests:
           - not_null
           - unique
         meta:
@@ -21,7 +21,7 @@ models:
         meta:
           dimension:
             type: string
-        tests:
+        data_tests:
           - not_null
           - unique
       - name: caller

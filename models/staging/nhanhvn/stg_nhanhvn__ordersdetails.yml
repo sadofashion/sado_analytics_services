@@ -9,7 +9,7 @@ models:
           dimension:
             type: number
             hidden: true
-        tests:
+        data_tests:
           - unique
       - name: depot_name
         description: "{{ doc('column__nhanhvn__depot_name') }}"

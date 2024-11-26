@@ -28,7 +28,7 @@ models:
           dimension:
             type: string
             hidden: true
-        tests:
+        data_tests:
           - not_null
           - unique
         data_type: STRING
@@ -45,7 +45,7 @@ models:
               compact: thousands
               round: 1
               group_label: Customer Metrics
-        tests:
+        data_tests:
           - not_null
           - unique
         data_type: NUMERIC

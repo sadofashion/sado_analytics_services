@@ -2,7 +2,7 @@ version: 2
 models:
   - name: sms_dashboard
     description: ""
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - sent_time

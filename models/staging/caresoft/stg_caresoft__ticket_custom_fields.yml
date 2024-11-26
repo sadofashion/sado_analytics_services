@@ -23,7 +23,7 @@ models:
         meta:
           dimension:
             type: number
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: value_label

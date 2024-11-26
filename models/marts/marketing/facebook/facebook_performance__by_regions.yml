@@ -87,7 +87,7 @@ models:
           dimension:
             type: string
             hidden: true
-        tests:
+        data_tests:
           - not_null
           - unique
       - name: region

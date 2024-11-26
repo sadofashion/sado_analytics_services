@@ -12,7 +12,7 @@ models:
           sql_on: |
             ${fct__working_days.branch_id} = ${sales_dashboard.branch_id}
             AND ${fct__working_days.date} = ${sales_dashboard.date}
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - branch_id

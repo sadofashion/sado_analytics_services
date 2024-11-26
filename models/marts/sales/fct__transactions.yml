@@ -33,7 +33,7 @@ models:
           dimension:
             type: number
             hidden: true
-        tests:
+        data_tests:
           - not_null
         data_type: BIGNUMERIC
       - name: transaction_code
@@ -98,7 +98,7 @@ models:
               label: Working Days
               round: 0
               group_label: Working Days
-        tests:
+        data_tests:
           - not_null
         data_type: NUMERIC
       - name: customer_id
@@ -366,7 +366,7 @@ models:
           dimension:
             type: string
         data_type: STRING
-        tests:
+        data_tests:
           - accepted_values:
               values:
                 - invoice
@@ -430,7 +430,7 @@ models:
               sql: safe_divide(${m_num_returns},${m_num_invoices})
               format: percent
               round: 1
-        tests:
+        data_tests:
           - unique
         data_type: STRING
       - name: branch_revenue_id

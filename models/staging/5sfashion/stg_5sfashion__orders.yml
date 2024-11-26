@@ -4,7 +4,7 @@ models:
       - name: order_id
         data_type: string
         quote: true
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: order_code

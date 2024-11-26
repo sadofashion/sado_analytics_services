@@ -40,7 +40,7 @@ models:
         +schema: merchandise
     utilities:
       +materialized: view
-      docs:
+      +docs:
         show: false #hide ultitlities
     core:
       +materialized: table

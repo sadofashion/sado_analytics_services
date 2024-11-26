@@ -9,7 +9,7 @@ models:
           dimension:
             type: number
             hidden: true
-        tests:
+        data_tests:
           - unique
       - name: category_id
         description: "{{ doc('column__kiotviet__category_id') }}"
@@ -79,7 +79,7 @@ models:
           dimension:
             type: string
             label: Product group
-        tests:
+        data_tests:
           - not_null
       - name: ads_product_mapping
         description: ""

@@ -42,5 +42,5 @@ models:
         meta:
           dimension:
             type: string
-        tests:
+        data_tests:
           - unique

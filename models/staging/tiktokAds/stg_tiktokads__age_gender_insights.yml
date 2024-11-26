@@ -2,7 +2,7 @@ version: 2
 models:
   - name: stg_tiktokads__age_gender_insights
     description: "The model provides insights into TikTok ads based on age and gender. "
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - ad_id

@@ -8,7 +8,7 @@ models:
           dimension:
             type: number
             hidden: true
-        tests:
+        data_tests:
           - unique
       - name: branch_name
         description: ""

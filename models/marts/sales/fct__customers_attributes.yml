@@ -138,7 +138,7 @@ models:
             type: number
             hidden: true
         data_type: NUMERIC
-        tests:
+        data_tests:
           - not_null
       - name: last_purchase_branch_id
         description: This column represents branch where the customer made their most
@@ -155,7 +155,7 @@ models:
               type: boolean
               label: Is Moved
         data_type: NUMERIC
-        tests:
+        data_tests:
           - not_null  
     description: The 'fct__customers_attributes' model provides a comprehensive view
       of each customer's transactional behavior. This model is particularly

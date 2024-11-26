@@ -11,7 +11,7 @@ models:
             hidden: true
       - name: sent_id
         description: mã tin gửi
-        tests:
+        data_tests:
           - not_null
           - unique
         meta:

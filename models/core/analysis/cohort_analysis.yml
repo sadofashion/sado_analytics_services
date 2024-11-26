@@ -9,7 +9,7 @@ models:
         - join: calendar
           alias: cohort_month
           sql_on: ${cohort_month.date} = ${cohort_analysis.first_purchase_month}
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - customer_id

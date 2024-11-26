@@ -6,7 +6,7 @@ models:
       sourced from the TikTok API. This model is useful for analyzing ad
       performance over time, understanding the effectiveness of different ad
       groups and campaigns, and optimizing ad spend.
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - ad_id
