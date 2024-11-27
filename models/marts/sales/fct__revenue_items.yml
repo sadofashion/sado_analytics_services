@@ -226,8 +226,8 @@ models:
               type: number
               label: AOV
               group_label: Sales Metrics
-              sql: safe_divide(${m_total_sold_value}-${m_order_discount} , ${m_num_invoices})
-              compact: thousands
+              sql: safe_divide(${m_actual_revenue} , ${m_num_invoices})
+              compact: thousands 
               round: 1
             m_quantity_per_transaction:
               type: number
@@ -331,7 +331,8 @@ models:
               round: 0
               filters:
                 - transaction_type: invoice
-                - transaction_code: "!%HDD%"
+                - transaction_code: "%HDD%"
+                - subtotal: "> 0"
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and
       nhanhvn sources, providing details such as branch, customer, product,

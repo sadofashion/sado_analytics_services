@@ -30,7 +30,7 @@ WITH offline_performance AS (
       {% endfor %}
     {% endfor %}
     COUNT(DISTINCT r.branch_id) AS num_stores,
-    count(distinct case when r.transaction_type = 'invoice' and r.transaction_code not like '%HDD%' then r.transaction_id end) as num_invoices,
+    count(distinct case when r.transaction_type = 'invoice' and r.transaction_code not like '%HDD%' and r.total>0 then r.transaction_id end) as num_invoices,
     sum(case when r.transaction_type = 'invoice' and r.transaction_code not like '%HDD%' then r.total end) as invoice_value,
   FROM
     {{ ref("fct__transactions") }} r

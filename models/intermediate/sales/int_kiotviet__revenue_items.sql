@@ -12,6 +12,7 @@
 SELECT
     date(invoices.transaction_date) transaction_date,
     invoices.transaction_code,
+    safe_cast(invoices.transaction_id as string) transaction_id,
     invoices.branch_id,
     invoices.customer_id,
     invoices.product_id,
@@ -42,4 +43,4 @@ WHERE
     )
     {# and date(coalesce(invoices.modified_date,invoices.transaction_date)) >= date_add(current_date, interval -3 day) #}
 {% endif %}
-{{dbt_utils.group_by(9)}}
+{{dbt_utils.group_by(10)}}

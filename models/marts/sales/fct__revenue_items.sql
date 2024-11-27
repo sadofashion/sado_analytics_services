@@ -24,6 +24,7 @@ FROM
 {% set list_cols = [
     "transaction_date",
     "transaction_code",
+    "transaction_id",
     "branch_id",
     "customer_id",
     "product_id",
@@ -41,14 +42,14 @@ FROM
 with preprocessed as (
     select 
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
-{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+{# {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id, #}
 {{list_cols | join(',\n')}}
 from {{ ref("int_kiotviet__revenue_items") }} 
 union all
 
 select 
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
-{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+{# {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id, #}
 {{list_cols | join(',\n')}}
 from {{ ref("int_kiotviet__return_items") }}
 
@@ -56,7 +57,7 @@ union all
 
 select 
 {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'product_code', 'transaction_date', 'transaction_type', 'source'])}} as revenue_item_id,
-{{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id,
+{# {{dbt_utils.generate_surrogate_key(['branch_id', 'customer_id', 'transaction_date', 'transaction_type', ])}} as transaction_id, #}
 {{list_cols | join(',\n')}}
 from {{ ref("int_nhanhvn__revenue_items") }}
 )

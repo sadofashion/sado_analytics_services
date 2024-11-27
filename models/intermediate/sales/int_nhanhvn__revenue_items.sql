@@ -12,6 +12,7 @@
 SELECT
         delivery_date AS transaction_date,
         cast(order_id as string) AS transaction_code,
+        cast(order_id as string) as transaction_id,
         traffic_source_id AS branch_id,
         coalesce(cic.kiotviet_customer_id, s.customer_id) customer_id,
         product_id,
@@ -41,4 +42,4 @@ SELECT
             where date(last_sync) >= date_add(current_date, interval -1 day)
             )
         {% endif %}
-    {{dbt_utils.group_by(8)}}
+    {{dbt_utils.group_by(9)}}

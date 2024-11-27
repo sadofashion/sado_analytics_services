@@ -294,14 +294,14 @@ models:
               round: 2
             m_aov:
               type: number
-              sql: safe_divide(${m_invoice_val},${m_num_invoices})
+              sql: safe_divide(${m_transaction_val},${m_num_invoices})
               label: AOV
               group_label: Sales metrics
               compact: thousands
               round: 1
             m_revenue_per_customer:
               type: number
-              sql: safe_divide(${m_invoice_val},${m_num_customers})
+              sql: safe_divide(${m_transaction_val},${m_num_customers})
               label: Revenue per Customer
               group_label: Sales metrics
               compact: thousands

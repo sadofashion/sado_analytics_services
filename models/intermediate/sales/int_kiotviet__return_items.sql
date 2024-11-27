@@ -13,6 +13,7 @@ with pre_order_discount as (
 SELECT
     date(returns.transaction_date) transaction_date,
     returns.transaction_code,
+    safe_cast(returns.transaction_id as string) transaction_id,
     returns.branch_id,
     returns.customer_id,
     returns.product_id,
@@ -38,7 +39,7 @@ AND date(returns.transaction_date) in (
         where date(coalesce(modified_date,transaction_date)) >= date_add(current_date, interval -1 day)
     )
 {% endif %}
-{{dbt_utils.group_by(9)}}
+{{dbt_utils.group_by(10)}}
 )
 
 select * except(order_discount),
