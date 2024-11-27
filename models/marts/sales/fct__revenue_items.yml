@@ -193,7 +193,7 @@ models:
               group_label: Sales Metrics
               compact: millions
               round: 1
-              sql: ${TABLE}.subtotal - ${TABLE}.order_discount
+              sql: ${TABLE}.subtotal - coalesce(${TABLE}.order_discount,0)
             m_revenue_psd:
               type: number
               sql: >-
