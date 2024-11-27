@@ -331,8 +331,8 @@ models:
               round: 0
               filters:
                 - transaction_type: invoice
-                - transaction_code: "%HDD%"
-                - subtotal: "> 0"
+                - transaction_code: "!%HDD%"
+                - subtotal: "!0"
     description: >-
       The fct__revenue_items model merges transaction data from the kiotviet and
       nhanhvn sources, providing details such as branch, customer, product,
