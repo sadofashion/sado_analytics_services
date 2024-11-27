@@ -188,12 +188,12 @@ models:
               compact: millions
               round: 1
             m_actual_revenue:
-              type: number
+              type: sum
               label: Revenue
               group_label: Sales Metrics
               compact: millions
               round: 1
-              sql: ${m_item_revenue} - ${m_order_discount}
+              sql: ${TABLE}.subtotal - ${TABLE}.order_discount
             m_revenue_psd:
               type: number
               sql: >-
