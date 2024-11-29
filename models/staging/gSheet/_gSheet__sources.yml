@@ -9,6 +9,8 @@ sources:
       - name: "_ext_asm_list2"
       - name: "facebook_budget"
         identifier: "_ext_facebook_budget__*"
+      - name: "sales_budget"
+        identifier: "_ext_sales_budget__*"
       - name: "_ext_pancake_tags"
       - name: "content"
         identifier: "_ext_content__*"
