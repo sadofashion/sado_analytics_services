@@ -325,6 +325,135 @@ models:
               group_label: Sales metrics
               compact: millions
               round: 1
+      - name: val_gross_margin
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_gross_margin_target:
+              type: average
+              label: Gross Margin target
+              format: percent
+              round: 2
+              group_label: Budget
+      - name: val_upt
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_upt_target:
+              type: average
+              label: UPT target
+              round: 2
+              group_label: Budget
+      - name: val_ausp
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_ausp_target:
+              type: average
+              label: AUSP target
+              round: 2
+              compact: thousands
+              group_label: Budget
+      - name: val_aov
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_aov_target:
+                type: average
+                label: AOV target
+                round: 2
+                group_label: Budget
+                compact: thousands
+      - name: val_cr
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_cr_target:
+              type: average
+              label: CVR target
+              round: 2
+              format: percent
+              group_label: Budget
+      - name: units_sold
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_units_sold:
+              type: sum
+              label: Total Units Sold
+              group_label: Sales metrics
+              round: 0
+            m_upt:
+              type: number
+              sql: safe_divide(${m_units_sold},${m_num_invoices})
+              label: UPT
+              group_label: Sales metrics
+              round: 2
+            m_ausp:
+              type: number
+              sql: safe_divide(${m_transaction_val},${m_units_sold})
+              label: AUSP
+              group_label: Sales metrics
+              compact: thousands
+              round: 1
+      - name: total_cogs
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_cogs:
+              type: sum
+              label: Total COGS
+              group_label: Sales metrics
+              round: 2
+              compact: millions
+            m_gross_margin:
+              type: number
+              sql: safe_divide(${m_transaction_val}-${m_total_cogs},${m_transaction_val})
+              label: Gross Margin
+              group_label: Sales metrics
+              format: percent
+              round: 2
+            m_gross_profit:
+              type: number
+              sql: ${m_transaction_val}-${m_total_cogs}
+              label: Gross Profit
+              group_label: Sales metrics
+              format: percent
+              round: 2
+      - name: order_discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_order_discount:
+              type: sum
+              label: Total Order Discount
+              group_label: Sales metrics
+              round: 2
+              compact: millions
     description: >-
       The sales_dashboard model combines offline sales performance data with
       budget data to provide a comprehensive view of branch-level sales

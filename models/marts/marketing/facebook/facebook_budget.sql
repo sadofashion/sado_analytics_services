@@ -23,10 +23,7 @@ WITH processed AS (
 FROM
     (
         SELECT
-            {# branch_id, #}
             case when branch =  '5S Nam Giang' then '5S Nam Giang 2' else branch end as branch,
-            {# local_page, #}
-            {# region_page, #}
             milestones.*,
         FROM
             {{ ref('stg_gsheet__facebook_budget') }} b,
@@ -58,5 +55,5 @@ branch.fb_ads_pic,
 from final
 left join {{ ref('dim__branches') }} branch
 on lower(final.branch) = lower(branch.branch_name)
-where 1= 1
+where 1=1
 and branch.branch_id not in (select branch_id from {{ ref('kiotviet__removed_branch') }})

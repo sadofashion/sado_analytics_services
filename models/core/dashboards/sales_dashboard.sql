@@ -9,11 +9,13 @@
   tags = ['incremental', 'fact','dashboard']
 ) }}
 
-{% set targets = ["budget", "sales_target", "traffic_target"] %}
+{% set targets = [ "sales_target", "traffic_target"] %}
+
 {% set rev_calcols ={ "transaction_id" :"count(distinct ",
 "customer_id":"count(distinct ",
 "total" :"sum(",
 "total_payment" :"sum(" } %}
+
 {% set rev_types = ["invoice", "return"] %}
 
 WITH offline_performance AS (
@@ -37,46 +39,34 @@ WITH offline_performance AS (
   WHERE 1=1
     {% if is_incremental() %}
       and DATE(r.transaction_date) >= date_add(CURRENT_DATE,INTERVAL -7 DAY) 
-      {# r.transaction_date >='2024-02-01' #}
     {% else %}
       and r.transaction_date >= '2023-01-01'
     {% endif %}
     AND r.branch_id NOT IN (1000087891) 
-    {# and asm.asm_name is not null #}
-    {# and asm.channel = 'Offline' #}
 GROUP BY 1
 ),
 
 budget AS (
   SELECT
-    {# budget.branch_id,budget.date,#}
-    {{ dbt_utils.generate_surrogate_key(['branch_id', 'date']) }} AS branch_working_day_id,
-    {% for target in targets %}
-      SUM({{'daily_'+target }}) AS  {{ 'daily_'+target }},
-    {% endfor %}
+  budget.* except(
+  {% for item in targets -%}
+      {{ "daily_"+item }} {{ ", " if not loop.last }}
+  {% endfor -%}
+  ),
+  {{ dbt_utils.generate_surrogate_key(['budget.branch_id', 'budget.date']) }} AS branch_working_day_id,
+  {%for t in targets -%}
+  coalesce({{"fbudget.daily_"+t}},{{"budget.daily_"+t}}) as {{"daily_"+t}},
+  {% endfor -%}
   FROM
-    {{ ref("facebook_budget") }} budget
+    {{ ref("fct__sales_budget") }} budget
+    full outer join {{ref("facebook_budget")}} fbudget on budget.branch_id = fbudget.branch_id and budget.date = fbudget.date
   WHERE
     budget.date <= CURRENT_DATE()
   {% if is_incremental() %}
-  AND budget.date >= date_add(CURRENT_DATE,INTERVAL -7 DAY) 
-  {% endif %}
-  GROUP BY
-    1
-),
-operating_days AS (
-  SELECT
-    *
-  FROM
-    {{ ref("int__working_days") }}
-  WHERE
-    1 = 1
-  {% if is_incremental() %}
-  AND DATE(DATE) >= date_add(CURRENT_DATE,INTERVAL -7 DAY)
-  {% else %}
-    AND DATE >= '2023-01-01'
+    AND budget.date >= date_add(CURRENT_DATE,INTERVAL -7 DAY) 
   {% endif %}
 ),
+
 _traffic AS (
   SELECT
     branch_name,
@@ -85,31 +75,32 @@ _traffic AS (
     SUM(working_hour) AS total_working_hour,
     from {{ ref('stg_gsheet__traffic') }}
     group by 1,2
+),
+
+_offline_performance2 as (
+  select 
+    {{ dbt_utils.generate_surrogate_key(['r.branch_id', 'date(r.transaction_date)']) }} AS branch_working_day_id,
+    SUM(CASE WHEN ((r.transaction_type) IN ('invoice') AND (r.subtotal) > (0) AND LOWER(r.transaction_code) NOT LIKE LOWER('%HDD%')) THEN (r.quantity) ELSE NULL END) as units_sold,
+    SUM(r.cogs) as total_cogs,
+    sum(r.order_discount) order_discount,
+  from {{ref("fct__revenue_items")}} r
+  WHERE 1=1
+    {% if is_incremental() %}
+      and DATE(r.transaction_date) >= date_add(CURRENT_DATE,INTERVAL -7 DAY) 
+    {% else %}
+      and r.transaction_date >= '2023-01-01'
+    {% endif %}
+    AND r.branch_id NOT IN (1000087891) 
+  GROUP BY 1
 )
 
 SELECT
+  b.* EXCEPT(branch_working_day_id,branch_name),
   o.* EXCEPT(branch_working_day_id),
-  b.* EXCEPT(branch_working_day_id),
   t.* except(branch_name, date),
-  ops.date,
-  ops.branch_id,
-  ops.promotion,
-FROM operating_days ops
-left outer join offline_performance o on ops.branch_working_day_id = o.branch_working_day_id
-left outer join budget b on ops.branch_working_day_id = b.branch_working_day_id
-left outer join _traffic t on ops.branch_name = t.branch_name and ops.date = t.date
+  o2.* except(branch_working_day_id)
+FROM budget b
+left outer join offline_performance o on b.branch_working_day_id = o.branch_working_day_id
+left outer join _offline_performance2 o2 on b.branch_working_day_id = o2.branch_working_day_id
+left outer join _traffic t on b.branch_name = t.branch_name and b.date = t.date
 
-
-{# offline_performance o full
-  OUTER JOIN budget b
-  ON o.branch_id = b.branch_id
-  AND o.transaction_date = b.date full
-  OUTER JOIN operating_days C
-  ON COALESCE(
-    o.branch_id,
-    b.branch_id
-  ) = C.branch_id
-  AND COALESCE(
-    o.transaction_date,
-    b.date
-  ) = C.date #}

@@ -8,11 +8,12 @@
     "sales_target" :"doanh số",
     "sales_target_psd" :"dt/ ngày",
     "sales_per_visit":"gttb/kh",
-    "traffic":"lượt khách",
+    "traffic_target":"lượt khách",
     "gross_margin":"blg",
     "upt":"upt",
     "ausp":"gía bán tb",
-    "aov" :'aov' 
+    "aov" :'aov' ,
+    "cr":"cr"
     } %}
 
 WITH source AS (
@@ -45,7 +46,7 @@ formated AS (
                 milestones.value,
                 regexp_extract(milestones.key,r'^(.*) -') AS milestone_name,
                 CASE
-                    LOWER(regexp_extract(milestones.key, r'- ([^()]+)$')) 
+                    trim(LOWER(regexp_extract(milestones.key, r'- ([^()]+)$'))) 
                     {% for key,value in targets.items() -%}
                         WHEN '{{ value }}' THEN '{{ key }}'
                     {% endfor -%}
@@ -59,13 +60,5 @@ formated AS (
 )
 SELECT
     formated.*,
-    {# branch.branch_id, #}
-    {# branch.local_page, #}
-    {# branch.region_page #}
-    {# asm.new_ads_page as page,
-    asm.new_ads_pic AS pic,
-    #}
 FROM
-    formated {# LEFT JOIN {{ ref('dim__offline_stores') }} #}
-    {# branch #}
-    {# ON lower(formated.branch) = lower(branch.branch_name) #}
+    formated

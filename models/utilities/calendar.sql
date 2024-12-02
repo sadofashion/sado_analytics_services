@@ -12,6 +12,15 @@ _milestone AS (
         {{ ref("stg_gsheet__facebook_budget") }},
         unnest(milestones) milestones
 ),
+_milestone2 AS (
+    SELECT
+        distinct milestones.milestone_name, milestones.start, milestones.end
+    FROM
+        {{ ref("stg_gsheet__sales_budget") }},
+        unnest(milestones) milestones
+)
+
+,
 calendar AS (
     SELECT
         DISTINCT DATE(date_day) AS date,
@@ -71,9 +80,13 @@ EXCEPT(
     COALESCE(
         CONCAT(format_date('%Y.%m', d.date), 'T', regexp_extract(b.milestone_name, r'Tuần (\d+)')),
         d.period_code
-    ) AS period_code
+    ) AS period_code,
+    trim(regexp_extract(b2.milestone_name, r"([\w\s]+)")) as promotion,
 FROM
     calendar_fmt d
     LEFT JOIN _milestone b
     ON d.date >= b.start
     and d.date <= b.end
+    LEFT JOIN _milestone2 b2
+    ON d.date >= b2.start
+    and d.date <= b2.end
