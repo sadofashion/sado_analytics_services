@@ -360,7 +360,7 @@ models:
             m_ausp_target:
               type: average
               label: AUSP target
-              round: 2
+              round: 1
               compact: thousands
               group_label: Budget
       - name: val_aov
@@ -373,7 +373,7 @@ models:
             m_aov_target:
                 type: average
                 label: AOV target
-                round: 2
+                round: 1
                 group_label: Budget
                 compact: thousands
       - name: val_cr

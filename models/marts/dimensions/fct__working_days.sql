@@ -8,7 +8,8 @@ select
     {{dbt_utils.generate_surrogate_key(['b.branch_id', 'c.date'])}} as branch_working_day_id,
     b.* except(phone,email,province_code, region_code, frontage, area_sqm),
     c.* except(start_of_week,end_of_week,promotion),
-    case when b.channel = 'Điểm xả' then b.channel
+    case when b.channel in ('Điểm xả','Popup') then b.channel
+    when b.branch_name in ('5S VinPearl') then b.branch_name
     when date_diff(c.date,b.opening_day,day) <= 10 then 'Khai trương' 
     else coalesce(p.promotion,c.promotion) end as promotion,
 from {{ ref("dim__branches") }} b
