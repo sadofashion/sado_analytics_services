@@ -38,7 +38,7 @@ WITH offline_performance AS (
     {{ ref("fct__transactions") }} r
   WHERE 1=1
     {% if is_incremental() %}
-      and DATE(r.transaction_date) >= date_add(CURRENT_DATE,INTERVAL -7 DAY) 
+      and DATE(r.transaction_date) >= date_add(CURRENT_DATE,INTERVAL -30 DAY) 
     {% else %}
       and r.transaction_date >= '2023-01-01'
     {% endif %}
@@ -63,7 +63,7 @@ budget AS (
   WHERE
     budget.date <= CURRENT_DATE()
   {% if is_incremental() %}
-    AND budget.date >= date_add(CURRENT_DATE,INTERVAL -7 DAY) 
+    AND budget.date >= date_add(CURRENT_DATE,INTERVAL -30 DAY) 
   {% endif %}
 ),
 
@@ -80,13 +80,13 @@ _traffic AS (
 _offline_performance2 as (
   select 
     {{ dbt_utils.generate_surrogate_key(['r.branch_id', 'date(r.transaction_date)']) }} AS branch_working_day_id,
-    SUM(CASE WHEN ((r.transaction_type) IN ('invoice') AND (r.subtotal) > (0) AND LOWER(r.transaction_code) NOT LIKE LOWER('%HDD%')) THEN (r.quantity) ELSE NULL END) as units_sold,
+    SUM(CASE WHEN (r.subtotal) <> 0  THEN (r.quantity) ELSE NULL END) as units_sold,
     SUM(r.cogs) as total_cogs,
     sum(r.order_discount) order_discount,
   from {{ref("fct__revenue_items")}} r
   WHERE 1=1
     {% if is_incremental() %}
-      and DATE(r.transaction_date) >= date_add(CURRENT_DATE,INTERVAL -7 DAY) 
+      and DATE(r.transaction_date) >= date_add(CURRENT_DATE,INTERVAL -30 DAY) 
     {% else %}
       and r.transaction_date >= '2023-01-01'
     {% endif %}

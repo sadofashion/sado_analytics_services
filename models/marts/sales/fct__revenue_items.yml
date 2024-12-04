@@ -87,9 +87,7 @@ models:
               group_label: Sales Metrics
               round: 0
               filters:
-                - transaction_type: invoice
-                - subtotal: "> 0"
-                - transaction_code: "!%HDD%"
+                - subtotal: "!0"
             m_units_gift:
               type: sum
               label: Units Gift

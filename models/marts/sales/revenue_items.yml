@@ -123,9 +123,6 @@ models:
               type: sum
               label: Num Items Sold
               round: 0
-              filters:
-                - transaction_type: invoice
-                - subtotal: "> 0"
             m_item_gift:
               type: sum
               label: Num Items Gift

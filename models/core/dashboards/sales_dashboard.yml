@@ -350,6 +350,13 @@ models:
               label: UPT target
               round: 2
               group_label: Budget
+            m_upt_run_rate:
+              type: number
+              sql: safe_divide(${m_upt},${m_upt_target})
+              label: UPT Run rate
+              group_label: Sales metrics
+              round: 2
+              format: percent
       - name: val_ausp
         description: ""
         meta:
@@ -363,6 +370,13 @@ models:
               round: 1
               compact: thousands
               group_label: Budget
+            m_ausp_run_rate:
+              type: number
+              sql: safe_divide(${m_ausp},${m_ausp_target})
+              label: AUSP Run rate
+              group_label: Sales metrics
+              format: percent
+              round: 2
       - name: val_aov
         description: ""
         meta:
@@ -376,6 +390,13 @@ models:
                 round: 1
                 group_label: Budget
                 compact: thousands
+            m_aov_run_rate:
+                type: number
+                sql: safe_divide(${m_aov},${m_aov_target})
+                label: AOV Run rate
+                group_label: Sales metrics
+                format: percent
+                round: 2
       - name: val_cr
         description: ""
         meta:

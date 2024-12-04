@@ -33,10 +33,11 @@
     "AVB":["áo vest","bộ đồ","bộ vest"],
     "BNI":["bộ nỉ",],
     "QGB":["quần gió bộ"],
+    "QDC":["quần dài casual"],
     "QNB":["quần nỉ bộ"],
     "QVE":["quần vest"],
     "QDT":['quần dài thể thao'],
-    "QNI":['quần nỉ rời'],
+    "QNI":['quần nỉ rời',"quần nỉ casual"],
   },
   "Xuân hè" : {
     "ABL":['áo ba lỗ'],
@@ -72,13 +73,11 @@ WITH source AS (
     CASE
     {% for season,product_groups in mapping.items() -%}
       {% for key,values in product_groups.items() -%}
-      WHEN LOWER(r2.categoryName) IN ('{{ values|join("','") }}') 
-      or LOWER(r1.categoryName) IN ('{{ values|join("','") }}') THEN '{{key|lower()}}'
+      WHEN regexp_contains(LOWER(r2.categoryName),r'{{ values|join("|") }}') 
+      or regexp_contains(LOWER(r1.categoryName),r'{{ values|join("|") }}') THEN '{{key|lower()}}'
       {% endfor -%}
     {% endfor -%}
-    ELSE LOWER(
-      r2.categoryName
-    )
+    ELSE LOWER(r2.categoryName)
   END AS ads_product_mapping,
   CASE
     {% for season,product_groups in mapping.items() -%}
