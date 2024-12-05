@@ -80,7 +80,7 @@ _traffic AS (
 _offline_performance2 as (
   select 
     {{ dbt_utils.generate_surrogate_key(['r.branch_id', 'date(r.transaction_date)']) }} AS branch_working_day_id,
-    SUM(CASE WHEN (r.subtotal) <> 0)  THEN (r.quantity) ELSE NULL END) as units_sold,
+    SUM(CASE WHEN (r.subtotal) <> 0  THEN (r.quantity) ELSE NULL END) as units_sold,
     SUM(r.cogs) as total_cogs,
     sum(r.order_discount) order_discount,
   from {{ref("fct__revenue_items")}} r
