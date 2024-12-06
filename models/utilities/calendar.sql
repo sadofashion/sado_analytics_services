@@ -81,7 +81,7 @@ EXCEPT(
         CONCAT(format_date('%Y.%m', d.date), 'T', regexp_extract(b.milestone_name, r'Tuần (\d+)')),
         d.period_code
     ) AS period_code,
-    trim(regexp_extract(b2.milestone_name, r"([\w\s]+)")) as promotion,
+    trim(regexp_extract(b2.milestone_name, r"([^()]+)")) as promotion,
 FROM
     calendar_fmt d
     LEFT JOIN _milestone b
