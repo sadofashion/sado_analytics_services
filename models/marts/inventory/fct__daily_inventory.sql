@@ -7,7 +7,7 @@ with inventory as (
 quantity_sold as (
     select 
         branch_id,
-        product_id,
+        product_id as id,
         transaction_date,
         sum(quantity) as quantity_sold
     from {{ ref("int_kiotviet__revenue_items") }}
