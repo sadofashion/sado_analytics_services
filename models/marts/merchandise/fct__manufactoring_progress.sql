@@ -7,7 +7,7 @@
 
 {% set mapping = { 
   "Phụ kiện" : {
-    "Phụ kiện":['0TAT',"0BLL",'0BOX','0BRF'],
+    "Phụ kiện":['0TAT',"0BLL",'0BOX','0BRF','0DLS'],
   },
   "Quanh năm": {
     "Áo sơ mi (dài)": ["0ASM","0SMD"],
@@ -53,7 +53,8 @@
 WITH plan AS (
     SELECT
         product_code,
-        original_code,
+        {# original_code, #}
+        plan_month,
         {# po_code, #}
         sum(expected_deliver_amount) as expected_deliver_amount,
         max(expected_deliver_date) expected_deliver_date,
@@ -88,7 +89,7 @@ SELECT
   ap.transaction_date,
   {# ap.product_design_code, #}
   ap.quantity as actual_receipt_amount,
-  greatest(count(ap.transaction_code) over (partition by plan.product_code),1) as num_receipt_count,
+  greatest(count(ap.transaction_code) over (partition by plan.product_code,date_trunc(date(ap.transaction_date),month)),1) as num_receipt_count,
   case 
   {% for seasonal,items in mapping.items()%}
     {% for key, values in items.items() -%}

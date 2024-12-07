@@ -5,7 +5,7 @@ with source as (
             'gSheet',
             'manufacture_plan'
         ),
-        partition_by = "json_value(data,'$.product_code'),json_value(data,'$.vendor'),json_value(data,'$.month'),json_value(data,'$.year')",
+        partition_by = "json_value(data,'$.product_code'),json_value(data,'$.original_code'),json_value(data,'$.vendor'),json_value(data,'$.month'),json_value(data,'$.year')",
         order_by = "_batched_at desc",
     )
     }}
