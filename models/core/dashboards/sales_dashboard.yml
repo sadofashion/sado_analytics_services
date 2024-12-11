@@ -163,6 +163,13 @@ models:
               group_label: Budget
               compact: millions
               round: 1
+            m_revenue_per_visit_target:
+              type: number
+              sql: safe_divide(${m_sales_target}/,${m_traffic_target})
+              label: Revenue per Visit target
+              group_label: Budget
+              compact: thousands
+              round: 2
       - name: daily_traffic_target
         data_type: float64
         description: target traffic/ngày
@@ -305,6 +312,20 @@ models:
               label: Revenue per Customer
               group_label: Sales metrics
               compact: thousands
+              round: 1
+            m_revenue_per_visit:
+              type: number
+              sql: safe_divide(${m_transaction_val},${m_total_traffic})
+              label: Revenue per Visit
+              group_label: Sales metrics
+              compact: thousands
+              round: 2
+            m_revenue_per_visit_run_rate:
+              type: number
+              sql: safe_divide(${m_revenue_per_visit},${m_revenue_per_visit_target})
+              label: Revenue per Visit Run rate
+              group_label: Sales metrics
+              format: percent
               round: 1
             m_conversion_rate:
               type: number
