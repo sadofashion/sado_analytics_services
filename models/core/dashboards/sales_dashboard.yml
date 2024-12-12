@@ -165,7 +165,7 @@ models:
               round: 1
             m_revenue_per_visit_target:
               type: number
-              sql: safe_divide(${m_sales_target}/,${m_traffic_target})
+              sql: safe_divide(${m_sales_target},${m_traffic_target})
               label: Revenue per Visit target
               group_label: Budget
               compact: thousands
@@ -202,6 +202,9 @@ models:
               label: No. Operating Days
               group_label: Misc
               round: 0
+              filters:
+                - fct__working_days.channel: "!Điểm xả"
+                - fct__working_days.channel: "!Online"
       - name: num_stores
         description: ""
         meta:
