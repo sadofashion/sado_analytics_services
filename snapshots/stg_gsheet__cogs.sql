@@ -6,7 +6,7 @@
           strategy='check',
           unique_key='product_code',
           check_cols=['inventory_value_per_unit'],
-          post_hook=['update_cogs_valid_date()']
+          post_hook=["{{update_cogs_valid_date()}}"]
         )
     }}
 
