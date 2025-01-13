@@ -7,6 +7,7 @@ models:
             - plan_month
             - product_code
             - vendor
+            - po_code
     columns:
       - name: product_code
         data_type: string
