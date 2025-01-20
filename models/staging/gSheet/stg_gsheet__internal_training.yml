@@ -1,0 +1,124 @@
+version: 2
+models:
+  - name: stg_gsheet__internal_training
+    columns:
+      - name: emp_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          additional_dimensions:
+            d_employee:
+              type: string
+              sql: ${TABLE}.emp_code ||" - "|| ${TABLE}.emp_name
+          metrics:
+            m_learners:
+              type: count
+              label: "#Learners"
+            m_distinct_learners:
+              type: count_distinct
+              label: "#Distinct Learners"
+      - name: emp_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+      - name: course_format
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: course_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: instructor
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: start_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: end_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: hours
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_hours:
+              type: sum
+              label: Total training hours
+            m_avg_hours:
+              type: average
+              label: Avg training hours
+      - name: rating_content
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: rating_online
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: rating_host
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: rating_instructor
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+      - name: rating_avg
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_rating:
+              type: average
+              label: Overall rating
+      - name: test_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_test_score:
+              type: average
+              label: Avg test score
+      - name: training_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_cost:
+              type: sum
+              label: Total training cost
+              compact: thousands
+            m_avg_cost:
+              type: average
+              label: Avg training cost
+              compact: thousands

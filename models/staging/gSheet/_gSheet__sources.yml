@@ -26,3 +26,5 @@ sources:
         identifier: "_ext_traffic__*"
       - name: cogs
         identifier: "_ext_cogs_v2"
+      - name: internal_training
+        identifier: "_ext_internal_training"
