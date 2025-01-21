@@ -1,3 +1,9 @@
+{{
+  config(
+    tags=['fact', 'gSheet',"training"],
+  )
+}}
+
 with source as (
   {{dbt_utils.deduplicate(
     relation= source('gSheet', 'internal_training'),
@@ -13,8 +19,8 @@ select
     format as course_format,
     course_name,
     instructor,
-    parse_date("%m/%e/%Y, 12:00:00 AM",start_date) start_date,
-    parse_date("%m/%e/%Y, 12:00:00 AM",end_date) end_date,
+    date(date_add(start_date,interval 7 hour)) start_date,
+    date(date_add(end_date,interval 7 hour)) end_date,
     safe_cast(hours as float64) hours,
     safe_cast(rating_content as float64) rating_content,
     safe_cast(rating_online as float64) rating_online,
@@ -22,6 +28,6 @@ select
     safe_cast(rating_instructor as float64) rating_instructor,
     safe_cast(rating_avg as float64) rating_avg,
     safe_cast(test_score as float64) test_score,
-    safe_cast(training_cost as float64) training_cost,
+    ifnull(safe_cast(training_cost as float64),0) training_cost,
 from source
 where emp_code is not null
