@@ -69,24 +69,40 @@ models:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_avg_content_rating:
+              type: average
+              label: Avg content rating
       - name: rating_online
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_avg_online_rating:
+              type: average
+              label: Avg online rating
       - name: rating_host
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_avg_host_rating:
+              type: average
+              label: Avg host rating
       - name: rating_instructor
         description: ""
         meta:
           dimension:
             type: number
             hidden: true
+          metrics:
+            m_avg_instructor_rating:
+              type: average
+              label: Avg instructor rating
       - name: rating_avg
         description: ""
         meta:
