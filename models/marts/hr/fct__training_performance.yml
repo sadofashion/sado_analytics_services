@@ -8,8 +8,8 @@ models:
           dimension:
             type: date
             hidden: true
-          metrics:
-            m_month:
+          additional_dimensions:
+            d_month:
               type: date
               label: Month
               sql: format("%Y-%m", ${TABLE}.month)
@@ -24,6 +24,7 @@ models:
               type: sum
               label: Total Training Cost
               compact: thousands
+              round: 1
       - name: total_hours
         description: ""
         meta:
@@ -159,11 +160,14 @@ models:
             m_target_avg_training_cost:
               type: average
               label: Target Average Training Cost
+              compact: thousands
+              round: 1
             m_training_cost_run_rate:
               type: average
               label: Training Cost Run Rate
               sql: safe_divide(${TABLE}.avg_training_cost , ${TABLE}.target_avg_training_cost)
               format: percent
+              round: 1
       - name: avg_training_cost
         description: ""
         meta:
@@ -174,6 +178,8 @@ models:
             m_avg_training_cost:
               type: average
               label: Average Training Cost
+              compact: thousands
+              round: 1
       - name: avg_training_hr
         description: ""
         meta:
