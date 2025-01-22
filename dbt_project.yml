@@ -38,6 +38,8 @@ models:
         +schema: online_sales
       merchandise:
         +schema: merchandise
+      hr:
+        +schema: hr
     utilities:
       +materialized: view
       +docs:

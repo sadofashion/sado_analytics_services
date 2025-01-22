@@ -60,6 +60,7 @@ jobs:
           committer_name: Github Actions
           committer_email: actions@github.com
           message: 'Adding manifest from merge run'
+          tag_push: '--force'
       - name: Deploy to Netlify
         if: github.event_name == 'push'
         uses: nwtgck/actions-netlify@v2.0
