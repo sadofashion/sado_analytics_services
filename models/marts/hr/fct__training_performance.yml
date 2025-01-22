@@ -10,9 +10,9 @@ models:
             hidden: true
           additional_dimensions:
             d_month:
-              type: date
+              type: string
               label: Month
-              sql: format("%Y-%m", ${TABLE}.month)
+              sql: format_date("%Y-%m", ${TABLE}.month)
       - name: total_training_cost
         description: ""
         meta:
