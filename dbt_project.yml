@@ -72,7 +72,7 @@ vars:
     static_incremental_days: 1
     query_parameter_exclusions: ["gclid", "fbclid", "_ga"]
     query_parameter_extraction: ["gclid", "fbclid", "keyword"]
-    conversion_events: ["purchase", "message", "call", "generate_lead", "store_visit"]
+    conversion_events: ["purchase", "message", "call", "generate_lead", "store_visit","add_to_cart"]
     user_properties:
       - user_property_name: "phone"
         value_type: "string_value"
