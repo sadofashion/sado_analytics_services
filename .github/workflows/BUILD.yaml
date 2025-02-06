@@ -56,11 +56,10 @@ jobs:
         if: github.event_name == 'push'
         uses: EndBug/add-and-commit@v9
         with:
-          add: './prod'
+          add: './prod --force'
           committer_name: Github Actions
-          committer_email: actions@github.com
+          committer_email: lchien063@gmail.com
           message: 'Adding manifest from merge run'
-          tag_push: '--force'
       - name: Deploy to Netlify
         if: github.event_name == 'push'
         uses: nwtgck/actions-netlify@v2.0
