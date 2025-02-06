@@ -9,6 +9,7 @@ with web_metrics as (
     select 
     session_start_date as date,
     count(distinct session_key) as sessions,
+    count(distinct client_key) as users,
     sum(count_purchase) as purchases,
     sum(count_message) as messages,
     sum(count_call) as calls,
