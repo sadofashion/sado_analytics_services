@@ -4,7 +4,9 @@ models:
     meta:
       joins:
         - join: dim__sessions_daily
-          sql_on: ${dim__sessions_daily.session_key} = ${fct__sessions_daily.session_key}
+          sql_on: >-
+            ${dim__sessions_daily.session_key} =
+            ${fct__sessions_daily.session_key}
         - join: calendar
           sql_on: ${calendar.date} = ${fct__sessions_daily.session_partition_date}
     columns:
@@ -122,4 +124,10 @@ models:
           dimension:
             type: number
         data_type: INT64
+      - name: add_to_cart_count
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
     description: ""

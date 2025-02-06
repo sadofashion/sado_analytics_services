@@ -16,3 +16,9 @@ sources:
         identifier: p_websitev2__products
       - name: product_details
         identifier: p_websitev2__product_details
+  - name: ab_web
+    schema: 5sfashion
+    description: "data pulled from 5S fashion web database"
+    tables:
+      - name: orders
+        identifier: _ab_orders
