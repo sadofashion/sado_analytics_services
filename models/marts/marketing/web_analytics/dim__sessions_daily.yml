@@ -7,18 +7,21 @@ models:
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_key
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_partition_key
         description: ""
         meta:
           dimension:
             type: string
+            hidden: true
         data_type: STRING
       - name: session_partition_date
         description: ""

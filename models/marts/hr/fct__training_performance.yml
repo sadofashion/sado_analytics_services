@@ -1,0 +1,192 @@
+version: 2
+models:
+  - name: fct__training_performance
+    columns:
+      - name: month
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+          additional_dimensions:
+            d_month:
+              type: string
+              label: Month
+              sql: format_date("%Y-%m", ${TABLE}.month)
+      - name: total_training_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_training_cost:
+              type: sum
+              label: Total Training Cost
+              compact: thousands
+              round: 1
+      - name: total_hours
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_hours:
+              type: sum
+              label: Total Training Hours
+      - name: total_trainees
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_trainees:
+              type: sum
+              label: Total Trainees
+      - name: avg_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_rating:
+              type: average
+              label: Average Rating
+      - name: avg_test_score
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_test_score:
+              type: average
+              label: Average Test Score
+      - name: avg_rating_content
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_rating_content:
+              type: average
+              label: Average Content Rating
+      - name: avg_rating_online
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_rating_online:
+              type: average
+              label: Average Online Rating
+      - name: avg_rating_host
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_rating_host:
+              type: average
+              label: Average Host Rating
+      - name: avg_rating_instructor
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_rating_instructor:
+              type: average
+              label: Average Instructor Rating
+      - name: target_num_trainee
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_target_num_trainee:
+              type: sum
+              label: Target Number of Trainees
+            m_trainee_run_rate:
+              type: sum
+              label: Trainee Run Rate
+              sql: safe_divide(${TABLE}.total_trainees , ${TABLE}.target_num_trainee)
+              format: percent
+      - name: target_avg_training_hr
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_target_avg_training_hr:
+              type: average
+              label: Target Average Training Hours
+            m_training_hr_run_rate:
+              type: average
+              label: Training Hours Run Rate
+              sql: safe_divide(${TABLE}.avg_training_hr , ${TABLE}.target_avg_training_hr)
+              format: percent
+      - name: target_rating
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_target_rating:
+              type: average
+              label: Target Rating
+            m_rating_run_rate:
+              type: average
+              label: Rating Run Rate
+              sql: safe_divide(${TABLE}.avg_rating , ${TABLE}.target_rating)
+              format: percent
+      - name: target_avg_training_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_target_avg_training_cost:
+              type: average
+              label: Target Average Training Cost
+              compact: thousands
+              round: 1
+            m_training_cost_run_rate:
+              type: average
+              label: Training Cost Run Rate
+              sql: safe_divide(${TABLE}.avg_training_cost , ${TABLE}.target_avg_training_cost)
+              format: percent
+              round: 1
+      - name: avg_training_cost
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_training_cost:
+              type: average
+              label: Average Training Cost
+              compact: thousands
+              round: 1
+      - name: avg_training_hr
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_avg_training_hr:
+              type: average
+              label: Average Training Hours

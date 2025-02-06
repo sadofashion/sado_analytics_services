@@ -1,42 +1,113 @@
+version: 2
 models:
   - name: stg_5sfashion__orders
+    meta:
+      joins:
+        - join: calendar
+          sql_on: date(${TABLE}.transaction_date) = ${CALENDAR}.date
     columns:
-      - name: order_id
-        data_type: string
-        quote: true
-        data_tests:
-          - unique
-          - not_null
-      - name: order_code
-        data_type: string
-        quote: true
-      - name: token
-        data_type: string
-        quote: true
-      - name: created_at
-        data_type: timestamp
-        quote: true
-      - name: updated_at
-        data_type: timestamp
-        quote: true
-      - name: total_price
-        data_type: float64
-        quote: true
-      - name: total_ship
-        data_type: float64
-        quote: true
       - name: total
         data_type: float64
         quote: true
-      - name: customer_phone
-        data_type: string
-        quote: true
-      - name: customer_name
-        data_type: string
-        quote: true
-      - name: customer_email
-        data_type: string
-        quote: true
-      - name: location_id
-        data_type: string
-        quote: true
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hiddne: true
+          metrics:
+            m_revenue:
+              type: sum
+              description: "total revenue"
+              compact: thousands
+              round: 0
+              filters:
+                - status: "!Cancelled"
+            
+      - name: id
+        description: ""
+        meta:
+          dimension:
+            type: number
+      - name: code
+        description: ""
+        meta:
+          dimension:
+            type: string
+          metrics:
+            m_orders:
+              type: count
+              description: "total confirmed orders"
+              compact: thousands
+              round: 0
+              filters:
+                - status: "!Cancelled"
+            m_cancelled_orders:
+              type: count
+              description: "total cancelled orders"
+              compact: thousands
+              round: 0
+              filters:
+                - status: "Cancelled"
+      - name: total_discount
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hiddne: true
+          metrics:
+            m_total_discount:
+              type: sum
+              description: "total discount"
+              compact: thousands
+              round: 0
+              filters:
+                - status: "!Cancelled"
+      - name: original_price
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hiddne: true
+          metrics:
+            m_original_price:
+              type: sum
+              description: "total revenue before discount"
+              compact: thousands
+              round: 0
+              filters:
+                - status: "!Cancelled"
+      - name: shipping_fee
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hiddne: true
+          metrics:
+            m_shipping_fee:
+              type: sum
+              description: "total shipping fee"
+              compact: thousands
+              round: 0
+              filters:
+                - status: "!Cancelled"
+      - name: transaction_date
+        description: ""
+        meta:
+          dimension:
+            type: timestamp
+            hidden: true
+          additional_dimensions:
+            d_transaction_date:
+              type: date
+              description: "Transaction date"
+              sql: "DATE(${TABLE}.transaction_date)"
+      - name: invoice_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: status
+        description: ""
+        meta:
+          dimension:
+            type: string

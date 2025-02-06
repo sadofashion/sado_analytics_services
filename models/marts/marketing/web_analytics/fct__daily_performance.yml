@@ -1,0 +1,221 @@
+version: 2
+models:
+  - name: fct__daily_performance
+    meta:
+      joins:
+        - join: calendar
+          sql_on: ${fct__daily_performance}.date = ${calendar}.date
+    columns:
+      - name: date
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: sessions
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_sessions:
+              type: sum
+              label: "Sessions"
+              compact: thousands
+              round: 1
+      - name: users
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_users:
+              type: sum
+              label: "Users"
+              compact: thousands
+              round: 1
+      - name: purchases
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_purchases:
+              type: sum
+              label: "Purchases"
+      - name: messages
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_messages:
+              type: sum
+              label: "Messages"
+      - name: calls
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_calls:
+              type: sum
+              label: "Calls"
+      - name: leads
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_leads:
+              type: sum
+              label: "Leads"
+      - name: add_to_cart
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_add_to_cart:
+              type: sum
+              label: "Add to Cart"
+      - name: page_views
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_page_views:
+              type: sum
+              label: "Page Views"
+              compact: thousands
+              round: 1
+      - name: engagement_time
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_engagement_time:
+              type: sum
+              label: "Engagement Time (seconds)"
+              compact: thousands
+              round: 1
+            m_avg_engagement_time:
+              type: average
+              label: "Avg. Engagement Time (seconds)"
+              sql: safe_divide(${TABLE}.engagement_time, ${TABLE}.sessions)
+              round: 0
+      - name: sessions_with_add_to_cart
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_sessions_with_add_to_cart:
+              type: sum
+              label: "Sessions with Add to Cart"
+            m_add_to_cart_rate:
+              type: average
+              label: "Add to Cart Rate"
+              sql: safe_divide(${TABLE}.sessions_with_add_to_cart, ${TABLE}.sessions)
+              format: "percent"
+              round: 1
+      - name: engaged_sessions
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_engaged_sessions:
+              type: sum
+              label: "Engaged Sessions"
+            m_engagement_rate:
+              type: average
+              label: "Engagement Rate"
+              sql: safe_divide(${TABLE}.engaged_sessions, ${TABLE}.sessions)
+              format: "percent"
+              round: 1
+      - name: orders
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_orders:
+              type: sum
+              label: "Orders"
+            m_cancel_cart_rate:
+              type: average
+              label: "Cancel Cart Rate"
+              sql: safe_divide(${TABLE}.orders,${TABLE}.sessions_with_add_to_cart)
+              format: "percent"
+              round: 1
+      - name: confirmed_orders
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_confirmed_orders:
+              type: sum
+              label: "Confirmed Orders"
+            m_confirmed_order_rate:
+              type: average
+              label: "Confirmed Order Rate"
+              sql: safe_divide(${TABLE}.confirmed_orders,${TABLE}.orders)
+              format: "percent"
+              round: 1
+      - name: cancelled_orders
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_cancelled_orders:
+              type: sum
+              label: "Cancelled Orders"
+            m_cancelled_order_rate:
+              type: average
+              label: "Cancelled Order Rate"
+              sql: safe_divide(${TABLE}.cancelled_orders,${TABLE}.orders)
+              format: "percent"
+              round: 1
+      - name: recorded_revenue
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_recorded_revenue:
+              type: sum
+              label: "Recorded Revenue"
+              compact: millions
+              round: 1
+      - name: confirmed_revenue
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_confirmed_revenue:
+              type: sum
+              label: "Confirmed Revenue"
+              compact: millions
+              round: 1
