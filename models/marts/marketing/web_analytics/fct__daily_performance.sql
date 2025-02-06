@@ -37,4 +37,4 @@ web_conversion as (
 select 
 w.*, c.* except(date)
 from web_metrics w
-left join web_conversion c on web_metrics.date = web_conversion.date 
+left join web_conversion c on w.date = c.date 
