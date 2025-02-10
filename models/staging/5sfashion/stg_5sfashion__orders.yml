@@ -4,7 +4,7 @@ models:
     meta:
       joins:
         - join: calendar
-          sql_on: date(${TABLE}.transaction_date) = ${CALENDAR}.date
+          sql_on: date(${stg_5sfashion__orders.transaction_date}) = ${calendar.date}
     columns:
       - name: total
         data_type: float64
@@ -17,7 +17,7 @@ models:
           metrics:
             m_revenue:
               type: sum
-              description: "total revenue"
+              label: "total revenue"
               compact: thousands
               round: 0
               filters:
@@ -36,14 +36,14 @@ models:
           metrics:
             m_orders:
               type: count
-              description: "total confirmed orders"
+              label: "total confirmed orders"
               compact: thousands
               round: 0
               filters:
                 - status: "!Cancelled"
             m_cancelled_orders:
               type: count
-              description: "total cancelled orders"
+              label: "total cancelled orders"
               compact: thousands
               round: 0
               filters:
@@ -57,7 +57,7 @@ models:
           metrics:
             m_total_discount:
               type: sum
-              description: "total discount"
+              label: "total discount"
               compact: thousands
               round: 0
               filters:
@@ -71,7 +71,7 @@ models:
           metrics:
             m_original_price:
               type: sum
-              description: "total revenue before discount"
+              label: "total revenue before discount"
               compact: thousands
               round: 0
               filters:
@@ -85,7 +85,7 @@ models:
           metrics:
             m_shipping_fee:
               type: sum
-              description: "total shipping fee"
+              label: "total shipping fee"
               compact: thousands
               round: 0
               filters:
@@ -99,7 +99,7 @@ models:
           additional_dimensions:
             d_transaction_date:
               type: date
-              description: "Transaction date"
+              label: "Transaction date"
               sql: "DATE(${TABLE}.transaction_date)"
       - name: invoice_id
         description: ""

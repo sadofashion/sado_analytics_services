@@ -1,6 +1,7 @@
 {{
   config(
     materialized = 'table',
+    tags =[ 'marketing', 'web_analytics','fact','daily'],
     )
 }}
 

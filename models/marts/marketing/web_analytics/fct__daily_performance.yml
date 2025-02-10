@@ -4,7 +4,7 @@ models:
     meta:
       joins:
         - join: calendar
-          sql_on: ${fct__daily_performance}.date = ${calendar}.date
+          sql_on: ${fct__daily_performance.date} = ${calendar.date}
     columns:
       - name: date
         description: ""
@@ -163,6 +163,12 @@ models:
               sql: safe_divide(${TABLE}.orders,${TABLE}.sessions_with_add_to_cart)
               format: "percent"
               round: 1
+            m_norminal_convert_rate:
+              type: number
+              label: "Norminal Convert Rate"
+              sql: safe_divide(${m_orders},${m_sessions})
+              format: "percent"
+              round: 2
       - name: confirmed_orders
         description: ""
         meta:
@@ -179,6 +185,12 @@ models:
               sql: safe_divide(${TABLE}.confirmed_orders,${TABLE}.orders)
               format: "percent"
               round: 1
+            m_actual_convert_rate:
+              type: number
+              label: "Actual Convert Rate"
+              sql: safe_divide(${m_confirmed_orders},${m_sessions})
+              format: "percent"
+              round: 2
       - name: cancelled_orders
         description: ""
         meta:

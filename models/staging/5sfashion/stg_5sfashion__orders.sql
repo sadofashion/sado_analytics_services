@@ -1,3 +1,9 @@
+{{
+  config(
+    tags = [ 'website', 'orders','fact'],
+    )
+}}
+
 with base_orders as (
     {{
         dbt_utils.deduplicate(
