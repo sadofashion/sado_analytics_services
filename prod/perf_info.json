@@ -1,64 +1,70 @@
 {
-    "path_count": 734,
+    "path_count": 885,
     "parsed_path_count": 0,
     "static_analysis_path_count": 0,
     "static_analysis_parsed_path_count": 0,
     "is_partial_parse_enabled": true,
     "is_static_analysis_enabled": true,
-    "read_files_elapsed": 0.1313262909999997,
-    "load_all_elapsed": 0.333556792,
+    "read_files_elapsed": 0.22338970799999913,
+    "load_all_elapsed": 0.7504325420000022,
     "projects": [
         {
             "project_name": "sado_analytics_services",
-            "elapsed": 0.0,
+            "elapsed": 0,
             "parsers": [],
             "parsed_path_count": 0
         },
         {
             "project_name": "dbt_bigquery",
-            "elapsed": 0.0,
+            "elapsed": 0,
             "parsers": [],
             "parsed_path_count": 0
         },
         {
             "project_name": "dbt",
-            "elapsed": 0.0,
-            "parsers": [],
-            "parsed_path_count": 0
-        },
-        {
-            "project_name": "dbt_utils",
-            "elapsed": 0.0,
-            "parsers": [],
-            "parsed_path_count": 0
-        },
-        {
-            "project_name": "audit_helper",
-            "elapsed": 0.0,
-            "parsers": [],
-            "parsed_path_count": 0
-        },
-        {
-            "project_name": "codegen",
-            "elapsed": 0.0,
-            "parsers": [],
-            "parsed_path_count": 0
-        },
-        {
-            "project_name": "dbt_date",
-            "elapsed": 0.0,
+            "elapsed": 0,
             "parsers": [],
             "parsed_path_count": 0
         },
         {
             "project_name": "ga4",
-            "elapsed": 0.0,
+            "elapsed": 0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "codegen",
+            "elapsed": 0,
             "parsers": [],
             "parsed_path_count": 0
         },
         {
             "project_name": "dbt_expectations",
-            "elapsed": 0.0,
+            "elapsed": 0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "audit_helper",
+            "elapsed": 0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "dbt_utils",
+            "elapsed": 0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "dbt_date",
+            "elapsed": 0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "fb",
+            "elapsed": 0,
             "parsers": [],
             "parsed_path_count": 0
         }
