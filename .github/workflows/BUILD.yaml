@@ -52,6 +52,15 @@ jobs:
           dbt compile && dbt docs generate --no-compile
           find ./target -name \*.json -exec cp -v '{}' './prod' ';'
         continue-on-error: true
+      - name: Add Manifest to Repo
+        if: github.event_name == 'push'
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: './prod'
+          committer_name: Github Actions
+          committer_email: actions@github.com
+          message: 'Adding manifest from merge run'
+
       - name: Deploy to Netlify
         if: github.event_name == 'push'
         uses: nwtgck/actions-netlify@v2.0
