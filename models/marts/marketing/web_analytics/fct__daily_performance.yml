@@ -113,7 +113,7 @@ models:
             m_avg_engagement_time:
               type: average
               label: "Avg. Engagement Time (seconds)"
-              sql: safe_divide(${TABLE}.engagement_time, ${TABLE}.sessions)
+              sql: safe_divide(${TABLE}.engagement_time, ${TABLE}.engaged_sessions)
               round: 0
       - name: sessions_with_add_to_cart
         description: ""
@@ -147,6 +147,12 @@ models:
               sql: safe_divide(${TABLE}.engaged_sessions, ${TABLE}.sessions)
               format: "percent"
               round: 1
+            m_bounce_rate:
+              type: average
+              label: "Bounce Rate"
+              sql: safe_divide(${TABLE}.sessions-${TABLE}.engaged_sessions, ${TABLE}.sessions)
+              format: "percent"
+              round: 1
       - name: orders
         description: ""
         meta:
@@ -160,7 +166,7 @@ models:
             m_cancel_cart_rate:
               type: average
               label: "Cancel Cart Rate"
-              sql: safe_divide(${TABLE}.orders,${TABLE}.sessions_with_add_to_cart)
+              sql: 1-safe_divide(${TABLE}.orders,${TABLE}.sessions_with_add_to_cart)
               format: "percent"
               round: 1
             m_norminal_convert_rate:
@@ -230,4 +236,10 @@ models:
               type: sum
               label: "Confirmed Revenue"
               compact: millions
+              round: 1
+            m_aov:
+              type: number
+              label: "AOV"
+              sql: safe_divide(${m_confirmed_revenue},${m_confirmed_orders})
+              compact: thousands
               round: 1

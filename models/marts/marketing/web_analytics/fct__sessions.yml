@@ -23,6 +23,22 @@ models:
               group_label: Users
               compact: thousands
               round: 1
+            m_new_user:
+              type: count_distinct
+              label: "# New Users"
+              group_label: Users
+              filters:
+                - session_number: "1"
+              compact: thousands
+              round: 1
+            m_returning_user:
+              type: count_distinct
+              label: "# Returning Users"
+              group_label: Users
+              filters:
+                - session_number: "!1"
+              compact: thousands
+              round: 1
             m_engaged_users:
               type: count_distinct
               label: "# Engaged Users"
@@ -64,6 +80,21 @@ models:
               type: number
               label: Session Engagement Rate
               sql: safe_divide(${m_engaged_sessions}, ${m_sessions})
+              group_label: Sessions
+              format: percent
+              round: 1
+            m_bounced_sessions:
+              type: count_distinct
+              label: "# Bounced Sessions"
+              group_label: Sessions
+              filters:
+                - is_session_engaged: 0
+              compact: thousands
+              round: 1
+            m_bounce_rate:
+              type: number
+              label: Bounce Rate
+              sql: safe_divide(${m_bounced_sessions}, ${m_sessions})
               group_label: Sessions
               format: percent
               round: 1
@@ -138,27 +169,27 @@ models:
           metrics:
             m_avg_engaged_time_msec:
               type: average
-              label: Avg Engaged Time (msec)
+              label: Avg Engaged Time (sec)
+              sql: safe_divide(${sum_engaged_time_msec}, 1000)
               group_label: Sessions
-              compact: thousands
               round: 1
             m_total_engaged_time_msec:
               type: sum
-              label: Total Engaged Time (msec)
+              label: Total Engaged Time (sec)
+              sql: safe_divide(${sum_engaged_time_msec}, 1000)
               group_label: Sessions
-              compact: thousands
               round: 0
             m_total_engaged_time_msec_per_user:
               type: number
-              label: Total Engaged Time (msec) per User
+              label: Total Engaged Time (sec) per User
               group_label: Users
               sql: safe_divide(${m_total_engaged_time_msec}, ${m_users})
               round: 1
             m_med_engaged_time_msec:
               type: median
-              label: Median Engaged Time (msec)
+              label: Median Engaged Time (sec)
+              sql: safe_divide(${sum_engaged_time_msec}, 1000)
               group_label: Sessions
-              compact: thousands
               round: 0
         data_type: INT64
       - name: session_number
@@ -167,6 +198,15 @@ models:
           dimension:
             type: number
             hidden: true
+          additional_dimensions:
+            d_user_type:
+              type: string
+              sql: case when ${TABLE}.session_number =1 then 'New User' else "Return User" end
+              label: User type
+            d_session_number:
+              type: string
+              sql: case when ${TABLE}.session_number >5 then '5+' else cast(${TABLE}.session_number as string) end
+              label: Session Num
         data_type: INT64
       - name: count_purchase
         description: ""

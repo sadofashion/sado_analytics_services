@@ -28,6 +28,11 @@ models:
         meta:
           dimension:
             type: string
+          additional_dimensions:
+            d_landing_page_path:
+              type: string
+              sql: regexp_extract(landing_page_path, r'^(\/[A-Za-z\-]{0,})')
+              label: Page type
         data_type: STRING
       - name: landing_page
         description: ""
