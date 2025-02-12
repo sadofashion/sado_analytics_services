@@ -30,3 +30,9 @@ sources:
         identifier: "_ext_internal_training"
       - name: target_2025
         identifier: "_ext_target_2025"
+      - name: product_claim
+        identifier: "_ext_product_claim"
+      - name: service_claim
+        identifier: "_ext_service_claim"
+      - name: customer_survey
+        identifier: "_ext_customer_survey"
