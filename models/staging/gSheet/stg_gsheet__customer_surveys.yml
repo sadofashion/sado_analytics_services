@@ -1,0 +1,80 @@
+version: 2
+models:
+  - name: stg_gsheet__customer_surveys
+    columns:
+      - name: date
+        description: ""
+        meta:
+          dimension:
+            type: date
+      - name: branch_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: total_data
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_data:
+              type: sum
+              label: total data
+      - name: total_survey
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_total_survey:
+              type: sum
+              label: total surveys
+      - name: satisfied
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_satisfied:
+              type: sum
+              label: "# satisfied"
+      - name: neutral
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_neutral:
+              type: sum
+              label: "# neutral"
+      - name: dissatisfied
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_dissatisfied:
+              type: sum
+              label: "# dissatisfied"
+      - name: net_gain
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_net_gain:
+              type: sum
+              label: net gain
+            m_nps_score:
+              type: number
+              label: NPS Score 2
+              sql: ${m_net_gain} / ${m_total_survey}
+              format: percent
+              round: 1
