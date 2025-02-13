@@ -12,8 +12,8 @@
 
 with service_claims as (
     select 
-        parse_date('%e/%m/%Y', resolve_date) as resolve_date,
-        parse_date('%e/%m/%Y', date) as claim_date,
+        parse_date('%d/%m/%Y', resolve_date) as resolve_date,
+        parse_date('%d/%m/%Y', date) as claim_date,
         branch_name,
         {# sales_rep, #}
         claim_code,
@@ -33,8 +33,8 @@ with service_claims as (
 
 product_claims as (
     select 
-        parse_date('%e/%m/%Y', coalesce(exchange_date,date)) as resolve_date,
-        parse_date('%e/%m/%Y', date) as claim_date,
+        parse_date('%d/%m/%Y', coalesce(exchange_date,date)) as resolve_date,
+        parse_date('%d/%m/%Y', date) as claim_date,
         branch_name,
         {# sales_rep, #}
         claim_type,
@@ -50,7 +50,7 @@ product_claims as (
     from {{ source('gSheet', 'product_claim') }}
     where 1=1
         and date is not null
-)
+        )
 
 
 select 

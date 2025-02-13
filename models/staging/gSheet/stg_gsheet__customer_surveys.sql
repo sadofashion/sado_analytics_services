@@ -18,5 +18,6 @@ select
     safe_cast(satisfied as int) satisfied,
     safe_cast(normal as int) neutral,
     safe_cast(unsatisfied as int) dissatisfied,
+    (safe_cast(satisfied as int) - safe_cast(unsatisfied as int)) as net_gain,
 from {{ source('gSheet', 'customer_survey') }}
 where date is not null
