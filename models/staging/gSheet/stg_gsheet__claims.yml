@@ -1,0 +1,99 @@
+version: 2
+models:
+  - name: stg_gsheet__claims
+    meta:
+      joins:
+        - join: calendar
+          alias: resolve_calendar
+          sql_on: ${stg_gsheet__claims.resolve_date} = ${resolve_calendar.date}
+        - join: calendar
+          alias: claim_calendar
+          sql_on: ${stg_gsheet__claims.claim_date} = ${claim_calendar.date}
+    columns:
+      - name: resolve_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: claim_date
+        description: ""
+        meta:
+          dimension:
+            type: date
+            hidden: true
+      - name: branch_name
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: claim_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: claim_no
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_claim_no:
+              type: count
+              label: "# claims"
+      - name: minus_points
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_minus_points:
+              type: sum
+              label: "# minus points"
+      - name: claim_channel
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: status
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: claim_category
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: type
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: product_line_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: design_code
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: claim_detail
+        description: ""
+        meta:
+          dimension:
+            type: string
+      - name: claim_id
+        description: ""
+        meta:
+          dimension:
+            type: string
+            hidden: true
+          metrics:
+            m_claim_id:
+              type: count
+              label: "# claim id"

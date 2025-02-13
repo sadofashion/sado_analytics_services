@@ -62,3 +62,19 @@ models:
             m_dissatisfied:
               type: sum
               label: "# dissatisfied"
+      - name: net_gain
+        description: ""
+        meta:
+          dimension:
+            type: number
+            hidden: true
+          metrics:
+            m_net_gain:
+              type: sum
+              label: net gain
+            m_nps_score:
+              type: number
+              label: NPS Score 2
+              sql: ${m_net_gain} / ${m_total_survey}
+              format: percent
+              round: 1
