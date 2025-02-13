@@ -97,3 +97,8 @@ models:
             m_claim_id:
               type: count
               label: "# claim id"
+      - name: product_line
+        description: ""
+        meta:
+          dimension:
+            type: string

@@ -26,6 +26,7 @@ with service_claims as (
         cast(null as string) as product_line_code,
         cast(null as string) as design_code,
         claim_reason as claim_detail,
+        cast(null as string) as product_line,
         {{dbt_utils.generate_surrogate_key(['resolve_date', 'date', 'branch_name', 'claim_no','stt'])}} as claim_id,
     from {{ source('gSheet', 'service_claim') }}
     where 1=1
@@ -48,6 +49,7 @@ product_claims as (
         product_line_code,
         design_code,
         claim_detail,
+        product_line,
         {{dbt_utils.generate_surrogate_key(['exchange_date', 'date', 'branch_name', 'product_code','contact_number','invoice_no'])}} as claim_id,
     from {{ source('gSheet', 'product_claim') }}
     where 1=1
