@@ -75,6 +75,6 @@ models:
             m_nps_score:
               type: number
               label: NPS Score 2
-              sql: ${m_net_gain} / ${m_total_survey}
+              sql: safe_divide(${m_net_gain} , ${m_total_survey})
               format: percent
               round: 1
