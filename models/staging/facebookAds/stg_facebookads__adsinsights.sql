@@ -18,7 +18,7 @@ WITH source AS (
           where 1=1
           and date_start <'2024-07-01'
         {% if is_incremental() %}
-          and date_start >= date_add(current_date, INTERVAL -7 DAY)
+          and date_start >= date_add(current_date, INTERVAL -30 DAY)
         {% endif %}
     
 ),
@@ -164,7 +164,7 @@ select
 from {{ ref("stg_fb__ad_insights") }}
 where 1=1 
 {% if is_incremental() %}
-  and date_start >= date_add(current_date, INTERVAL -7 DAY)
+  and date_start >= date_add(current_date, INTERVAL -30 DAY)
 {% else %}
   and date_start >= '2024-07-01'
 {% endif %}

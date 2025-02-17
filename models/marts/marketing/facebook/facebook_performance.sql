@@ -42,7 +42,7 @@
     adsinsights
     where 1=1
     {% if is_incremental() %}
-       and date_start >= date_add(current_date, interval -1 day)
+       and date_start >= date_add(current_date, interval -7 day)
     {% endif %}
 
     {{ dbt_utils.group_by(3) }}
